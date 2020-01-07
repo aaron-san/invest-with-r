@@ -50,12 +50,12 @@ bio_full = "Aaron Hardy: Investment analysis enthusiast and aspiring data interp
   text = "Aaron Hardy"
   site = "LinkedIn"
 
-[[params.social]]
-  icon = "github"
-  icon_pack = "fa"
-  link = "//https://gist.github.com/Ayrx/5884802"
-  text = "Fermat"
-  site = "GitHub"
+#[[params.social]]
+#  icon = "github"
+#  icon_pack = "fa"
+#  link = "//https://gist.github.com/Ayrx/5884802"
+#  text = "Fermat"
+#  site = "GitHub"
 
 [[params.social]]
   icon = "researchgate"
