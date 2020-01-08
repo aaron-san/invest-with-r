@@ -1,0 +1,8 @@
+---
+title: New post
+author: ''
+date: '2020-01-08'
+slug: new-post
+categories: []
+tags: []
+---

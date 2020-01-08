@@ -6,10 +6,19 @@
     <description>Recent content on Invest with R</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright (c) 2020 Aaron Hardy</copyright>
-    <lastBuildDate>Wed, 20 Apr 2016 10:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 08 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>New post</title>
+      <link>/post/new-post/</link>
+      <pubDate>Wed, 08 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/new-post/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Writing content with Markdown, LaTeX, and Shortcodes</title>

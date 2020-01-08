@@ -7,6 +7,9 @@ paginate = 3
 theme = "hugo-finite"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
+[permalinks]
+  posts = "/:title/"
+
 [params]
 
 # Date format (refer to Go's date format: http://flippinggodateformat.com)
@@ -33,11 +36,11 @@ bio_full = "Aaron Hardy: Investment analysis enthusiast and aspiring data interp
 #pubs_count = 5
 
 [[params.education]]
-  course1 = "Passed all CFA exams (financial analysis)"
+  course1 = "Passed all CFA exams for financial analysts"
   institution1 = "CFA Institute"
   year1 = 2018
   
-  course2 = "Passed all CAIA exams (altenative assets)"
+  course2 = "Passed all CAIA exams covering altenative assets"
   institution2 = "CAIA Association"
   year2 = 2013
   
