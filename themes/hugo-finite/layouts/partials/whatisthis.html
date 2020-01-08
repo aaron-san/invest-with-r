@@ -1,7 +1,7 @@
 <footer class="whatisthis">
   <hr />
   <div class="row">
-    <div class="column small-8 medium-3">
+    <div class="column small-12 medium-2">
       <h1>About</h1>
       <figure class="full-figure">
 	<img src="/img/portrait.jpg" alt="Portrait of the author">
@@ -13,9 +13,28 @@
       <h1>Education</h1>
       <ul class="ul-edu fa-ul">
 	{{ range $.Site.Params.education }}
+	
 	<li><i class="fa-li fa fa-graduation-cap"></i>
-          {{ .course }}, {{ .year }} ({{ .institution }})
+          {{ .course1 }}, {{ .year1 }}
         </li>
+      <li>
+          ({{ .institution1 }})
+        </li>
+        
+        <li><i class="fa-li fa fa-graduation-cap"></i>
+          {{ .course2 }}, {{ .year2 }}
+        </li>
+      <li>
+          ({{ .institution2 }})
+        </li>
+        
+      <li><i class="fa-li fa fa-graduation-cap"></i>
+          {{ .course3 }}, {{ .year3 }}
+        </li>
+      <li>
+          ({{ .institution3 }})
+        </li>  
+        
         {{ end }}
       </ul>
       {{ end }}
