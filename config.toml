@@ -33,10 +33,18 @@ bio_full = "Aaron Hardy: Investment analysis enthusiast and aspiring data interp
 #pubs_count = 5
 
 [[params.education]]
-  course = "Bachelor in Finance"
-  institution = "Arizona State University"
-  year = 2008
-
+  course1 = "Passed all CFA exams (financial analysis)"
+  institution1 = "CFA Institute"
+  year1 = 2018
+  
+  course2 = "Passed all CAIA exams (altenative assets)"
+  institution2 = "CAIA Association"
+  year2 = 2013
+  
+  course3 = "Bachelor in Finance"
+  institution3 = "Arizona State University"
+  year3 = 2008
+  
 [[params.social]]
   icon = "envelope"
   icon_pack = "fa"
