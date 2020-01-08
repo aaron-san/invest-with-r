@@ -40,8 +40,8 @@ bio_full = "Aaron Hardy: Investment analysis enthusiast and aspiring data interp
 [[params.social]]
   icon = "envelope"
   icon_pack = "fa"
-  link = "mailto:fermat@example.com"
-  text = "fermat@example.com"
+  link = "mailto:aaronhardy6@gmail.com"
+  text = "aaronhardy6@gmail.com"
     
 [[params.social]]
   icon = "LinkedIn"
@@ -57,11 +57,11 @@ bio_full = "Aaron Hardy: Investment analysis enthusiast and aspiring data interp
 #  text = "Fermat"
 #  site = "GitHub"
 
-[[params.social]]
-  icon = "researchgate"
-  icon_pack = "ai"
-  link = "https://www.researchgate.net/profile/Pierre_Fermat3"
-  text = "ResearchGate"
+#[[params.social]]
+#  icon = "researchgate"
+#  icon_pack = "ai"
+#  link = "https://www.researchgate.net/profile/Pierre_Fermat3"
+#  text = "ResearchGate"
 
 
 
