@@ -1,0 +1,89 @@
+---
+title: Finding Distressed Stocks
+author: 'Aaron Hardy'
+date: '2020-01-08'
+slug: finding-distressed-stocks
+categories: []
+tags: []
+---
+
+
+
+<!-- editor_options:  -->
+<p><!-- chunk_output_type: console --></p>
+<div id="finding-highly-risky-stocks" class="section level1">
+<h1>Finding Highly Risky Stocks</h1>
+<div id="the-formula" class="section level2">
+<h2>The Formula</h2>
+<div id="logit-probability-of-financial-distress-lpfd" class="section level3">
+<h3>Logit Probability of Financial Distress (LPFD)</h3>
+<p>A logistic regression model is used to estimate whether a firm is in financial distress or not.</p>
+<p><span class="math display">\[` \mathbf{ LPFD = -20.26 \times NIMTAAVG + 1.42 \times TLMTA - 7.13 \times EXRETAVG + 1.41 \times SIGMA - 0.045 \times RSIZE - 2.13 \times CASHMTA + 0.075 \times MB - 0.058 \times PRICE - 9.16 }`\]</span></p>
+<p>The “LPFD” is then transformed into a probability of financial distress (PFD).</p>
+</div>
+<div id="probability-of-financial-distress-pfd" class="section level3">
+<h3>Probability of Financial Distress (PFD)</h3>
+<p><span class="math display">\[ PFD = \frac{1} {1 + e^{-LPFD}} \]</span></p>
+</div>
+<div id="weighting-the-value" class="section level3">
+<h3>Weighting the value</h3>
+<p><span class="math display">\[ XAVG = .5333 \times t + .2666 \times (t - 1) + .1333 \times (t - 2) + .0666 \times (t - 3) \]</span></p>
+</div>
+<div id="the-data" class="section level3">
+<h3>The Data</h3>
+</div>
+</div>
+</div>
+<div id="connect-to-a-database-and-load-some-data" class="section level1">
+<h1>connect to a database and load some data</h1>
+<pre class="r"><code># Clear Workspace
+rm(list=ls(all=TRUE))
+
+
+# Load libraries ----------------------------------------------------------
+library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>library(RMySQL)</code></pre>
+<pre><code>## Loading required package: DBI</code></pre>
+<pre class="r"><code>library(lubridate)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     date</code></pre>
+<pre class="r"><code>library(tidyr)
+
+# Establish a MySQL connection
+con &lt;- dbConnect(MySQL(), dbname = &quot;financial_data&quot;, user = &#39;root&#39; , password=&#39;paperback12&#39;)
+
+# dbListTables(con)
+
+# Create a function to pull multiple fields from SQL tables
+get_data &lt;- function(conn, field) {
+      tbl(conn, field) %&gt;% as_tibble() %&gt;% mutate(date = ymd(date)) 
+}
+
+fields &lt;- c(&quot;market_cap&quot;, &quot;enterprise_value&quot;, &quot;total_liabilities&quot;, &quot;cash&quot;)
+
+list_data &lt;- list() # Initialize the container
+for(i in seq_along(fields)) {
+      table_data &lt;- get_data(con, fields[i])
+      list_data &lt;- c(list_data, list(table_data))
+}
+
+all_data &lt;- Reduce(function(tb1, tb2) full_join(tb1, tb2, by = c(&quot;id&quot;, &quot;date&quot;)), list_data)
+cleaned_data &lt;- all_data %&gt;% na.omit() %&gt;% group_by(id)
+
+# dbListTables(con)
+
+
+dbDisconnect(con) # Disconnect from SQL database</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+</div>

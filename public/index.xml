@@ -23,6 +23,17 @@ The “LPFD” is then transformed into a probability of financial distress (PFD
     </item>
     
     <item>
+      <title>Finding Distressed Stocks</title>
+      <link>/post/finding-distressed-stocks/</link>
+      <pubDate>Wed, 08 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/finding-distressed-stocks/</guid>
+      <description>Finding Highly Risky StocksThe FormulaLogit Probability of Financial Distress (LPFD)A logistic regression model is used to estimate whether a firm is in financial distress or not.
+\[` \mathbf{ LPFD = -20.26 \times NIMTAAVG + 1.42 \times TLMTA - 7.13 \times EXRETAVG + 1.41 \times SIGMA - 0.045 \times RSIZE - 2.13 \times CASHMTA + 0.075 \times MB - 0.058 \times PRICE - 9.16 }`\]
+The “LPFD” is then transformed into a probability of financial distress (PFD).</description>
+    </item>
+    
+    <item>
       <title>Writing content with Markdown, LaTeX, and Shortcodes</title>
       <link>/post/writing-markdown-latex/</link>
       <pubDate>Wed, 20 Apr 2016 10:00:00 +0000</pubDate>
