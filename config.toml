@@ -6,6 +6,7 @@ canonifyurls = true
 paginate = 3
 theme = "hugo-finite"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
+self_contained = true
 
 [permalinks]
   posts = "/:title/"
