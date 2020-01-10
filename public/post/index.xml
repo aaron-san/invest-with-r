@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Post on Invest in R</title>
+    <link>/post/</link>
+    <description>Recent content in Post on Invest in R</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 10 Jan 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Finding Distressed Stocks</title>
+      <link>/post/finding-distressed-stocks/</link>
+      <pubDate>Fri, 10 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/finding-distressed-stocks/</guid>
+      <description>Finding Highly Risky StocksThe FormulaLogit Probability of Financial Distress (LPFD)A logistic regression model is used to estimate whether a firm is in financial distress or not. \[LPFD = -20.26 \times NIMTAAVG + 1.42 \times TLMTA \\- 7.13 \times EXRETAVG + 1.41 \times SIGMA - 0.045 \times RSIZE - \\2.13 \times CASHMTA + 0.075 \times MB - 0.058 \times PRICE - 9.16\]
+The “LPFD” is then transformed into a probability of financial distress (PFD).</description>
+    </item>
+    
+  </channel>
+</rss>
