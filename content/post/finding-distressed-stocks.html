@@ -1,10 +1,11 @@
 ---
-title: Finding Distressed Stocks
-author: 'Aaron Hardy'
+title: "Finding Distressed Stocks"
+author: "Aaron Hardy"
 date: '2020-01-08'
+output: pdf_document
 slug: finding-distressed-stocks
-categories: []
 tags: []
+categories: []
 ---
 
 
@@ -17,13 +18,12 @@ tags: []
 <h2>The Formula</h2>
 <div id="logit-probability-of-financial-distress-lpfd" class="section level3">
 <h3>Logit Probability of Financial Distress (LPFD)</h3>
-<p>A logistic regression model is used to estimate whether a firm is in financial distress or not.</p>
-<p><span class="math display">\[ \mathbf{ LPFD = -20.26 \times NIMTAAVG + 1.42 \times TLMTA - 7.13 \times EXRETAVG + 1.41 \times SIGMA - 0.045 \times RSIZE - 2.13 \times CASHMTA + 0.075 \times MB - 0.058 \times PRICE - 9.16 }\]</span></p>
+<p>A logistic regression model is used to estimate whether a firm is in financial distress or not. <span class="math display">\[ \small LPFD = -20.26 \times NIMTAAVG + 1.42 \times TLMTA -  7.13 \times EXRETAVG + 1.41    \times SIGMA - 0.045 \times RSIZE - 2.13 \times CASHMTA + 0.075 \times MB - 0.058 \times PRICE - 9.16 \]</span></p>
 <p>The “LPFD” is then transformed into a probability of financial distress (PFD).</p>
 </div>
 <div id="probability-of-financial-distress-pfd" class="section level3">
 <h3>Probability of Financial Distress (PFD)</h3>
-<p><span class="math display">\[ PFD = \frac{1} {1 + e^{-LPFD}} \]</span></p>
+<p><span class="math display">\[ \small PFD=\frac{1}{1+e^{-LPFD}} \]</span></p>
 </div>
 <div id="weighting-the-value" class="section level3">
 <h3>Weighting the value</h3>

@@ -6,12 +6,14 @@ canonifyurls = true
 paginate = 3
 theme = "hugo-finite"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
-self_contained = true
 
 # [permalinks]
 # posts = "/:date/:title/"
 
 [params]
+      math = true
+
+
 
 # Date format (refer to Go's date format: http://flippinggodateformat.com)
 # Examples: "Mon, Jan 2, 2006" or "2006-01-02"
@@ -80,10 +82,10 @@ bio_full = "Aaron Hardy: Investment analysis enthusiast and aspiring data interp
 # Navigation Links
 # The weight parameter defines the order that the links will appear in.
 
-[[menu.main]]
-  name = "Publications"
-  url = "/publication/"
-  weight = 2
+# [[menu.main]]
+#   name = "Publications"
+#   url = "/publication/"
+#   weight = 2
 
 [[menu.main]]
   name = "Blog"

@@ -43,8 +43,6 @@
 		<ul class="menu vertical medium-horizontal">
 		  
 		  
-		  <li><a href="/publication/">Publications</a></li>
-		  
 		  <li><a href="/post/">Blog</a></li>
 		  
 		  <li><a href="/#contact">Contact</a></li>
@@ -92,13 +90,12 @@
 <h2>The Formula</h2>
 <div id="logit-probability-of-financial-distress-lpfd" class="section level3">
 <h3>Logit Probability of Financial Distress (LPFD)</h3>
-<p>A logistic regression model is used to estimate whether a firm is in financial distress or not.</p>
-<p><span class="math display">\[ \mathbf{ LPFD = -20.26 \times NIMTAAVG + 1.42 \times TLMTA - 7.13 \times EXRETAVG + 1.41 \times SIGMA - 0.045 \times RSIZE - 2.13 \times CASHMTA + 0.075 \times MB - 0.058 \times PRICE - 9.16 }\]</span></p>
+<p>A logistic regression model is used to estimate whether a firm is in financial distress or not. <span class="math display">\[ \small LPFD = -20.26 \times NIMTAAVG + 1.42 \times TLMTA -  7.13 \times EXRETAVG + 1.41    \times SIGMA - 0.045 \times RSIZE - 2.13 \times CASHMTA + 0.075 \times MB - 0.058 \times PRICE - 9.16 \]</span></p>
 <p>The “LPFD” is then transformed into a probability of financial distress (PFD).</p>
 </div>
 <div id="probability-of-financial-distress-pfd" class="section level3">
 <h3>Probability of Financial Distress (PFD)</h3>
-<p><span class="math display">\[ PFD = \frac{1} {1 + e^{-LPFD}} \]</span></p>
+<p><span class="math display">\[ \small PFD=\frac{1}{1+e^{-LPFD}} \]</span></p>
 </div>
 <div id="weighting-the-value" class="section level3">
 <h3>Weighting the value</h3>
@@ -165,7 +162,7 @@ dbDisconnect(con) # Disconnect from SQL database</code></pre>
 
       </div>
 
-      <meta itemprop="wordCount" content="292">
+      <meta itemprop="wordCount" content="288">
       <meta itemprop="datePublished" content="2020-01-08">
       <meta itemprop="url" content="/post/finding-distressed-stocks/">
     </article>
@@ -174,8 +171,6 @@ dbDisconnect(con) # Disconnect from SQL database</code></pre>
       
       <li class="arrow" aria-disabled="true"><a href="/post/writing-markdown-latex/">&laquo; <em>Previous<span class="show-for-sr"> page</span></em>: Writing content with Markdown, LaTeX, and Shortcodes</a></li>
       
-      
-      <li class="arrow" aria-disabled="true"><a href="/post/finding-distressed-stocks/"><em>Next<span class="show-for-sr"> page</span></em>: Finding Distressed Stocks&nbsp;&raquo;</a></li>
       
     </ul>
 
@@ -210,6 +205,22 @@ dbDisconnect(con) # Disconnect from SQL database</code></pre>
     <script>hljs.initHighlightingOnLoad();</script>
 
     
+    
+
+    <link rel="stylesheet" href="/katex/katex.min.css">
+
+    
+    <script defer src="/katex/katex.min.js"></script>
+
+    
+    <script defer src="/katex/contrib/auto-render.min.js"
+            onload="renderMathInElement(document.body, { delimiters: [
+                    {left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false },
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true},
+                    {displayMode: true}]});"></script>
+
     
     
   </body>

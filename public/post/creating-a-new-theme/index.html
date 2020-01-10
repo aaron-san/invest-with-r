@@ -43,8 +43,6 @@
 		<ul class="menu vertical medium-horizontal">
 		  
 		  
-		  <li><a href="/publication/">Publications</a></li>
-		  
 		  <li><a href="/post/">Blog</a></li>
 		  
 		  <li><a href="/#contact">Contact</a></li>
@@ -932,6 +930,22 @@ $ vi themes/zafta/layouts/_default/single.html
     <script>hljs.initHighlightingOnLoad();</script>
 
     
+    
+
+    <link rel="stylesheet" href="/katex/katex.min.css">
+
+    
+    <script defer src="/katex/katex.min.js"></script>
+
+    
+    <script defer src="/katex/contrib/auto-render.min.js"
+            onload="renderMathInElement(document.body, { delimiters: [
+                    {left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false },
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true},
+                    {displayMode: true}]});"></script>
+
     
     
   </body>
