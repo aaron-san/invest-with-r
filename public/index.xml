@@ -6,10 +6,19 @@
     <description>Recent content on Invest in R</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 10 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 12 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Build Risk Parity Portfolio with R</title>
+      <link>/post/build-risk-parity-portfolio-with-r/</link>
+      <pubDate>Sun, 12 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/build-risk-parity-portfolio-with-r/</guid>
+      <description>library(IDPmisc)library(riskParityPortfolio)library(fPortfolio)## Loading required package: timeDate## Loading required package: timeSeries## Loading required package: fBasics## Loading required package: fAssetslibrary(xts)## Loading required package: zoo## ## Attaching package: &amp;#39;zoo&amp;#39;## The following object is masked from &amp;#39;package:timeSeries&amp;#39;:## ## time&amp;lt;-## The following objects are masked from &amp;#39;package:base&amp;#39;:## ## as.Date, as.Date.numeric## Registered S3 method overwritten by &amp;#39;xts&amp;#39;:## method from## as.zoo.xts zoo# load FAANG returns# data available at https://github.</description>
+    </item>
     
     <item>
       <title>Finding Distressed Stocks</title>

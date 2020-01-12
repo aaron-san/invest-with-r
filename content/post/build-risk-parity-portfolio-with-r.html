@@ -1,0 +1,59 @@
+---
+title: Build Risk Parity Portfolio with R
+author: ''
+date: '2020-01-12'
+slug: build-risk-parity-portfolio-with-r
+categories:
+  - Risk management
+tags:
+  - Risk parity
+description: ''
+featured: ''
+featuredalt: ''
+featuredpath: ''
+linktitle: ''
+---
+
+
+
+<pre class="r"><code>library(IDPmisc)
+library(riskParityPortfolio)
+library(fPortfolio)</code></pre>
+<pre><code>## Loading required package: timeDate</code></pre>
+<pre><code>## Loading required package: timeSeries</code></pre>
+<pre><code>## Loading required package: fBasics</code></pre>
+<pre><code>## Loading required package: fAssets</code></pre>
+<pre class="r"><code>library(xts)</code></pre>
+<pre><code>## Loading required package: zoo</code></pre>
+<pre><code>## 
+## Attaching package: &#39;zoo&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:timeSeries&#39;:
+## 
+##     time&lt;-</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     as.Date, as.Date.numeric</code></pre>
+<pre><code>## Registered S3 method overwritten by &#39;xts&#39;:
+##   method     from
+##   as.zoo.xts zoo</code></pre>
+<pre class="r"><code># load FAANG returns
+# data available at https://github.com/souzatharsis/open-quant-live-book
+faang.returns&lt;-as.xts(read.zoo(&quot;C:/Users/AaronH/Desktop/Aaron/R/Websites/FAANG.txt&quot;,
+                               header=TRUE,
+                               index.column=1, sep=&quot;,&quot;))
+
+# consider returns from 2018
+# omit days with missing data (INF/NA returns)
+faang.returns.filtered &lt;- NaRV.omit(as.matrix(faang.returns[&quot;2018&quot;]))
+
+# calculate covariance matrix
+Sigma &lt;- cov(faang.returns.filtered)
+
+# compute risk parity portfolio
+portfolio.parity &lt;- riskParityPortfolio(Sigma)
+
+# compute tangency portfolio
+portfolio.tangency &lt;- tangencyPortfolio(as.timeSeries(faang.returns.filtered), 
+                                        constraints = &quot;LongOnly&quot;)
+portfolio.weights &lt;- rbind(portfolio.parity$w, getWeights(portfolio.tangency))
+row.names(portfolio.weights)&lt;-c(&quot;Parity Portfolio&quot;, &quot;Tangency Portfolio&quot;)</code></pre>

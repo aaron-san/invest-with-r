@@ -1,0 +1,46 @@
+---
+title: Build Risk Parity Portfolio with R
+author: ''
+date: '2020-01-12'
+slug: build-risk-parity-portfolio-with-r
+categories:
+  - Risk management
+tags:
+  - Risk parity
+description: ''
+featured: ''
+featuredalt: ''
+featuredpath: ''
+linktitle: ''
+---
+
+
+```{r}
+library(IDPmisc)
+library(riskParityPortfolio)
+library(fPortfolio)
+library(xts)
+
+# load FAANG returns
+# data available at https://github.com/souzatharsis/open-quant-live-book
+faang.returns<-as.xts(read.zoo("C:/Users/AaronH/Desktop/Aaron/R/Websites/FAANG.txt",
+                               header=TRUE,
+                               index.column=1, sep=","))
+
+# consider returns from 2018
+# omit days with missing data (INF/NA returns)
+faang.returns.filtered <- NaRV.omit(as.matrix(faang.returns["2018"]))
+
+# calculate covariance matrix
+Sigma <- cov(faang.returns.filtered)
+
+# compute risk parity portfolio
+portfolio.parity <- riskParityPortfolio(Sigma)
+
+# compute tangency portfolio
+portfolio.tangency <- tangencyPortfolio(as.timeSeries(faang.returns.filtered), 
+                                        constraints = "LongOnly")
+portfolio.weights <- rbind(portfolio.parity$w, getWeights(portfolio.tangency))
+row.names(portfolio.weights)<-c("Parity Portfolio", "Tangency Portfolio")
+```
+
