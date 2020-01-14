@@ -15,33 +15,41 @@ linktitle: ''
 ---
 
 
-```{r}
+```{r messages = FALSE, warnings = FALSE}
 library(riskParityPortfolio)
 library(fPortfolio)
-library(dplyr)
+library(tidyverse)
 library(RMySQL)
 library(lubridate)
-library(tidyr)
 library(timetk)
 library(tidyquant)
-
+library(PerformanceAnalytics)
+library(tidyquant)
 
 # Load data
 ## Establish a MySQL connection
 con <- dbConnect(MySQL(), dbname = "stock_prices", user = 'root' , password='paperback12')
-etf_prices <- tbl(con, "etfs")
-dbDisconnect(con) # Disconnect from SQL database
+prices <- tbl(con, "etfs")
+#####
+# Delete VOW from database
+#####
 
 # Get monthly returns
-etf_returns <- as_tibble(etf_prices) %>% select(date, symbol, adjusted) %>% 
+etf_returns <- as_tibble(prices) %>%
+      select(date, symbol, adjusted) %>%
       mutate(date = ymd(date)) %>% 
-      pivot_wider(id_cols = date, names_from = symbol, values_from = adjusted) %>%
-      tk_xts(select = -date, date_var = date) %>%
-      to.monthly(indexAt = "last", OHLC = FALSE) %>% 
-      Return.calculate(method = "log") %>% NaRV.omit()
+      group_by(symbol) %>%
+      tq_transmute(select = adjusted, periodReturn, period="monthly", 
+                   type="log", col_rename = "monthly.returns") %>% 
+      pivot_wider(id_cols = date, names_from = symbol, values_from = monthly.returns) %>%
+      drop_na() %>%
+      tk_xts(select = -date, date_var = date)
+
+dbDisconnect(con) # Disconnect from SQL database
+
 
 # calculate covariance matrix
-covariance <- cov(etf_returns)
+covariance <- cov(coredata(etf_returns))
 
 # compute risk parity portfolio
 portfolio_parity <- riskParityPortfolio(covariance)
