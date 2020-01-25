@@ -1,6 +1,6 @@
 ---
 title: Build Risk Parity Portfolio with R
-author: ''
+author: Aaron Hardy
 date: '2020-01-12'
 slug: build-risk-parity-portfolio-with-r
 categories:
@@ -15,7 +15,8 @@ linktitle: ''
 ---
 
 
-```{r messages = FALSE, warnings = FALSE}
+```{r echo=TRUE, messages=FALSE, warnings=}
+# Load packages
 library(riskParityPortfolio)
 library(fPortfolio)
 library(tidyverse)
@@ -23,13 +24,14 @@ library(RMySQL)
 library(lubridate)
 library(timetk)
 library(tidyquant)
-library(PerformanceAnalytics)
-library(tidyquant)
 
 # Load data
-## Establish a MySQL connection
+## Establish a local MySQL connection
 con <- dbConnect(MySQL(), dbname = "stock_prices", user = 'root' , password='paperback12')
 prices <- tbl(con, "etfs")
+
+
+
 #####
 # Delete VOW from database
 #####

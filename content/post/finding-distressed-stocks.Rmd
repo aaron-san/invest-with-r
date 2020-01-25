@@ -4,8 +4,9 @@ author: Aaron Hardy
 date: '2020-01-10'
 slug: finding-distressed-stocks
 categories:
-  - stocks
-tags: []
+  - Stocks
+tags: 
+  - Stocks
 description: ''
 featured: ''
 featuredalt: ''
