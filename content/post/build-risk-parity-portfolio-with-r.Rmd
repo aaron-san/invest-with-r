@@ -12,10 +12,12 @@ featured: ''
 featuredalt: ''
 featuredpath: ''
 linktitle: ''
+editor_options: 
+  chunk_output_type: console
 ---
 
-
-```{r echo=TRUE, messages=FALSE, warnings=}
+# Header
+```{r message=FALSE, warning=FALSE}
 # Load packages
 library(riskParityPortfolio)
 library(fPortfolio)
@@ -28,13 +30,8 @@ library(tidyquant)
 # Load data
 ## Establish a local MySQL connection
 con <- dbConnect(MySQL(), dbname = "stock_prices", user = 'root' , password='paperback12')
-prices <- tbl(con, "etfs")
-
-
-
-#####
-# Delete VOW from database
-#####
+prices <- tbl(con, "etfs") %>% as_tibble() %>% select(-row_names)
+# prices %>% pull(symbol) %>% unique()
 
 # Get monthly returns
 etf_returns <- as_tibble(prices) %>%
@@ -62,4 +59,6 @@ portfolio_tangency <- tangencyPortfolio(as.timeSeries(etf_returns),
 portfolio_weights <- rbind(portfolio_parity$w, getWeights(portfolio_tangency))
 row.names(portfolio_weights)<-c("Parity Portfolio", "Tangency Portfolio")
 ```
+
+
 
