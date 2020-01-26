@@ -13,7 +13,7 @@
         "articleSection" : "post",
         "name" : "Risk Parity Portfolio with R",
         "headline" : "Risk Parity Portfolio with R",
-        "description" : "Header\r# Load packages\rlibrary(riskParityPortfolio)\rlibrary(fPortfolio)\rlibrary(tidyverse)\rlibrary(RMySQL)\rlibrary(lubridate)\rlibrary(timetk)\r# library(tidyquant)\r# Load data\r## Establish a local MySQL connection\r# con \x26lt;- dbConnect(MySQL(), dbname = \x26quot;stock_prices\x26quot;, user = \x26#39;root\x26#39; , password=\x26#39;paperback12\x26#39;)\r# prices \x26lt;- tbl(con, \x26quot;etfs\x26quot;) %\x26gt;% as_tibble() %\x26gt;% select(-row_names)\r# prices %\x26gt;% pull(symbol) %\x26gt;% unique()\r# Get monthly returns\r# etf_returns \x26lt;- as_tibble(prices) %\x26gt;%\r# select(date, symbol, adjusted) %\x26gt;%\r# mutate(date = ymd(date)) %\x26gt;% # group_by(symbol) %\x26gt;%\r# tq_transmute(select = adjusted, periodReturn, period=\x26quot;monthly\x26quot;, # type=\x26quot;log\x26quot;, col_rename = \x26quot;monthly.",
+        "description" : "Header\r# Load packages\rlibrary(riskParityPortfolio)\rlibrary(fPortfolio)\rlibrary(tidyverse)\rlibrary(RMySQL)\rlibrary(lubridate)\rlibrary(timetk)\rlibrary(tidyquant)\r# Load data\r# Establish a local MySQL connection\rcon \x26lt;- dbConnect(MySQL(), dbname = \x26quot;stock_prices\x26quot;, user = \x26#39;root\x26#39; , password=\x26#39;paperback12\x26#39;)\rprices \x26lt;- tbl(con, \x26quot;etfs\x26quot;) %\x26gt;% as_tibble() %\x26gt;% select(-row_names)\rprices %\x26gt;% pull(symbol) %\x26gt;% unique()\r## [1] \x26quot;VOO\x26quot; \x26quot;SCHB\x26quot; \x26quot;SPY\x26quot; \x26quot;VBR\x26quot; \x26quot;IWN\x26quot; \x26quot;IJS\x26quot; \x26quot;SCHF\x26quot; \x26quot;VNQ\x26quot;\r# Get monthly returns\retf_returns \x26lt;- as_tibble(prices) %\x26gt;%\rselect(date, symbol, adjusted) %\x26gt;%\rmutate(date = ymd(date)) %\x26gt;% group_by(symbol) %\x26gt;%\rtq_transmute(select = adjusted, periodReturn, period=\x26quot;monthly\x26quot;, type=\x26quot;log\x26quot;, col_rename = \x26quot;monthly.",
         "inLanguage" : "en",
         "author" : "",
         "creator" : "",
@@ -24,7 +24,7 @@
         "datePublished": "2020-01-25 00:00:00 \x2b0000 UTC",
         "dateModified" : "2020-01-25 00:00:00 \x2b0000 UTC",
         "url" : "\/post\/risk-parity-portfolio-with-r\/",
-        "wordCount" : "149",
+        "wordCount" : "142",
         "keywords" : [ "Stocks","Blog" ]
     }
     </script>
@@ -51,11 +51,11 @@
 
         <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Risk Parity Portfolio with R"/>
-<meta name="twitter:description" content="Header# Load packageslibrary(riskParityPortfolio)library(fPortfolio)library(tidyverse)library(RMySQL)library(lubridate)library(timetk)# library(tidyquant)# Load data## Establish a local MySQL connection# con &lt;- dbConnect(MySQL(), dbname = &quot;stock_prices&quot;, user = &#39;root&#39; , password=&#39;paperback12&#39;)# prices &lt;- tbl(con, &quot;etfs&quot;) %&gt;% as_tibble() %&gt;% select(-row_names)# prices %&gt;% pull(symbol) %&gt;% unique()# Get monthly returns# etf_returns &lt;- as_tibble(prices) %&gt;%# select(date, symbol, adjusted) %&gt;%# mutate(date = ymd(date)) %&gt;% # group_by(symbol) %&gt;%# tq_transmute(select = adjusted, periodReturn, period=&quot;monthly&quot;, # type=&quot;log&quot;, col_rename = &quot;monthly."/>
+<meta name="twitter:description" content="Header# Load packageslibrary(riskParityPortfolio)library(fPortfolio)library(tidyverse)library(RMySQL)library(lubridate)library(timetk)library(tidyquant)# Load data# Establish a local MySQL connectioncon &lt;- dbConnect(MySQL(), dbname = &quot;stock_prices&quot;, user = &#39;root&#39; , password=&#39;paperback12&#39;)prices &lt;- tbl(con, &quot;etfs&quot;) %&gt;% as_tibble() %&gt;% select(-row_names)prices %&gt;% pull(symbol) %&gt;% unique()## [1] &quot;VOO&quot; &quot;SCHB&quot; &quot;SPY&quot; &quot;VBR&quot; &quot;IWN&quot; &quot;IJS&quot; &quot;SCHF&quot; &quot;VNQ&quot;# Get monthly returnsetf_returns &lt;- as_tibble(prices) %&gt;%select(date, symbol, adjusted) %&gt;%mutate(date = ymd(date)) %&gt;% group_by(symbol) %&gt;%tq_transmute(select = adjusted, periodReturn, period=&quot;monthly&quot;, type=&quot;log&quot;, col_rename = &quot;monthly."/>
 <meta name="twitter:site" content="@example"/>
 
         <meta property="og:title" content="Risk Parity Portfolio with R" />
-<meta property="og:description" content="Header# Load packageslibrary(riskParityPortfolio)library(fPortfolio)library(tidyverse)library(RMySQL)library(lubridate)library(timetk)# library(tidyquant)# Load data## Establish a local MySQL connection# con &lt;- dbConnect(MySQL(), dbname = &quot;stock_prices&quot;, user = &#39;root&#39; , password=&#39;paperback12&#39;)# prices &lt;- tbl(con, &quot;etfs&quot;) %&gt;% as_tibble() %&gt;% select(-row_names)# prices %&gt;% pull(symbol) %&gt;% unique()# Get monthly returns# etf_returns &lt;- as_tibble(prices) %&gt;%# select(date, symbol, adjusted) %&gt;%# mutate(date = ymd(date)) %&gt;% # group_by(symbol) %&gt;%# tq_transmute(select = adjusted, periodReturn, period=&quot;monthly&quot;, # type=&quot;log&quot;, col_rename = &quot;monthly." />
+<meta property="og:description" content="Header# Load packageslibrary(riskParityPortfolio)library(fPortfolio)library(tidyverse)library(RMySQL)library(lubridate)library(timetk)library(tidyquant)# Load data# Establish a local MySQL connectioncon &lt;- dbConnect(MySQL(), dbname = &quot;stock_prices&quot;, user = &#39;root&#39; , password=&#39;paperback12&#39;)prices &lt;- tbl(con, &quot;etfs&quot;) %&gt;% as_tibble() %&gt;% select(-row_names)prices %&gt;% pull(symbol) %&gt;% unique()## [1] &quot;VOO&quot; &quot;SCHB&quot; &quot;SPY&quot; &quot;VBR&quot; &quot;IWN&quot; &quot;IJS&quot; &quot;SCHF&quot; &quot;VNQ&quot;# Get monthly returnsetf_returns &lt;- as_tibble(prices) %&gt;%select(date, symbol, adjusted) %&gt;%mutate(date = ymd(date)) %&gt;% group_by(symbol) %&gt;%tq_transmute(select = adjusted, periodReturn, period=&quot;monthly&quot;, type=&quot;log&quot;, col_rename = &quot;monthly." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/risk-parity-portfolio-with-r/" />
 <meta property="article:published_time" content="2020-01-25T00:00:00+00:00" />
@@ -66,10 +66,10 @@
         <meta property="og:image:width" content="512">
         <meta property="og:image:height" content="512">
         <meta itemprop="name" content="Risk Parity Portfolio with R">
-<meta itemprop="description" content="Header# Load packageslibrary(riskParityPortfolio)library(fPortfolio)library(tidyverse)library(RMySQL)library(lubridate)library(timetk)# library(tidyquant)# Load data## Establish a local MySQL connection# con &lt;- dbConnect(MySQL(), dbname = &quot;stock_prices&quot;, user = &#39;root&#39; , password=&#39;paperback12&#39;)# prices &lt;- tbl(con, &quot;etfs&quot;) %&gt;% as_tibble() %&gt;% select(-row_names)# prices %&gt;% pull(symbol) %&gt;% unique()# Get monthly returns# etf_returns &lt;- as_tibble(prices) %&gt;%# select(date, symbol, adjusted) %&gt;%# mutate(date = ymd(date)) %&gt;% # group_by(symbol) %&gt;%# tq_transmute(select = adjusted, periodReturn, period=&quot;monthly&quot;, # type=&quot;log&quot;, col_rename = &quot;monthly.">
+<meta itemprop="description" content="Header# Load packageslibrary(riskParityPortfolio)library(fPortfolio)library(tidyverse)library(RMySQL)library(lubridate)library(timetk)library(tidyquant)# Load data# Establish a local MySQL connectioncon &lt;- dbConnect(MySQL(), dbname = &quot;stock_prices&quot;, user = &#39;root&#39; , password=&#39;paperback12&#39;)prices &lt;- tbl(con, &quot;etfs&quot;) %&gt;% as_tibble() %&gt;% select(-row_names)prices %&gt;% pull(symbol) %&gt;% unique()## [1] &quot;VOO&quot; &quot;SCHB&quot; &quot;SPY&quot; &quot;VBR&quot; &quot;IWN&quot; &quot;IJS&quot; &quot;SCHF&quot; &quot;VNQ&quot;# Get monthly returnsetf_returns &lt;- as_tibble(prices) %&gt;%select(date, symbol, adjusted) %&gt;%mutate(date = ymd(date)) %&gt;% group_by(symbol) %&gt;%tq_transmute(select = adjusted, periodReturn, period=&quot;monthly&quot;, type=&quot;log&quot;, col_rename = &quot;monthly.">
 <meta itemprop="datePublished" content="2020-01-25T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2020-01-25T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="149">
+<meta itemprop="wordCount" content="142">
 
 
 
@@ -327,7 +327,7 @@
         
 
         <a href="/blog/creating-a-new-theme/" class="image featured">
-            <img src="/img/2014/09/pic03.jpg" alt="">
+            <img src="/img/2014/092014/09/pic03.jpg" alt="">
         </a>
     
 
@@ -356,6 +356,9 @@
 
 
   
+  
+    
+  
 
 
         
@@ -363,7 +366,7 @@
         
 
         <a href="/blog/goisforlovers/" class="image featured">
-            <img src="/img/2014/04/pic02.jpg" alt="">
+            <img src="/img/2014/042014/042014/04/pic02.jpg" alt="">
         </a>
     
 
@@ -611,38 +614,39 @@ library(tidyverse)
 library(RMySQL)
 library(lubridate)
 library(timetk)
-# library(tidyquant)
+library(tidyquant)
 
 # Load data
-## Establish a local MySQL connection
-# con &lt;- dbConnect(MySQL(), dbname = &quot;stock_prices&quot;, user = &#39;root&#39; , password=&#39;paperback12&#39;)
-# prices &lt;- tbl(con, &quot;etfs&quot;) %&gt;% as_tibble() %&gt;% select(-row_names)
-# prices %&gt;% pull(symbol) %&gt;% unique()
-
-# Get monthly returns
-# etf_returns &lt;- as_tibble(prices) %&gt;%
-#       select(date, symbol, adjusted) %&gt;%
-#       mutate(date = ymd(date)) %&gt;% 
-#       group_by(symbol) %&gt;%
-#       tq_transmute(select = adjusted, periodReturn, period=&quot;monthly&quot;, 
-#                    type=&quot;log&quot;, col_rename = &quot;monthly.returns&quot;) %&gt;% 
-#       pivot_wider(id_cols = date, names_from = symbol, values_from = monthly.returns) %&gt;%
-#       drop_na() %&gt;%
-#       tk_xts(select = -date, date_var = date)
+# Establish a local MySQL connection
+con &lt;- dbConnect(MySQL(), dbname = &quot;stock_prices&quot;, user = &#39;root&#39; , password=&#39;paperback12&#39;)
+prices &lt;- tbl(con, &quot;etfs&quot;) %&gt;% as_tibble() %&gt;% select(-row_names)
+prices %&gt;% pull(symbol) %&gt;% unique()</code></pre>
+<pre><code>## [1] &quot;VOO&quot;  &quot;SCHB&quot; &quot;SPY&quot;  &quot;VBR&quot;  &quot;IWN&quot;  &quot;IJS&quot;  &quot;SCHF&quot; &quot;VNQ&quot;</code></pre>
+<pre class="r"><code># Get monthly returns
+etf_returns &lt;- as_tibble(prices) %&gt;%
+       select(date, symbol, adjusted) %&gt;%
+       mutate(date = ymd(date)) %&gt;% 
+       group_by(symbol) %&gt;%
+       tq_transmute(select = adjusted, periodReturn, period=&quot;monthly&quot;, 
+                    type=&quot;log&quot;, col_rename = &quot;monthly.returns&quot;) %&gt;% 
+       pivot_wider(id_cols = date, names_from = symbol, values_from = monthly.returns) %&gt;%
+       drop_na() %&gt;%
+       tk_xts(select = -date, date_var = date)
 
 # calculate covariance matrix
-# covariance &lt;- cov(coredata(etf_returns))
+covariance &lt;- cov(coredata(etf_returns))
 
 # compute risk parity portfolio
-# portfolio_parity &lt;- riskParityPortfolio(covariance)
+portfolio_parity &lt;- riskParityPortfolio(covariance)
 
 # compute tangency portfolio
-# portfolio_tangency &lt;- tangencyPortfolio(as.timeSeries(etf_returns), 
-                                        # constraints = &quot;LongOnly&quot;)
-# portfolio_weights &lt;- rbind(portfolio_parity$w, getWeights(portfolio_tangency))
-# row.names(portfolio_weights)&lt;-c(&quot;Parity Portfolio&quot;, &quot;Tangency Portfolio&quot;)
+portfolio_tangency &lt;- tangencyPortfolio(as.timeSeries(etf_returns), 
+                                        constraints = &quot;LongOnly&quot;)
+portfolio_weights &lt;- rbind(portfolio_parity$w, getWeights(portfolio_tangency))
+row.names(portfolio_weights)&lt;-c(&quot;Parity Portfolio&quot;, &quot;Tangency Portfolio&quot;)
 
-# dbDisconnect(con) # Disconnect from SQL database</code></pre>
+dbDisconnect(con) # Disconnect from SQL database</code></pre>
+<pre><code>## [1] TRUE</code></pre>
 </div>
 
   </div>
@@ -939,7 +943,7 @@ library(timetk)
         
 
         <a href="/blog/creating-a-new-theme/" class="image featured">
-            <img src="/img/2014/09/pic03.jpg" alt="">
+            <img src="/img//pic03.jpg" alt="">
         </a>
     
 
@@ -1212,7 +1216,7 @@ library(timetk)
       
         &copy; 2020
         
-          Invest in R
+          Invest with R
         
       .
       Powered by <a href="//gohugo.io" target="_blank">Hugo</a>

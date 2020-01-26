@@ -25,36 +25,37 @@ library(tidyverse)
 library(RMySQL)
 library(lubridate)
 library(timetk)
-# library(tidyquant)
+library(tidyquant)
 
 # Load data
-## Establish a local MySQL connection
-# con &lt;- dbConnect(MySQL(), dbname = &quot;stock_prices&quot;, user = &#39;root&#39; , password=&#39;paperback12&#39;)
-# prices &lt;- tbl(con, &quot;etfs&quot;) %&gt;% as_tibble() %&gt;% select(-row_names)
-# prices %&gt;% pull(symbol) %&gt;% unique()
-
-# Get monthly returns
-# etf_returns &lt;- as_tibble(prices) %&gt;%
-#       select(date, symbol, adjusted) %&gt;%
-#       mutate(date = ymd(date)) %&gt;% 
-#       group_by(symbol) %&gt;%
-#       tq_transmute(select = adjusted, periodReturn, period=&quot;monthly&quot;, 
-#                    type=&quot;log&quot;, col_rename = &quot;monthly.returns&quot;) %&gt;% 
-#       pivot_wider(id_cols = date, names_from = symbol, values_from = monthly.returns) %&gt;%
-#       drop_na() %&gt;%
-#       tk_xts(select = -date, date_var = date)
+# Establish a local MySQL connection
+con &lt;- dbConnect(MySQL(), dbname = &quot;stock_prices&quot;, user = &#39;root&#39; , password=&#39;paperback12&#39;)
+prices &lt;- tbl(con, &quot;etfs&quot;) %&gt;% as_tibble() %&gt;% select(-row_names)
+prices %&gt;% pull(symbol) %&gt;% unique()</code></pre>
+<pre><code>## [1] &quot;VOO&quot;  &quot;SCHB&quot; &quot;SPY&quot;  &quot;VBR&quot;  &quot;IWN&quot;  &quot;IJS&quot;  &quot;SCHF&quot; &quot;VNQ&quot;</code></pre>
+<pre class="r"><code># Get monthly returns
+etf_returns &lt;- as_tibble(prices) %&gt;%
+       select(date, symbol, adjusted) %&gt;%
+       mutate(date = ymd(date)) %&gt;% 
+       group_by(symbol) %&gt;%
+       tq_transmute(select = adjusted, periodReturn, period=&quot;monthly&quot;, 
+                    type=&quot;log&quot;, col_rename = &quot;monthly.returns&quot;) %&gt;% 
+       pivot_wider(id_cols = date, names_from = symbol, values_from = monthly.returns) %&gt;%
+       drop_na() %&gt;%
+       tk_xts(select = -date, date_var = date)
 
 # calculate covariance matrix
-# covariance &lt;- cov(coredata(etf_returns))
+covariance &lt;- cov(coredata(etf_returns))
 
 # compute risk parity portfolio
-# portfolio_parity &lt;- riskParityPortfolio(covariance)
+portfolio_parity &lt;- riskParityPortfolio(covariance)
 
 # compute tangency portfolio
-# portfolio_tangency &lt;- tangencyPortfolio(as.timeSeries(etf_returns), 
-                                        # constraints = &quot;LongOnly&quot;)
-# portfolio_weights &lt;- rbind(portfolio_parity$w, getWeights(portfolio_tangency))
-# row.names(portfolio_weights)&lt;-c(&quot;Parity Portfolio&quot;, &quot;Tangency Portfolio&quot;)
+portfolio_tangency &lt;- tangencyPortfolio(as.timeSeries(etf_returns), 
+                                        constraints = &quot;LongOnly&quot;)
+portfolio_weights &lt;- rbind(portfolio_parity$w, getWeights(portfolio_tangency))
+row.names(portfolio_weights)&lt;-c(&quot;Parity Portfolio&quot;, &quot;Tangency Portfolio&quot;)
 
-# dbDisconnect(con) # Disconnect from SQL database</code></pre>
+dbDisconnect(con) # Disconnect from SQL database</code></pre>
+<pre><code>## [1] TRUE</code></pre>
 </div>
