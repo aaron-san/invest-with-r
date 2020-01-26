@@ -51,8 +51,9 @@ $$
 
 # connect to a database and load some data
 ```{r message = FALSE, warning = FALSE}
+
 # Clear Workspace
-# rm(list=ls(all=TRUE))
+rm(list=ls(all=TRUE))
 
 
 # Load libraries ----------------------------------------------------------
