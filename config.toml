@@ -1,6 +1,6 @@
 baseurl = "https://www.investwithr.com/"
 languageCode = "en-us"
-title = "Invest in R"
+title = "Invest with R"
 theme = "hugo-future-imperfect"
 preserveTaxonomyNames = true
 paginate = 3

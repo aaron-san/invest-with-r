@@ -12,6 +12,8 @@ featured: ''
 featuredalt: ''
 featuredpath: ''
 linktitle: ''
+editor_options: 
+  chunk_output_type: console
 ---
 
 # Finding Highly Risky Stocks
@@ -50,7 +52,7 @@ $$
 # connect to a database and load some data
 ```{r message = FALSE, warning = FALSE}
 # Clear Workspace
-rm(list=ls(all=TRUE))
+# rm(list=ls(all=TRUE))
 
 
 # Load libraries ----------------------------------------------------------
@@ -61,27 +63,10 @@ library(tidyr)
 
 # Establish a MySQL connection
 con <- dbConnect(MySQL(), dbname = "financial_data", user = 'root' , password='paperback12')
-
 # dbListTables(con)
-
-# Create a function to pull multiple fields from SQL tables
-get_data <- function(conn, field) {
-      tbl(conn, field) %>% as_tibble() %>% mutate(date = ymd(date)) 
-}
-
-fields <- c("market_cap", "enterprise_value", "total_liabilities", "cash")
-
-list_data <- list() # Initialize the container
-for(i in seq_along(fields)) {
-      table_data <- get_data(con, fields[i])
-      list_data <- c(list_data, list(table_data))
-}
-
-all_data <- Reduce(function(tb1, tb2) full_join(tb1, tb2, by = c("id", "date")), list_data)
-cleaned_data <- all_data %>% na.omit() %>% group_by(id)
-
-# dbListTables(con)
-
+data <- tbl(con, "fundamentals_all") %>% as_tibble() %>% 
+      select(date, id, market_cap, enterprise_value, total_liabilities, cash) %>%
+      mutate(date = ymd(date)) %>% rename(symbol = "id")
 
 dbDisconnect(con) # Disconnect from SQL database
 ```

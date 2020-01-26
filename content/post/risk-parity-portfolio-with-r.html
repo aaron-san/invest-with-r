@@ -1,0 +1,60 @@
+---
+title: Risk Parity Portfolio with R
+author: Aaron Hardy
+date: '2020-01-25'
+slug: risk-parity-portfolio-with-r
+categories:
+  - Stocks
+tags:
+  - Stocks
+description: ''
+featured: ''
+featuredalt: ''
+featuredpath: ''
+linktitle: ''
+---
+
+
+
+<div id="header" class="section level1">
+<h1>Header</h1>
+<pre class="r"><code># Load packages
+library(riskParityPortfolio)
+library(fPortfolio)
+library(tidyverse)
+library(RMySQL)
+library(lubridate)
+library(timetk)
+# library(tidyquant)
+
+# Load data
+## Establish a local MySQL connection
+# con &lt;- dbConnect(MySQL(), dbname = &quot;stock_prices&quot;, user = &#39;root&#39; , password=&#39;paperback12&#39;)
+# prices &lt;- tbl(con, &quot;etfs&quot;) %&gt;% as_tibble() %&gt;% select(-row_names)
+# prices %&gt;% pull(symbol) %&gt;% unique()
+
+# Get monthly returns
+# etf_returns &lt;- as_tibble(prices) %&gt;%
+#       select(date, symbol, adjusted) %&gt;%
+#       mutate(date = ymd(date)) %&gt;% 
+#       group_by(symbol) %&gt;%
+#       tq_transmute(select = adjusted, periodReturn, period=&quot;monthly&quot;, 
+#                    type=&quot;log&quot;, col_rename = &quot;monthly.returns&quot;) %&gt;% 
+#       pivot_wider(id_cols = date, names_from = symbol, values_from = monthly.returns) %&gt;%
+#       drop_na() %&gt;%
+#       tk_xts(select = -date, date_var = date)
+
+# calculate covariance matrix
+# covariance &lt;- cov(coredata(etf_returns))
+
+# compute risk parity portfolio
+# portfolio_parity &lt;- riskParityPortfolio(covariance)
+
+# compute tangency portfolio
+# portfolio_tangency &lt;- tangencyPortfolio(as.timeSeries(etf_returns), 
+                                        # constraints = &quot;LongOnly&quot;)
+# portfolio_weights &lt;- rbind(portfolio_parity$w, getWeights(portfolio_tangency))
+# row.names(portfolio_weights)&lt;-c(&quot;Parity Portfolio&quot;, &quot;Tangency Portfolio&quot;)
+
+# dbDisconnect(con) # Disconnect from SQL database</code></pre>
+</div>

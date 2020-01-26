@@ -6,18 +6,18 @@
     <description>Recent content in Post on Invest in R</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 12 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 25 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Build Risk Parity Portfolio with R</title>
-      <link>/post/build-risk-parity-portfolio-with-r/</link>
-      <pubDate>Sun, 12 Jan 2020 00:00:00 +0000</pubDate>
+      <title>Risk Parity Portfolio with R</title>
+      <link>/post/risk-parity-portfolio-with-r/</link>
+      <pubDate>Sat, 25 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/post/build-risk-parity-portfolio-with-r/</guid>
-      <description>library(IDPmisc)library(riskParityPortfolio)library(fPortfolio)## Loading required package: timeDate## Loading required package: timeSeries## Loading required package: fBasics## Loading required package: fAssetslibrary(xts)## Loading required package: zoo## ## Attaching package: &amp;#39;zoo&amp;#39;## The following object is masked from &amp;#39;package:timeSeries&amp;#39;:## ## time&amp;lt;-## The following objects are masked from &amp;#39;package:base&amp;#39;:## ## as.Date, as.Date.numeric## Registered S3 method overwritten by &amp;#39;xts&amp;#39;:## method from## as.zoo.xts zoo# load FAANG returns# data available at https://github.</description>
+      <guid>/post/risk-parity-portfolio-with-r/</guid>
+      <description>Header# Load packageslibrary(riskParityPortfolio)library(fPortfolio)library(tidyverse)library(RMySQL)library(lubridate)library(timetk)# library(tidyquant)# Load data## Establish a local MySQL connection# con &amp;lt;- dbConnect(MySQL(), dbname = &amp;quot;stock_prices&amp;quot;, user = &amp;#39;root&amp;#39; , password=&amp;#39;paperback12&amp;#39;)# prices &amp;lt;- tbl(con, &amp;quot;etfs&amp;quot;) %&amp;gt;% as_tibble() %&amp;gt;% select(-row_names)# prices %&amp;gt;% pull(symbol) %&amp;gt;% unique()# Get monthly returns# etf_returns &amp;lt;- as_tibble(prices) %&amp;gt;%# select(date, symbol, adjusted) %&amp;gt;%# mutate(date = ymd(date)) %&amp;gt;% # group_by(symbol) %&amp;gt;%# tq_transmute(select = adjusted, periodReturn, period=&amp;quot;monthly&amp;quot;, # type=&amp;quot;log&amp;quot;, col_rename = &amp;quot;monthly.</description>
     </item>
     
     <item>
@@ -26,7 +26,7 @@
       <pubDate>Fri, 10 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>/post/finding-distressed-stocks/</guid>
-      <description>Finding Highly Risky StocksThe FormulaLogit Probability of Financial Distress (LPFD)A logistic regression model is used to estimate whether a firm is in financial distress or not. \[LPFD = -20.26 \times NIMTAAVG + 1.42 \times TLMTA \\- 7.13 \times EXRETAVG + 1.41 \times SIGMA - 0.045 \times RSIZE - \\2.13 \times CASHMTA + 0.075 \times MB - 0.058 \times PRICE - 9.16\]
+      <description>Finding Highly Risky StocksThe FormulaLogit Probability of Financial Distress (LPFD)A logistic regression model is used to estimate whether a firm is in financial distress or not. \[LPFD = -20.26 \times NIMTAAVG + 1.42 \times TLMTA \\- 7.13 \times EXRETAVG + 1.41 \times SIGMA \\- 0.045 \times RSIZE - 2.13 \times CASHMTA + \\0.075 \times MB - 0.058 \times PRICE - 9.16\]
 The “LPFD” is then transformed into a probability of financial distress (PFD).</description>
     </item>
     
