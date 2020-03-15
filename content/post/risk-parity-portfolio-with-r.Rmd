@@ -37,6 +37,7 @@ library(tidyquant)
 
 # Load data
 # Establish a local MySQL connection
+
 # con <- dbConnect(MySQL(), dbname = "stock_prices", user = 'root' , password='****')
 # prices <- tbl(con, "etfs") %>% as_tibble()
 # prices %>% pull(symbol) %>% unique()
