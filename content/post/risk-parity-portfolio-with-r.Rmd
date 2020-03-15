@@ -37,34 +37,34 @@ library(tidyquant)
 
 # Load data
 # Establish a local MySQL connection
-con <- dbConnect(MySQL(), dbname = "stock_prices", user = 'root' , password='paperback12')
-prices <- tbl(con, "etfs") %>% as_tibble()
-prices %>% pull(symbol) %>% unique()
+# con <- dbConnect(MySQL(), dbname = "stock_prices", user = 'root' , password='****')
+# prices <- tbl(con, "etfs") %>% as_tibble()
+# prices %>% pull(symbol) %>% unique()
 
 # Get monthly returns
-etf_returns <- as_tibble(prices) %>%
-       select(date, symbol, adjusted) %>%
-       mutate(date = ymd(date)) %>% 
-       group_by(symbol) %>%
-       tq_transmute(select = adjusted, periodReturn, period="monthly", 
-                    type="log", col_rename = "monthly.returns") %>% 
-       pivot_wider(id_cols = date, names_from = symbol, values_from = monthly.returns) %>%
-       drop_na() %>%
-       tk_xts(select = -date, date_var = date)
+# etf_returns <- as_tibble(prices) %>%
+#        select(date, symbol, adjusted) %>%
+#        mutate(date = ymd(date)) %>% 
+#        group_by(symbol) %>%
+#        tq_transmute(select = adjusted, periodReturn, period="monthly", 
+#                     type="log", col_rename = "monthly.returns") %>% 
+#        pivot_wider(id_cols = date, names_from = symbol, values_from = monthly.returns) %>%
+#        drop_na() %>%
+#        tk_xts(select = -date, date_var = date)
 
 # calculate covariance matrix
-covariance <- cov(coredata(etf_returns))
+# covariance <- cov(coredata(etf_returns))
 
 # compute risk parity portfolio
-portfolio_parity <- riskParityPortfolio(covariance)
+# portfolio_parity <- riskParityPortfolio(covariance)
 
 # compute tangency portfolio
-portfolio_tangency <- tangencyPortfolio(as.timeSeries(etf_returns), 
-                                        constraints = "LongOnly")
-portfolio_weights <- rbind(portfolio_parity$w, getWeights(portfolio_tangency))
-row.names(portfolio_weights)<-c("Parity Portfolio", "Tangency Portfolio")
+# portfolio_tangency <- tangencyPortfolio(as.timeSeries(etf_returns), 
+                                        # constraints = "LongOnly")
+# portfolio_weights <- rbind(portfolio_parity$w, getWeights(portfolio_tangency))
+# row.names(portfolio_weights)<-c("Parity Portfolio", "Tangency Portfolio")
 
-dbDisconnect(con) # Disconnect from SQL database
+# dbDisconnect(con) # Disconnect from SQL database
 
 ```
 
