@@ -1,7 +1,7 @@
 ---
 title: Risk Parity Portfolio with R
 author: Aaron Hardy
-date: '2020-01-25'
+date: "`r Sys.Date()`"
 slug: risk-parity-portfolio-with-r
 categories:
   - Stocks
@@ -13,11 +13,18 @@ featuredalt: ''
 featuredpath: ''
 linktitle: ''
 ---
-
+```{r include=FALSE}
+knitr::opts_chunk$set(
+      collapse=TRUE,
+      comment="#>",
+      fig.retina=2,
+      message=FALSE,
+      warning=FALSE)
+```
 
 # Let's try
 
-```{r message = FALSE, warning = FALSE}
+```{r}
 
 # Load packages
 library(riskParityPortfolio)
@@ -31,7 +38,7 @@ library(tidyquant)
 # Load data
 # Establish a local MySQL connection
 con <- dbConnect(MySQL(), dbname = "stock_prices", user = 'root' , password='paperback12')
-prices <- tbl(con, "etfs") %>% as_tibble() %>% select(-row_names)
+prices <- tbl(con, "etfs") %>% as_tibble()
 prices %>% pull(symbol) %>% unique()
 
 # Get monthly returns

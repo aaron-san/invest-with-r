@@ -6,28 +6,28 @@
     <description>Recent content in Stocks on Invest with R</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 25 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 12 Mar 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/stocks/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Risk Parity Portfolio with R</title>
-      <link>/post/risk-parity-portfolio-with-r/</link>
-      <pubDate>Sat, 25 Jan 2020 00:00:00 +0000</pubDate>
+      <title>Finding Distressed Stocks</title>
+      <link>/post/finding-distressed-stocks/</link>
+      <pubDate>Thu, 12 Mar 2020 00:00:00 +0000</pubDate>
       
-      <guid>/post/risk-parity-portfolio-with-r/</guid>
-      <description>Let’s try# Load packageslibrary(riskParityPortfolio)library(fPortfolio)library(tidyverse)library(RMySQL)library(lubridate)library(timetk)library(tidyquant)# Load data# Establish a local MySQL connectioncon &amp;lt;- dbConnect(MySQL(), dbname = &amp;quot;stock_prices&amp;quot;, user = &amp;#39;root&amp;#39; , password=&amp;#39;paperback12&amp;#39;)prices &amp;lt;- tbl(con, &amp;quot;etfs&amp;quot;) %&amp;gt;% as_tibble() %&amp;gt;% select(-row_names)prices %&amp;gt;% pull(symbol) %&amp;gt;% unique()## [1] &amp;quot;VOO&amp;quot; &amp;quot;SCHB&amp;quot; &amp;quot;SPY&amp;quot; &amp;quot;VBR&amp;quot; &amp;quot;IWN&amp;quot; &amp;quot;IJS&amp;quot; &amp;quot;SCHF&amp;quot; &amp;quot;VNQ&amp;quot;# Get monthly returnsetf_returns &amp;lt;- as_tibble(prices) %&amp;gt;%select(date, symbol, adjusted) %&amp;gt;%mutate(date = ymd(date)) %&amp;gt;% group_by(symbol) %&amp;gt;%tq_transmute(select = adjusted, periodReturn, period=&amp;quot;monthly&amp;quot;, type=&amp;quot;log&amp;quot;, col_rename = &amp;quot;monthly.</description>
+      <guid>/post/finding-distressed-stocks/</guid>
+      <description>Finding Stocks at Risk of Financial DistressThe goal of this analysis is to isolate stocks that are particularly risky to the long-only investor. A probability of distress will be computed based on observable financial data. The model was derived in academia and later utilized in a book titled “Quantitative Value” (2013).
+The FormulaLogit Probability of Financial Distress (LPFD)A logistic regression model is used to estimate whether a firm is in financial distress or not.</description>
     </item>
     
     <item>
-      <title>Finding Distressed Stocks</title>
-      <link>/post/finding-distressed-stocks/</link>
-      <pubDate>Fri, 10 Jan 2020 00:00:00 +0000</pubDate>
+      <title>Risk Parity Portfolio with R</title>
+      <link>/post/risk-parity-portfolio-with-r/</link>
+      <pubDate>Mon, 27 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/post/finding-distressed-stocks/</guid>
-      <description>Finding Highly Risky StocksThe FormulaLogit Probability of Financial Distress (LPFD)A logistic regression model is used to estimate whether a firm is in financial distress or not. \[LPFD = -20.26 \times NIMTAAVG + 1.42 \times TLMTA \\- 7.13 \times EXRETAVG + 1.41 \times SIGMA \\- 0.045 \times RSIZE - 2.13 \times CASHMTA + \\0.075 \times MB - 0.058 \times PRICE - 9.16\]
-The “LPFD” is then transformed into a probability of financial distress (PFD).</description>
+      <guid>/post/risk-parity-portfolio-with-r/</guid>
+      <description>Let’s try# Load packageslibrary(riskParityPortfolio)library(fPortfolio)library(tidyverse)library(RMySQL)library(lubridate)library(timetk)library(tidyquant)# Load data# Establish a local MySQL connectioncon &amp;lt;- dbConnect(MySQL(), dbname = &amp;quot;stock_prices&amp;quot;, user = &amp;#39;root&amp;#39; , password=&amp;#39;paperback12&amp;#39;)prices &amp;lt;- tbl(con, &amp;quot;etfs&amp;quot;) %&amp;gt;% as_tibble()prices %&amp;gt;% pull(symbol) %&amp;gt;% unique()#&amp;gt; [1] &amp;quot;VOO&amp;quot; &amp;quot;SCHB&amp;quot; &amp;quot;SPY&amp;quot; &amp;quot;VBR&amp;quot; &amp;quot;IWN&amp;quot; &amp;quot;IJS&amp;quot; &amp;quot;SCHF&amp;quot; &amp;quot;VNQ&amp;quot;# Get monthly returnsetf_returns &amp;lt;- as_tibble(prices) %&amp;gt;%select(date, symbol, adjusted) %&amp;gt;%mutate(date = ymd(date)) %&amp;gt;% group_by(symbol) %&amp;gt;%tq_transmute(select = adjusted, periodReturn, period=&amp;quot;monthly&amp;quot;, type=&amp;quot;log&amp;quot;, col_rename = &amp;quot;monthly.</description>
     </item>
     
   </channel>

@@ -1,7 +1,7 @@
 ---
 title: Risk Parity Portfolio with R
 author: Aaron Hardy
-date: '2020-01-25'
+date: "2020-01-27"
 slug: risk-parity-portfolio-with-r
 categories:
   - Stocks
@@ -18,7 +18,8 @@ linktitle: ''
 
 <div id="lets-try" class="section level1">
 <h1>Let’s try</h1>
-<pre class="r"><code># Load packages
+<pre class="r"><code>
+# Load packages
 library(riskParityPortfolio)
 library(fPortfolio)
 library(tidyverse)
@@ -30,10 +31,11 @@ library(tidyquant)
 # Load data
 # Establish a local MySQL connection
 con &lt;- dbConnect(MySQL(), dbname = &quot;stock_prices&quot;, user = &#39;root&#39; , password=&#39;paperback12&#39;)
-prices &lt;- tbl(con, &quot;etfs&quot;) %&gt;% as_tibble() %&gt;% select(-row_names)
-prices %&gt;% pull(symbol) %&gt;% unique()</code></pre>
-<pre><code>## [1] &quot;VOO&quot;  &quot;SCHB&quot; &quot;SPY&quot;  &quot;VBR&quot;  &quot;IWN&quot;  &quot;IJS&quot;  &quot;SCHF&quot; &quot;VNQ&quot;</code></pre>
-<pre class="r"><code># Get monthly returns
+prices &lt;- tbl(con, &quot;etfs&quot;) %&gt;% as_tibble()
+prices %&gt;% pull(symbol) %&gt;% unique()
+#&gt; [1] &quot;VOO&quot;  &quot;SCHB&quot; &quot;SPY&quot;  &quot;VBR&quot;  &quot;IWN&quot;  &quot;IJS&quot;  &quot;SCHF&quot; &quot;VNQ&quot;
+
+# Get monthly returns
 etf_returns &lt;- as_tibble(prices) %&gt;%
        select(date, symbol, adjusted) %&gt;%
        mutate(date = ymd(date)) %&gt;% 
@@ -56,6 +58,6 @@ portfolio_tangency &lt;- tangencyPortfolio(as.timeSeries(etf_returns),
 portfolio_weights &lt;- rbind(portfolio_parity$w, getWeights(portfolio_tangency))
 row.names(portfolio_weights)&lt;-c(&quot;Parity Portfolio&quot;, &quot;Tangency Portfolio&quot;)
 
-dbDisconnect(con) # Disconnect from SQL database</code></pre>
-<pre><code>## [1] TRUE</code></pre>
+dbDisconnect(con) # Disconnect from SQL database
+#&gt; [1] TRUE</code></pre>
 </div>

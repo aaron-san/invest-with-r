@@ -1,7 +1,7 @@
 ---
 title: Finding Distressed Stocks
 author: Aaron Hardy
-date: '2020-01-10'
+date: '2020-03-12'
 slug: finding-distressed-stocks
 categories:
   - Stocks
@@ -16,7 +16,9 @@ editor_options:
   chunk_output_type: console
 ---
 
-# Finding Highly Risky Stocks
+# Finding Stocks at Risk of Financial Distress 
+
+The goal of this analysis is to isolate stocks that are particularly risky to the long-only investor. A probability of distress will be computed based on observable financial data. The model was derived in academia and later utilized in a book titled "Quantitative Value" (2013).
 
 ## The Formula
 
@@ -49,25 +51,15 @@ $$
 
 ### The Data
 
-# connect to a database and load some data
 ```{r message = FALSE, warning = FALSE}
 
-# Clear Workspace
-rm(list=ls(all=TRUE))
 
 
-# Load libraries ----------------------------------------------------------
-library(dplyr)
-library(RMySQL)
-library(lubridate)
-library(tidyr)
+plot(mtcars)
 
-# Establish a MySQL connection
-con <- dbConnect(MySQL(), dbname = "financial_data", user = 'root' , password='paperback12')
-# dbListTables(con)
-data <- tbl(con, "fundamentals_all") %>% as_tibble() %>% 
-      select(date, id, market_cap, enterprise_value, total_liabilities, cash) %>%
-      mutate(date = ymd(date)) %>% rename(symbol = "id")
 
-dbDisconnect(con) # Disconnect from SQL database
+
+
+
+
 ```

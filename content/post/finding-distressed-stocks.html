@@ -1,7 +1,7 @@
 ---
 title: Finding Distressed Stocks
 author: Aaron Hardy
-date: '2020-01-10'
+date: '2020-03-12'
 slug: finding-distressed-stocks
 categories:
   - Stocks
@@ -18,13 +18,15 @@ editor_options:
 
 
 
-<div id="finding-highly-risky-stocks" class="section level1">
-<h1>Finding Highly Risky Stocks</h1>
+<div id="finding-stocks-at-risk-of-financial-distress" class="section level1">
+<h1>Finding Stocks at Risk of Financial Distress</h1>
+<p>The goal of this analysis is to isolate stocks that are particularly risky to the long-only investor. A probability of distress will be computed based on observable financial data. The model was derived in academia and later utilized in a book titled “Quantitative Value” (2013).</p>
 <div id="the-formula" class="section level2">
 <h2>The Formula</h2>
 <div id="logit-probability-of-financial-distress-lpfd" class="section level3">
 <h3>Logit Probability of Financial Distress (LPFD)</h3>
-<p>A logistic regression model is used to estimate whether a firm is in financial distress or not. <span class="math display">\[
+<p>A logistic regression model is used to estimate whether a firm is in financial distress or not.
+<span class="math display">\[
 LPFD = -20.26 \times NIMTAAVG + 1.42 \times TLMTA \\
 - 7.13 \times EXRETAVG + 1.41 \times SIGMA \\
 - 0.045 \times RSIZE - 2.13 \times CASHMTA + 
@@ -46,28 +48,8 @@ XAVG = .5333 \times t + .2666 \times (t - 1) + .1333 \times (t - 2) + .0666 \tim
 </div>
 <div id="the-data" class="section level3">
 <h3>The Data</h3>
+<pre class="r"><code>plot(mtcars)</code></pre>
+<p><img src="/post/finding-distressed-stocks_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 </div>
 </div>
-</div>
-<div id="connect-to-a-database-and-load-some-data" class="section level1">
-<h1>connect to a database and load some data</h1>
-<pre class="r"><code># Clear Workspace
-rm(list=ls(all=TRUE))
-
-
-# Load libraries ----------------------------------------------------------
-library(dplyr)
-library(RMySQL)
-library(lubridate)
-library(tidyr)
-
-# Establish a MySQL connection
-con &lt;- dbConnect(MySQL(), dbname = &quot;financial_data&quot;, user = &#39;root&#39; , password=&#39;paperback12&#39;)
-# dbListTables(con)
-data &lt;- tbl(con, &quot;fundamentals_all&quot;) %&gt;% as_tibble() %&gt;% 
-      select(date, id, market_cap, enterprise_value, total_liabilities, cash) %&gt;%
-      mutate(date = ymd(date)) %&gt;% rename(symbol = &quot;id&quot;)
-
-dbDisconnect(con) # Disconnect from SQL database</code></pre>
-<pre><code>## [1] TRUE</code></pre>
 </div>
