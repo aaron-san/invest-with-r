@@ -93,7 +93,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   paragraph = "Learn about investing with the R programming language."
   # paragraph = "Another fine responsive site template by <a href=\"http://html5up.net\">HTML5 UP</a>. Ported by Julio Pescador with some extra goodies <i class='fa fa-hand-peace-o'></i>"
 
-  about     = "Here you can read about various methods of integrating R with investing processes."
+  about     = "Here you can read about various methods of integrating R with the investing process."
 
   # This appears at the top of the sidebar above params.intro.header.
   # A width of less than 100px is recommended from a design perspective.
