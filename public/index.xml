@@ -6,7 +6,7 @@
     <description>Recent content on Invest with R</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 03 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 04 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,11 +14,11 @@
     <item>
       <title>Risk Parity Portfolio with R</title>
       <link>/post/risk-parity-portfolio-with-r/</link>
-      <pubDate>Fri, 03 Apr 2020 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 04 Apr 2020 00:00:00 +0000</pubDate>
       
       <guid>/post/risk-parity-portfolio-with-r/</guid>
-      <description>Risk Parity Portfolio vs. Markowitz Tangency PortfolioIn this article we will compare the difference in two separate portfolio construction pathways, one using the risk parity portoflio approach and the other the Markowitz tangency portfolio approach.
-The standard approach is the mean-variance optimization approach that produces a portfolio with the optimal risk-return ratio among a group of possible portfolios. One complaint of this approach is its tendency to lead to overconcentrated portfolios.</description>
+      <description>Risk Parity Portfolio vs. Modern Portfolio TheoryIn this article we will compare the difference in two separate portfolio construction pathways, one using the risk parity portoflio approach and the other the Modern Portfolio Theory pioneered by Harry Markowitz in 1952.
+The Modern Portfolio Theory approach attempts to maximize the return of a group of assets (a portfolio) for the level of risk borne by those assets. One complaint of this approach is its tendency to lead to overconcentrated portfolios.</description>
     </item>
     
     <item>

@@ -24,12 +24,12 @@ knitr::opts_chunk$set(
       warning=FALSE)
 ```
 
-# Risk Parity Portfolio vs. Markowitz Tangency Portfolio
- In this article we will compare the difference in two separate portfolio construction pathways, one using the risk parity portoflio approach and the other the Markowitz tangency portfolio approach.
+# Risk Parity Portfolio vs. Modern Portfolio Theory
+ In this article we will compare the difference in two separate portfolio construction pathways, one using the risk parity portoflio approach and the other the Modern Portfolio Theory pioneered by Harry Markowitz in 1952.
  
-The standard approach is the mean-variance optimization approach that produces a portfolio with the optimal risk-return ratio among a group of possible portfolios. One complaint of this approach is its tendency to lead to overconcentrated portfolios.
+The *Modern Portfolio Theory* approach attempts to maximize the return of a group of assets (a portfolio) for the level of risk borne by those assets. One complaint of this approach is its tendency to lead to overconcentrated portfolios.
 
-An alternative approach is the risk parity approach which produces a portfolio whose constituents contribute equally to the risk of the portfolio. 
+An alternative approach is the *Risk Parity Approach* which attempts to produce a group of assets (a portfolio) whose members contribute equally to the risk of the portfolio. This approach is hailed for its tendency to result in a more diverse group of portfolio assets than that of the Modern Portfolio Theory. 
 
 
 
@@ -132,6 +132,10 @@ parity_portfolio_returns %>%
   ggplot(aes(x = date, y = cumprod(1 + parity_portfolio_return))) +
   geom_line() +
   theme_economist()
+
+
+
+
 
 
 ```
