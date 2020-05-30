@@ -6,7 +6,7 @@
     <description>Recent content in Stocks on Invest with R</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 30 May 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 31 May 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/stocks/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Optimal Portfolio Construction</title>
       <link>/post/optimal-portfolio-construction/</link>
-      <pubDate>Sat, 30 May 2020 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 31 May 2020 00:00:00 +0000</pubDate>
       
       <guid>/post/optimal-portfolio-construction/</guid>
       <description>Optimal Portfolio ConstructionIn this article we will compare several portfolio construction methodologies. We will evaluate the Modern Portfolio Theory and the Risk Parity portfolio and Resampled Efficient Frontier approaches.

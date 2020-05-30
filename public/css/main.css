@@ -40,6 +40,15 @@
 	ol, ul {
 		list-style: none;
 	}
+	
+	.center {
+	      margin: auto;
+	      width: 40%;
+	      border: 3px solid #73AD21;
+	      padding: 3px;
+	      text-align: center;
+	}
+	
 
 	blockquote, q {
 		quotes: none;
@@ -97,6 +106,7 @@
 
 	body {
 		background: #f4f4f4;
+		/*background-image: url("paper.gif"); */
 	}
 
 		body.is-loading *,

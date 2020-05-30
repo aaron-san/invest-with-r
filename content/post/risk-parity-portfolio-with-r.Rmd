@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 ```
 
 # Optimal Portfolio Construction
- In this article we will compare several portfolio construction methodologies. We will evaluate the Modern Portfolio Theory and the Risk Parity portfolio and Resampled Efficient Frontier approaches.
+In this article we will compare several portfolio construction methodologies. We will evaluate the Modern Portfolio Theory and the Risk Parity portfolio and Resampled Efficient Frontier approaches.
  
 The *Modern Portfolio Theory* approach attempts to maximize the return of a group of assets (a portfolio) for the level of risk borne by those assets. One complaint of this approach is its tendency to lead to overconcentrated portfolios.
 
