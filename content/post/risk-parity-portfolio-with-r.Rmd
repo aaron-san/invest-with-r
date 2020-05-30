@@ -1,8 +1,8 @@
 ---
-title: Risk Parity Portfolio with R
+title: Optimal Portfolio Construction
 author: Aaron Hardy
 date: "`r Sys.Date()`"
-slug: risk-parity-portfolio-with-r
+slug: optimal-portfolio-construction
 categories:
   - Stocks
 tags:
@@ -24,10 +24,12 @@ knitr::opts_chunk$set(
       warning=FALSE)
 ```
 
-# Risk Parity Portfolio vs. Modern Portfolio Theory
- In this article we will compare the difference in two separate portfolio construction pathways, one using the risk parity portoflio approach and the other the Modern Portfolio Theory pioneered by Harry Markowitz in 1952.
+# Optimal Portfolio Construction
+ In this article we will compare several portfolio construction methodologies. We will evaluate the Modern Portfolio Theory and the Risk Parity portfolio and Resampled Efficient Frontier approaches.
  
 The *Modern Portfolio Theory* approach attempts to maximize the return of a group of assets (a portfolio) for the level of risk borne by those assets. One complaint of this approach is its tendency to lead to overconcentrated portfolios.
+
+The *Resampled Efficient Frontier* approach involves creating hundreds of efficient frontiers in an effort to create a more robust set of portfolio.
 
 An alternative approach is the *Risk Parity Approach* which attempts to produce a group of assets (a portfolio) whose members contribute equally to the risk of the portfolio. This approach is hailed for its tendency to result in a more diverse group of portfolio assets than that of the Modern Portfolio Theory. 
 
@@ -46,10 +48,16 @@ library(ggthemes) # For the economist theme
 library(magrittr)
 library(ggrepel)
 
-# Load data
-symbols <- c("^GSPC", "AGG", "GOLD", "VNQ", "VWO")
+# Define symbols to use
+#   Stocks            ^GSPC represents the S&P 500 index
+#   Bonds:            AGG represents investment-grade U.S. bonds
+#   Commodities:      USCI represents diversified commodities such as oil, natural gas,                         gold, silver, aluminum, copper, corn, soybeans, live cattle,                              coffee, sugar, etc.
+#   Real Estate:      VNQ represents U.S. REITs
+#   Emerging Markets: VWO represents emerging markets
+symbols <- c("^GSPC", "AGG", "USCI", "VNQ", "VWO")
 
-# Get monthly returns
+
+# Get prices from Yahoo Finance
 returns_monthly <- symbols %>%
   tq_get(get  = "stock.prices",
          from = "2004-12-31") %>%
@@ -58,7 +66,7 @@ returns_monthly <- symbols %>%
             mutate_fun = periodReturn,
             period     = "monthly")
 
-
+# Convert to xts object
 returns_xts <- returns_monthly %>%
   pivot_wider(id_cols = date, names_from = symbol, values_from = monthly.returns) %>%
   drop_na() %>%
@@ -127,15 +135,11 @@ parity_portfolio_returns <- returns_monthly %>%
                col_rename  = "parity_portfolio_return")
 
 
-
+# Plot the cumulative returns of both strategies
 parity_portfolio_returns %>%
   ggplot(aes(x = date, y = cumprod(1 + parity_portfolio_return))) +
   geom_line() +
   theme_economist()
-
-
-
-
 
 
 ```

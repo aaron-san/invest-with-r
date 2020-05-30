@@ -21,8 +21,8 @@
         "accountablePerson" : "",
         "copyrightHolder" : "",
         "copyrightYear" : "2020",
-        "datePublished": "2020-04-04 00:00:00 \x2b0000 UTC",
-        "dateModified" : "2020-04-04 00:00:00 \x2b0000 UTC",
+        "datePublished": "2020-05-30 00:00:00 \x2b0000 UTC",
+        "dateModified" : "2020-05-30 00:00:00 \x2b0000 UTC",
         "url" : "\/",
         "wordCount" : "0",
         "keywords" : [ "Blog" ]
@@ -56,7 +56,7 @@
 <meta property="og:description" content="HTML5 UP theme, Future Imperfect with some extra goodies, ported by Julio Pescador. Powered by Hugo" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="/" />
-<meta property="og:updated_time" content="2020-04-04T00:00:00+00:00" />
+<meta property="og:updated_time" content="2020-05-30T00:00:00+00:00" />
 
         <meta property="og:image" content="//images/logo.png">
         <meta property="og:image:type" content="image/png">
@@ -251,11 +251,11 @@
                 
                         <article class="mini-post">
                             <header>
-                                <h3><a href="/post/">Post</a></h3>
+                                <h3><a href="/post/optimal-portfolio-construction/">Optimal Portfolio Construction</a></h3>
                                 
                                 <time class="published" datetime=
-                                    '2020-04-04'>
-                                    April 4, 2020</time>
+                                    '2020-05-30'>
+                                    May 30, 2020</time>
                             </header>
                             
 
@@ -263,11 +263,11 @@
                 
                         <article class="mini-post">
                             <header>
-                                <h3><a href="/post/risk-parity-portfolio-with-r/">Risk Parity Portfolio with R</a></h3>
+                                <h3><a href="/post/">Post</a></h3>
                                 
                                 <time class="published" datetime=
-                                    '2020-04-04'>
-                                    April 4, 2020</time>
+                                    '2020-05-30'>
+                                    May 30, 2020</time>
                             </header>
                             
 
@@ -385,7 +385,7 @@
   <header>
     <div class="title">
         
-            <h2><a href="/post/">Post</a></h2>
+            <h2><a href="/post/optimal-portfolio-construction/">Optimal Portfolio Construction</a></h2>
         
         
     </div>
@@ -393,11 +393,11 @@
         
 
         <time class="published"
-            datetime='2020-04-04'>
-            April 4, 2020</time>
-        <span class="author"></span>
+            datetime='2020-05-30'>
+            May 30, 2020</time>
+        <span class="author">Aaron Hardy</span>
         
-            <p>0 minute read</p>
+            <p>3 minute read</p>
         
         
     </div>
@@ -412,7 +412,7 @@
 
 
 <li>
-  <a href="//twitter.com/share?url=%2fpost%2f&amp;text=Post&amp;via=example" target="_blank" class="share-btn twitter">
+  <a href="//twitter.com/share?url=%2fpost%2foptimal-portfolio-construction%2f&amp;text=Optimal%20Portfolio%20Construction&amp;via=example" target="_blank" class="share-btn twitter">
     <i class="fa fa-twitter"></i>
     <p>Twitter</p>
     </a>
@@ -426,7 +426,7 @@
 
 
 <li>
-  <a href="//www.facebook.com/sharer/sharer.php?u=%2fpost%2f" target="_blank" class="share-btn facebook">
+  <a href="//www.facebook.com/sharer/sharer.php?u=%2fpost%2foptimal-portfolio-construction%2f" target="_blank" class="share-btn facebook">
     <i class="fa fa-facebook"></i>
     <p>Facebook</p>
     </a>
@@ -439,7 +439,7 @@
 
 
 <li>
-  <a href="//www.linkedin.com/shareArticle?url=%2fpost%2f&amp;title=Post" target="_blank" class="share-btn linkedin">
+  <a href="//www.linkedin.com/shareArticle?url=%2fpost%2foptimal-portfolio-construction%2f&amp;title=Optimal%20Portfolio%20Construction" target="_blank" class="share-btn linkedin">
       <i class="fa fa-linkedin"></i>
       <p>LinkedIn</p>
     </a>
@@ -455,7 +455,7 @@
 
 
 <li>
-  <a href="mailto:?subject=Check out this post by &amp;body=%2fpost%2f" target="_blank" class="share-btn email">
+  <a href="mailto:?subject=Check out this post by Aaron%20Hardy&amp;body=%2fpost%2foptimal-portfolio-construction%2f" target="_blank" class="share-btn email">
     <i class="fa fa-envelope"></i>
     <p>Email</p>
   </a>
@@ -470,6 +470,123 @@
 
   <div id="content">
     
+
+
+<div id="optimal-portfolio-construction" class="section level1">
+<h1>Optimal Portfolio Construction</h1>
+<p>In this article we will compare several portfolio construction methodologies. We will evaluate the Modern Portfolio Theory and the Risk Parity portfolio and Resampled Efficient Frontier approaches.</p>
+<p>The <em>Modern Portfolio Theory</em> approach attempts to maximize the return of a group of assets (a portfolio) for the level of risk borne by those assets. One complaint of this approach is its tendency to lead to overconcentrated portfolios.</p>
+<p>The <em>Resampled Efficient Frontier</em> approach involves creating hundreds of efficient frontiers in an effort to create a more robust set of portfolio.</p>
+<p>An alternative approach is the <em>Risk Parity Approach</em> which attempts to produce a group of assets (a portfolio) whose members contribute equally to the risk of the portfolio. This approach is hailed for its tendency to result in a more diverse group of portfolio assets than that of the Modern Portfolio Theory.</p>
+<pre class="r"><code>
+# Load packages
+library(riskParityPortfolio)
+library(fPortfolio)
+library(tidyverse)
+library(lubridate)
+library(timetk)
+library(tidyquant)
+library(ggthemes) # For the economist theme
+library(magrittr)
+library(ggrepel)
+
+# Define symbols to use
+#   Stocks            ^GSPC represents the S&amp;P 500 index
+#   Bonds:            AGG represents investment-grade U.S. bonds
+#   Commodities:      USCI represents diversified commodities such as oil, natural gas,                         gold, silver, aluminum, copper, corn, soybeans, live cattle,                              coffee, sugar, etc.
+#   Real Estate:      VNQ represents U.S. REITs
+#   Emerging Markets: VWO represents emerging markets
+symbols &lt;- c(&quot;^GSPC&quot;, &quot;AGG&quot;, &quot;USCI&quot;, &quot;VNQ&quot;, &quot;VWO&quot;)
+
+
+# Get prices from Yahoo Finance
+returns_monthly &lt;- symbols %&gt;%
+  tq_get(get  = &quot;stock.prices&quot;,
+         from = &quot;2004-12-31&quot;) %&gt;%
+  group_by(symbol) %&gt;%
+  tq_transmute(select     = adjusted,
+            mutate_fun = periodReturn,
+            period     = &quot;monthly&quot;)
+
+# Convert to xts object
+returns_xts &lt;- returns_monthly %&gt;%
+  pivot_wider(id_cols = date, names_from = symbol, values_from = monthly.returns) %&gt;%
+  drop_na() %&gt;%
+  tk_xts(select = -date, date_var = date)
+
+
+# Calculate the covariance matrix
+covariance &lt;- cov(coredata(returns_xts))
+
+# Compute the risk parity portfolio
+portfolio_parity &lt;- riskParityPortfolio(covariance)
+
+# Compute the tangency portfolio
+portfolio_tangency &lt;- tangencyPortfolio(as.timeSeries(returns_xts),
+                                        constraints = &quot;LongOnly&quot;)
+portfolio_weights &lt;- rbind(portfolio_parity$w, getWeights(portfolio_tangency))
+row.names(portfolio_weights) &lt;- c(&quot;Parity Portfolio&quot;, &quot;Tangency Portfolio&quot;)
+
+
+portfolio_weights %&gt;% 
+  as.data.frame() %&gt;%
+  rownames_to_column(&quot;portfolio&quot;) %&gt;%
+  pivot_longer(-portfolio, names_to = &quot;symbol&quot;, values_to = &quot;weight&quot;) %&gt;%
+  ggplot(aes(x = symbol, y = weight)) + #, group =  portfolio)) +
+  geom_bar(aes(fill = portfolio), stat = &quot;identity&quot;, position = &quot;dodge&quot;) +
+  theme_economist()</code></pre>
+<p><img src="/post/risk-parity-portfolio-with-r_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>
+returns_monthly %&gt;% 
+  mutate(cumulative.returns = cumprod(1 + monthly.returns)) %&gt;%
+  ggplot(aes(x = date, y = cumulative.returns)) + 
+  geom_line(aes(color = symbol), size = 1.1, show.legend = FALSE) + 
+  scale_x_date(#date_minor_breaks = &quot;3 months&quot;,
+               date_breaks= &quot;1 year&quot;,
+               date_labels = &quot;%b %Y&quot;,
+               expand = expand_scale(mult = c(0, .18))) +
+  geom_label_repel(data = . %&gt;% slice(n()),
+                   aes(label = symbol, color = symbol),
+                   nudge_x = 6,
+                   min.segment.length = 0,
+                   segment.color = NA,
+                   direction = &quot;x&quot;,
+                   fontface = &quot;bold&quot;, show.legend = FALSE) +
+  labs(title = &quot;Cumulative returns of various asset classes&quot;,
+       y = &quot;&quot;, x = &quot;&quot;) +
+  theme_economist() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 0.8, vjust = .5))   </code></pre>
+<p><img src="/post/risk-parity-portfolio-with-r_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
+<pre class="r"><code>
+
+tangency_wts &lt;- portfolio_weights %&gt;% extract(&quot;Tangency Portfolio&quot;, ) %&gt;% round(2)
+tangency_portfolio_returns &lt;- returns_monthly %&gt;%
+  # drop_na() %&gt;%
+  # ungroup() %&gt;%
+  tq_portfolio(assets_col  = symbol,
+               returns_col = monthly.returns, 
+               weights     = tangency_wts, 
+               col_rename  = &quot;tangency_portfolio_return&quot;)
+
+
+parity_wts &lt;- portfolio_weights %&gt;% extract(&quot;Parity Portfolio&quot;, ) %&gt;% round(2)
+parity_portfolio_returns &lt;- returns_monthly %&gt;%
+  # drop_na() %&gt;%
+  # ungroup() %&gt;%
+  tq_portfolio(assets_col  = symbol,
+               returns_col = monthly.returns, 
+               weights     = parity_wts, 
+               col_rename  = &quot;parity_portfolio_return&quot;)
+
+
+# Plot the cumulative returns of both strategies
+parity_portfolio_returns %&gt;%
+  ggplot(aes(x = date, y = cumprod(1 + parity_portfolio_return))) +
+  geom_line() +
+  theme_economist()</code></pre>
+<p><img src="/post/risk-parity-portfolio-with-r_files/figure-html/unnamed-chunk-2-3.png" width="672" /></p>
+</div>
+
   </div>
 
   <footer>
@@ -477,10 +594,28 @@
   <li class="categories">
     <ul>
         
+            
+            
+                <i class="fa fa-folder"></i>
+                
+                
+                <li><a class="article-category-link" href="/categories/stocks">Stocks</a></li>
+                
+            
+        
     </ul>
   </li>
   <li class="tags">
     <ul>
+        
+            
+            
+                <i class="fa fa-tags"></i>
+                
+                
+                <li><a class="article-category-link" href="/tags/stocks">Stocks</a></li>
+                
+            
         
     </ul>
   </li>
@@ -516,6 +651,9 @@
 
 <ul class="actions pagination">
     
+        <li><a href="/post/finding-distressed-stocks/"
+                class="button big previous">Finding Distressed Stocks</a></li>
+    
 
     
 </ul>
@@ -533,7 +671,7 @@
 
 
 <li>
-  <a href="//twitter.com/share?url=%2fpost%2f&amp;text=Post&amp;via=example" target="_blank" class="share-btn twitter">
+  <a href="//twitter.com/share?url=%2fpost%2foptimal-portfolio-construction%2f&amp;text=Optimal%20Portfolio%20Construction&amp;via=example" target="_blank" class="share-btn twitter">
     <i class="fa fa-twitter"></i>
     <p>Twitter</p>
     </a>
@@ -547,7 +685,7 @@
 
 
 <li>
-  <a href="//www.facebook.com/sharer/sharer.php?u=%2fpost%2f" target="_blank" class="share-btn facebook">
+  <a href="//www.facebook.com/sharer/sharer.php?u=%2fpost%2foptimal-portfolio-construction%2f" target="_blank" class="share-btn facebook">
     <i class="fa fa-facebook"></i>
     <p>Facebook</p>
     </a>
@@ -560,7 +698,7 @@
 
 
 <li>
-  <a href="//www.linkedin.com/shareArticle?url=%2fpost%2f&amp;title=Post" target="_blank" class="share-btn linkedin">
+  <a href="//www.linkedin.com/shareArticle?url=%2fpost%2foptimal-portfolio-construction%2f&amp;title=Optimal%20Portfolio%20Construction" target="_blank" class="share-btn linkedin">
       <i class="fa fa-linkedin"></i>
       <p>LinkedIn</p>
     </a>
@@ -576,7 +714,7 @@
 
 
 <li>
-  <a href="mailto:?subject=Check out this post by &amp;body=%2fpost%2f" target="_blank" class="share-btn email">
+  <a href="mailto:?subject=Check out this post by Aaron%20Hardy&amp;body=%2fpost%2foptimal-portfolio-construction%2f" target="_blank" class="share-btn email">
     <i class="fa fa-envelope"></i>
     <p>Email</p>
   </a>
@@ -626,11 +764,11 @@
           <article class="mini-post">
             <header>
               <h3>
-                <a href="/post/">Post</a>
+                <a href="/post/optimal-portfolio-construction/">Optimal Portfolio Construction</a>
               </h3>
               
-              <time class="published" datetime='2020-04-04'>
-                April 4, 2020
+              <time class="published" datetime='2020-05-30'>
+                May 30, 2020
               </time>
             </header>
             
@@ -640,11 +778,11 @@
           <article class="mini-post">
             <header>
               <h3>
-                <a href="/post/risk-parity-portfolio-with-r/">Risk Parity Portfolio with R</a>
+                <a href="/post/">Post</a>
               </h3>
               
-              <time class="published" datetime='2020-04-04'>
-                April 4, 2020
+              <time class="published" datetime='2020-05-30'>
+                May 30, 2020
               </time>
             </header>
             
