@@ -6,10 +6,20 @@
     <description>Recent content on Invest with R</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 31 May 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 11 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Forecasting S&amp;P 500 Returns with R (Part 1)</title>
+      <link>/post/forecasting-s-p-500-returns-with-r-part-1/</link>
+      <pubDate>Thu, 11 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/forecasting-s-p-500-returns-with-r-part-1/</guid>
+      <description>1. IntroductionIs it possible to predict stock returns? We will look at a group of 500 large U.S. companies and try to identify any historical patterns that can be used to predict future returns. Specifically, we will focus on the S&amp;amp;P 500 stock index which represents the stock performance of 500 of the largest U.S. companies.
+Why predict S&amp;amp;P 500 returns? Millions of people are invested in U.S. stocks through pension plans and individual investment accounts.</description>
+    </item>
     
     <item>
       <title>Optimal Portfolio Construction</title>
@@ -124,6 +134,16 @@ With Jekyll, something that looked like&lt;/p&gt;
     ▾ images/
         logo.png
 &lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/post/2020-06-11-forecasting-s-p-500-returns-with-r-part-1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2020-06-11-forecasting-s-p-500-returns-with-r-part-1/</guid>
+      <description>1. IntroductionIs it possible to predict stock returns? We will look at a group of 500 large U.S. companies and try to identify any historical patterns that can be used to predict future returns. Specifically, we will focus on the S&amp;amp;P 500 stock index which represents the stock performance of 500 of the largest U.S. companies.
+Why predict S&amp;amp;P 500 returns? Millions of people are invested in U.S. stocks through pension plans and individual investment accounts.</description>
     </item>
     
   </channel>
