@@ -534,8 +534,7 @@ SP500_tbl &lt;- data %&gt;%
     slice(endpoints(date, on = &quot;month&quot;)) %&gt;%
     mutate(ROC.SP500 = ROC(SP500)) %&gt;%
     drop_na() %&gt;%
-    mutate(date = date + lubridate::days(1)) %&gt;%
-    filter(between(date, &quot;2011-01-01&quot;, &quot;2019-12-01&quot;))
+    filter(between(date, &quot;2011-01-31&quot;, &quot;2019-12-31&quot;))
 
 # Coerce the data to a time series
 SP500_ts &lt;- SP500_tbl %&gt;%
@@ -547,7 +546,7 @@ SP500_tsi &lt;- as_tsibble(SP500_ts, index = date) %&gt;%
 </div>
 <div id="univarite-analysis" class="section level3">
 <h3>Univarite Analysis</h3>
-<p>Let’s look at the S&amp;P 500 time series as a univariate series. Is it possible to predict with reasonable accuracy future returns of the S&amp;P 500 just looking at historical data over the past ten years? Is there predictable seasonality, for example? Let’s take a look at the data in its original form and do some exploratory analysis.</p>
+<p>Let’s look at the S&amp;P 500 time series as a univariate series. Is it possible to predict with reasonable accuracy future returns of the S&amp;P 500 just looking at historical data over the past nine years? Is there predictable seasonality, for example? Let’s take a look at the data in its original form and do some exploratory analysis.</p>
 <pre class="r"><code># Scatterplot
 SP500_tbl %&gt;%
     ggplot(aes(x = date, y = ROC.SP500)) + #, color = ROC.SP500 &gt; mean(ROC.SP500))) +
@@ -563,12 +562,12 @@ SP500_tbl %&gt;%
 <p><img src="/post/forecasting-s-p-500-returns-with-r-part-1_files/figure-html/scatterplot-1.png" width="672" /></p>
 <pre class="r"><code>summary(SP500_tbl)</code></pre>
 <pre><code>##       date                SP500        ROC.SP500        
-##  Min.   :2011-01-01   Min.   :1131   Min.   :-0.096265  
-##  1st Qu.:2013-03-24   1st Qu.:1556   1st Qu.:-0.005685  
-##  Median :2015-06-16   Median :2059   Median : 0.012781  
-##  Mean   :2015-06-16   Mean   :2044   Mean   : 0.009061  
-##  3rd Qu.:2017-09-08   3rd Qu.:2480   3rd Qu.: 0.029301  
-##  Max.   :2019-12-01   Max.   :3141   Max.   : 0.102307</code></pre>
+##  Min.   :2011-01-31   Min.   :1131   Min.   :-0.096265  
+##  1st Qu.:2013-04-22   1st Qu.:1590   1st Qu.:-0.005685  
+##  Median :2015-07-15   Median :2061   Median : 0.012781  
+##  Mean   :2015-07-16   Mean   :2063   Mean   : 0.008736  
+##  3rd Qu.:2017-10-07   3rd Qu.:2510   3rd Qu.: 0.028465  
+##  Max.   :2019-12-31   Max.   :3231   Max.   : 0.102307</code></pre>
 <p>The simple scatter plot doesn’t seem to reveal any clear trends or seasonality. Let’s look at distributions of returns grouped by year. The violin plot is useful here.</p>
 <p>The mean monthly return over the nine-year period 2011-2019 was 0.9%.</p>
 <pre class="r"><code># Violin plot of returns    
@@ -662,7 +661,7 @@ SP500_BoxCox %&gt;%
     scale_x_date(date_labels = &quot;%Y-%b&quot;) +
     theme_minimal()</code></pre>
 <p><img src="/post/forecasting-s-p-500-returns-with-r-part-1_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<p>Looking at the S&amp;P 500 monthly returns, it appears that over the last 10 years, most monthly returns were positive. There also appeared to be high volatility of returns followed by low volatility and then high volatility again. However, the Breush Pagan test gave evidence that the series is not heteroskedastic (i.e., has stable volatility).</p>
+<p>Looking at the S&amp;P 500 monthly returns, it appears that over the nine year period, most monthly returns were positive. There also appeared to be high volatility of returns followed by low volatility and then high volatility again. However, the Breush Pagan test gave evidence that the series is not heteroskedastic (i.e., has stable volatility).</p>
 <p>In addition, a BoxCox transformation was performed in an attempt to dampen the variance. The plot of the Box-Cox transformed series looked similar to the original S&amp;P 500 returns data. We decided to stay with the original data.</p>
 <p>Let’s check for autocorrelation.</p>
 <pre class="r"><code># Augmented Dickey-Fuller Test for stationarity
@@ -708,13 +707,13 @@ SP500_tsi %&gt;%
     model(ETS(ROC.SP500 ~ season(&quot;A&quot;) + trend(&quot;N&quot;) + error(&quot;A&quot;))) %&gt;% 
     accuracy() %&gt;% 
     pull(RMSE)</code></pre>
-<pre><code>## [1] 0.03282883</code></pre>
+<pre><code>## [1] 0.03191992</code></pre>
 <pre class="r"><code># Exponential time series model with &quot;Additive&quot; Error, &quot;None&quot; trend, and &quot;None&quot; season types
 SP500_tsi %&gt;% 
     model(ETS(ROC.SP500 ~ season(&quot;N&quot;) + trend(&quot;N&quot;) + error(&quot;A&quot;))) %&gt;%
     accuracy() %&gt;% 
     pull(RMSE)</code></pre>
-<pre><code>## [1] 0.03361882</code></pre>
+<pre><code>## [1] 0.03326453</code></pre>
 <p>We noticed that the RMSE of the ETS model without the seasonal component was higher and therefore suggests the seasonal component did not add to the performance of the model.</p>
 </div>
 <div id="model---univariate-time-series" class="section level3">
@@ -798,11 +797,11 @@ fit %&gt;% select(arima) %&gt;% report()</code></pre>
 ## 
 ## Coefficients:
 ##       constant
-##         0.0101
+##         0.0089
 ## s.e.    0.0033
 ## 
-## sigma^2 estimated as 0.0009713:  log likelihood=176.76
-## AIC=-349.52   AICc=-349.38   BIC=-344.61</code></pre>
+## sigma^2 estimated as 0.0009659:  log likelihood=177
+## AIC=-350   AICc=-349.86   BIC=-345.09</code></pre>
 <pre class="r"><code># Create the forecasts
 fcast &lt;- fit %&gt;% 
     forecast(h = nrow(SP500_testing))
@@ -831,16 +830,16 @@ fcast %&gt;%
 <pre class="r"><code># Model performance
 accuracy(fcast, SP500_testing) %&gt;% arrange(desc(RMSE))</code></pre>
 <pre><code>## # A tibble: 8 x 9
-##   .model   .type       ME   RMSE    MAE    MPE  MAPE  MASE   ACF1
-##   &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
-## 1 rw       Test  -0.0498  0.0652 0.0528 -193.  329.    NaN -0.282
-## 2 rw.drift Test  -0.0498  0.0652 0.0528 -193.  329.    NaN -0.282
-## 3 tslm     Test  -0.00747 0.0471 0.0331   57.3  97.1   NaN -0.246
-## 4 mixed    Test  -0.0192  0.0463 0.0316  -23.8 134.    NaN -0.268
-## 5 snaive   Test  -0.0117  0.0429 0.0292   24.1  90.3   NaN -0.166
-## 6 arima    Test  -0.00530 0.0424 0.0311   45.7  93.0   NaN -0.282
-## 7 mean     Test  -0.00530 0.0424 0.0311   45.7  93.0   NaN -0.282
-## 8 ets      Test  -0.00530 0.0424 0.0311   45.8  93.0   NaN -0.282</code></pre>
+##   .model   .type       ME   RMSE    MAE   MPE  MAPE  MASE    ACF1
+##   &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+## 1 rw       Test   0.0477  0.0630 0.0583 324.  338.    NaN -0.322 
+## 2 rw.drift Test   0.0477  0.0630 0.0583 324.  338.    NaN -0.322 
+## 3 tslm     Test  -0.00203 0.0439 0.0306  56.2  92.2   NaN -0.305 
+## 4 mixed    Test   0.0123  0.0429 0.0357 126.  126.    NaN -0.288 
+## 5 snaive   Test  -0.00396 0.0425 0.0293  30.2  94.1   NaN -0.0806
+## 6 arima    Test  -0.00102 0.0412 0.0300  49.7  88.1   NaN -0.322 
+## 7 mean     Test  -0.00102 0.0412 0.0300  49.7  88.1   NaN -0.322 
+## 8 ets      Test  -0.00101 0.0412 0.0300  49.7  88.1   NaN -0.322</code></pre>
 <pre class="r"><code># Check residuals
 interp.residuals &lt;- fit %&gt;% 
     residuals(type=&quot;response&quot;)

@@ -11,6 +11,8 @@ featured: ''
 featuredalt: ''
 featuredpath: ''
 linktitle: ''
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -115,8 +117,7 @@ SP500_tbl <- data %>%
     slice(endpoints(date, on = "month")) %>%
     mutate(ROC.SP500 = ROC(SP500)) %>%
     drop_na() %>%
-    mutate(date = date + lubridate::days(1)) %>%
-    filter(between(date, "2011-01-01", "2019-12-01"))
+    filter(between(date, "2011-01-31", "2019-12-31"))
 
 # Coerce the data to a time series
 SP500_ts <- SP500_tbl %>%
@@ -128,7 +129,7 @@ SP500_tsi <- as_tsibble(SP500_ts, index = date) %>%
 ``` 
 
 ### Univarite Analysis
-Let's look at the S&P 500 time series as a univariate series. Is it possible to predict with reasonable accuracy future returns of the S&P 500 just looking at historical data over the past ten years? Is there predictable seasonality, for example? Let's take a look at the data in its original form and do some exploratory analysis.
+Let's look at the S&P 500 time series as a univariate series. Is it possible to predict with reasonable accuracy future returns of the S&P 500 just looking at historical data over the past nine years? Is there predictable seasonality, for example? Let's take a look at the data in its original form and do some exploratory analysis.
 
 
 ```{r scatterplot}
@@ -264,7 +265,7 @@ SP500_BoxCox %>%
     theme_minimal()
 ```
 
-Looking at the S&P 500 monthly returns, it appears that over the last 10 years, most monthly returns were positive. There also appeared to be high volatility of returns followed by low volatility and then high volatility again. However, the Breush Pagan test gave evidence that the series is not heteroskedastic (i.e., has stable volatility). 
+Looking at the S&P 500 monthly returns, it appears that over the nine year period, most monthly returns were positive. There also appeared to be high volatility of returns followed by low volatility and then high volatility again. However, the Breush Pagan test gave evidence that the series is not heteroskedastic (i.e., has stable volatility). 
 
 In addition, a BoxCox transformation was performed in an attempt to dampen the variance. The plot of the Box-Cox transformed series looked similar to the original S&P 500 returns data. We decided to stay with the original data.
 
