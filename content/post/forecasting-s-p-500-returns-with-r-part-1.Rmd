@@ -495,7 +495,7 @@ Another limitation is that transaction costs were not considered in the monthly 
 Seven forecast models were fit to the data, but there are other forecast models that could be analyzed and applied. It is possible that this could change the results and conclusions of the analysis.
 
 **Academic Findings**
-Many leaders in the academic community have analyzed stock returns over longer time horizons and over wider groups of stocks (not just the largest 500) and found that generally, stock returns follow random walks (i.e., behave like white noise). 
+Many leaders in the academic community have analyzed stock returns over longer time horizons and over wider groups of stocks (not just 500 of the largest) and found that generally, stock returns follow random walks (i.e., behave like white noise). 
 
 
 
