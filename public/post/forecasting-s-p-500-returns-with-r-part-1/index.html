@@ -13,7 +13,7 @@
         "articleSection" : "post",
         "name" : "Forecasting S\x26P 500 Returns with R (Part 1)",
         "headline" : "Forecasting S\x26P 500 Returns with R (Part 1)",
-        "description" : "1. Introduction\rIs it possible to predict stock returns? We will look at a group of 500 large U.S. companies and try to identify any historical patterns that can be used to predict future returns. Specifically, we will focus on the S\x26amp;P 500 stock index which represents the stock performance of 500 of the largest U.S. companies.\nWhy predict S\x26amp;P 500 returns? Millions of people are invested in U.S. stocks through pension plans and individual investment accounts.",
+        "description" : "1. Introduction\rIs it possible to predict stock returns? We will look at a group of 500 large U.S. companies and try to identify any historical patterns that can be used to predict future returns. Specifically, we will focus on the S\x26amp;P 500 stock index which represents the stock performance of 500 of the largest U.S. companies.\nWhy predict S\x26amp;P 500 returns? Millions of people are invested in U.",
         "inLanguage" : "en",
         "author" : "",
         "creator" : "",
@@ -24,7 +24,7 @@
         "datePublished": "2020-06-11 00:00:00 \x2b0000 UTC",
         "dateModified" : "2020-06-11 00:00:00 \x2b0000 UTC",
         "url" : "\/post\/forecasting-s-p-500-returns-with-r-part-1\/",
-        "wordCount" : "3026",
+        "wordCount" : "3154",
         "keywords" : [ "Stocks","Blog" ]
     }
     </script>
@@ -52,12 +52,12 @@
         <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Forecasting S&amp;P 500 Returns with R (Part 1)"/>
 <meta name="twitter:description" content="1. IntroductionIs it possible to predict stock returns? We will look at a group of 500 large U.S. companies and try to identify any historical patterns that can be used to predict future returns. Specifically, we will focus on the S&amp;P 500 stock index which represents the stock performance of 500 of the largest U.S. companies.
-Why predict S&amp;P 500 returns? Millions of people are invested in U.S. stocks through pension plans and individual investment accounts."/>
+Why predict S&amp;P 500 returns? Millions of people are invested in U."/>
 <meta name="twitter:site" content="@example"/>
 
         <meta property="og:title" content="Forecasting S&amp;P 500 Returns with R (Part 1)" />
 <meta property="og:description" content="1. IntroductionIs it possible to predict stock returns? We will look at a group of 500 large U.S. companies and try to identify any historical patterns that can be used to predict future returns. Specifically, we will focus on the S&amp;P 500 stock index which represents the stock performance of 500 of the largest U.S. companies.
-Why predict S&amp;P 500 returns? Millions of people are invested in U.S. stocks through pension plans and individual investment accounts." />
+Why predict S&amp;P 500 returns? Millions of people are invested in U." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/forecasting-s-p-500-returns-with-r-part-1/" />
 <meta property="article:published_time" content="2020-06-11T00:00:00+00:00" />
@@ -69,10 +69,10 @@ Why predict S&amp;P 500 returns? Millions of people are invested in U.S. stocks 
         <meta property="og:image:height" content="512">
         <meta itemprop="name" content="Forecasting S&amp;P 500 Returns with R (Part 1)">
 <meta itemprop="description" content="1. IntroductionIs it possible to predict stock returns? We will look at a group of 500 large U.S. companies and try to identify any historical patterns that can be used to predict future returns. Specifically, we will focus on the S&amp;P 500 stock index which represents the stock performance of 500 of the largest U.S. companies.
-Why predict S&amp;P 500 returns? Millions of people are invested in U.S. stocks through pension plans and individual investment accounts.">
+Why predict S&amp;P 500 returns? Millions of people are invested in U.">
 <meta itemprop="datePublished" content="2020-06-11T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2020-06-11T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="3026">
+<meta itemprop="wordCount" content="3154">
 
 
 
@@ -523,6 +523,7 @@ Why predict S&amp;P 500 returns? Millions of people are invested in U.S. stocks 
 
   <div id="content">
     
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
 
 
 <div id="introduction" class="section level2">
@@ -556,17 +557,18 @@ suppressPackageStartupMessages({
     library(lubridate) # for days()
     library(magrittr) # for is_less_than()
     library(janitor) # for clean_names()
+    library(kableExtra) # for kable()
     
     # Models
     library(tidymodels)
     library(feasts) # for STL()
-    library(lmtest) # bptest() for heteroskedasticity
-    library(forecast) # forecast() time series
+    library(lmtest) # for bptest() for heteroskedasticity
+    library(forecast) # for forecast()
     
     # Time series
-    library(tsibble) # tsibble for time series based on tidy principles
+    library(tsibble) # for time series based on tidy principles
     library(fable)  # for forecasting based on tidy principles
-    library(timetk) # tk_ts, tk_tbl
+    library(timetk) # for tk_ts(), tk_tbl()
     
     # Plotting
     library(ggthemes)
@@ -581,25 +583,24 @@ suppressPackageStartupMessages({
 symbols &lt;- &quot;SP500&quot;
 
 # Download data
-# econ_data &lt;- symbols %&gt;%
-#   tq_get(get = &quot;economic.data&quot;, 
-#          from = &quot;1975-12-31&quot;, to = &quot;2020-05-19&quot;)
+data &lt;- symbols %&gt;%
+  tq_get(get = &quot;economic.data&quot;,
+         from = &quot;2010-12-31&quot;, to = &quot;2020-01-31&quot;)
 
 
 # Load data
-tickers_file &lt;- list.files(&quot;C:/Users/AaronH/Desktop/Aaron/R/Data&quot;, pattern = &quot;FRED Tickers.ods&quot;, full.names = TRUE) %&gt;% max()
-current_econ_data_file &lt;- list.files(&quot;C:/Users/AaronH/Desktop/Aaron/R/Data&quot;, pattern = &quot;Data from FRED&quot;, full.names = TRUE) %&gt;% max()
-
-tickers &lt;- read_ods(tickers_file, range = &quot;A1:D50&quot;, col_types = NA) %&gt;% 
-    as_tibble() %&gt;% 
-    drop_na()
-
-# Load data
-data &lt;- fread(current_econ_data_file) %&gt;% 
-    as_tibble() %&gt;%
-    mutate(date = ymd(date)) %&gt;%
-    dplyr::filter(symbol %in% symbols) %&gt;%
-    group_by(symbol) </code></pre>
+# tickers_file &lt;- list.files(&quot;C:/Users/AaronH/Desktop/Aaron/R/Data&quot;, pattern = &quot;FRED Tickers.ods&quot;, full.names = TRUE) %&gt;% max()
+# current_econ_data_file &lt;- list.files(&quot;C:/Users/AaronH/Desktop/Aaron/R/Data&quot;, pattern = &quot;Data from FRED&quot;, full.names = TRUE) %&gt;% max()
+# 
+# tickers &lt;- read_ods(tickers_file, range = &quot;A1:D50&quot;, col_types = NA) %&gt;% 
+#     as_tibble() %&gt;% 
+#     drop_na()
+# 
+# # Load data
+# data &lt;- fread(current_econ_data_file) %&gt;% 
+#     as_tibble() %&gt;%
+#     mutate(date = ymd(date)) %&gt;%
+#     dplyr::filter(symbol %in% symbols)</code></pre>
 </div>
 <div id="data-preparation-and-preprocessing" class="section level2">
 <h2>3. Data Preparation and Preprocessing</h2>
@@ -607,14 +608,14 @@ data &lt;- fread(current_econ_data_file) %&gt;%
 <h3>Prepare the data</h3>
 <pre class="r"><code># Reformat the data
 SP500_tbl &lt;- data %&gt;%
-    complete(date = seq.Date(from = min(date), to = max(date), by = &quot;days&quot;)) %&gt;%
-    arrange(date) %&gt;%
-    fill(price) %&gt;%
-    pivot_wider(names_from = symbol, values_from = price) %&gt;%
-    slice(endpoints(date, on = &quot;month&quot;)) %&gt;%
-    mutate(ROC.SP500 = ROC(SP500)) %&gt;%
-    drop_na() %&gt;%
-    filter(between(date, &quot;2011-01-31&quot;, &quot;2019-12-31&quot;))
+      complete(date = seq.Date(from = min(date), to = max(date), by = &quot;days&quot;)) %&gt;%
+      arrange(date) %&gt;%
+      fill(price, symbol) %&gt;%
+      pivot_wider(names_from = symbol, values_from = price) %&gt;%
+      slice(endpoints(date, on = &quot;month&quot;)) %&gt;%
+      mutate(ROC.SP500 = ROC(SP500)) %&gt;%
+      drop_na() %&gt;%
+      filter(between(date, &quot;2011-01-31&quot;, &quot;2019-12-31&quot;))
 
 # Coerce the data to a time series
 SP500_ts &lt;- SP500_tbl %&gt;%
@@ -632,15 +633,16 @@ SP500_tbl %&gt;%
     ggplot(aes(x = date, y = ROC.SP500)) + #, color = ROC.SP500 &gt; mean(ROC.SP500))) +
     geom_line(show.legend = FALSE, color = &quot;steelblue&quot;) +
     geom_hline(aes(yintercept = mean(ROC.SP500)), color = &quot;firebrick2&quot;, 
-               linetype = &quot;dashed&quot;, size = 1) +
-    labs(title = &quot;S&amp;P 500 monthly Returns&quot;,
+               linetype = &quot;dashed&quot;, size = 0.7) +
+    labs(title = &quot;S&amp;P 500 monthly Returns, 2011-2019&quot;,
          subtitle = &quot;(Mean return in red)&quot;,
          y = &quot;Return&quot;, x = &quot;&quot;) +
     scale_y_continuous(labels = scales::percent_format()) +    
     scale_x_date(date_labels = &quot;%Y %b&quot;) +
     theme_minimal()</code></pre>
 <p><img src="/post/forecasting-s-p-500-returns-with-r-part-1_files/figure-html/scatterplot-1.png" width="672" /></p>
-<pre class="r"><code>summary(SP500_tbl)</code></pre>
+<pre class="r"><code># Get summary data
+summary(SP500_tbl)</code></pre>
 <pre><code>##       date                SP500        ROC.SP500        
 ##  Min.   :2011-01-31   Min.   :1131   Min.   :-0.096265  
 ##  1st Qu.:2013-04-22   1st Qu.:1590   1st Qu.:-0.005685  
@@ -673,6 +675,284 @@ SP500_tbl %&gt;%
 <p><img src="/post/forecasting-s-p-500-returns-with-r-part-1_files/figure-html/violinplot-1.png" width="672" /></p>
 <p>The violin plots show high volatility of returns in 2011 followed by decreased volatility in subsequent years and finally high volatility again in 2019. The range of returns (distance from bottom of violin plot to its top) seems to increase and decrease without any clear regularity. No clear patterns of volatility stand out.</p>
 <p>Let’s look at some more distributions of returns, but this time grouped by month. For example, the distribution for January includes January returns for each year (2011-2019).</p>
+<pre class="r"><code># Get summary data
+SP500_tbl %&gt;%
+      group_by(month = month(date)) %&gt;%
+      summarize(mean = mean(ROC.SP500),
+                median = median(ROC.SP500),
+                stdev = sd(ROC.SP500)) %&gt;%
+      mutate(agg_mean = mean(SP500_tbl$ROC.SP500),
+             z = (mean - agg_mean) / stdev) %&gt;%
+      mutate_all(~ round(., 3)) %&gt;%
+      kable() %&gt;%
+      kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;condensed&quot;),
+                    full_width = FALSE)</code></pre>
+<table class="table table-striped table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+month
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+median
+</th>
+<th style="text-align:right;">
+stdev
+</th>
+<th style="text-align:right;">
+agg_mean
+</th>
+<th style="text-align:right;">
+z
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.016
+</td>
+<td style="text-align:right;">
+0.022
+</td>
+<td style="text-align:right;">
+0.045
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:right;">
+0.156
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.022
+</td>
+<td style="text-align:right;">
+0.031
+</td>
+<td style="text-align:right;">
+0.029
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:right;">
+0.466
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.012
+</td>
+<td style="text-align:right;">
+0.007
+</td>
+<td style="text-align:right;">
+0.028
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:right;">
+0.118
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.012
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:right;">
+0.014
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:right;">
+0.216
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-0.005
+</td>
+<td style="text-align:right;">
+0.012
+</td>
+<td style="text-align:right;">
+0.036
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:right;">
+-0.383
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:right;">
+0.005
+</td>
+<td style="text-align:right;">
+0.029
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:right;">
+0.006
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0.016
+</td>
+<td style="text-align:right;">
+0.019
+</td>
+<td style="text-align:right;">
+0.023
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:right;">
+0.326
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+-0.010
+</td>
+<td style="text-align:right;">
+-0.001
+</td>
+<td style="text-align:right;">
+0.037
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:right;">
+-0.504
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+-0.003
+</td>
+<td style="text-align:right;">
+0.004
+</td>
+<td style="text-align:right;">
+0.033
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:right;">
+-0.350
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+0.020
+</td>
+<td style="text-align:right;">
+0.022
+</td>
+<td style="text-align:right;">
+0.053
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:right;">
+0.211
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+0.018
+</td>
+<td style="text-align:right;">
+0.024
+</td>
+<td style="text-align:right;">
+0.015
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:right;">
+0.626
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+-0.003
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:right;">
+0.038
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:right;">
+-0.300
+</td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code># Density plot of returns by month
 SP500_tbl %&gt;%
     group_by(month(date)) %&gt;%
@@ -695,7 +975,7 @@ SP500_tbl %&gt;%
     theme(axis.text.x = element_text(angle = 90),
           panel.grid = element_blank())</code></pre>
 <p><img src="/post/forecasting-s-p-500-returns-with-r-part-1_files/figure-html/densityplot-1.png" width="672" /></p>
-<p>The density plots seem to reveal that March, May, August, November, and December experience a high proportion of returns greater than zero. This can be observed by noticing that the mean and medians of each of these months’ returns are considerably greater than the zero-lines (in black). Let’s look further. This would suggest that stocks held in these months experience consistently positive monthly returns.</p>
+<p>The density plots seem to reveal that February, July, and November, especially, experience a high proportion of returns greater than zero. This can be visualized by noticing that the mean and medians of each of these months’ returns are considerably greater than the zero-lines (in black) and their density curves have high peaks on the right side of the zero-line. This would suggest that stocks held in these months experience consistently positive monthly returns.</p>
 <p>Let’s look at a calendar plot that shows returns across months and years.</p>
 <pre class="r"><code># Calendar plot
 SP500_tbl %&gt;% 
@@ -715,7 +995,7 @@ SP500_tbl %&gt;%
           legend.position = &quot;top&quot;,
           axis.ticks = element_blank())</code></pre>
 <p><img src="/post/forecasting-s-p-500-returns-with-r-part-1_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<p>A look at the calendar plot reveals that February, April, July, and November experience positive returns in at least seven of the nine years observed. It appears that returns in these months are consistently above zero.</p>
+<p>A look at the calendar plot reveals that February, April, July, and November experience positive returns in at least seven of the nine years observed. It appears that returns in these months are consistently positive.</p>
 <pre class="r"><code># Breush Pagan Test for heteroskedasticity
 # - First create a linear model and use residuals to test for heteroskedasticity
 lmMod &lt;- tslm(SP500_ts ~ trend) # initial model
@@ -760,8 +1040,8 @@ Box.test(SP500_ts, type = &quot;Ljung&quot;) %&gt;%
     if_else(&quot;Autocorrelation exists (alpha = 5%).&quot;, 
             &quot;No autocorrelation exists (alpha = 5%).&quot;)</code></pre>
 <pre><code>## [1] &quot;No autocorrelation exists (alpha = 5%).&quot;</code></pre>
-<p>We tested if the series is trend-stationary by determining how many first differences should be applied to the series make it stationary. The result was 0, so the series is likely stationary (i.e., mean-reverting).</p>
-<p>The autocorrelation function (ACF) plot shows no significant correlations with any of the prior 12 lagged months The same was observed for the partial autocorrelation function (PACF) plot. The Ljung-Box test gave evidence that no autocorrelation exists in the time series. Overall, it appears that the S&amp;P 500 monthly returns series is white noise (a.k.a., random walk). To further test that, we could take several time slices of the series and check that the means and volatilities of each subseries match those of the entire series.</p>
+<p>We tested if the series is trend-stationary by determining how many first differences should be applied to the series to make it stationary. The result was 0, so the series is likely stationary (i.e., mean-reverting).</p>
+<p>The autocorrelation function (ACF) plot shows no significant correlations with any of the prior 12 lagged months. The same was observed for the partial autocorrelation function (PACF) plot. The Ljung-Box test gave evidence that no autocorrelation exists in the time series. Overall, it appears that the S&amp;P 500 monthly returns series is white noise (i.e., follows a random walk). To further test that, we could take several time slices of the series and check that the means and volatilities of each subseries match those of the entire series.</p>
 <p>Let’s now check for seasonality. The S&amp;P 500 returns appears to be white noise. Let’s decompose the returns and look at the seasonal component. We’ll also test if the seasonal component is useful in forecasting. We’ll check this by building two ETS models: one with a seasonal component and one without. If the RMSE of the model with the seasonal component is higher than that of the model without the seasonal component, then the seasonal component likely contributed to model performance.</p>
 <pre class="r"><code># Seasonal decomposition
 SP500_tsi %&gt;%
@@ -794,11 +1074,11 @@ SP500_tsi %&gt;%
     accuracy() %&gt;% 
     pull(RMSE)</code></pre>
 <pre><code>## [1] 0.03326453</code></pre>
-<p>We noticed that the RMSE of the ETS model without the seasonal component was higher and therefore suggests the seasonal component did not add to the performance of the model.</p>
+<p>We noticed that the RMSE of the <em>ETS model</em> without the seasonal component was higher and therefore suggests the seasonal component did not add to the performance of the model.</p>
 </div>
 <div id="model---univariate-time-series" class="section level3">
 <h3>Model - Univariate Time Series</h3>
-<p>Although there appears to be no seasonality or significant trend(s), let’s fit several forecast models and check our prediction results. We will fit the following models:</p>
+<p>Although there appears to be no seasonality or significant trend, let’s fit several forecast models and check our prediction results. We will fit the following models:</p>
 <ul>
 <li><strong>Naive, random walk</strong>
 <ul>
@@ -908,18 +1188,279 @@ fcast %&gt;%
     facet_wrap(~ .model)</code></pre>
 <p><img src="/post/forecasting-s-p-500-returns-with-r-part-1_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
 <pre class="r"><code># Model performance
-accuracy(fcast, SP500_testing) %&gt;% arrange(desc(RMSE))</code></pre>
-<pre><code>## # A tibble: 8 x 9
-##   .model   .type       ME   RMSE    MAE   MPE  MAPE  MASE    ACF1
-##   &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
-## 1 rw       Test   0.0477  0.0630 0.0583 324.  338.    NaN -0.322 
-## 2 rw.drift Test   0.0477  0.0630 0.0583 324.  338.    NaN -0.322 
-## 3 tslm     Test  -0.00203 0.0439 0.0306  56.2  92.2   NaN -0.305 
-## 4 mixed    Test   0.0123  0.0429 0.0357 126.  126.    NaN -0.288 
-## 5 snaive   Test  -0.00396 0.0425 0.0293  30.2  94.1   NaN -0.0806
-## 6 arima    Test  -0.00102 0.0412 0.0300  49.7  88.1   NaN -0.322 
-## 7 mean     Test  -0.00102 0.0412 0.0300  49.7  88.1   NaN -0.322 
-## 8 ets      Test  -0.00101 0.0412 0.0300  49.7  88.1   NaN -0.322</code></pre>
+accuracy(fcast, SP500_testing) %&gt;% 
+      arrange(desc(RMSE)) %&gt;%
+      mutate_if(is.numeric, ~ round(., 3)) %&gt;%
+      kable() %&gt;%
+      kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;condensed&quot;),
+                    full_width = FALSE)</code></pre>
+<table class="table table-striped table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+.model
+</th>
+<th style="text-align:left;">
+.type
+</th>
+<th style="text-align:right;">
+ME
+</th>
+<th style="text-align:right;">
+RMSE
+</th>
+<th style="text-align:right;">
+MAE
+</th>
+<th style="text-align:right;">
+MPE
+</th>
+<th style="text-align:right;">
+MAPE
+</th>
+<th style="text-align:right;">
+MASE
+</th>
+<th style="text-align:right;">
+ACF1
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+rw
+</td>
+<td style="text-align:left;">
+Test
+</td>
+<td style="text-align:right;">
+0.048
+</td>
+<td style="text-align:right;">
+0.063
+</td>
+<td style="text-align:right;">
+0.058
+</td>
+<td style="text-align:right;">
+323.553
+</td>
+<td style="text-align:right;">
+338.404
+</td>
+<td style="text-align:right;">
+NaN
+</td>
+<td style="text-align:right;">
+-0.322
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+rw.drift
+</td>
+<td style="text-align:left;">
+Test
+</td>
+<td style="text-align:right;">
+0.048
+</td>
+<td style="text-align:right;">
+0.063
+</td>
+<td style="text-align:right;">
+0.058
+</td>
+<td style="text-align:right;">
+323.553
+</td>
+<td style="text-align:right;">
+338.404
+</td>
+<td style="text-align:right;">
+NaN
+</td>
+<td style="text-align:right;">
+-0.322
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+tslm
+</td>
+<td style="text-align:left;">
+Test
+</td>
+<td style="text-align:right;">
+-0.002
+</td>
+<td style="text-align:right;">
+0.044
+</td>
+<td style="text-align:right;">
+0.031
+</td>
+<td style="text-align:right;">
+56.157
+</td>
+<td style="text-align:right;">
+92.208
+</td>
+<td style="text-align:right;">
+NaN
+</td>
+<td style="text-align:right;">
+-0.305
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+mixed
+</td>
+<td style="text-align:left;">
+Test
+</td>
+<td style="text-align:right;">
+0.012
+</td>
+<td style="text-align:right;">
+0.043
+</td>
+<td style="text-align:right;">
+0.036
+</td>
+<td style="text-align:right;">
+126.068
+</td>
+<td style="text-align:right;">
+126.068
+</td>
+<td style="text-align:right;">
+NaN
+</td>
+<td style="text-align:right;">
+-0.288
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+snaive
+</td>
+<td style="text-align:left;">
+Test
+</td>
+<td style="text-align:right;">
+-0.004
+</td>
+<td style="text-align:right;">
+0.042
+</td>
+<td style="text-align:right;">
+0.029
+</td>
+<td style="text-align:right;">
+30.174
+</td>
+<td style="text-align:right;">
+94.139
+</td>
+<td style="text-align:right;">
+NaN
+</td>
+<td style="text-align:right;">
+-0.081
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+arima
+</td>
+<td style="text-align:left;">
+Test
+</td>
+<td style="text-align:right;">
+-0.001
+</td>
+<td style="text-align:right;">
+0.041
+</td>
+<td style="text-align:right;">
+0.030
+</td>
+<td style="text-align:right;">
+49.673
+</td>
+<td style="text-align:right;">
+88.148
+</td>
+<td style="text-align:right;">
+NaN
+</td>
+<td style="text-align:right;">
+-0.322
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+mean
+</td>
+<td style="text-align:left;">
+Test
+</td>
+<td style="text-align:right;">
+-0.001
+</td>
+<td style="text-align:right;">
+0.041
+</td>
+<td style="text-align:right;">
+0.030
+</td>
+<td style="text-align:right;">
+49.673
+</td>
+<td style="text-align:right;">
+88.148
+</td>
+<td style="text-align:right;">
+NaN
+</td>
+<td style="text-align:right;">
+-0.322
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ets
+</td>
+<td style="text-align:left;">
+Test
+</td>
+<td style="text-align:right;">
+-0.001
+</td>
+<td style="text-align:right;">
+0.041
+</td>
+<td style="text-align:right;">
+0.030
+</td>
+<td style="text-align:right;">
+49.692
+</td>
+<td style="text-align:right;">
+88.142
+</td>
+<td style="text-align:right;">
+NaN
+</td>
+<td style="text-align:right;">
+-0.322
+</td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code># Check residuals
 interp.residuals &lt;- fit %&gt;% 
     residuals(type=&quot;response&quot;)
@@ -945,40 +1486,30 @@ interp.residuals %&gt;%
     labs(title = &quot;Density plots of residuals&quot;, x = &quot;Residual&quot;, y = &quot;Frequency&quot;) +
     theme_hc()</code></pre>
 <p><img src="/post/forecasting-s-p-500-returns-with-r-part-1_files/figure-html/unnamed-chunk-4-4.png" width="672" /></p>
-<p>It appears that the <em>Random Walk</em> and <em>Random Walk with a Drift</em> models are equally the best models among the eight applied. They resulted in the highest RMSE for out-of-sample test data forecasting. The performance metrics for these two models are roughly equal, perhaps because the trend component in the <em>Random Walk with a Drift</em> was approximately flat.</p>
-<p>Relatively speaking, the <em>Random Walk</em> and <em>Random Walk with a Drift</em> models outperform the others, but are they useful in forecasting returns? Actually, an RMSE of 6.5% (0.0652) is not an acceptable forecast error when considing the average monthly return of 0.9% over the nine-year period 2011-2019. It is informative to notice the MAPE (Mean Absolute Percentage Error) of 329% for these two models. Perhaps a MAPE of less than 20% would be acceptable.</p>
+<p>It appears that the <em>Random Walk</em> and <em>Random Walk with a Drift</em> models are equally the best models among the eight applied. They resulted in the highest RMSEs for out-of-sample test data. The performance metrics for these two models are roughly equal, perhaps because the trend component in the <em>Random Walk with a Drift</em> was approximately flat.</p>
+<p>Relatively speaking, the <em>Random Walk</em> and <em>Random Walk with a Drift</em> models outperform the others, but are they useful in forecasting returns? Actually, an RMSE of 6.5% (0.0652) is not an acceptable forecast error when considing the average monthly return of 0.9% over the nine-year period 2011-2019. It is informative to notice that the MAPE (Mean Absolute Percentage Error) of 329% for these two models. Perhaps a MAPE of less than 20% would be acceptable.</p>
 </div>
 </div>
 <div id="conclusions" class="section level1">
 <h1>Conclusions</h1>
-<p>Based on the preceding analysis, it appears that stock returns cannot be effectively modeled with the handful of forecast models employed in this analysis. There appears to be too much randomness that can not be captured in the models used.</p>
+<p>Based on the preceding analysis, it appears that stock returns cannot be effectively modeled with the handful of forecast models employed in this analysis. There appears to be too much randomness that cannot be effectively modeled.</p>
 </div>
 <div id="other-considerations" class="section level1">
 <h1>Other Considerations</h1>
-<div id="type-of-analysis" class="section level3">
-<h3>Type of analysis</h3>
-<p>We conducted a numerical forecast of a numerical variable (monthly returns), but we could have conducted a classification forecast of a numerical variable. We could have classified monthly returns as a logical variable (positive return = TRUE, negative return = FALSE) and performed a random forest and logical regression models, among others.</p>
-</div>
-<div id="limitations" class="section level3">
-<h3>Limitations</h3>
-<p>While the results are interesting, they aren’t necessarily useful for several reasons.</p>
-</div>
-<div id="data-insufficiency" class="section level3">
-<h3>Data Insufficiency</h3>
-<p>First, there doesn’t appear to be a sufficient number of data. Ideally, we would use several decades that span economic cycles and government regimes. Moreover, the breadth of the data (we used only the S&amp;P 500 index) should include a greater range of stocks to be able to make such broad conclusions.</p>
-</div>
-<div id="transaction-costs" class="section level3">
-<h3>Transaction Costs</h3>
-<p>Another limitation is that transaction costs were not considered in the monthly return calculations which could prove costly and change the conclusions reached herein.</p>
-</div>
-<div id="model-insufficiency" class="section level3">
-<h3>Model Insufficiency</h3>
-<p>Seven forecast models were fit to the data, but there are other forecast models that could be analyzed and applied. It is possible that this could change the results and conclusions of the analysis.</p>
-</div>
-<div id="academic-findings" class="section level3">
-<h3>Academic Findings</h3>
-<p>Many leaders in the academic community have analyzed stock returns over longer time horizons and over wider groups of stocks (not just the largest 500) and found that generally, stock returns follow random walks (i.e., behave like white noise).</p>
-</div>
+<ul>
+<li><p><strong><em>Type of analysis</em></strong>
+We conducted a numerical forecast of a numerical variable (monthly returns), but we could have conducted a classification forecast of a numerical variable. We could have classified monthly returns as a logical variable (positive return = TRUE, negative return = FALSE) and performed a random forest and logical regression models, among others.</p></li>
+<li><p><strong><em>Limitations</em></strong>
+While the results are interesting, they aren’t necessarily useful for several reasons.</p></li>
+<li><p><strong><em>Data Insufficiency</em></strong>
+First, there doesn’t appear to be a sufficient number of data. Ideally, we would use several decades that span economic cycles and government regimes. Moreover, the breadth of the data (we used only the S&amp;P 500 index) should include a greater range of stocks to be able to make such broad conclusions.</p></li>
+<li><p><strong><em>Transaction Costs</em></strong>
+Another limitation is that transaction costs were not considered in the monthly return calculations which could prove costly and change the conclusions reached herein.</p></li>
+<li><p><strong><em>Model Insufficiency</em></strong>
+Seven forecast models were fit to the data, but there are other forecast models that could be analyzed and applied. It is possible that this could change the results and conclusions of the analysis.</p></li>
+<li><p><strong><em>Academic Findings</em></strong>
+Many leaders in the academic community have analyzed stock returns over longer time horizons and over wider groups of stocks (not just the largest 500) and found that generally, stock returns follow random walks (i.e., behave like white noise).</p></li>
+</ul>
 </div>
 
   </div>

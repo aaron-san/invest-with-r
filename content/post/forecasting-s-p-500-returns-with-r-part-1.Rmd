@@ -60,13 +60,13 @@ suppressPackageStartupMessages({
     # Models
     library(tidymodels)
     library(feasts) # for STL()
-    library(lmtest) # bptest() for heteroskedasticity
-    library(forecast) # forecast() time series
+    library(lmtest) # for bptest() for heteroskedasticity
+    library(forecast) # for forecast()
     
     # Time series
-    library(tsibble) # tsibble for time series based on tidy principles
+    library(tsibble) # for time series based on tidy principles
     library(fable)  # for forecasting based on tidy principles
-    library(timetk) # tk_ts, tk_tbl
+    library(timetk) # for tk_ts(), tk_tbl()
     
     # Plotting
     library(ggthemes)
@@ -149,7 +149,6 @@ SP500_tbl %>%
 
 # Get summary data
 summary(SP500_tbl)
-
 ```
 
 The simple scatter plot doesn't seem to reveal any clear trends or seasonality. Let's look at distributions of returns grouped by year. The violin plot is useful here.
@@ -187,7 +186,7 @@ Let's look at some more distributions of returns, but this time grouped by month
 
 ```{r densityplot}
 
-
+# Get summary data
 SP500_tbl %>%
       group_by(month = month(date)) %>%
       summarize(mean = mean(ROC.SP500),
@@ -223,7 +222,7 @@ SP500_tbl %>%
           panel.grid = element_blank())
 ```
 
-The density plots seem to reveal that February, July, and November, especially, experience a high proportion of returns greater than zero. This can be visualized by noticing that the mean and medians of each of these months' returns are considerably greater than the zero-lines (in black) and their density curves are peaked on the right side of the zero-point. Let's look further. This would suggest that stocks held in these months experience consistently positive monthly returns.
+The density plots seem to reveal that February, July, and November, especially, experience a high proportion of returns greater than zero. This can be visualized by noticing that the mean and medians of each of these months' returns are considerably greater than the zero-lines (in black) and their density curves have high peaks on the right side of the zero-line. This would suggest that stocks held in these months experience consistently positive monthly returns.
 
 Let's look at a calendar plot that shows returns across months and years.
 
@@ -248,7 +247,7 @@ SP500_tbl %>%
           axis.ticks = element_blank())
 ```
 
-A look at the calendar plot reveals that February, April, July, and November experience positive returns in at least seven of the nine years observed. It appears that returns in these months are consistently above zero.
+A look at the calendar plot reveals that February, April, July, and November experience positive returns in at least seven of the nine years observed. It appears that returns in these months are consistently positive.
 
 
 ```{r}
@@ -438,7 +437,12 @@ fcast %>%
     facet_wrap(~ .model)
     
 # Model performance
-accuracy(fcast, SP500_testing) %>% arrange(desc(RMSE))
+accuracy(fcast, SP500_testing) %>% 
+      arrange(desc(RMSE)) %>%
+      mutate_if(is.numeric, ~ round(., 3)) %>%
+      kable() %>%
+      kable_styling(bootstrap_options = c("striped", "condensed"),
+                    full_width = FALSE)
 
 # Check residuals
 interp.residuals <- fit %>% 
