@@ -24,7 +24,7 @@
         "datePublished": "2020-06-11 00:00:00 \x2b0000 UTC",
         "dateModified" : "2020-06-11 00:00:00 \x2b0000 UTC",
         "url" : "\/post\/forecasting-s-p-500-returns-with-r-part-1\/",
-        "wordCount" : "3166",
+        "wordCount" : "3161",
         "keywords" : [ "Stocks","Blog" ]
     }
     </script>
@@ -72,7 +72,7 @@ Why predict S&amp;P 500 returns? Millions of people are invested in U." />
 Why predict S&amp;P 500 returns? Millions of people are invested in U.">
 <meta itemprop="datePublished" content="2020-06-11T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2020-06-11T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="3166">
+<meta itemprop="wordCount" content="3161">
 
 
 
@@ -342,7 +342,7 @@ Why predict S&amp;P 500 returns? Millions of people are invested in U.">
         
 
         <a href="/blog/creating-a-new-theme/" class="image featured">
-            <img src="/date2014/09/pic03.jpg" alt="">
+            <img src="/img/2014/09/pic03.jpg" alt="">
         </a>
     
 
@@ -1079,20 +1079,22 @@ SP500_tsi %&gt;%
 <div id="model---univariate-time-series" class="section level3">
 <h3>Model - Univariate Time Series</h3>
 <p>Although there appears to be no seasonality or significant trend, let’s fit several forecast models and check our prediction results. We will fit the following models:</p>
-<p><em><strong>Naive, random walk</strong>
-+ This method uses the last observation as the forecast for the next period.
-</em> <strong>Naive, random walk with a drift</strong>
-+ This method uses the last observation plus the historical trend to create a forecast for the next period.
-* <strong>Mean (Historical average)</strong>
-+ This method simply uses the historical average as the forecast for the next period.
-* <strong>ARIMA (Autoregressive Integrated Moving Average)</strong>
-+ This method models lags of the data as well as current and lagged errors to create forecasts.
-* <strong>TSLM (Time series linear model with trend and seasonality)</strong>
-+ This method uses a linear model with trend and seasonality to create forecasts.
-* <strong>ETS (Exponential time series)</strong>
-+ This method uses an exponential model with seasonality to create forecasts.
-* <strong>Mixed</strong>
-+ This method simple finds an average of the forecasts created from the models above to create forecast.</p>
+<ul>
+<li><strong>Naive, random walk</strong>
++ This method uses the last observation as the forecast for the next period.</li>
+<li><strong>Naive, random walk with a drift</strong>
++ This method uses the last observation plus the historical trend to create a forecast for the next period.</li>
+<li><strong>Mean (Historical average)</strong>
++ This method simply uses the historical average as the forecast for the next period.</li>
+<li><strong>ARIMA (Autoregressive Integrated Moving Average)</strong>
++ This method models lags of the data as well as current and lagged errors to create forecasts.</li>
+<li><strong>TSLM (Time series linear model with trend and seasonality)</strong>
++ This method uses a linear model with trend and seasonality to create forecasts.</li>
+<li><strong>ETS (Exponential time series)</strong>
++ This method uses an exponential model with seasonality to create forecasts.</li>
+<li><strong>Mixed</strong>
++ This method simple finds an average of the forecasts created from the models above to create forecast.</li>
+</ul>
 <pre class="r"><code># Split the time series into training and test sets
 initial_time_split &lt;- initial_time_split(SP500_tsi, prop = 0.8) 
 training_data &lt;- initial_time_split %&gt;% training() 
@@ -1561,12 +1563,34 @@ Many leaders in the academic community have analyzed stock returns over longer t
 
 
     
-    <form class="center" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://www-investwithr-com.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+    
+<script id="dsq-count-scr" src="//www-investwithr-com.disqus.com/count.js" async></script>
+    
+
+<form class="center" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 <input type="hidden" name="cmd" value="_s-xclick" />
 <input type="hidden" name="hosted_button_id" value="D2AHHWWDCLRYN" />
 <input type="image" src="https://www.investwithr.com/about/_index_files/buymeabeer1.png" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
 <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="0.1" height="0.1" />
 </form>
+
 
     </div>
     

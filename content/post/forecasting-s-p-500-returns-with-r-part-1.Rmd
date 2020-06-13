@@ -350,7 +350,7 @@ We noticed that the RMSE of the *ETS model* without the seasonal component was h
 ### Model - Univariate Time Series
 Although there appears to be no seasonality or significant trend, let's fit several forecast models and check our prediction results. We will fit the following models:
 
-***Naive, random walk**
+* **Naive, random walk**
       + This method uses the last observation as the forecast for the next period.
 * **Naive, random walk with a drift**
       + This method uses the last observation plus the historical trend to create a forecast for the next period.
