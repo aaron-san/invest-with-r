@@ -196,7 +196,7 @@ SP500_tbl %>%
              z = (mean - agg_mean) / stdev) %>%
       mutate_all(~ round(., 3)) %>%
       kable() %>%
-      kable_styling(bootstrap_options = c("striped", "condensed"),
+      kable_styling(bootstrap_options = c("striped"),
                     full_width = FALSE)
 
 # Density plot of returns by month
@@ -441,7 +441,7 @@ accuracy(fcast, SP500_testing) %>%
       arrange(desc(RMSE)) %>%
       mutate_if(is.numeric, ~ round(., 3)) %>%
       kable() %>%
-      kable_styling(bootstrap_options = c("striped", "condensed"),
+      kable_styling(bootstrap_options = c("striped"),
                     full_width = FALSE)
 
 # Check residuals
