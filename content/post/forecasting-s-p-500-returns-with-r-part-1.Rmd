@@ -37,7 +37,7 @@ We will conduct analysis in three broad steps:
 
 ### Data
 
-* S&P 500 monthly returns (FRED symbol: _SP500_)
+* S&P 500 monthly returns, 2011-2019 (FRED symbol: _SP500_)
 
 This data is available on the [FRED](https://fred.stlouisfed.org) website.
 
@@ -85,7 +85,7 @@ data <- symbols %>%
   tq_get(get = "economic.data",
          from = "2010-12-31", to = "2020-01-31")
 
-
+## Not run! ##
 # Load data
 # tickers_file <- list.files("C:/Users/AaronH/Desktop/Aaron/R/Data", pattern = "FRED Tickers.ods", full.names = TRUE) %>% max()
 # current_econ_data_file <- list.files("C:/Users/AaronH/Desktop/Aaron/R/Data", pattern = "Data from FRED", full.names = TRUE) %>% max()
@@ -475,41 +475,25 @@ It appears that the *Random Walk* and *Random Walk with a Drift* models are equa
 Relatively speaking, the *Random Walk* and *Random Walk with a Drift* models outperform the others, but are they useful in forecasting returns? Actually, an RMSE of 6.5% (0.0652) is not an acceptable forecast error when considing the average monthly return of 0.9% over the nine-year period 2011-2019. It is informative to notice that the MAPE (Mean Absolute Percentage Error) of 329% for these two models. Perhaps a MAPE of less than 20% would be acceptable.
 
 # Conclusions
-Based on the preceding analysis, it appears that stock returns cannot be effectively modeled with the handful of forecast models employed in this analysis. There appears to be too much randomness that cannot be effectively modeled.
+Based on the preceding analysis, it appears that stock returns cannot be effectively modeled with the handful of forecast models employed in this analysis. There appears to be too much randomness that cannot be effectively captured in the models used.
 
 # Other Considerations
 
 **Type of analysis**
 
-We conducted a numerical forecast of a numerical variable (monthly returns), but we could have conducted a classification forecast of a numerical variable. We could have classified monthly returns as a logical variable (positive return = TRUE, negative return = FALSE) and performed a random forest and logical regression models, among others.
+We conducted a supervised learning model of a numerical variable (monthly returns), but we could have conducted a supervised learning model of a categorical variable. We could have classified monthly returns as a logical variable (positive return = TRUE, negative return = FALSE) and performed a random forest and logical regression models, among others.
 
 **Limitations**
 
-While the results are interesting, they aren't necessarily useful for several reasons.
+While the results are interesting, they aren't necessarily useful for several reasons:
 
-**Data Insufficiency**
+* **Data Insufficiency** - First, there doesn't appear to be a sufficient number of data. Ideally, we would use several decades that span economic cycles and government regimes. Moreover, the breadth of the data (we used only the S&P 500 index) should include a greater range of stocks to be able to make such broad conclusions.
 
-First, there doesn't appear to be a sufficient number of data. Ideally, we would use several decades that span economic cycles and government regimes. Moreover, the breadth of the data (we used only the S&P 500 index) should include a greater range of stocks to be able to make such broad conclusions.
+* **Transaction Costs** - Another limitation is that transaction costs were not considered in the monthly return calculations which could prove costly and change the conclusions reached herein.
 
-**Transaction Costs**
+* **Model Insufficiency** - Seven forecast models were fit to the data, but there are other forecast models that could be analyzed and applied. It is possible that this could change the results and conclusions of the analysis.
 
-Another limitation is that transaction costs were not considered in the monthly return calculations which could prove costly and change the conclusions reached herein.
-
-**Model Insufficiency**
-
-Seven forecast models were fit to the data, but there are other forecast models that could be analyzed and applied. It is possible that this could change the results and conclusions of the analysis.
-
-**Academic Findings**
-
-Many leaders in the academic community have analyzed stock returns over longer time horizons and over wider groups of stocks (not just 500 of the largest) and found that generally, stock returns follow random walks (i.e., behave like white noise). 
-
-
-
-
-
-
-
-
+* **Academic Findings** - Many leaders in the academic community have analyzed stock returns over longer time horizons and over wider groups of stocks (not just 500 of the largest) and found that generally, stock returns follow random walks (i.e., behave like white noise). 
 
 
 
