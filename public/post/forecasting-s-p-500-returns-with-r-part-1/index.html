@@ -24,7 +24,7 @@
         "datePublished": "2020-06-11 00:00:00 \x2b0000 UTC",
         "dateModified" : "2020-06-11 00:00:00 \x2b0000 UTC",
         "url" : "\/post\/forecasting-s-p-500-returns-with-r-part-1\/",
-        "wordCount" : "3177",
+        "wordCount" : "3175",
         "keywords" : [ "Stocks","Blog" ]
     }
     </script>
@@ -72,7 +72,7 @@ Why predict S&amp;P 500 returns? Millions of people are invested in U." />
 Why predict S&amp;P 500 returns? Millions of people are invested in U.">
 <meta itemprop="datePublished" content="2020-06-11T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2020-06-11T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="3177">
+<meta itemprop="wordCount" content="3175">
 
 
 
@@ -685,9 +685,9 @@ SP500_tbl %&gt;%
              z = (mean - agg_mean) / stdev) %&gt;%
       mutate_all(~ round(., 3)) %&gt;%
       kable() %&gt;%
-      kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;condensed&quot;),
+      kable_styling(bootstrap_options = c(&quot;striped&quot;),
                     full_width = FALSE)</code></pre>
-<table class="table table-striped table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:right;">
@@ -1178,9 +1178,9 @@ accuracy(fcast, SP500_testing) %&gt;%
       arrange(desc(RMSE)) %&gt;%
       mutate_if(is.numeric, ~ round(., 3)) %&gt;%
       kable() %&gt;%
-      kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;condensed&quot;),
+      kable_styling(bootstrap_options = c(&quot;striped&quot;),
                     full_width = FALSE)</code></pre>
-<table class="table table-striped table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">

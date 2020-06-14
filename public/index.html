@@ -605,9 +605,9 @@ SP500_tbl %&gt;%
              z = (mean - agg_mean) / stdev) %&gt;%
       mutate_all(~ round(., 3)) %&gt;%
       kable() %&gt;%
-      kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;condensed&quot;),
+      kable_styling(bootstrap_options = c(&quot;striped&quot;),
                     full_width = FALSE)</code></pre>
-<table class="table table-striped table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:right;">
@@ -1098,9 +1098,9 @@ accuracy(fcast, SP500_testing) %&gt;%
       arrange(desc(RMSE)) %&gt;%
       mutate_if(is.numeric, ~ round(., 3)) %&gt;%
       kable() %&gt;%
-      kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;condensed&quot;),
+      kable_styling(bootstrap_options = c(&quot;striped&quot;),
                     full_width = FALSE)</code></pre>
-<table class="table table-striped table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
