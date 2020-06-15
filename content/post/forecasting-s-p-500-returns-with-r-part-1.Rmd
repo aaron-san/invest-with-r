@@ -22,14 +22,15 @@ knitr::opts_chunk$set(
 	warning = FALSE
 )
 ```
+Disclaimer: I am not a data scientist, but I am an R, investing, and data science enthusiast.
 
 ## 1. Introduction
 
-Is it possible to predict stock returns? We will look at a group of 500 large U.S. companies and try to identify any historical patterns that can be used to predict future returns. Specifically, we will focus on the S&P 500 stock index which represents the stock performance of 500 of the largest U.S. companies.
+Is it possible to predict stock returns? We will look at a group of 500 large U.S. companies and try to identify any historical patterns that can be used to predict future returns. Specifically, we will focus on the S&P 500 stock index which represents the stock performance of a diverse group of 500 of the largest U.S. companies.
 
 Why predict S&P 500 returns? Millions of people are invested in U.S. stocks through pension plans and individual investment accounts. Many of these investors want to protect their investments by buying before prices rise and selling before prices fall.
 
-We will conduct analysis in three broad steps: 
+We will perform the analysis in three broad steps: 
 
 * Data preparation, 
 * Model fitting, and 
@@ -64,43 +65,41 @@ suppressPackageStartupMessages({
     library(forecast) # for forecast()
     
     # Time series
-    library(tsibble) # for time series based on tidy principles
-    library(fable)  # for forecasting based on tidy principles
+    library(tsibble) # for as_tsibble()
+    library(fable)  # for ARIMA(), ETS(), MEAN(), NAIVE(), SNAIVE() TSLM()
     library(timetk) # for tk_ts(), tk_tbl()
     
     # Plotting
-    library(ggthemes)
+    library(ggthemes) # for theme_hc()
+    library(formattable) # for formattable()
     
     # Data processing
     library(sweep) # for sw_tidy(), sw_glance(), sw_augment()
-    library(furrr) # for future_map() parallel version of map()
-
 })
 
 # Variables
 symbols <- "SP500"
 
 # Download data
-data <- symbols %>%
-  tq_get(get = "economic.data",
-         from = "2010-12-31", to = "2020-01-31")
+# data <- symbols %>%
+#   tq_get(get = "economic.data",
+#          from = "2010-12-31", to = "2020-01-31")
 
-## Not run! ##
-# Load data
-# tickers_file <- list.files("C:/Users/AaronH/Desktop/Aaron/R/Data", pattern = "FRED Tickers.ods", full.names = TRUE) %>% max()
-# current_econ_data_file <- list.files("C:/Users/AaronH/Desktop/Aaron/R/Data", pattern = "Data from FRED", full.names = TRUE) %>% max()
-# 
-# tickers <- read_ods(tickers_file, range = "A1:D50", col_types = NA) %>% 
-#     as_tibble() %>% 
-#     drop_na()
-# 
-# # Load data
-# data <- fread(current_econ_data_file) %>% 
-#     as_tibble() %>%
-#     mutate(date = ymd(date)) %>%
-#     dplyr::filter(symbol %in% symbols)
+
+# Load data	
+tickers_file <- list.files("C:/Users/AaronH/Desktop/Aaron/R/Data", pattern = "FRED Tickers.ods", full.names = TRUE) %>% max()	
+tickers <- read_ods(tickers_file, range = "A1:D50", col_types = NA) %>% 	
+      as_tibble() %>% 	
+      drop_na()	
+	
+# Load data	
+current_econ_data_file <- list.files("C:/Users/AaronH/Desktop/Aaron/R/Data", pattern = "Data from FRED", full.names = TRUE) %>% max()	
+data <- fread(current_econ_data_file) %>% 	
+      as_tibble() %>%	
+      mutate(date = ymd(date)) %>%	
+      dplyr::filter(symbol %in% symbols)	
+
 ```
-
 
 ## 3. Data Preparation and Preprocessing
 
@@ -129,7 +128,7 @@ SP500_tsi <- as_tsibble(SP500_ts, index = date) %>%
 ``` 
 
 ### Univarite Analysis
-Let's look at the S&P 500 time series as a univariate series. Is it possible to predict with reasonable accuracy future returns of the S&P 500 just looking at historical data over the past nine years? Is there predictable seasonality, for example? Let's take a look at the data in its original form and do some exploratory analysis.
+Let's look at the S&P 500 time series as a univariate series. Is it possible to predict with reasonable accuracy future returns of the S&P 500 just looking at historical data over the nine year period 2011-2019 (an admittedly arbitrary period)? Is there predictable seasonality, for example? Let's take a look at the data in its original form and do some exploratory analysis.
 
 
 ```{r scatterplot}
@@ -179,7 +178,7 @@ SP500_tbl %>%
     facet_grid(~ yr, scale = "free")
 ```
 
-The violin plots show high volatility of returns in 2011 followed by decreased volatility in subsequent years and finally high volatility again in 2019. The range of returns (distance from bottom of violin plot to its top) seems to increase and decrease without any clear regularity. No clear patterns of volatility stand out.
+The violin plots show high volatility of returns in 2011 followed by decreased volatility in subsequent years and finally high volatility again in 2018 and 2019. The range of returns (distance from bottom of violin plot to its top) seems to increase and decrease without any clear regularity. No clear patterns of volatility stand out.
 
 Let's look at some more distributions of returns, but this time grouped by month. For example, the distribution for January includes January returns for each year (2011-2019).
 
@@ -191,13 +190,13 @@ SP500_tbl %>%
       group_by(month = month(date)) %>%
       summarize(mean = mean(ROC.SP500),
                 median = median(ROC.SP500),
-                stdev = sd(ROC.SP500)) %>%
-      mutate(agg_mean = mean(SP500_tbl$ROC.SP500),
-             z = (mean - agg_mean) / stdev) %>%
+                stdev = sd(ROC.SP500),
+                downdev = DownsideDeviation(ROC.SP500, MAR = 0)) %>%
+      mutate(mean_to_sd = mean / stdev,
+             mean_to_dd = mean / downdev) %>%
       mutate_all(~ round(., 3)) %>%
       kable() %>%
-      kable_styling(bootstrap_options = c("striped"),
-                    full_width = FALSE)
+      kable_styling("striped")
 
 # Density plot of returns by month
 SP500_tbl %>%
@@ -222,7 +221,9 @@ SP500_tbl %>%
           panel.grid = element_blank())
 ```
 
-The density plots seem to reveal that February, July, and November, especially, experience a high proportion of returns greater than zero. This can be visualized by noticing that the mean and medians of each of these months' returns are considerably greater than the zero-lines (in black) and their density curves have high peaks on the right side of the zero-line. This would suggest that stocks held in these months experience consistently positive monthly returns.
+If we calculate the ratio of average return to standard deviation for returns grouped by month, we notice that February, April, July, and November especially have high average returns to standard deviation. More importantly, we notice that the ratio of mean return to downside deviation is especially high for February, April, July, and November. In other words, the returns to risk ratio appears to be especially good for investors in these months.
+
+The density plots seem to reveal that February, July, and November especially experience a high proportion of returns greater than zero. This can be visualized by noticing that the mean and medians of each of these months' returns are considerably greater than the zero-lines (in black) and their density curves have high peaks on the right side of the zero-line. This would suggest that stocks held in these months experience consistently positive monthly returns.
 
 Let's look at a calendar plot that shows returns across months and years.
 

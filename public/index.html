@@ -370,7 +370,7 @@
             June 11, 2020</time>
         <span class="author">Aaron Hardy</span>
         
-            <p>15 minute read</p>
+            <p>16 minute read</p>
         
         
     </div>
@@ -446,11 +446,12 @@
 <script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
 
 
+<p>Disclaimer: I am not a data scientist, but I am an R, investing, and data science enthusiast.</p>
 <div id="introduction" class="section level2">
 <h2>1. Introduction</h2>
-<p>Is it possible to predict stock returns? We will look at a group of 500 large U.S. companies and try to identify any historical patterns that can be used to predict future returns. Specifically, we will focus on the S&amp;P 500 stock index which represents the stock performance of 500 of the largest U.S. companies.</p>
+<p>Is it possible to predict stock returns? We will look at a group of 500 large U.S. companies and try to identify any historical patterns that can be used to predict future returns. Specifically, we will focus on the S&amp;P 500 stock index which represents the stock performance of a diverse group of 500 of the largest U.S. companies.</p>
 <p>Why predict S&amp;P 500 returns? Millions of people are invested in U.S. stocks through pension plans and individual investment accounts. Many of these investors want to protect their investments by buying before prices rise and selling before prices fall.</p>
-<p>We will conduct analysis in three broad steps:</p>
+<p>We will perform the analysis in three broad steps:</p>
 <ul>
 <li>Data preparation,</li>
 <li>Model fitting, and</li>
@@ -486,41 +487,39 @@ suppressPackageStartupMessages({
     library(forecast) # for forecast()
     
     # Time series
-    library(tsibble) # for time series based on tidy principles
-    library(fable)  # for forecasting based on tidy principles
+    library(tsibble) # for as_tsibble()
+    library(fable)  # for ARIMA(), ETS(), MEAN(), NAIVE(), SNAIVE() TSLM()
     library(timetk) # for tk_ts(), tk_tbl()
     
     # Plotting
-    library(ggthemes)
+    library(ggthemes) # for theme_hc()
+    library(formattable) # for formattable()
     
     # Data processing
     library(sweep) # for sw_tidy(), sw_glance(), sw_augment()
-    library(furrr) # for future_map() parallel version of map()
-
 })
 
 # Variables
 symbols &lt;- &quot;SP500&quot;
 
 # Download data
-data &lt;- symbols %&gt;%
-  tq_get(get = &quot;economic.data&quot;,
-         from = &quot;2010-12-31&quot;, to = &quot;2020-01-31&quot;)
+# data &lt;- symbols %&gt;%
+#   tq_get(get = &quot;economic.data&quot;,
+#          from = &quot;2010-12-31&quot;, to = &quot;2020-01-31&quot;)
 
-## Not run! ##
-# Load data
-# tickers_file &lt;- list.files(&quot;C:/Users/AaronH/Desktop/Aaron/R/Data&quot;, pattern = &quot;FRED Tickers.ods&quot;, full.names = TRUE) %&gt;% max()
-# current_econ_data_file &lt;- list.files(&quot;C:/Users/AaronH/Desktop/Aaron/R/Data&quot;, pattern = &quot;Data from FRED&quot;, full.names = TRUE) %&gt;% max()
-# 
-# tickers &lt;- read_ods(tickers_file, range = &quot;A1:D50&quot;, col_types = NA) %&gt;% 
-#     as_tibble() %&gt;% 
-#     drop_na()
-# 
-# # Load data
-# data &lt;- fread(current_econ_data_file) %&gt;% 
-#     as_tibble() %&gt;%
-#     mutate(date = ymd(date)) %&gt;%
-#     dplyr::filter(symbol %in% symbols)</code></pre>
+
+# Load data 
+tickers_file &lt;- list.files(&quot;C:/Users/AaronH/Desktop/Aaron/R/Data&quot;, pattern = &quot;FRED Tickers.ods&quot;, full.names = TRUE) %&gt;% max()   
+tickers &lt;- read_ods(tickers_file, range = &quot;A1:D50&quot;, col_types = NA) %&gt;%     
+      as_tibble() %&gt;%   
+      drop_na() 
+    
+# Load data 
+current_econ_data_file &lt;- list.files(&quot;C:/Users/AaronH/Desktop/Aaron/R/Data&quot;, pattern = &quot;Data from FRED&quot;, full.names = TRUE) %&gt;% max()   
+data &lt;- fread(current_econ_data_file) %&gt;%   
+      as_tibble() %&gt;%   
+      mutate(date = ymd(date)) %&gt;%  
+      dplyr::filter(symbol %in% symbols)    </code></pre>
 </div>
 <div id="data-preparation-and-preprocessing" class="section level2">
 <h2>3. Data Preparation and Preprocessing</h2>
@@ -547,7 +546,7 @@ SP500_tsi &lt;- as_tsibble(SP500_ts, index = date) %&gt;%
 </div>
 <div id="univarite-analysis" class="section level3">
 <h3>Univarite Analysis</h3>
-<p>Let’s look at the S&amp;P 500 time series as a univariate series. Is it possible to predict with reasonable accuracy future returns of the S&amp;P 500 just looking at historical data over the past nine years? Is there predictable seasonality, for example? Let’s take a look at the data in its original form and do some exploratory analysis.</p>
+<p>Let’s look at the S&amp;P 500 time series as a univariate series. Is it possible to predict with reasonable accuracy future returns of the S&amp;P 500 just looking at historical data over the nine year period 2011-2019 (an admittedly arbitrary period)? Is there predictable seasonality, for example? Let’s take a look at the data in its original form and do some exploratory analysis.</p>
 <pre class="r"><code># Scatterplot
 SP500_tbl %&gt;%
     ggplot(aes(x = date, y = ROC.SP500)) + #, color = ROC.SP500 &gt; mean(ROC.SP500))) +
@@ -593,21 +592,21 @@ SP500_tbl %&gt;%
           panel.grid = element_blank()) +
     facet_grid(~ yr, scale = &quot;free&quot;)</code></pre>
 <p><img src="/post/forecasting-s-p-500-returns-with-r-part-1_files/figure-html/violinplot-1.png" width="672" /></p>
-<p>The violin plots show high volatility of returns in 2011 followed by decreased volatility in subsequent years and finally high volatility again in 2019. The range of returns (distance from bottom of violin plot to its top) seems to increase and decrease without any clear regularity. No clear patterns of volatility stand out.</p>
+<p>The violin plots show high volatility of returns in 2011 followed by decreased volatility in subsequent years and finally high volatility again in 2018 and 2019. The range of returns (distance from bottom of violin plot to its top) seems to increase and decrease without any clear regularity. No clear patterns of volatility stand out.</p>
 <p>Let’s look at some more distributions of returns, but this time grouped by month. For example, the distribution for January includes January returns for each year (2011-2019).</p>
 <pre class="r"><code># Get summary data
 SP500_tbl %&gt;%
       group_by(month = month(date)) %&gt;%
       summarize(mean = mean(ROC.SP500),
                 median = median(ROC.SP500),
-                stdev = sd(ROC.SP500)) %&gt;%
-      mutate(agg_mean = mean(SP500_tbl$ROC.SP500),
-             z = (mean - agg_mean) / stdev) %&gt;%
+                stdev = sd(ROC.SP500),
+                downdev = DownsideDeviation(ROC.SP500, MAR = 0)) %&gt;%
+      mutate(mean_to_sd = mean / stdev,
+             mean_to_dd = mean / downdev) %&gt;%
       mutate_all(~ round(., 3)) %&gt;%
       kable() %&gt;%
-      kable_styling(bootstrap_options = c(&quot;striped&quot;),
-                    full_width = FALSE)</code></pre>
-<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+      kable_styling(&quot;striped&quot;)</code></pre>
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:right;">
@@ -623,10 +622,13 @@ median
 stdev
 </th>
 <th style="text-align:right;">
-agg_mean
+downdev
 </th>
 <th style="text-align:right;">
-z
+mean_to_sd
+</th>
+<th style="text-align:right;">
+mean_to_dd
 </th>
 </tr>
 </thead>
@@ -645,10 +647,13 @@ z
 0.045
 </td>
 <td style="text-align:right;">
-0.009
+0.024
 </td>
 <td style="text-align:right;">
-0.156
+0.348
+</td>
+<td style="text-align:right;">
+0.671
 </td>
 </tr>
 <tr>
@@ -665,10 +670,13 @@ z
 0.029
 </td>
 <td style="text-align:right;">
-0.009
+0.013
 </td>
 <td style="text-align:right;">
-0.466
+0.768
+</td>
+<td style="text-align:right;">
+1.668
 </td>
 </tr>
 <tr>
@@ -685,10 +693,13 @@ z
 0.028
 </td>
 <td style="text-align:right;">
-0.009
+0.011
 </td>
 <td style="text-align:right;">
-0.118
+0.427
+</td>
+<td style="text-align:right;">
+1.116
 </td>
 </tr>
 <tr>
@@ -705,10 +716,13 @@ z
 0.014
 </td>
 <td style="text-align:right;">
-0.009
+0.003
 </td>
 <td style="text-align:right;">
-0.216
+0.832
+</td>
+<td style="text-align:right;">
+4.703
 </td>
 </tr>
 <tr>
@@ -725,10 +739,13 @@ z
 0.036
 </td>
 <td style="text-align:right;">
-0.009
+0.032
 </td>
 <td style="text-align:right;">
--0.383
+-0.142
+</td>
+<td style="text-align:right;">
+-0.163
 </td>
 </tr>
 <tr>
@@ -745,10 +762,13 @@ z
 0.029
 </td>
 <td style="text-align:right;">
-0.009
+0.011
 </td>
 <td style="text-align:right;">
-0.006
+0.308
+</td>
+<td style="text-align:right;">
+0.836
 </td>
 </tr>
 <tr>
@@ -768,7 +788,10 @@ z
 0.009
 </td>
 <td style="text-align:right;">
-0.326
+0.707
+</td>
+<td style="text-align:right;">
+1.837
 </td>
 </tr>
 <tr>
@@ -785,10 +808,13 @@ z
 0.037
 </td>
 <td style="text-align:right;">
-0.009
+0.032
 </td>
 <td style="text-align:right;">
--0.504
+-0.265
+</td>
+<td style="text-align:right;">
+-0.308
 </td>
 </tr>
 <tr>
@@ -805,10 +831,13 @@ z
 0.033
 </td>
 <td style="text-align:right;">
-0.009
+0.027
 </td>
 <td style="text-align:right;">
--0.350
+-0.083
+</td>
+<td style="text-align:right;">
+-0.101
 </td>
 </tr>
 <tr>
@@ -825,10 +854,13 @@ z
 0.053
 </td>
 <td style="text-align:right;">
-0.009
+0.026
 </td>
 <td style="text-align:right;">
-0.211
+0.375
+</td>
+<td style="text-align:right;">
+0.774
 </td>
 </tr>
 <tr>
@@ -845,10 +877,13 @@ z
 0.015
 </td>
 <td style="text-align:right;">
-0.009
+0.002
 </td>
 <td style="text-align:right;">
-0.626
+1.212
+</td>
+<td style="text-align:right;">
+10.691
 </td>
 </tr>
 <tr>
@@ -865,10 +900,13 @@ z
 0.038
 </td>
 <td style="text-align:right;">
-0.009
+0.033
 </td>
 <td style="text-align:right;">
--0.300
+-0.069
+</td>
+<td style="text-align:right;">
+-0.079
 </td>
 </tr>
 </tbody>
@@ -895,7 +933,8 @@ SP500_tbl %&gt;%
     theme(axis.text.x = element_text(angle = 90),
           panel.grid = element_blank())</code></pre>
 <p><img src="/post/forecasting-s-p-500-returns-with-r-part-1_files/figure-html/densityplot-1.png" width="672" /></p>
-<p>The density plots seem to reveal that February, July, and November, especially, experience a high proportion of returns greater than zero. This can be visualized by noticing that the mean and medians of each of these months’ returns are considerably greater than the zero-lines (in black) and their density curves have high peaks on the right side of the zero-line. This would suggest that stocks held in these months experience consistently positive monthly returns.</p>
+<p>If we calculate the ratio of average return to standard deviation for returns grouped by month, we notice that February, April, July, and November especially have high average returns to standard deviation. More importantly, we notice that the ratio of mean return to downside deviation is especially high for February, April, July, and November. In other words, the returns to risk ratio appears to be especially good for investors in these months.</p>
+<p>The density plots seem to reveal that February, July, and November especially experience a high proportion of returns greater than zero. This can be visualized by noticing that the mean and medians of each of these months’ returns are considerably greater than the zero-lines (in black) and their density curves have high peaks on the right side of the zero-line. This would suggest that stocks held in these months experience consistently positive monthly returns.</p>
 <p>Let’s look at a calendar plot that shows returns across months and years.</p>
 <pre class="r"><code># Calendar plot
 SP500_tbl %&gt;% 
@@ -1442,15 +1481,15 @@ interp.residuals %&gt;%
   </li>
 </ul>
 
-
+    
 <form class="center" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
     <input type="hidden" name="cmd" value="_s-xclick" />
     <input type="hidden" name="hosted_button_id" value="D2AHHWWDCLRYN" />
-    <input type="image" src="https://www.investwithr.com/about/_index_files/buymeabeer1.png" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" width="100px" height="100px" />
+    <input type="image" src="/img/main/horiz-beer.png" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" height="60px" />
     <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" />
     </form>
     
-  </footer>
+  
 
 </article>
 
@@ -1488,8 +1527,6 @@ interp.residuals %&gt;%
 </ul>
 
 
-
-<img src="/post/content-single_files/buymeabeer1.png" alt="" width="10px" height="10px"/>
 
             <section id="share-menu">
     <section id="social-share-nav">
