@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Data science on Invest with R</title>
-    <link>/tags/data-science/</link>
+    <link>https://www.investwithr.com/tags/data-science/</link>
     <description>Recent content in Data science on Invest with R</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 16 Jun 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/data-science/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.investwithr.com/tags/data-science/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Forecasting S&amp;P 500 Returns with R (Part 1)</title>
-      <link>/post/forecasting-s-p-500-returns-with-r-part-1/</link>
+      <link>https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/</link>
       <pubDate>Tue, 16 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>/post/forecasting-s-p-500-returns-with-r-part-1/</guid>
+      <guid>https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/</guid>
       <description>Disclaimer: I am not a data scientist, but I am an R, investing, and data science enthusiast.
 1. IntroductionIs it possible to predict stock returns? We will look at a group of 500 large U.S. companies and try to identify any historical patterns that can be used to predict future returns. Specifically, we will focus on the S&amp;amp;P 500 stock index which represents the stock performance of a diverse group of 500 of the largest U.</description>
     </item>
