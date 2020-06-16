@@ -25,5 +25,4 @@ Aaron Hardy: Investment analysis enthusiast and aspiring data interpreter!
 
 ### Location
 Aaron Hardy
-Knoxville, Tennessee
-USA
+Saitama, Japan

@@ -78,62 +78,53 @@ The FormulaLogit Probability of Financial Distress (LPFD)A logistic regression
     </item>
     
     <item>
-      <title>Hello R Markdown</title>
+      <title></title>
       <link>/blog/2015-07-23-r-rmarkdown/</link>
-      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/blog/2015-07-23-r-rmarkdown/</guid>
-      <description>R MarkdownThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
+      <description>—title: “Hello R Markdown”author: “Frida Gomam”date: 2015-07-23T21:13:14-05:00categories: [“R”]tags: [“R Markdown”, “plot”, “regression”]—R MarkdownThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
 You can embed an R code chunk like this:
-summary(cars)## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
+summary(cars)## speed dist ## Min.</description>
     </item>
     
     <item>
-      <title>Creating a New Theme</title>
+      <title></title>
       <link>/blog/creating-a-new-theme/</link>
-      <pubDate>Sun, 28 Sep 2014 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/blog/creating-a-new-theme/</guid>
-      <description>Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&#39;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&#39;t cover using CSS to style your theme.
-We&#39;ll start with creating a new site with a very basic template.</description>
+      <description>&amp;mdash; author: Theme author categories: - Hugo date: &amp;ldquo;2014-09-28&amp;rdquo; description: Learn how to create a theme on Hugo featured: pic03.jpg featuredalt: Pic 3 featuredpath: date linktitle: &amp;quot;&amp;rdquo; tags: - tutorial title: Creating a New Theme type: post draft: true &amp;mdash; Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content.</description>
     </item>
     
     <item>
-      <title>(Hu)go Template Primer</title>
+      <title></title>
       <link>/blog/goisforlovers/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/blog/goisforlovers/</guid>
-      <description>Hugo uses the excellent go html/template library for its template engine. It is an extremely lightweight engine that provides a very small amount of logic. In our experience that it is just the right amount of logic to be able to create a good static website. If you have used other template systems from different languages or frameworks you will find a lot of similarities in go templates.
-This document is a brief primer on using go templates.</description>
+      <description>&amp;mdash; author: Unknown Author categories: - Go date: &amp;ldquo;2014-04-02&amp;rdquo; description: &amp;quot;&amp;rdquo; featured: pic02.jpg featuredalt: Pic 2 featuredpath: date linktitle: &amp;quot;&amp;rdquo; title: (Hu)go Template Primer type: post draft: true &amp;mdash; Hugo uses the excellent go html/template library for its template engine. It is an extremely lightweight engine that provides a very small amount of logic. In our experience that it is just the right amount of logic to be able to create a good static website.</description>
     </item>
     
     <item>
-      <title>Getting Started with Hugo</title>
+      <title></title>
       <link>/blog/hugoisforlovers/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/blog/hugoisforlovers/</guid>
-      <description>&lt;h2 id=&#34;step-1-install-hugo&#34;&gt;Step 1. Install Hugo&lt;/h2&gt;
-&lt;p&gt;Go to &lt;a href=&#34;https://github.com/spf13/hugo/releases&#34;&gt;hugo releases&lt;/a&gt; and download the
-appropriate version for your os and architecture.&lt;/p&gt;
-&lt;p&gt;Save it somewhere specific as we will be using it in the next step.&lt;/p&gt;
-&lt;p&gt;More complete instructions are available at &lt;a href=&#34;/overview/installing/&#34;&gt;installing hugo&lt;/a&gt;&lt;/p&gt;</description>
+      <description>&amp;mdash; author: Hugo author categories: - Hugo date: &amp;ldquo;2014-04-02&amp;rdquo; description: &amp;quot;&amp;rdquo; featured: pic01.jpg featuredalt: Pic 1 featuredpath: date linktitle: &amp;quot;&amp;rdquo; title: Getting Started with Hugo type: post &amp;mdash; Step 1. Install Hugo Go to hugo releases and download the appropriate version for your os and architecture.
+Save it somewhere specific as we will be using it in the next step.
+More complete instructions are available at installing hugo
+Step 2. Build the Docs Hugo has its own example site which happens to also be the documentation site you are reading right now.</description>
     </item>
     
     <item>
-      <title>Migrate to Hugo from Jekyll</title>
+      <title></title>
       <link>/blog/migrate-from-jekyll/</link>
-      <pubDate>Mon, 10 Mar 2014 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/blog/migrate-from-jekyll/</guid>
-      <description>&lt;h2 id=&#34;move-static-content-to-static&#34;&gt;Move static content to &lt;code&gt;static&lt;/code&gt;&lt;/h2&gt;
-&lt;p&gt;Jekyll has a rule that any directory not starting with &lt;code&gt;_&lt;/code&gt; will be copied as-is to the &lt;code&gt;_site&lt;/code&gt; output. Hugo keeps all static content under &lt;code&gt;static&lt;/code&gt;. You should therefore move it all there.
-With Jekyll, something that looked like&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;▾ &amp;lt;root&amp;gt;/
-    ▾ images/
-        logo.png
-&lt;/code&gt;&lt;/pre&gt;</description>
+      <description>&amp;mdash; author: Migrating author categories: - Hugo - Jekyll date: &amp;ldquo;2014-03-10&amp;rdquo; description: &amp;quot;&amp;rdquo; featured: &amp;quot;&amp;rdquo; featuredalt: &amp;quot;&amp;rdquo; featuredpath: &amp;quot;&amp;rdquo; linktitle: &amp;quot;&amp;rdquo; title: Migrate to Hugo from Jekyll type: post draft: true &amp;mdash; Move static content to static Jekyll has a rule that any directory not starting with _ will be copied as-is to the _site output. Hugo keeps all static content under static. You should therefore move it all there. With Jekyll, something that looked like</description>
     </item>
     
   </channel>
