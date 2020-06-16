@@ -13,7 +13,7 @@
         "articleSection" : "post",
         "name" : "Forecasting S\x26P 500 Returns with R (Part 1)",
         "headline" : "Forecasting S\x26P 500 Returns with R (Part 1)",
-        "description" : "Disclaimer: I am not a data scientist, but I am an R, investing, and data science enthusiast.\n1. Introduction\rIs it possible to predict stock returns? We will look at a group of 500 large U.S. companies and try to identify any historical patterns that can be used to predict future returns. Specifically, we will focus on the S\x26amp;P 500 stock index which represents the stock performance of a diverse group of 500 of the largest U.",
+        "description" : "Modeling stock returns",
         "inLanguage" : "en",
         "author" : "",
         "creator" : "",
@@ -21,11 +21,11 @@
         "accountablePerson" : "",
         "copyrightHolder" : "",
         "copyrightYear" : "2020",
-        "datePublished": "2020-06-11 00:00:00 \x2b0000 UTC",
-        "dateModified" : "2020-06-11 00:00:00 \x2b0000 UTC",
+        "datePublished": "2020-06-16 00:00:00 \x2b0000 UTC",
+        "dateModified" : "2020-06-16 00:00:00 \x2b0000 UTC",
         "url" : "\/post\/forecasting-s-p-500-returns-with-r-part-1\/",
         "wordCount" : "3272",
-        "keywords" : [ "Stocks","Blog" ]
+        "keywords" : [ "Stocks","Data science","Forecasting","Time series","Blog" ]
     }
     </script>
         
@@ -44,39 +44,34 @@
             <meta name="author" content="Aaron Hardy">
         
         
-            
-                <meta name="description" content="HTML5 UP theme, Future Imperfect with some extra goodies, ported by Julio Pescador. Powered by Hugo">
-            
+            <meta name="description" content="Modeling stock returns">
         
 
         <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Forecasting S&amp;P 500 Returns with R (Part 1)"/>
-<meta name="twitter:description" content="Disclaimer: I am not a data scientist, but I am an R, investing, and data science enthusiast.
-1. IntroductionIs it possible to predict stock returns? We will look at a group of 500 large U.S. companies and try to identify any historical patterns that can be used to predict future returns. Specifically, we will focus on the S&amp;P 500 stock index which represents the stock performance of a diverse group of 500 of the largest U."/>
+<meta name="twitter:description" content="Modeling stock returns"/>
 <meta name="twitter:site" content="@example"/>
 
         <meta property="og:title" content="Forecasting S&amp;P 500 Returns with R (Part 1)" />
-<meta property="og:description" content="Disclaimer: I am not a data scientist, but I am an R, investing, and data science enthusiast.
-1. IntroductionIs it possible to predict stock returns? We will look at a group of 500 large U.S. companies and try to identify any historical patterns that can be used to predict future returns. Specifically, we will focus on the S&amp;P 500 stock index which represents the stock performance of a diverse group of 500 of the largest U." />
+<meta property="og:description" content="Modeling stock returns" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/forecasting-s-p-500-returns-with-r-part-1/" />
-<meta property="article:published_time" content="2020-06-11T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-06-11T00:00:00+00:00" />
+<meta property="article:published_time" content="2020-06-16T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-06-16T00:00:00+00:00" />
 
         <meta property="og:image" content="//images/logo.png">
         <meta property="og:image:type" content="image/png">
         <meta property="og:image:width" content="512">
         <meta property="og:image:height" content="512">
         <meta itemprop="name" content="Forecasting S&amp;P 500 Returns with R (Part 1)">
-<meta itemprop="description" content="Disclaimer: I am not a data scientist, but I am an R, investing, and data science enthusiast.
-1. IntroductionIs it possible to predict stock returns? We will look at a group of 500 large U.S. companies and try to identify any historical patterns that can be used to predict future returns. Specifically, we will focus on the S&amp;P 500 stock index which represents the stock performance of a diverse group of 500 of the largest U.">
-<meta itemprop="datePublished" content="2020-06-11T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2020-06-11T00:00:00&#43;00:00" />
+<meta itemprop="description" content="Modeling stock returns">
+<meta itemprop="datePublished" content="2020-06-16T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-06-16T00:00:00&#43;00:00" />
 <meta itemprop="wordCount" content="3272">
 
 
 
-<meta itemprop="keywords" content="Stocks," />
+<meta itemprop="keywords" content="Stocks,Data science,Forecasting,Time series," />
         
 
         
@@ -225,20 +220,8 @@
                                 <h3><a href="/post/forecasting-s-p-500-returns-with-r-part-1/">Forecasting S&amp;P 500 Returns with R (Part 1)</a></h3>
                                 
                                 <time class="published" datetime=
-                                    '2020-06-11'>
-                                    June 11, 2020</time>
-                            </header>
-                            
-
-                        </article>
-                
-                        <article class="mini-post">
-                            <header>
-                                <h3><a href="/post/">Post</a></h3>
-                                
-                                <time class="published" datetime=
-                                    '2020-06-11'>
-                                    June 11, 2020</time>
+                                    '2020-06-16'>
+                                    June 16, 2020</time>
                             </header>
                             
 
@@ -249,8 +232,20 @@
                                 <h3><a href="/post/optimal-portfolio-construction/">Optimal Portfolio Construction</a></h3>
                                 
                                 <time class="published" datetime=
-                                    '2020-05-31'>
-                                    May 31, 2020</time>
+                                    '2020-06-16'>
+                                    June 16, 2020</time>
+                            </header>
+                            
+
+                        </article>
+                
+                        <article class="mini-post">
+                            <header>
+                                <h3><a href="/post/">Post</a></h3>
+                                
+                                <time class="published" datetime=
+                                    '2020-06-16'>
+                                    June 16, 2020</time>
                             </header>
                             
 
@@ -399,13 +394,15 @@
             
         
         
+            <p>Modeling stock returns</p>
+        
     </div>
     <div class="meta">
         
 
         <time class="published"
-            datetime='2020-06-11'>
-            June 11, 2020</time>
+            datetime='2020-06-16'>
+            June 16, 2020</time>
         <span class="author">Aaron Hardy</span>
         
             <p>16 minute read</p>
@@ -1500,6 +1497,12 @@ interp.residuals %&gt;%
         
             
             
+                <i class="fa fa-folder"></i>
+                
+                
+                <li><a class="article-category-link" href="/categories/stocks">stocks</a></li>
+                
+            
         
     </ul>
   </li>
@@ -1513,20 +1516,30 @@ interp.residuals %&gt;%
                 
                 <li><a class="article-category-link" href="/tags/stocks">Stocks</a></li>
                 
+                
+                <li><a class="article-category-link" href="/tags/data-science">Data science</a></li>
+                
+                
+                <li><a class="article-category-link" href="/tags/forecasting">Forecasting</a></li>
+                
+                
+                <li><a class="article-category-link" href="/tags/time-series">Time series</a></li>
+                
             
         
     </ul>
   </li>
 </ul>
 
-    
-<form class="center" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-    <input type="hidden" name="cmd" value="_s-xclick" />
-    <input type="hidden" name="hosted_button_id" value="D2AHHWWDCLRYN" />
-    <input type="image" src="/img/main/horiz-beer.png" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" height="60px" />
-    <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" />
+
+      <form class="center" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+      <input type="hidden" name="cmd" value="_s-xclick" />
+      <input type="hidden" name="hosted_button_id" value="D2AHHWWDCLRYN" />
+      <input type="image" src="/img/main/horiz-beer.png" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" height="55px" />
+      <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" />
     </form>
-    
+  
+    </footer>
   
 
 </article>
@@ -1632,22 +1645,8 @@ s.setAttribute('data-timestamp', +new Date());
                 <a href="/post/forecasting-s-p-500-returns-with-r-part-1/">Forecasting S&amp;P 500 Returns with R (Part 1)</a>
               </h3>
               
-              <time class="published" datetime='2020-06-11'>
-                June 11, 2020
-              </time>
-            </header>
-            
-
-          </article>
-        
-          <article class="mini-post">
-            <header>
-              <h3>
-                <a href="/post/">Post</a>
-              </h3>
-              
-              <time class="published" datetime='2020-06-11'>
-                June 11, 2020
+              <time class="published" datetime='2020-06-16'>
+                June 16, 2020
               </time>
             </header>
             
@@ -1660,8 +1659,22 @@ s.setAttribute('data-timestamp', +new Date());
                 <a href="/post/optimal-portfolio-construction/">Optimal Portfolio Construction</a>
               </h3>
               
-              <time class="published" datetime='2020-05-31'>
-                May 31, 2020
+              <time class="published" datetime='2020-06-16'>
+                June 16, 2020
+              </time>
+            </header>
+            
+
+          </article>
+        
+          <article class="mini-post">
+            <header>
+              <h3>
+                <a href="/post/">Post</a>
+              </h3>
+              
+              <time class="published" datetime='2020-06-16'>
+                June 16, 2020
               </time>
             </header>
             
@@ -1778,7 +1791,7 @@ s.setAttribute('data-timestamp', +new Date());
             <header>
               
                 <a href="/categories/stocks/">stocks</a>
-                <span style="float:right;">2</span>
+                <span style="float:right;">3</span>
               
             </header>
           </article>

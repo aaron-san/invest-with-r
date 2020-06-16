@@ -1,7 +1,7 @@
 ---
 title: Optimal Portfolio Construction
 author: Aaron Hardy
-date: "2020-05-31"
+date: "2020-06-16"
 slug: optimal-portfolio-construction
 categories:
   - Stocks
@@ -21,9 +21,9 @@ editor_options:
 <div id="optimal-portfolio-construction" class="section level1">
 <h1>Optimal Portfolio Construction</h1>
 <p>In this article we will compare several portfolio construction methodologies. We will evaluate the Modern Portfolio Theory and the Risk Parity portfolio and Resampled Efficient Frontier approaches.</p>
-<p>The <em>Modern Portfolio Theory</em> approach attempts to maximize the return of a group of assets (a portfolio) for the level of risk borne by those assets. One complaint of this approach is its tendency to lead to overconcentrated portfolios.</p>
-<p>The <em>Resampled Efficient Frontier</em> approach involves creating hundreds of efficient frontiers in an effort to create a more robust set of portfolio.</p>
-<p>An alternative approach is the <em>Risk Parity Approach</em> which attempts to produce a group of assets (a portfolio) whose members contribute equally to the risk of the portfolio. This approach is hailed for its tendency to result in a more diverse group of portfolio assets than that of the Modern Portfolio Theory.</p>
+<p>The <em>Modern Portfolio Theory</em> approach attempts to maximize the return-to-risk ratio of a group of assets (a portfolio). It involves calculating the mean of returns and dividing by the standard deviation of returns. One weakness of this approach is its tendency to lead to overconcentrated portfolios.</p>
+<p>The <em>Resampled Efficient Frontier</em> approach involves creating hundreds of efficient frontiers from resampled data in an effort to create a more robust set of portfolios. It is popular for its tendency to reduce estimation error and create more stable estimates of optimal portfolio weights over time.</p>
+<p>An alternative approach is the <em>Risk Parity Approach</em> which attempts to produce a group of assets (a portfolio) whose members contribute equally to the risk of the portfolio. This approach is praised for its tendency to result in a more diverse group of portfolio assets than that of the Modern Portfolio Theory.</p>
 <pre class="r"><code>
 # Load packages
 library(riskParityPortfolio)
