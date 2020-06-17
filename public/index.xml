@@ -2,79 +2,138 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Invest with R</title>
-    <link>https://www.investwithr.com/</link>
+    <link>/</link>
     <description>Recent content on Invest with R</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 16 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 17 Jun 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://www.investwithr.com/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Forecasting S&amp;P 500 Returns with R (Part 1)</title>
-      <link>https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/</link>
-      <pubDate>Tue, 16 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/</guid>
-      <description>Disclaimer: I am not a data scientist, but I am an R, investing, and data science enthusiast.
-1. IntroductionIs it possible to predict stock returns? We will look at a group of 500 large U.S. companies and try to identify any historical patterns that can be used to predict future returns. Specifically, we will focus on the S&amp;amp;P 500 stock index which represents the stock performance of a diverse group of 500 of the largest U.</description>
-    </item>
     
     <item>
       <title>Optimal Portfolio Construction</title>
-      <link>https://www.investwithr.com/post/optimal-portfolio-construction/</link>
-      <pubDate>Tue, 16 Jun 2020 00:00:00 +0000</pubDate>
+      <link>/post/optimal-portfolio-construction/</link>
+      <pubDate>Wed, 17 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://www.investwithr.com/post/optimal-portfolio-construction/</guid>
+      <guid>/post/optimal-portfolio-construction/</guid>
       <description>Optimal Portfolio ConstructionIn this article we will compare several portfolio construction methodologies. We will evaluate the Modern Portfolio Theory and the Risk Parity portfolio and Resampled Efficient Frontier approaches.
 The Modern Portfolio Theory approach attempts to maximize the return-to-risk ratio of a group of assets (a portfolio). It involves calculating the mean of returns and dividing by the standard deviation of returns. One weakness of this approach is its tendency to lead to overconcentrated portfolios.</description>
     </item>
     
     <item>
+      <title>Forecasting S&amp;P 500 Returns with R (Part 1)</title>
+      <link>/post/forecasting-s-p-500-returns-with-r-part-1/</link>
+      <pubDate>Tue, 16 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/forecasting-s-p-500-returns-with-r-part-1/</guid>
+      <description>Disclaimer: I am not a data scientist, but I am an R, investing, and data science enthusiast.
+1. IntroductionIs it possible to predict stock returns? We will look at a group of 500 large U.S. companies and try to identify any historical patterns that can be used to predict future returns. Specifically, we will focus on the S&amp;amp;P 500 stock index which represents the stock performance of a diverse group of 500 of the largest U.</description>
+    </item>
+    
+    <item>
       <title>Finding Distressed Stocks</title>
-      <link>https://www.investwithr.com/post/finding-distressed-stocks/</link>
+      <link>/post/finding-distressed-stocks/</link>
       <pubDate>Thu, 12 Mar 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://www.investwithr.com/post/finding-distressed-stocks/</guid>
+      <guid>/post/finding-distressed-stocks/</guid>
       <description>Finding Stocks at Risk of Financial DistressThe goal of this analysis is to isolate stocks that are particularly risky to the long-only investor. A probability of distress will be computed based on observable financial data. The model was derived in academia and later utilized in a book titled “Quantitative Value” (2013).
 The FormulaLogit Probability of Financial Distress (LPFD)A logistic regression model is used to estimate whether a firm is in financial distress or not.</description>
     </item>
     
     <item>
       <title>Fancy App 1</title>
-      <link>https://www.investwithr.com/itemized/item1/</link>
+      <link>/itemized/item1/</link>
       <pubDate>Thu, 22 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://www.investwithr.com/itemized/item1/</guid>
+      <guid>/itemized/item1/</guid>
       <description>App 1 </description>
     </item>
     
     <item>
       <title>Fancy App 2</title>
-      <link>https://www.investwithr.com/itemized/item2/</link>
+      <link>/itemized/item2/</link>
       <pubDate>Thu, 22 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://www.investwithr.com/itemized/item2/</guid>
+      <guid>/itemized/item2/</guid>
       <description>App 2 </description>
     </item>
     
     <item>
       <title>Fancy App 3</title>
-      <link>https://www.investwithr.com/itemized/item3/</link>
+      <link>/itemized/item3/</link>
       <pubDate>Thu, 22 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://www.investwithr.com/itemized/item3/</guid>
+      <guid>/itemized/item3/</guid>
       <description>App 3 </description>
     </item>
     
     <item>
       <title>Fancy App 4</title>
-      <link>https://www.investwithr.com/itemized/item4/</link>
+      <link>/itemized/item4/</link>
       <pubDate>Thu, 22 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://www.investwithr.com/itemized/item4/</guid>
+      <guid>/itemized/item4/</guid>
       <description>App 4 </description>
+    </item>
+    
+    <item>
+      <title>Hello R Markdown</title>
+      <link>/blog/2015-07-23-r-rmarkdown/</link>
+      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
+      
+      <guid>/blog/2015-07-23-r-rmarkdown/</guid>
+      <description>R MarkdownThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
+You can embed an R code chunk like this:
+summary(cars)## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
+    </item>
+    
+    <item>
+      <title>Creating a New Theme</title>
+      <link>/blog/creating-a-new-theme/</link>
+      <pubDate>Sun, 28 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/creating-a-new-theme/</guid>
+      <description>Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&#39;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&#39;t cover using CSS to style your theme.
+We&#39;ll start with creating a new site with a very basic template.</description>
+    </item>
+    
+    <item>
+      <title>(Hu)go Template Primer</title>
+      <link>/blog/goisforlovers/</link>
+      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/goisforlovers/</guid>
+      <description>Hugo uses the excellent go html/template library for its template engine. It is an extremely lightweight engine that provides a very small amount of logic. In our experience that it is just the right amount of logic to be able to create a good static website. If you have used other template systems from different languages or frameworks you will find a lot of similarities in go templates.
+This document is a brief primer on using go templates.</description>
+    </item>
+    
+    <item>
+      <title>Getting Started with Hugo</title>
+      <link>/blog/hugoisforlovers/</link>
+      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/hugoisforlovers/</guid>
+      <description>&lt;h2 id=&#34;step-1-install-hugo&#34;&gt;Step 1. Install Hugo&lt;/h2&gt;
+&lt;p&gt;Go to &lt;a href=&#34;https://github.com/spf13/hugo/releases&#34;&gt;hugo releases&lt;/a&gt; and download the
+appropriate version for your os and architecture.&lt;/p&gt;
+&lt;p&gt;Save it somewhere specific as we will be using it in the next step.&lt;/p&gt;
+&lt;p&gt;More complete instructions are available at &lt;a href=&#34;/overview/installing/&#34;&gt;installing hugo&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Migrate to Hugo from Jekyll</title>
+      <link>/blog/migrate-from-jekyll/</link>
+      <pubDate>Mon, 10 Mar 2014 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/migrate-from-jekyll/</guid>
+      <description>&lt;h2 id=&#34;move-static-content-to-static&#34;&gt;Move static content to &lt;code&gt;static&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;Jekyll has a rule that any directory not starting with &lt;code&gt;_&lt;/code&gt; will be copied as-is to the &lt;code&gt;_site&lt;/code&gt; output. Hugo keeps all static content under &lt;code&gt;static&lt;/code&gt;. You should therefore move it all there.
+With Jekyll, something that looked like&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;▾ &amp;lt;root&amp;gt;/
+    ▾ images/
+        logo.png
+&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
   </channel>
