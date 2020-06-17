@@ -287,6 +287,7 @@
 	}
 
 		pre code {
+		      background: rgba(34, 49, 63, 1);
 			display: block;
 			line-height: 1.75em;
 			padding: 1em 1.5em;
