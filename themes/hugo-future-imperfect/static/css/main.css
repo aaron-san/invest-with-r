@@ -107,6 +107,7 @@
 	body {
 		background: #f4f4f4;
 		/*background-image: url("paper.gif"); */
+		/*background: rgba(0, 5, 10, 0.05);*/
 	}
 
 		body.is-loading *,
@@ -267,13 +268,13 @@
 
 	code {
 		/* background: rgba(160, 160, 160, 0.075); */
-		background: rgba(0, 40, 60, 1);
+		background: rgba(0, 5, 10, 0.1);
 		/* background: #000015; */
-		border: solid 1px rgba(160, 160, 160, 0.3);
+		border: solid 1px rgba(160, 160, 160, 0.7);
 		border-radius: 4px;
 		font-family: "Courier New", monospace;
 		font-size: 0.9em;
-		color: white;
+		color: black;
 		margin: 0 0.25em;
 		padding: 0.25em 0.65em;
 	}
@@ -519,7 +520,7 @@
             input[type = "image"] {
                   padding: 5px;
                   border-radius: 8px;
-                  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0), 0 4px 10px 5px rgba(228, 120, 51, 1)
+                  box-shadow: 4px 1px 4px 0 rgba(228, 120, 51, 0.7), 0 4px 4px 0 rgba(228, 120, 51, 1)
             }; 
             }
             
@@ -2594,7 +2595,7 @@
 		}
 
 		#intro .intro-circle {
-		    border-radius: 0%;
+		    border-radius: 2%;
 		}
 
 		#intro .logo {
