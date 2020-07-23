@@ -3,7 +3,8 @@ title: Forecasting S&P 500 Returns with R (Part 1)
 author: Aaron Hardy
 date: '2020-06-16'
 slug: forecasting-s-p-500-returns-with-r-part-1
-categories: [stocks]
+categories: 
+- stocks
 tags:
   - Stocks
   - Data science
@@ -89,15 +90,12 @@ symbols <- "SP500"
 #          from = "2010-12-31", to = "2020-01-31")
 
 
-# Load data	
-tickers_file <- list.files("C:/Users/AaronH/Desktop/Aaron/R/Data", pattern = "FRED Tickers.ods", full.names = TRUE) %>% max()	
-tickers <- read_ods(tickers_file, range = "A1:D50", col_types = NA) %>% 	
-      as_tibble() %>% 	
+# Load data
+tickers <- readxl::read_xlsx("C:/Users/user/Desktop/invest-with-r/data/FRED Tickers.xlsx", sheet = 1, range = "A1:A300") %>%
       drop_na()	
 	
 # Load data	
-current_econ_data_file <- list.files("C:/Users/AaronH/Desktop/Aaron/R/Data", pattern = "Data from FRED", full.names = TRUE) %>% max()	
-data <- fread(current_econ_data_file) %>% 	
+data <- fread("C:/Users/user/Desktop/invest-with-r/data/Data from FRED.csv") %>% 	
       as_tibble() %>%	
       mutate(date = ymd(date)) %>%	
       dplyr::filter(symbol %in% symbols)	
@@ -454,7 +452,7 @@ interp.residuals <- fit %>%
 
 # Plot residuals
 interp.residuals %>%
-    ggplot(aes(x = date, y = .resid)) +
+    ggplot(aes(x = as_date(date), y = .resid)) +
     geom_point() +
     geom_smooth(method = "loess", se = TRUE, level = 0.95) +
     scale_y_continuous(labels = scales::percent_format()) +

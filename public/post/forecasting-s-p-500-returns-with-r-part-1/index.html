@@ -11,8 +11,8 @@
              "@id": "\/"
         },
         "articleSection" : "post",
-        "name" : "Forecasting S\x26P 500 Returns with R (Part 1)",
-        "headline" : "Forecasting S\x26P 500 Returns with R (Part 1)",
+        "name" : "Forecasting S\u0026P 500 Returns with R (Part 1)",
+        "headline" : "Forecasting S\u0026P 500 Returns with R (Part 1)",
         "description" : "Modeling stock returns",
         "inLanguage" : "en",
         "author" : "",
@@ -21,10 +21,10 @@
         "accountablePerson" : "",
         "copyrightHolder" : "",
         "copyrightYear" : "2020",
-        "datePublished": "2020-06-16 00:00:00 \x2b0000 UTC",
-        "dateModified" : "2020-06-16 00:00:00 \x2b0000 UTC",
+        "datePublished": "2020-06-16 00:00:00 \u002b0000 UTC",
+        "dateModified" : "2020-06-16 00:00:00 \u002b0000 UTC",
         "url" : "\/post\/forecasting-s-p-500-returns-with-r-part-1\/",
-        "wordCount" : "3272",
+        "wordCount" : "3249",
         "keywords" : [ "Stocks","Data science","Forecasting","Time series","Blog" ]
     }
     </script>
@@ -36,7 +36,7 @@
 
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="generator" content="Hugo 0.62.2" />
+        <meta name="generator" content="Hugo 0.74.2" />
         
 
 
@@ -67,7 +67,7 @@
 <meta itemprop="description" content="Modeling stock returns">
 <meta itemprop="datePublished" content="2020-06-16T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2020-06-16T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="3272">
+<meta itemprop="wordCount" content="3249">
 
 
 
@@ -503,7 +503,7 @@
 <pre class="r"><code># Load libraries
 suppressPackageStartupMessages({
     
-    # Multipurpose
+    # General purpose
     library(tidyverse) # for mutate(), select(), filter()
     library(tidyquant) # for ROC(), endpoints()
     library(data.table) # for fread()
@@ -541,15 +541,12 @@ symbols &lt;- &quot;SP500&quot;
 #          from = &quot;2010-12-31&quot;, to = &quot;2020-01-31&quot;)
 
 
-# Load data 
-tickers_file &lt;- list.files(&quot;C:/Users/AaronH/Desktop/Aaron/R/Data&quot;, pattern = &quot;FRED Tickers.ods&quot;, full.names = TRUE) %&gt;% max()   
-tickers &lt;- read_ods(tickers_file, range = &quot;A1:D50&quot;, col_types = NA) %&gt;%     
-      as_tibble() %&gt;%   
+# Load data
+tickers &lt;- readxl::read_xlsx(&quot;C:/Users/user/Desktop/invest-with-r/data/FRED Tickers.xlsx&quot;, sheet = 1, range = &quot;A1:A300&quot;) %&gt;%
       drop_na() 
     
 # Load data 
-current_econ_data_file &lt;- list.files(&quot;C:/Users/AaronH/Desktop/Aaron/R/Data&quot;, pattern = &quot;Data from FRED&quot;, full.names = TRUE) %&gt;% max()   
-data &lt;- fread(current_econ_data_file) %&gt;%   
+data &lt;- fread(&quot;C:/Users/user/Desktop/invest-with-r/data/Data from FRED.csv&quot;) %&gt;%    
       as_tibble() %&gt;%   
       mutate(date = ymd(date)) %&gt;%  
       dplyr::filter(symbol %in% symbols)    </code></pre>
@@ -1445,7 +1442,7 @@ interp.residuals &lt;- fit %&gt;%
 
 # Plot residuals
 interp.residuals %&gt;%
-    ggplot(aes(x = date, y = .resid)) +
+    ggplot(aes(x = as_date(date), y = .resid)) +
     geom_point() +
     geom_smooth(method = &quot;loess&quot;, se = TRUE, level = 0.95) +
     scale_y_continuous(labels = scales::percent_format()) +
@@ -1764,17 +1761,6 @@ s.setAttribute('data-timestamp', +new Date());
           
         
 
-        
-        <p>
-          <article>
-            <header>
-              
-                Uncategorized
-                <span style="float:right;">4</span>
-              
-            </header>
-          </article>
-        </p>
         
         <p>
           <article>
