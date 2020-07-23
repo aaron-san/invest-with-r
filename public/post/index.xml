@@ -22,6 +22,16 @@ The Modern Portfolio Theory approach attempts to maximize the return-to-risk rat
     </item>
     
     <item>
+      <title>Forecasting S&amp;P 500 Returns with R (Part 1)</title>
+      <link>/post/forecasting-s-p-500-returns-with-r-part-1/</link>
+      <pubDate>Tue, 16 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/forecasting-s-p-500-returns-with-r-part-1/</guid>
+      <description>Disclaimer: I am not a data scientist, but I am an R, investing, and data science enthusiast.
+1. IntroductionIs it possible to predict stock returns? We will look at a group of 500 large U.S. companies and try to identify any historical patterns that can be used to predict future returns. Specifically, we will focus on the S&amp;amp;P 500 stock index which represents the stock performance of a diverse group of 500 of the largest U.</description>
+    </item>
+    
+    <item>
       <title>Finding Distressed Stocks</title>
       <link>/post/finding-distressed-stocks/</link>
       <pubDate>Thu, 12 Mar 2020 00:00:00 +0000</pubDate>

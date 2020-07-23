@@ -38,6 +38,26 @@
   </url>
   
   <url>
+    <loc>/tags/data-science/</loc>
+    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/forecasting/</loc>
+    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/forecasting-s-p-500-returns-with-r-part-1/</loc>
+    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/time-series/</loc>
+    <lastmod>2020-06-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/finding-distressed-stocks/</loc>
     <lastmod>2020-03-12T00:00:00+00:00</lastmod>
   </url>
