@@ -51,7 +51,7 @@ This data is available on the [FRED](https://fred.stlouisfed.org) website.
 # Load libraries
 suppressPackageStartupMessages({
     
-    # Multipurpose
+    # General purpose
     library(tidyverse) # for mutate(), select(), filter()
     library(tidyquant) # for ROC(), endpoints()
     library(data.table) # for fread()
