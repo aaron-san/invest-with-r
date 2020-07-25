@@ -15,9 +15,6 @@ featured: ''
 featuredalt: ''
 featuredpath: ''
 linktitle: ''
-editor_options: 
-  chunk_output_type: console
-# draft: false
 ---
 
 ```{r setup, include=FALSE}
