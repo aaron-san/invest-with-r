@@ -15,6 +15,9 @@ featured: ''
 featuredalt: ''
 featuredpath: ''
 linktitle: ''
+output:
+      blogdown::html_page:
+            highlight: tango
 ---
 
 ```{r setup, include=FALSE}
@@ -54,7 +57,6 @@ suppressPackageStartupMessages({
     library(tidyverse) # for mutate(), select(), filter()
     library(tidyquant) # for ROC(), endpoints()
     library(data.table) # for fread()
-    library(readODS) # for read_ods()
     library(lubridate) # for days()
     library(magrittr) # for is_less_than()
     library(janitor) # for clean_names()
