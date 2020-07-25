@@ -116,49 +116,48 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-5"><a href="#cb1-5"></a>    <span class="kw">library</span>(tidyverse) <span class="co"># for mutate(), select(), filter()</span></span>
 <span id="cb1-6"><a href="#cb1-6"></a>    <span class="kw">library</span>(tidyquant) <span class="co"># for ROC(), endpoints()</span></span>
 <span id="cb1-7"><a href="#cb1-7"></a>    <span class="kw">library</span>(data.table) <span class="co"># for fread()</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a>    <span class="kw">library</span>(readODS) <span class="co"># for read_ods()</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a>    <span class="kw">library</span>(lubridate) <span class="co"># for days()</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a>    <span class="kw">library</span>(magrittr) <span class="co"># for is_less_than()</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a>    <span class="kw">library</span>(janitor) <span class="co"># for clean_names()</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a>    <span class="kw">library</span>(kableExtra) <span class="co"># for kable()</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a>    </span>
-<span id="cb1-14"><a href="#cb1-14"></a>    <span class="co"># Models</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a>    <span class="kw">library</span>(tidymodels)</span>
-<span id="cb1-16"><a href="#cb1-16"></a>    <span class="kw">library</span>(feasts) <span class="co"># for STL()</span></span>
-<span id="cb1-17"><a href="#cb1-17"></a>    <span class="kw">library</span>(lmtest) <span class="co"># for bptest() for heteroskedasticity</span></span>
-<span id="cb1-18"><a href="#cb1-18"></a>    <span class="kw">library</span>(forecast) <span class="co"># for forecast()</span></span>
-<span id="cb1-19"><a href="#cb1-19"></a>    </span>
-<span id="cb1-20"><a href="#cb1-20"></a>    <span class="co"># Time series</span></span>
-<span id="cb1-21"><a href="#cb1-21"></a>    <span class="kw">library</span>(tsibble) <span class="co"># for as_tsibble()</span></span>
-<span id="cb1-22"><a href="#cb1-22"></a>    <span class="kw">library</span>(fable)  <span class="co"># for ARIMA(), ETS(), MEAN(), NAIVE(), SNAIVE() TSLM()</span></span>
-<span id="cb1-23"><a href="#cb1-23"></a>    <span class="kw">library</span>(timetk) <span class="co"># for tk_ts(), tk_tbl()</span></span>
-<span id="cb1-24"><a href="#cb1-24"></a>    </span>
-<span id="cb1-25"><a href="#cb1-25"></a>    <span class="co"># Plotting</span></span>
-<span id="cb1-26"><a href="#cb1-26"></a>    <span class="kw">library</span>(ggthemes) <span class="co"># for theme_hc()</span></span>
-<span id="cb1-27"><a href="#cb1-27"></a>    <span class="kw">library</span>(formattable) <span class="co"># for formattable()</span></span>
-<span id="cb1-28"><a href="#cb1-28"></a>    </span>
-<span id="cb1-29"><a href="#cb1-29"></a>    <span class="co"># Data processing</span></span>
-<span id="cb1-30"><a href="#cb1-30"></a>    <span class="kw">library</span>(sweep) <span class="co"># for sw_tidy(), sw_glance(), sw_augment()</span></span>
-<span id="cb1-31"><a href="#cb1-31"></a>})</span>
-<span id="cb1-32"><a href="#cb1-32"></a></span>
-<span id="cb1-33"><a href="#cb1-33"></a><span class="co"># Variables</span></span>
-<span id="cb1-34"><a href="#cb1-34"></a>symbols &lt;-<span class="st"> &quot;SP500&quot;</span></span>
-<span id="cb1-35"><a href="#cb1-35"></a></span>
-<span id="cb1-36"><a href="#cb1-36"></a><span class="co"># Download data</span></span>
-<span id="cb1-37"><a href="#cb1-37"></a><span class="co"># data &lt;- symbols %&gt;%</span></span>
-<span id="cb1-38"><a href="#cb1-38"></a><span class="co">#   tq_get(get = &quot;economic.data&quot;,</span></span>
-<span id="cb1-39"><a href="#cb1-39"></a><span class="co">#          from = &quot;2010-12-31&quot;, to = &quot;2020-01-31&quot;)</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>    <span class="kw">library</span>(lubridate) <span class="co"># for days()</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a>    <span class="kw">library</span>(magrittr) <span class="co"># for is_less_than()</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>    <span class="kw">library</span>(janitor) <span class="co"># for clean_names()</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a>    <span class="kw">library</span>(kableExtra) <span class="co"># for kable()</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a>    </span>
+<span id="cb1-13"><a href="#cb1-13"></a>    <span class="co"># Models</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a>    <span class="kw">library</span>(tidymodels)</span>
+<span id="cb1-15"><a href="#cb1-15"></a>    <span class="kw">library</span>(feasts) <span class="co"># for STL()</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a>    <span class="kw">library</span>(lmtest) <span class="co"># for bptest() for heteroskedasticity</span></span>
+<span id="cb1-17"><a href="#cb1-17"></a>    <span class="kw">library</span>(forecast) <span class="co"># for forecast()</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a>    </span>
+<span id="cb1-19"><a href="#cb1-19"></a>    <span class="co"># Time series</span></span>
+<span id="cb1-20"><a href="#cb1-20"></a>    <span class="kw">library</span>(tsibble) <span class="co"># for as_tsibble()</span></span>
+<span id="cb1-21"><a href="#cb1-21"></a>    <span class="kw">library</span>(fable)  <span class="co"># for ARIMA(), ETS(), MEAN(), NAIVE(), SNAIVE() TSLM()</span></span>
+<span id="cb1-22"><a href="#cb1-22"></a>    <span class="kw">library</span>(timetk) <span class="co"># for tk_ts(), tk_tbl()</span></span>
+<span id="cb1-23"><a href="#cb1-23"></a>    </span>
+<span id="cb1-24"><a href="#cb1-24"></a>    <span class="co"># Plotting</span></span>
+<span id="cb1-25"><a href="#cb1-25"></a>    <span class="kw">library</span>(ggthemes) <span class="co"># for theme_hc()</span></span>
+<span id="cb1-26"><a href="#cb1-26"></a>    <span class="kw">library</span>(formattable) <span class="co"># for formattable()</span></span>
+<span id="cb1-27"><a href="#cb1-27"></a>    </span>
+<span id="cb1-28"><a href="#cb1-28"></a>    <span class="co"># Data processing</span></span>
+<span id="cb1-29"><a href="#cb1-29"></a>    <span class="kw">library</span>(sweep) <span class="co"># for sw_tidy(), sw_glance(), sw_augment()</span></span>
+<span id="cb1-30"><a href="#cb1-30"></a>})</span>
+<span id="cb1-31"><a href="#cb1-31"></a></span>
+<span id="cb1-32"><a href="#cb1-32"></a><span class="co"># Variables</span></span>
+<span id="cb1-33"><a href="#cb1-33"></a>symbols &lt;-<span class="st"> &quot;SP500&quot;</span></span>
+<span id="cb1-34"><a href="#cb1-34"></a></span>
+<span id="cb1-35"><a href="#cb1-35"></a><span class="co"># Download data</span></span>
+<span id="cb1-36"><a href="#cb1-36"></a><span class="co"># data &lt;- symbols %&gt;%</span></span>
+<span id="cb1-37"><a href="#cb1-37"></a><span class="co">#   tq_get(get = &quot;economic.data&quot;,</span></span>
+<span id="cb1-38"><a href="#cb1-38"></a><span class="co">#          from = &quot;2010-12-31&quot;, to = &quot;2020-01-31&quot;)</span></span>
+<span id="cb1-39"><a href="#cb1-39"></a></span>
 <span id="cb1-40"><a href="#cb1-40"></a></span>
-<span id="cb1-41"><a href="#cb1-41"></a></span>
-<span id="cb1-42"><a href="#cb1-42"></a><span class="co"># Load data</span></span>
-<span id="cb1-43"><a href="#cb1-43"></a>tickers &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xlsx</span>(<span class="st">&quot;C:/Users/user/Desktop/FRED Tickers.xlsx&quot;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="st">&quot;A1:A300&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb1-44"><a href="#cb1-44"></a><span class="st">      </span><span class="kw">drop_na</span>() </span>
-<span id="cb1-45"><a href="#cb1-45"></a>    </span>
-<span id="cb1-46"><a href="#cb1-46"></a><span class="co"># Load data </span></span>
-<span id="cb1-47"><a href="#cb1-47"></a>data &lt;-<span class="st"> </span><span class="kw">fread</span>(<span class="st">&quot;C:/Users/user/Desktop/Data from FRED.csv&quot;</span>) <span class="op">%&gt;%</span><span class="st">   </span></span>
-<span id="cb1-48"><a href="#cb1-48"></a><span class="st">      </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span><span class="st">   </span></span>
-<span id="cb1-49"><a href="#cb1-49"></a><span class="st">      </span><span class="kw">mutate</span>(<span class="dt">date =</span> <span class="kw">ymd</span>(date)) <span class="op">%&gt;%</span><span class="st">  </span></span>
-<span id="cb1-50"><a href="#cb1-50"></a><span class="st">      </span>dplyr<span class="op">::</span><span class="kw">filter</span>(symbol <span class="op">%in%</span><span class="st"> </span>symbols)    </span></code></pre></div>
+<span id="cb1-41"><a href="#cb1-41"></a><span class="co"># Load data</span></span>
+<span id="cb1-42"><a href="#cb1-42"></a>tickers &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xlsx</span>(<span class="st">&quot;C:/Users/user/Desktop/FRED Tickers.xlsx&quot;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="st">&quot;A1:A300&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb1-43"><a href="#cb1-43"></a><span class="st">      </span><span class="kw">drop_na</span>() </span>
+<span id="cb1-44"><a href="#cb1-44"></a>    </span>
+<span id="cb1-45"><a href="#cb1-45"></a><span class="co"># Load data </span></span>
+<span id="cb1-46"><a href="#cb1-46"></a>data &lt;-<span class="st"> </span><span class="kw">fread</span>(<span class="st">&quot;C:/Users/user/Desktop/Data from FRED.csv&quot;</span>) <span class="op">%&gt;%</span><span class="st">   </span></span>
+<span id="cb1-47"><a href="#cb1-47"></a><span class="st">      </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span><span class="st">   </span></span>
+<span id="cb1-48"><a href="#cb1-48"></a><span class="st">      </span><span class="kw">mutate</span>(<span class="dt">date =</span> <span class="kw">ymd</span>(date)) <span class="op">%&gt;%</span><span class="st">  </span></span>
+<span id="cb1-49"><a href="#cb1-49"></a><span class="st">      </span>dplyr<span class="op">::</span><span class="kw">filter</span>(symbol <span class="op">%in%</span><span class="st"> </span>symbols)    </span></code></pre></div>
 </div>
 <div id="data-preparation-and-preprocessing" class="section level2">
 <h2>3. Data Preparation and Preprocessing</h2>
