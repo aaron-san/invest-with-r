@@ -17,7 +17,7 @@ featuredpath: ''
 linktitle: ''
 editor_options: 
   chunk_output_type: console
-draft: false
+# draft: false
 ---
 
 ```{r setup, include=FALSE}
