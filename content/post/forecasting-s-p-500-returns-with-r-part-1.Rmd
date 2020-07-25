@@ -1,7 +1,7 @@
 ---
 title: Forecasting S&P 500 Returns with R (Part 1)
 author: Aaron Hardy
-date: '`r Sys.time()`'
+date: ''
 slug: forecasting-s-p-500-returns-with-r-part-1
 categories: 
 - stocks
