@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Invest with R</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 25 Jul 2020 15:05:26 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 25 Jul 2020 15:17:39 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Data science</title>
       <link>/tags/data-science/</link>
-      <pubDate>Sat, 25 Jul 2020 15:05:26 +0000</pubDate>
+      <pubDate>Sat, 25 Jul 2020 15:17:39 +0000</pubDate>
       
       <guid>/tags/data-science/</guid>
       <description></description>
@@ -23,7 +23,7 @@
     <item>
       <title>Forecasting</title>
       <link>/tags/forecasting/</link>
-      <pubDate>Sat, 25 Jul 2020 15:05:26 +0000</pubDate>
+      <pubDate>Sat, 25 Jul 2020 15:17:39 +0000</pubDate>
       
       <guid>/tags/forecasting/</guid>
       <description></description>
@@ -32,7 +32,7 @@
     <item>
       <title>Stocks</title>
       <link>/tags/stocks/</link>
-      <pubDate>Sat, 25 Jul 2020 15:05:26 +0000</pubDate>
+      <pubDate>Sat, 25 Jul 2020 15:17:39 +0000</pubDate>
       
       <guid>/tags/stocks/</guid>
       <description></description>
@@ -41,7 +41,7 @@
     <item>
       <title>Time series</title>
       <link>/tags/time-series/</link>
-      <pubDate>Sat, 25 Jul 2020 15:05:26 +0000</pubDate>
+      <pubDate>Sat, 25 Jul 2020 15:17:39 +0000</pubDate>
       
       <guid>/tags/time-series/</guid>
       <description></description>
