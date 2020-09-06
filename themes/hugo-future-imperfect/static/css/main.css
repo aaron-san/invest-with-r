@@ -279,7 +279,7 @@
 		color: black;
 		margin: 0 0.25em;
 		padding: 0.25em 0.65em;
-		/* overflow: scroll; */
+		overflow: scroll; 
 	}
 
 	pre {
