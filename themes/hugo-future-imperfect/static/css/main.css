@@ -25,6 +25,7 @@
 		font-size: 100%;
 		font: inherit;
 		vertical-align: baseline;
+		/* background-color: #ffffff;*/ 
 	}
 
 	article, aside, details, figcaption, figure, footer, header, hgroup, menu,
@@ -287,11 +288,20 @@
 		font-size: 0.9em;
 		margin: 0 0 2em 0;
 		display: table;
-    table-layout: fixed;
-    width: 100%
-    overflow: scroll;
+            table-layout: fixed;
+            width: 100%
+            overflow: scroll;
+            background-image: #ffffff;
+	}
+	
+	.sourceCode[id^=cb] {
+	      background-color: #ffffff;
 	}
 
+      #cb3 {
+            background-color: #ffffff;
+      }
+      
 		pre code {
 			display: block;
 			line-height: 1.75em;
