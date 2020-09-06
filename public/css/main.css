@@ -279,7 +279,7 @@
 		color: black;
 		margin: 0 0.25em;
 		padding: 0.25em 0.65em;
-		overflow: scroll;
+		/* overflow: scroll; */
 	}
 
 	pre {
@@ -287,28 +287,29 @@
 		font-family: "Courier New", monospace;
 		font-size: 0.9em;
 		margin: 0 0 2em 0;
-		display: table;
+		display: block;
             table-layout: fixed;
-            width: 100%
-            overflow: scroll;
-            background-image: #ffffff;
+            width: 100%;
+            background-color: #ffffff;
+            /* overflow: scroll; */
 	}
 	
 	.sourceCode[id^=cb] {
 	      background-color: #ffffff;
+	      /* overflow: scroll; */
 	}
 
-      #cb3 {
-            background-color: #ffffff;
-      }
       
 		pre code {
 			display: block;
 			line-height: 1.75em;
 			padding: 1em 1.5em;
-			overflow-x: scroll;
+			/* overflow: scroll;*/
 		}
-
+      
+      code.sourceCode.r {
+            overflow: scroll;
+      }
       
 
 
