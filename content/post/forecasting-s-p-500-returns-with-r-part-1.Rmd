@@ -91,11 +91,11 @@ symbols <- "SP500"
 
 
 # Load data
-tickers <- readxl::read_xlsx("C:/Users/user/Desktop/FRED Tickers.xlsx", sheet = 1, range = "A1:A300") %>%
+tickers <- readxl::read_xlsx("C:/Users/user/Desktop/Aaron/R/Shiny apps/stock-analysis/data/FRED Tickers.xlsx", sheet = 1, range = "A1:A300") %>%
       drop_na()	
 	
 # Load data	
-data <- fread("C:/Users/user/Desktop/Data from FRED.csv") %>% 	
+data <- fread("C:/Users/user/Desktop/Aaron/R/Shiny apps/stock-analysis/data/Data from FRED (2021 02 21).csv") %>% 	
       as_tibble() %>%	
       mutate(date = ymd(date)) %>%	
       dplyr::filter(symbol %in% symbols)	

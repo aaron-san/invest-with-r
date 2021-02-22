@@ -1,7 +1,7 @@
 ---
 title: Forecasting S&P 500 Returns with R (Part 1)
 author: Aaron Hardy
-date: '2020-07-25'
+date: '2021-02-22'
 slug: forecasting-s-p-500-returns-with-r-part-1
 categories: 
 - stocks
@@ -22,6 +22,7 @@ output:
 
 <script src="/rmarkdown-libs/accessible-code-block/empty-anchor.js"></script>
 <script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+<link href="/rmarkdown-libs/lightable/lightable.css" rel="stylesheet" />
 <style type="text/css">
 code.sourceCode > span { display: inline-block; line-height: 1.25; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -150,11 +151,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-39"><a href="#cb1-39"></a></span>
 <span id="cb1-40"><a href="#cb1-40"></a></span>
 <span id="cb1-41"><a href="#cb1-41"></a><span class="co"># Load data</span></span>
-<span id="cb1-42"><a href="#cb1-42"></a>tickers &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xlsx</span>(<span class="st">&quot;C:/Users/user/Desktop/FRED Tickers.xlsx&quot;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="st">&quot;A1:A300&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb1-42"><a href="#cb1-42"></a>tickers &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_xlsx</span>(<span class="st">&quot;C:/Users/user/Desktop/Aaron/R/Shiny apps/stock-analysis/data/FRED Tickers.xlsx&quot;</span>, <span class="dt">sheet =</span> <span class="dv">1</span>, <span class="dt">range =</span> <span class="st">&quot;A1:A300&quot;</span>) <span class="op">%&gt;%</span></span>
 <span id="cb1-43"><a href="#cb1-43"></a><span class="st">      </span><span class="kw">drop_na</span>() </span>
 <span id="cb1-44"><a href="#cb1-44"></a>    </span>
 <span id="cb1-45"><a href="#cb1-45"></a><span class="co"># Load data </span></span>
-<span id="cb1-46"><a href="#cb1-46"></a>data &lt;-<span class="st"> </span><span class="kw">fread</span>(<span class="st">&quot;C:/Users/user/Desktop/Data from FRED.csv&quot;</span>) <span class="op">%&gt;%</span><span class="st">   </span></span>
+<span id="cb1-46"><a href="#cb1-46"></a>data &lt;-<span class="st"> </span><span class="kw">fread</span>(<span class="st">&quot;C:/Users/user/Desktop/Aaron/R/Shiny apps/stock-analysis/data/Data from FRED (2021 02 21).csv&quot;</span>) <span class="op">%&gt;%</span><span class="st">   </span></span>
 <span id="cb1-47"><a href="#cb1-47"></a><span class="st">      </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span><span class="st">   </span></span>
 <span id="cb1-48"><a href="#cb1-48"></a><span class="st">      </span><span class="kw">mutate</span>(<span class="dt">date =</span> <span class="kw">ymd</span>(date)) <span class="op">%&gt;%</span><span class="st">  </span></span>
 <span id="cb1-49"><a href="#cb1-49"></a><span class="st">      </span>dplyr<span class="op">::</span><span class="kw">filter</span>(symbol <span class="op">%in%</span><span class="st"> </span>symbols)    </span></code></pre></div>
@@ -201,11 +202,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Get summary data</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="kw">summary</span>(SP500_tbl)</span></code></pre></div>
 <pre><code>##       date                SP500        ROC.SP500        
-##  Min.   :2011-01-31   Min.   :1131   Min.   :-0.096265  
-##  1st Qu.:2013-04-22   1st Qu.:1590   1st Qu.:-0.005685  
-##  Median :2015-07-15   Median :2061   Median : 0.012781  
-##  Mean   :2015-07-16   Mean   :2063   Mean   : 0.008736  
-##  3rd Qu.:2017-10-07   3rd Qu.:2510   3rd Qu.: 0.028465  
+##  Min.   :2011-03-31   Min.   :1131   Min.   :-0.096265  
+##  1st Qu.:2013-06-07   1st Qu.:1612   1st Qu.:-0.006912  
+##  Median :2015-08-15   Median :2064   Median : 0.012014  
+##  Mean   :2015-08-15   Mean   :2077   Mean   : 0.008393  
+##  3rd Qu.:2017-10-23   3rd Qu.:2516   3rd Qu.: 0.028166  
 ##  Max.   :2019-12-31   Max.   :3231   Max.   : 0.102307</code></pre>
 <p>The simple scatter plot doesn’t seem to reveal any clear trends or seasonality. Let’s look at distributions of returns grouped by year. The violin plot is useful here.</p>
 <p>The mean monthly return over the nine-year period 2011-2019 was 0.9%.</p>
@@ -276,22 +277,22 @@ mean_to_dd
 1
 </td>
 <td style="text-align:right;">
-0.016
+0.015
 </td>
 <td style="text-align:right;">
-0.022
+0.030
 </td>
 <td style="text-align:right;">
-0.045
+0.049
 </td>
 <td style="text-align:right;">
-0.024
+0.025
 </td>
 <td style="text-align:right;">
-0.348
+0.309
 </td>
 <td style="text-align:right;">
-0.671
+0.600
 </td>
 </tr>
 <tr>
@@ -299,22 +300,22 @@ mean_to_dd
 2
 </td>
 <td style="text-align:right;">
-0.022
+0.021
+</td>
+<td style="text-align:right;">
+0.033
 </td>
 <td style="text-align:right;">
 0.031
 </td>
 <td style="text-align:right;">
-0.029
+0.014
 </td>
 <td style="text-align:right;">
-0.013
+0.686
 </td>
 <td style="text-align:right;">
-0.768
-</td>
-<td style="text-align:right;">
-1.668
+1.491
 </td>
 </tr>
 <tr>
@@ -603,74 +604,58 @@ mean_to_dd
 <span id="cb10-8"><a href="#cb10-8"></a><span class="st">    </span><span class="kw">if_else</span>(<span class="st">&quot;Heteroskedastic (alpha = 5%)&quot;</span>, </span>
 <span id="cb10-9"><a href="#cb10-9"></a>            <span class="st">&quot;Not heteroskedastic (alpha = 5%)&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;Not heteroskedastic (alpha = 5%)&quot;</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># Apply a Box-cox transformation to stabilize volatility</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="co"># Calculate appropriate BoxCox lambda</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a>lambda &lt;-<span class="st"> </span><span class="kw">BoxCox.lambda</span>(SP500_ts)</span>
-<span id="cb12-4"><a href="#cb12-4"></a>SP500_BoxCox &lt;-<span class="st"> </span><span class="kw">BoxCox</span>(SP500_ts, lambda)</span>
-<span id="cb12-5"><a href="#cb12-5"></a>SP500_BoxCox <span class="op">%&gt;%</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a><span class="st">    </span><span class="kw">tk_tbl</span>(<span class="dt">rename_index =</span> <span class="st">&quot;date&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb12-7"><a href="#cb12-7"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">as_date</span>(date), <span class="dt">y =</span> ROC.SP500, <span class="dt">color =</span> ROC.SP500 <span class="op">&gt;</span><span class="st"> </span><span class="kw">mean</span>(ROC.SP500))) <span class="op">+</span></span>
-<span id="cb12-8"><a href="#cb12-8"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">show.legend =</span> <span class="ot">FALSE</span>, <span class="dt">size =</span> <span class="fl">2.5</span>) <span class="op">+</span></span>
-<span id="cb12-9"><a href="#cb12-9"></a><span class="st">    </span><span class="kw">geom_hline</span>(<span class="kw">aes</span>(<span class="dt">yintercept =</span> <span class="kw">mean</span>(ROC.SP500)), <span class="dt">color =</span> <span class="st">&quot;firebrick2&quot;</span>, </span>
-<span id="cb12-10"><a href="#cb12-10"></a>               <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></span>
-<span id="cb12-11"><a href="#cb12-11"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Box-Cox Transformed S&amp;P 500 Monthly Returns&quot;</span>,</span>
-<span id="cb12-12"><a href="#cb12-12"></a>         <span class="dt">y =</span> <span class="st">&quot;&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;&quot;</span>) <span class="op">+</span></span>
-<span id="cb12-13"><a href="#cb12-13"></a><span class="st">    </span><span class="kw">scale_x_date</span>(<span class="dt">date_labels =</span> <span class="st">&quot;%Y-%b&quot;</span>) <span class="op">+</span></span>
-<span id="cb12-14"><a href="#cb12-14"></a><span class="st">    </span><span class="kw">theme_minimal</span>()</span></code></pre></div>
-<p><img src="/post/forecasting-s-p-500-returns-with-r-part-1_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>Looking at the S&amp;P 500 monthly returns, it appears that over the nine year period, most monthly returns were positive. There also appeared to be high volatility of returns followed by low volatility and then high volatility again. However, the Breush Pagan test gave evidence that the series is not heteroskedastic (i.e., has stable volatility).</p>
-<p>In addition, a BoxCox transformation was performed in an attempt to dampen the variance. The plot of the Box-Cox transformed series looked similar to the original S&amp;P 500 returns data. We decided to stay with the original data.</p>
 <p>Let’s check for autocorrelation.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># Augmented Dickey-Fuller Test for stationarity</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="kw">ndiffs</span>(SP500_ts)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># Augmented Dickey-Fuller Test for stationarity</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="kw">ndiffs</span>(SP500_ts)</span></code></pre></div>
 <pre><code>## [1] 0</code></pre>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># View the ACF and PCF plots</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a>SP500_ts <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb15-3"><a href="#cb15-3"></a><span class="st">    </span><span class="kw">ggtsdisplay</span>(<span class="dt">theme =</span> <span class="kw">theme_minimal</span>(), <span class="dt">main =</span> <span class="st">&quot;S&amp;P 500 returns monthly&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># View the ACF and PCF plots</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a>SP500_ts <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="st">    </span><span class="kw">ggtsdisplay</span>(<span class="dt">theme =</span> <span class="kw">theme_minimal</span>(), <span class="dt">main =</span> <span class="st">&quot;S&amp;P 500 returns monthly&quot;</span>)</span></code></pre></div>
 <p><img src="/post/forecasting-s-p-500-returns-with-r-part-1_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># Box Test for Autocorrelation</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="co"># - Test of whether any of a group of autocorrelations of a time series are different from zero. Instead of testing randomness at each distinct lag, it tests the &quot;overall&quot; randomness based on a number of lags.</span></span>
-<span id="cb16-3"><a href="#cb16-3"></a><span class="kw">Box.test</span>(SP500_ts, <span class="dt">type =</span> <span class="st">&quot;Ljung&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb16-4"><a href="#cb16-4"></a><span class="st">    </span><span class="kw">sw_glance</span>() <span class="op">%&gt;%</span></span>
-<span id="cb16-5"><a href="#cb16-5"></a><span class="st">    </span><span class="kw">pull</span>(p.value) <span class="op">%&gt;%</span></span>
-<span id="cb16-6"><a href="#cb16-6"></a><span class="st">    </span><span class="kw">is_less_than</span>(<span class="fl">0.05</span>) <span class="op">%&gt;%</span></span>
-<span id="cb16-7"><a href="#cb16-7"></a><span class="st">    </span><span class="kw">if_else</span>(<span class="st">&quot;Autocorrelation exists (alpha = 5%).&quot;</span>, </span>
-<span id="cb16-8"><a href="#cb16-8"></a>            <span class="st">&quot;No autocorrelation exists (alpha = 5%).&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># Box Test for Autocorrelation</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="co"># - Test of whether any of a group of autocorrelations of a time series are different from zero. Instead of testing randomness at each distinct lag, it tests the &quot;overall&quot; randomness based on a number of lags.</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="kw">Box.test</span>(SP500_ts, <span class="dt">type =</span> <span class="st">&quot;Ljung&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a><span class="st">    </span><span class="kw">sw_glance</span>() <span class="op">%&gt;%</span></span>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="st">    </span><span class="kw">pull</span>(p.value) <span class="op">%&gt;%</span></span>
+<span id="cb15-6"><a href="#cb15-6"></a><span class="st">    </span><span class="kw">is_less_than</span>(<span class="fl">0.05</span>) <span class="op">%&gt;%</span></span>
+<span id="cb15-7"><a href="#cb15-7"></a><span class="st">    </span><span class="kw">if_else</span>(<span class="st">&quot;Autocorrelation exists (alpha = 5%).&quot;</span>, </span>
+<span id="cb15-8"><a href="#cb15-8"></a>            <span class="st">&quot;No autocorrelation exists (alpha = 5%).&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;No autocorrelation exists (alpha = 5%).&quot;</code></pre>
 <p>We tested if the series is trend-stationary by determining how many first differences should be applied to the series to make it stationary. The result was 0, so the series is likely stationary (i.e., mean-reverting).</p>
 <p>The autocorrelation function (ACF) plot shows no significant correlations with any of the prior 12 lagged months. The same was observed for the partial autocorrelation function (PACF) plot. The Ljung-Box test gave evidence that no autocorrelation exists in the time series. Overall, it appears that the S&amp;P 500 monthly returns series is white noise (i.e., follows a random walk). To further test that, we could take several time slices of the series and check that the means and volatilities of each subseries match those of the entire series.</p>
 <p>Let’s now check for seasonality. The S&amp;P 500 returns appears to be white noise. Let’s decompose the returns and look at the seasonal component. We’ll also test if the seasonal component is useful in forecasting. We’ll check this by building two ETS models: one with a seasonal component and one without. If the RMSE of the model with the seasonal component is higher than that of the model without the seasonal component, then the seasonal component likely contributed to model performance.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="co"># Seasonal decomposition</span></span>
-<span id="cb18-2"><a href="#cb18-2"></a>SP500_tsi <span class="op">%&gt;%</span></span>
-<span id="cb18-3"><a href="#cb18-3"></a><span class="st">    </span><span class="kw">model</span>(<span class="kw">STL</span>(ROC.SP500 <span class="op">~</span><span class="st"> </span><span class="kw">season</span>())) <span class="op">%&gt;%</span></span>
-<span id="cb18-4"><a href="#cb18-4"></a><span class="st">    </span><span class="kw">components</span>() <span class="op">%&gt;%</span></span>
-<span id="cb18-5"><a href="#cb18-5"></a><span class="st">    </span><span class="kw">rename</span>(<span class="dt">original =</span> ROC.SP500,</span>
-<span id="cb18-6"><a href="#cb18-6"></a>           <span class="dt">seasonal =</span> season_year) <span class="op">%&gt;%</span></span>
-<span id="cb18-7"><a href="#cb18-7"></a><span class="st">    </span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span></span>
-<span id="cb18-8"><a href="#cb18-8"></a><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">select</span>(<span class="op">-</span>model) <span class="op">%&gt;%</span></span>
-<span id="cb18-9"><a href="#cb18-9"></a><span class="st">    </span><span class="kw">pivot_longer</span>(<span class="op">-</span><span class="kw">c</span>(date, season_adjust), <span class="dt">names_to =</span> <span class="st">&quot;component&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb18-10"><a href="#cb18-10"></a><span class="st">    </span><span class="kw">arrange</span>(<span class="kw">factor</span>(component, <span class="dt">levels =</span> <span class="kw">unique</span>(component)), date) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb18-11"><a href="#cb18-11"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> date, <span class="dt">y =</span> value)) <span class="op">+</span></span>
-<span id="cb18-12"><a href="#cb18-12"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
-<span id="cb18-13"><a href="#cb18-13"></a><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span><span class="kw">percent_format</span>()) <span class="op">+</span></span>
-<span id="cb18-14"><a href="#cb18-14"></a><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>component) <span class="op">+</span></span>
-<span id="cb18-15"><a href="#cb18-15"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Plot of Decomposed S&amp;P 500 Returns&quot;</span>,</span>
-<span id="cb18-16"><a href="#cb18-16"></a>         <span class="dt">x =</span> <span class="st">&quot;&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;&quot;</span>) <span class="op">+</span></span>
-<span id="cb18-17"><a href="#cb18-17"></a><span class="st">    </span><span class="kw">theme_minimal</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># Seasonal decomposition</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a>SP500_tsi <span class="op">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="st">    </span><span class="kw">model</span>(<span class="kw">STL</span>(ROC.SP500 <span class="op">~</span><span class="st"> </span><span class="kw">season</span>())) <span class="op">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4"></a><span class="st">    </span><span class="kw">components</span>() <span class="op">%&gt;%</span></span>
+<span id="cb17-5"><a href="#cb17-5"></a><span class="st">    </span><span class="kw">rename</span>(<span class="dt">original =</span> ROC.SP500,</span>
+<span id="cb17-6"><a href="#cb17-6"></a>           <span class="dt">seasonal =</span> season_year) <span class="op">%&gt;%</span></span>
+<span id="cb17-7"><a href="#cb17-7"></a><span class="st">    </span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span></span>
+<span id="cb17-8"><a href="#cb17-8"></a><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">select</span>(<span class="op">-</span>model) <span class="op">%&gt;%</span></span>
+<span id="cb17-9"><a href="#cb17-9"></a><span class="st">    </span><span class="kw">pivot_longer</span>(<span class="op">-</span><span class="kw">c</span>(date, season_adjust), <span class="dt">names_to =</span> <span class="st">&quot;component&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb17-10"><a href="#cb17-10"></a><span class="st">    </span><span class="kw">arrange</span>(<span class="kw">factor</span>(component, <span class="dt">levels =</span> <span class="kw">unique</span>(component)), date) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb17-11"><a href="#cb17-11"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> date, <span class="dt">y =</span> value)) <span class="op">+</span></span>
+<span id="cb17-12"><a href="#cb17-12"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb17-13"><a href="#cb17-13"></a><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span><span class="kw">percent_format</span>()) <span class="op">+</span></span>
+<span id="cb17-14"><a href="#cb17-14"></a><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>component) <span class="op">+</span></span>
+<span id="cb17-15"><a href="#cb17-15"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Plot of Decomposed S&amp;P 500 Returns&quot;</span>,</span>
+<span id="cb17-16"><a href="#cb17-16"></a>         <span class="dt">x =</span> <span class="st">&quot;&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;&quot;</span>) <span class="op">+</span></span>
+<span id="cb17-17"><a href="#cb17-17"></a><span class="st">    </span><span class="kw">theme_minimal</span>()</span></code></pre></div>
 <p><img src="/post/forecasting-s-p-500-returns-with-r-part-1_files/figure-html/seasonal_decomposition-1.png" width="672" /></p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># Informal test for signifance of seasonality</span></span>
-<span id="cb19-2"><a href="#cb19-2"></a><span class="co"># Exponential time series model with &quot;Additive&quot; Error, &quot;None&quot; trend, and &quot;Additive&quot; season types</span></span>
-<span id="cb19-3"><a href="#cb19-3"></a>SP500_tsi <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb19-4"><a href="#cb19-4"></a><span class="st">    </span><span class="kw">model</span>(<span class="kw">ETS</span>(ROC.SP500 <span class="op">~</span><span class="st"> </span><span class="kw">season</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">trend</span>(<span class="st">&quot;N&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">error</span>(<span class="st">&quot;A&quot;</span>))) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb19-5"><a href="#cb19-5"></a><span class="st">    </span><span class="kw">accuracy</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb19-6"><a href="#cb19-6"></a><span class="st">    </span><span class="kw">pull</span>(RMSE)</span></code></pre></div>
-<pre><code>## [1] 0.03191992</code></pre>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="co"># Exponential time series model with &quot;Additive&quot; Error, &quot;None&quot; trend, and &quot;None&quot; season types</span></span>
-<span id="cb21-2"><a href="#cb21-2"></a>SP500_tsi <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb21-3"><a href="#cb21-3"></a><span class="st">    </span><span class="kw">model</span>(<span class="kw">ETS</span>(ROC.SP500 <span class="op">~</span><span class="st"> </span><span class="kw">season</span>(<span class="st">&quot;N&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">trend</span>(<span class="st">&quot;N&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">error</span>(<span class="st">&quot;A&quot;</span>))) <span class="op">%&gt;%</span></span>
-<span id="cb21-4"><a href="#cb21-4"></a><span class="st">    </span><span class="kw">accuracy</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb21-5"><a href="#cb21-5"></a><span class="st">    </span><span class="kw">pull</span>(RMSE)</span></code></pre></div>
-<pre><code>## [1] 0.03326453</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="co"># Informal test for signifance of seasonality</span></span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="co"># Exponential time series model with &quot;Additive&quot; Error, &quot;None&quot; trend, and &quot;Additive&quot; season types</span></span>
+<span id="cb18-3"><a href="#cb18-3"></a>SP500_tsi <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb18-4"><a href="#cb18-4"></a><span class="st">    </span><span class="kw">model</span>(<span class="kw">ETS</span>(ROC.SP500 <span class="op">~</span><span class="st"> </span><span class="kw">season</span>(<span class="st">&quot;A&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">trend</span>(<span class="st">&quot;N&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">error</span>(<span class="st">&quot;A&quot;</span>))) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb18-5"><a href="#cb18-5"></a><span class="st">    </span><span class="kw">accuracy</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb18-6"><a href="#cb18-6"></a><span class="st">    </span><span class="kw">pull</span>(RMSE)</span></code></pre></div>
+<pre><code>## [1] 0.03251978</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="co"># Exponential time series model with &quot;Additive&quot; Error, &quot;None&quot; trend, and &quot;None&quot; season types</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a>SP500_tsi <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="st">    </span><span class="kw">model</span>(<span class="kw">ETS</span>(ROC.SP500 <span class="op">~</span><span class="st"> </span><span class="kw">season</span>(<span class="st">&quot;N&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">trend</span>(<span class="st">&quot;N&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">error</span>(<span class="st">&quot;A&quot;</span>))) <span class="op">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4"></a><span class="st">    </span><span class="kw">accuracy</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb20-5"><a href="#cb20-5"></a><span class="st">    </span><span class="kw">pull</span>(RMSE)</span></code></pre></div>
+<pre><code>## [1] 0.0334729</code></pre>
 <p>We noticed that the RMSE of the <em>ETS model</em> without the seasonal component was higher and therefore suggests the seasonal component did not add to the performance of the model.</p>
 </div>
 <div id="model---univariate-time-series" class="section level3">
@@ -692,91 +677,91 @@ mean_to_dd
 <li><strong>Mixed</strong>
 + This method simple finds an average of the forecasts created from the models above to create forecast.</li>
 </ul>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="co"># Split the time series into training and test sets</span></span>
-<span id="cb23-2"><a href="#cb23-2"></a>initial_time_split &lt;-<span class="st"> </span><span class="kw">initial_time_split</span>(SP500_tsi, <span class="dt">prop =</span> <span class="fl">0.8</span>) </span>
-<span id="cb23-3"><a href="#cb23-3"></a>training_data &lt;-<span class="st"> </span>initial_time_split <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">training</span>() </span>
-<span id="cb23-4"><a href="#cb23-4"></a>test_data &lt;-<span class="st"> </span>initial_time_split <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">testing</span>()</span>
-<span id="cb23-5"><a href="#cb23-5"></a></span>
-<span id="cb23-6"><a href="#cb23-6"></a>SP500_recipe &lt;-<span class="st"> </span>training_data <span class="op">%&gt;%</span></span>
-<span id="cb23-7"><a href="#cb23-7"></a><span class="st">    </span><span class="kw">recipe</span>(ROC.SP500 <span class="op">~</span><span class="st"> </span>.) <span class="op">%&gt;%</span></span>
-<span id="cb23-8"><a href="#cb23-8"></a><span class="st">        </span><span class="kw">prep</span>()</span>
-<span id="cb23-9"><a href="#cb23-9"></a></span>
-<span id="cb23-10"><a href="#cb23-10"></a><span class="co"># Extract the data from the SP500_recipe object</span></span>
-<span id="cb23-11"><a href="#cb23-11"></a>SP500_training &lt;-<span class="st"> </span>SP500_recipe <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">juice</span>()</span>
-<span id="cb23-12"><a href="#cb23-12"></a></span>
-<span id="cb23-13"><a href="#cb23-13"></a><span class="co"># Apply the recipe to the testing data</span></span>
-<span id="cb23-14"><a href="#cb23-14"></a>SP500_testing &lt;-<span class="st"> </span>SP500_recipe <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">bake</span>(test_data)</span>
-<span id="cb23-15"><a href="#cb23-15"></a></span>
-<span id="cb23-16"><a href="#cb23-16"></a></span>
-<span id="cb23-17"><a href="#cb23-17"></a><span class="co"># Fit multiple time series models</span></span>
-<span id="cb23-18"><a href="#cb23-18"></a>fit &lt;-<span class="st"> </span>SP500_training <span class="op">%&gt;%</span></span>
-<span id="cb23-19"><a href="#cb23-19"></a><span class="st">    </span><span class="kw">model</span>(</span>
-<span id="cb23-20"><a href="#cb23-20"></a>        <span class="co"># Naive, Random Walk Forecasts</span></span>
-<span id="cb23-21"><a href="#cb23-21"></a>        <span class="co"># Forecasts equal to last observed value (appropriate for many financial series)</span></span>
-<span id="cb23-22"><a href="#cb23-22"></a>        <span class="dt">rw =</span> <span class="kw">RW</span>(ROC.SP500),</span>
-<span id="cb23-23"><a href="#cb23-23"></a>        <span class="co"># Drift method</span></span>
-<span id="cb23-24"><a href="#cb23-24"></a>        <span class="co"># Forecasts equal to last value plus average change over series (appears as line)</span></span>
-<span id="cb23-25"><a href="#cb23-25"></a>        <span class="dt">rw.drift =</span> <span class="kw">RW</span>(ROC.SP500, <span class="dt">drift =</span> <span class="ot">TRUE</span>),</span>
-<span id="cb23-26"><a href="#cb23-26"></a>        <span class="co"># Forecasts equal to mean of historical data</span></span>
-<span id="cb23-27"><a href="#cb23-27"></a>        <span class="dt">mean =</span> <span class="kw">MEAN</span>(ROC.SP500),</span>
-<span id="cb23-28"><a href="#cb23-28"></a>        <span class="co"># Seasonal Naive</span></span>
-<span id="cb23-29"><a href="#cb23-29"></a>        <span class="co"># Forecasts equal to last value from same season</span></span>
-<span id="cb23-30"><a href="#cb23-30"></a>        <span class="dt">snaive =</span> <span class="kw">SNAIVE</span>(ROC.SP500 <span class="op">~</span><span class="st"> </span><span class="kw">lag</span>(<span class="st">&quot;year&quot;</span>)),</span>
-<span id="cb23-31"><a href="#cb23-31"></a>        <span class="co"># ARIMA</span></span>
-<span id="cb23-32"><a href="#cb23-32"></a>        <span class="co"># Forecasts based on lagged values of series as well as lagged errors</span></span>
-<span id="cb23-33"><a href="#cb23-33"></a>        <span class="dt">arima =</span> <span class="kw">ARIMA</span>(ROC.SP500),</span>
-<span id="cb23-34"><a href="#cb23-34"></a>        <span class="co"># TSLM (Time Series Linear Model)</span></span>
-<span id="cb23-35"><a href="#cb23-35"></a>        <span class="co"># Applies a trend, seasonal, and error terms to the data</span></span>
-<span id="cb23-36"><a href="#cb23-36"></a>        <span class="dt">tslm =</span> <span class="kw">TSLM</span>(ROC.SP500 <span class="op">~</span><span class="st"> </span><span class="kw">trend</span>() <span class="op">+</span><span class="st"> </span><span class="kw">season</span>()),</span>
-<span id="cb23-37"><a href="#cb23-37"></a>        <span class="co"># ETS (Exponential Time Series)</span></span>
-<span id="cb23-38"><a href="#cb23-38"></a>        <span class="co"># Uses an exponential model with trend and seasonality to create forecasts</span></span>
-<span id="cb23-39"><a href="#cb23-39"></a>        <span class="dt">ets =</span> <span class="kw">ETS</span>(ROC.SP500)) <span class="op">%&gt;%</span></span>
-<span id="cb23-40"><a href="#cb23-40"></a><span class="st">        </span><span class="kw">mutate</span>(<span class="dt">mixed =</span> (rw <span class="op">+</span><span class="st"> </span>rw.drift <span class="op">+</span><span class="st"> </span>mean <span class="op">+</span><span class="st"> </span>snaive <span class="op">+</span><span class="st"> </span>arima <span class="op">+</span><span class="st"> </span>tslm <span class="op">+</span><span class="st"> </span>ets) <span class="op">/</span><span class="st"> </span><span class="dv">7</span>)</span>
-<span id="cb23-41"><a href="#cb23-41"></a></span>
-<span id="cb23-42"><a href="#cb23-42"></a><span class="co"># Optimal ARIMA model parameters</span></span>
-<span id="cb23-43"><a href="#cb23-43"></a>fit <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(arima) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">report</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="co"># Split the time series into training and test sets</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a>initial_time_split &lt;-<span class="st"> </span><span class="kw">initial_time_split</span>(SP500_tsi, <span class="dt">prop =</span> <span class="fl">0.8</span>) </span>
+<span id="cb22-3"><a href="#cb22-3"></a>training_data &lt;-<span class="st"> </span>initial_time_split <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">training</span>() </span>
+<span id="cb22-4"><a href="#cb22-4"></a>test_data &lt;-<span class="st"> </span>initial_time_split <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">testing</span>()</span>
+<span id="cb22-5"><a href="#cb22-5"></a></span>
+<span id="cb22-6"><a href="#cb22-6"></a>SP500_recipe &lt;-<span class="st"> </span>training_data <span class="op">%&gt;%</span></span>
+<span id="cb22-7"><a href="#cb22-7"></a><span class="st">    </span><span class="kw">recipe</span>(ROC.SP500 <span class="op">~</span><span class="st"> </span>.) <span class="op">%&gt;%</span></span>
+<span id="cb22-8"><a href="#cb22-8"></a><span class="st">        </span><span class="kw">prep</span>()</span>
+<span id="cb22-9"><a href="#cb22-9"></a></span>
+<span id="cb22-10"><a href="#cb22-10"></a><span class="co"># Extract the data from the SP500_recipe object</span></span>
+<span id="cb22-11"><a href="#cb22-11"></a>SP500_training &lt;-<span class="st"> </span>SP500_recipe <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">juice</span>()</span>
+<span id="cb22-12"><a href="#cb22-12"></a></span>
+<span id="cb22-13"><a href="#cb22-13"></a><span class="co"># Apply the recipe to the testing data</span></span>
+<span id="cb22-14"><a href="#cb22-14"></a>SP500_testing &lt;-<span class="st"> </span>SP500_recipe <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">bake</span>(test_data)</span>
+<span id="cb22-15"><a href="#cb22-15"></a></span>
+<span id="cb22-16"><a href="#cb22-16"></a></span>
+<span id="cb22-17"><a href="#cb22-17"></a><span class="co"># Fit multiple time series models</span></span>
+<span id="cb22-18"><a href="#cb22-18"></a>fit &lt;-<span class="st"> </span>SP500_training <span class="op">%&gt;%</span></span>
+<span id="cb22-19"><a href="#cb22-19"></a><span class="st">    </span><span class="kw">model</span>(</span>
+<span id="cb22-20"><a href="#cb22-20"></a>        <span class="co"># Naive, Random Walk Forecasts</span></span>
+<span id="cb22-21"><a href="#cb22-21"></a>        <span class="co"># Forecasts equal to last observed value (appropriate for many financial series)</span></span>
+<span id="cb22-22"><a href="#cb22-22"></a>        <span class="dt">rw =</span> <span class="kw">RW</span>(ROC.SP500),</span>
+<span id="cb22-23"><a href="#cb22-23"></a>        <span class="co"># Drift method</span></span>
+<span id="cb22-24"><a href="#cb22-24"></a>        <span class="co"># Forecasts equal to last value plus average change over series (appears as line)</span></span>
+<span id="cb22-25"><a href="#cb22-25"></a>        <span class="dt">rw.drift =</span> <span class="kw">RW</span>(ROC.SP500, <span class="dt">drift =</span> <span class="ot">TRUE</span>),</span>
+<span id="cb22-26"><a href="#cb22-26"></a>        <span class="co"># Forecasts equal to mean of historical data</span></span>
+<span id="cb22-27"><a href="#cb22-27"></a>        <span class="dt">mean =</span> <span class="kw">MEAN</span>(ROC.SP500),</span>
+<span id="cb22-28"><a href="#cb22-28"></a>        <span class="co"># Seasonal Naive</span></span>
+<span id="cb22-29"><a href="#cb22-29"></a>        <span class="co"># Forecasts equal to last value from same season</span></span>
+<span id="cb22-30"><a href="#cb22-30"></a>        <span class="dt">snaive =</span> <span class="kw">SNAIVE</span>(ROC.SP500 <span class="op">~</span><span class="st"> </span><span class="kw">lag</span>(<span class="st">&quot;year&quot;</span>)),</span>
+<span id="cb22-31"><a href="#cb22-31"></a>        <span class="co"># ARIMA</span></span>
+<span id="cb22-32"><a href="#cb22-32"></a>        <span class="co"># Forecasts based on lagged values of series as well as lagged errors</span></span>
+<span id="cb22-33"><a href="#cb22-33"></a>        <span class="dt">arima =</span> <span class="kw">ARIMA</span>(ROC.SP500),</span>
+<span id="cb22-34"><a href="#cb22-34"></a>        <span class="co"># TSLM (Time Series Linear Model)</span></span>
+<span id="cb22-35"><a href="#cb22-35"></a>        <span class="co"># Applies a trend, seasonal, and error terms to the data</span></span>
+<span id="cb22-36"><a href="#cb22-36"></a>        <span class="dt">tslm =</span> <span class="kw">TSLM</span>(ROC.SP500 <span class="op">~</span><span class="st"> </span><span class="kw">trend</span>() <span class="op">+</span><span class="st"> </span><span class="kw">season</span>()),</span>
+<span id="cb22-37"><a href="#cb22-37"></a>        <span class="co"># ETS (Exponential Time Series)</span></span>
+<span id="cb22-38"><a href="#cb22-38"></a>        <span class="co"># Uses an exponential model with trend and seasonality to create forecasts</span></span>
+<span id="cb22-39"><a href="#cb22-39"></a>        <span class="dt">ets =</span> <span class="kw">ETS</span>(ROC.SP500)) <span class="op">%&gt;%</span></span>
+<span id="cb22-40"><a href="#cb22-40"></a><span class="st">        </span><span class="kw">mutate</span>(<span class="dt">mixed =</span> (rw <span class="op">+</span><span class="st"> </span>rw.drift <span class="op">+</span><span class="st"> </span>mean <span class="op">+</span><span class="st"> </span>snaive <span class="op">+</span><span class="st"> </span>arima <span class="op">+</span><span class="st"> </span>tslm <span class="op">+</span><span class="st"> </span>ets) <span class="op">/</span><span class="st"> </span><span class="dv">7</span>)</span>
+<span id="cb22-41"><a href="#cb22-41"></a></span>
+<span id="cb22-42"><a href="#cb22-42"></a><span class="co"># Optimal ARIMA model parameters</span></span>
+<span id="cb22-43"><a href="#cb22-43"></a>fit <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(arima) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">report</span>()</span></code></pre></div>
 <pre><code>## Series: ROC.SP500 
 ## Model: ARIMA(0,0,0) w/ mean 
 ## 
 ## Coefficients:
 ##       constant
-##         0.0089
-## s.e.    0.0033
+##         0.0085
+## s.e.    0.0034
 ## 
-## sigma^2 estimated as 0.0009659:  log likelihood=177
-## AIC=-350   AICc=-349.86   BIC=-345.09</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># Create the forecasts</span></span>
-<span id="cb25-2"><a href="#cb25-2"></a>fcast &lt;-<span class="st"> </span>fit <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb25-3"><a href="#cb25-3"></a><span class="st">    </span><span class="kw">forecast</span>(<span class="dt">h =</span> <span class="kw">nrow</span>(SP500_testing))</span>
-<span id="cb25-4"><a href="#cb25-4"></a></span>
-<span id="cb25-5"><a href="#cb25-5"></a><span class="co"># Plot the forecasts</span></span>
-<span id="cb25-6"><a href="#cb25-6"></a>fcast <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb25-7"><a href="#cb25-7"></a><span class="st">    </span><span class="kw">filter</span>(.model <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;rw&quot;</span>, <span class="st">&quot;snaive&quot;</span>, <span class="st">&quot;rw.drift&quot;</span>, <span class="st">&quot;mean&quot;</span>)) <span class="op">%&gt;%</span></span>
-<span id="cb25-8"><a href="#cb25-8"></a><span class="st">  </span><span class="kw">autoplot</span>(SP500_training) <span class="op">+</span></span>
-<span id="cb25-9"><a href="#cb25-9"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Forecasts for S&amp;P 500 monthly returns&quot;</span>,</span>
-<span id="cb25-10"><a href="#cb25-10"></a>       <span class="dt">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Monthly return&quot;</span>) <span class="op">+</span></span>
-<span id="cb25-11"><a href="#cb25-11"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">colour =</span> <span class="kw">guide_legend</span>(<span class="dt">title =</span> <span class="st">&quot;Forecast&quot;</span>)) <span class="op">+</span></span>
-<span id="cb25-12"><a href="#cb25-12"></a><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span><span class="kw">percent_format</span>()) <span class="op">+</span></span>
-<span id="cb25-13"><a href="#cb25-13"></a><span class="st">    </span><span class="kw">theme_minimal</span>() <span class="op">+</span></span>
-<span id="cb25-14"><a href="#cb25-14"></a><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>.model)</span></code></pre></div>
+## sigma^2 estimated as 0.0009807:  log likelihood=172.26
+## AIC=-340.51   AICc=-340.37   BIC=-335.65</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="co"># Create the forecasts</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a>fcast &lt;-<span class="st"> </span>fit <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb24-3"><a href="#cb24-3"></a><span class="st">    </span><span class="kw">forecast</span>(<span class="dt">h =</span> <span class="kw">nrow</span>(SP500_testing))</span>
+<span id="cb24-4"><a href="#cb24-4"></a></span>
+<span id="cb24-5"><a href="#cb24-5"></a><span class="co"># Plot the forecasts</span></span>
+<span id="cb24-6"><a href="#cb24-6"></a>fcast <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb24-7"><a href="#cb24-7"></a><span class="st">    </span><span class="kw">filter</span>(.model <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;rw&quot;</span>, <span class="st">&quot;snaive&quot;</span>, <span class="st">&quot;rw.drift&quot;</span>, <span class="st">&quot;mean&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb24-8"><a href="#cb24-8"></a><span class="st">  </span><span class="kw">autoplot</span>(SP500_training) <span class="op">+</span></span>
+<span id="cb24-9"><a href="#cb24-9"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Forecasts for S&amp;P 500 monthly returns&quot;</span>,</span>
+<span id="cb24-10"><a href="#cb24-10"></a>       <span class="dt">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Monthly return&quot;</span>) <span class="op">+</span></span>
+<span id="cb24-11"><a href="#cb24-11"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">colour =</span> <span class="kw">guide_legend</span>(<span class="dt">title =</span> <span class="st">&quot;Forecast&quot;</span>)) <span class="op">+</span></span>
+<span id="cb24-12"><a href="#cb24-12"></a><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span><span class="kw">percent_format</span>()) <span class="op">+</span></span>
+<span id="cb24-13"><a href="#cb24-13"></a><span class="st">    </span><span class="kw">theme_minimal</span>() <span class="op">+</span></span>
+<span id="cb24-14"><a href="#cb24-14"></a><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>.model)</span></code></pre></div>
 <p><img src="/post/forecasting-s-p-500-returns-with-r-part-1_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>fcast <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="st">    </span><span class="kw">filter</span>(.model <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;arima&quot;</span>, <span class="st">&quot;tslm&quot;</span>, <span class="st">&quot;ets&quot;</span>, <span class="st">&quot;mixed&quot;</span>)) <span class="op">%&gt;%</span></span>
-<span id="cb26-3"><a href="#cb26-3"></a><span class="st">  </span><span class="kw">autoplot</span>(SP500_training) <span class="op">+</span></span>
-<span id="cb26-4"><a href="#cb26-4"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Forecasts for S&amp;P 500 monthly returns&quot;</span>,</span>
-<span id="cb26-5"><a href="#cb26-5"></a>       <span class="dt">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Monthly return&quot;</span>) <span class="op">+</span></span>
-<span id="cb26-6"><a href="#cb26-6"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">colour =</span> <span class="kw">guide_legend</span>(<span class="dt">title =</span> <span class="st">&quot;Forecast&quot;</span>)) <span class="op">+</span></span>
-<span id="cb26-7"><a href="#cb26-7"></a><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span><span class="kw">percent_format</span>()) <span class="op">+</span></span>
-<span id="cb26-8"><a href="#cb26-8"></a><span class="st">    </span><span class="kw">theme_minimal</span>() <span class="op">+</span></span>
-<span id="cb26-9"><a href="#cb26-9"></a><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>.model)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>fcast <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb25-2"><a href="#cb25-2"></a><span class="st">    </span><span class="kw">filter</span>(.model <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;arima&quot;</span>, <span class="st">&quot;tslm&quot;</span>, <span class="st">&quot;ets&quot;</span>, <span class="st">&quot;mixed&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3"></a><span class="st">  </span><span class="kw">autoplot</span>(SP500_training) <span class="op">+</span></span>
+<span id="cb25-4"><a href="#cb25-4"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Forecasts for S&amp;P 500 monthly returns&quot;</span>,</span>
+<span id="cb25-5"><a href="#cb25-5"></a>       <span class="dt">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Monthly return&quot;</span>) <span class="op">+</span></span>
+<span id="cb25-6"><a href="#cb25-6"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">colour =</span> <span class="kw">guide_legend</span>(<span class="dt">title =</span> <span class="st">&quot;Forecast&quot;</span>)) <span class="op">+</span></span>
+<span id="cb25-7"><a href="#cb25-7"></a><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span><span class="kw">percent_format</span>()) <span class="op">+</span></span>
+<span id="cb25-8"><a href="#cb25-8"></a><span class="st">    </span><span class="kw">theme_minimal</span>() <span class="op">+</span></span>
+<span id="cb25-9"><a href="#cb25-9"></a><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>.model)</span></code></pre></div>
 <p><img src="/post/forecasting-s-p-500-returns-with-r-part-1_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="co"># Model performance</span></span>
-<span id="cb27-2"><a href="#cb27-2"></a><span class="kw">accuracy</span>(fcast, SP500_testing) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb27-3"><a href="#cb27-3"></a><span class="st">      </span><span class="kw">arrange</span>(<span class="kw">desc</span>(RMSE)) <span class="op">%&gt;%</span></span>
-<span id="cb27-4"><a href="#cb27-4"></a><span class="st">      </span><span class="kw">mutate_if</span>(is.numeric, <span class="op">~</span><span class="st"> </span><span class="kw">round</span>(., <span class="dv">3</span>)) <span class="op">%&gt;%</span></span>
-<span id="cb27-5"><a href="#cb27-5"></a><span class="st">      </span><span class="kw">kable</span>() <span class="op">%&gt;%</span></span>
-<span id="cb27-6"><a href="#cb27-6"></a><span class="st">      </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>),</span>
-<span id="cb27-7"><a href="#cb27-7"></a>                    <span class="dt">full_width =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># Model performance</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="kw">accuracy</span>(fcast, SP500_testing) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb26-3"><a href="#cb26-3"></a><span class="st">      </span><span class="kw">arrange</span>(<span class="kw">desc</span>(RMSE)) <span class="op">%&gt;%</span></span>
+<span id="cb26-4"><a href="#cb26-4"></a><span class="st">      </span><span class="kw">mutate_if</span>(is.numeric, <span class="op">~</span><span class="st"> </span><span class="kw">round</span>(., <span class="dv">3</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb26-5"><a href="#cb26-5"></a><span class="st">      </span><span class="kw">kable</span>() <span class="op">%&gt;%</span></span>
+<span id="cb26-6"><a href="#cb26-6"></a><span class="st">      </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>),</span>
+<span id="cb26-7"><a href="#cb26-7"></a>                    <span class="dt">full_width =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -805,6 +790,9 @@ MAPE
 MASE
 </th>
 <th style="text-align:right;">
+RMSSE
+</th>
+<th style="text-align:right;">
 ACF1
 </th>
 </tr>
@@ -831,6 +819,9 @@ Test
 </td>
 <td style="text-align:right;">
 338.404
+</td>
+<td style="text-align:right;">
+NaN
 </td>
 <td style="text-align:right;">
 NaN
@@ -865,6 +856,9 @@ Test
 NaN
 </td>
 <td style="text-align:right;">
+NaN
+</td>
+<td style="text-align:right;">
 -0.322
 </td>
 </tr>
@@ -876,7 +870,7 @@ tslm
 Test
 </td>
 <td style="text-align:right;">
--0.002
+-0.003
 </td>
 <td style="text-align:right;">
 0.044
@@ -885,16 +879,19 @@ Test
 0.031
 </td>
 <td style="text-align:right;">
-56.157
+48.951
 </td>
 <td style="text-align:right;">
-92.208
+92.447
 </td>
 <td style="text-align:right;">
 NaN
 </td>
 <td style="text-align:right;">
--0.305
+NaN
+</td>
+<td style="text-align:right;">
+-0.306
 </td>
 </tr>
 <tr>
@@ -914,10 +911,13 @@ Test
 0.036
 </td>
 <td style="text-align:right;">
-126.068
+126.071
 </td>
 <td style="text-align:right;">
-126.068
+126.071
+</td>
+<td style="text-align:right;">
+NaN
 </td>
 <td style="text-align:right;">
 NaN
@@ -952,36 +952,10 @@ Test
 NaN
 </td>
 <td style="text-align:right;">
--0.081
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-arima
-</td>
-<td style="text-align:left;">
-Test
-</td>
-<td style="text-align:right;">
--0.001
-</td>
-<td style="text-align:right;">
-0.041
-</td>
-<td style="text-align:right;">
-0.030
-</td>
-<td style="text-align:right;">
-49.673
-</td>
-<td style="text-align:right;">
-88.148
-</td>
-<td style="text-align:right;">
 NaN
 </td>
 <td style="text-align:right;">
--0.322
+-0.081
 </td>
 </tr>
 <tr>
@@ -1001,10 +975,45 @@ Test
 0.030
 </td>
 <td style="text-align:right;">
-49.673
+52.082
 </td>
 <td style="text-align:right;">
-88.148
+87.410
+</td>
+<td style="text-align:right;">
+NaN
+</td>
+<td style="text-align:right;">
+NaN
+</td>
+<td style="text-align:right;">
+-0.322
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+arima
+</td>
+<td style="text-align:left;">
+Test
+</td>
+<td style="text-align:right;">
+-0.001
+</td>
+<td style="text-align:right;">
+0.041
+</td>
+<td style="text-align:right;">
+0.030
+</td>
+<td style="text-align:right;">
+52.082
+</td>
+<td style="text-align:right;">
+87.410
+</td>
+<td style="text-align:right;">
+NaN
 </td>
 <td style="text-align:right;">
 NaN
@@ -1030,10 +1039,13 @@ Test
 0.030
 </td>
 <td style="text-align:right;">
-49.692
+52.105
 </td>
 <td style="text-align:right;">
-88.142
+87.403
+</td>
+<td style="text-align:right;">
+NaN
 </td>
 <td style="text-align:right;">
 NaN
@@ -1044,30 +1056,30 @@ NaN
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="co"># Check residuals</span></span>
-<span id="cb28-2"><a href="#cb28-2"></a>interp.residuals &lt;-<span class="st"> </span>fit <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb28-3"><a href="#cb28-3"></a><span class="st">    </span><span class="kw">residuals</span>(<span class="dt">type=</span><span class="st">&quot;response&quot;</span>)</span>
-<span id="cb28-4"><a href="#cb28-4"></a></span>
-<span id="cb28-5"><a href="#cb28-5"></a><span class="co"># Plot residuals</span></span>
-<span id="cb28-6"><a href="#cb28-6"></a>interp.residuals <span class="op">%&gt;%</span></span>
-<span id="cb28-7"><a href="#cb28-7"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">as_date</span>(date), <span class="dt">y =</span> .resid)) <span class="op">+</span></span>
-<span id="cb28-8"><a href="#cb28-8"></a><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
-<span id="cb28-9"><a href="#cb28-9"></a><span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;loess&quot;</span>, <span class="dt">se =</span> <span class="ot">TRUE</span>, <span class="dt">level =</span> <span class="fl">0.95</span>) <span class="op">+</span></span>
-<span id="cb28-10"><a href="#cb28-10"></a><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span><span class="kw">percent_format</span>()) <span class="op">+</span></span>
-<span id="cb28-11"><a href="#cb28-11"></a><span class="st">    </span><span class="kw">scale_x_date</span>(<span class="dt">date_labels =</span> <span class="st">&quot;%Y&quot;</span>) <span class="op">+</span></span>
-<span id="cb28-12"><a href="#cb28-12"></a><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>.model, <span class="dt">ncol =</span> <span class="dv">3</span>) <span class="op">+</span></span>
-<span id="cb28-13"><a href="#cb28-13"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Residuals plot&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Residual&quot;</span>) <span class="op">+</span></span>
-<span id="cb28-14"><a href="#cb28-14"></a><span class="st">    </span><span class="kw">theme_hc</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="co"># Check residuals</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a>interp.residuals &lt;-<span class="st"> </span>fit <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb27-3"><a href="#cb27-3"></a><span class="st">    </span><span class="kw">residuals</span>(<span class="dt">type=</span><span class="st">&quot;response&quot;</span>)</span>
+<span id="cb27-4"><a href="#cb27-4"></a></span>
+<span id="cb27-5"><a href="#cb27-5"></a><span class="co"># Plot residuals</span></span>
+<span id="cb27-6"><a href="#cb27-6"></a>interp.residuals <span class="op">%&gt;%</span></span>
+<span id="cb27-7"><a href="#cb27-7"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">as_date</span>(date), <span class="dt">y =</span> .resid)) <span class="op">+</span></span>
+<span id="cb27-8"><a href="#cb27-8"></a><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
+<span id="cb27-9"><a href="#cb27-9"></a><span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;loess&quot;</span>, <span class="dt">se =</span> <span class="ot">TRUE</span>, <span class="dt">level =</span> <span class="fl">0.95</span>) <span class="op">+</span></span>
+<span id="cb27-10"><a href="#cb27-10"></a><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span><span class="kw">percent_format</span>()) <span class="op">+</span></span>
+<span id="cb27-11"><a href="#cb27-11"></a><span class="st">    </span><span class="kw">scale_x_date</span>(<span class="dt">date_labels =</span> <span class="st">&quot;%Y&quot;</span>) <span class="op">+</span></span>
+<span id="cb27-12"><a href="#cb27-12"></a><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>.model, <span class="dt">ncol =</span> <span class="dv">3</span>) <span class="op">+</span></span>
+<span id="cb27-13"><a href="#cb27-13"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Residuals plot&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Residual&quot;</span>) <span class="op">+</span></span>
+<span id="cb27-14"><a href="#cb27-14"></a><span class="st">    </span><span class="kw">theme_hc</span>()</span></code></pre></div>
 <p><img src="/post/forecasting-s-p-500-returns-with-r-part-1_files/figure-html/unnamed-chunk-4-3.png" width="672" /></p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="co"># Plot density of residuals</span></span>
-<span id="cb29-2"><a href="#cb29-2"></a>interp.residuals <span class="op">%&gt;%</span></span>
-<span id="cb29-3"><a href="#cb29-3"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> .resid)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb29-4"><a href="#cb29-4"></a><span class="st">    </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">color =</span> .model), <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
-<span id="cb29-5"><a href="#cb29-5"></a><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span><span class="kw">label_number</span>(<span class="dt">accuracy =</span> <span class="dv">1</span>)) <span class="op">+</span></span>
-<span id="cb29-6"><a href="#cb29-6"></a><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span><span class="kw">percent_format</span>()) <span class="op">+</span></span>
-<span id="cb29-7"><a href="#cb29-7"></a><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>.model, <span class="dt">ncol =</span> <span class="dv">3</span>) <span class="op">+</span></span>
-<span id="cb29-8"><a href="#cb29-8"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Density plots of residuals&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;Residual&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Frequency&quot;</span>) <span class="op">+</span></span>
-<span id="cb29-9"><a href="#cb29-9"></a><span class="st">    </span><span class="kw">theme_hc</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="co"># Plot density of residuals</span></span>
+<span id="cb28-2"><a href="#cb28-2"></a>interp.residuals <span class="op">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> .resid)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb28-4"><a href="#cb28-4"></a><span class="st">    </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">color =</span> .model), <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb28-5"><a href="#cb28-5"></a><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span><span class="kw">label_number</span>(<span class="dt">accuracy =</span> <span class="dv">1</span>)) <span class="op">+</span></span>
+<span id="cb28-6"><a href="#cb28-6"></a><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span><span class="kw">percent_format</span>()) <span class="op">+</span></span>
+<span id="cb28-7"><a href="#cb28-7"></a><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>.model, <span class="dt">ncol =</span> <span class="dv">3</span>) <span class="op">+</span></span>
+<span id="cb28-8"><a href="#cb28-8"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Density plots of residuals&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;Residual&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Frequency&quot;</span>) <span class="op">+</span></span>
+<span id="cb28-9"><a href="#cb28-9"></a><span class="st">    </span><span class="kw">theme_hc</span>()</span></code></pre></div>
 <p><img src="/post/forecasting-s-p-500-returns-with-r-part-1_files/figure-html/unnamed-chunk-4-4.png" width="672" /></p>
 <p>It appears that the <em>Random Walk</em> and <em>Random Walk with a Drift</em> models are equally the best models among the eight applied. They resulted in the highest RMSEs for out-of-sample test data. The performance metrics for these two models are roughly equal, perhaps because the trend component in the <em>Random Walk with a Drift</em> was approximately flat.</p>
 <p>Relatively speaking, the <em>Random Walk</em> and <em>Random Walk with a Drift</em> models outperform the others, but are they useful in forecasting returns? Actually, an RMSE of 6.5% (0.0652) is not an acceptable forecast error when considing the average monthly return of 0.9% over the nine-year period 2011-2019. It is informative to notice that the MAPE (Mean Absolute Percentage Error) of 329% for these two models. Perhaps a MAPE of less than 20% would be acceptable.</p>
