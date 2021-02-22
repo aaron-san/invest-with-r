@@ -263,26 +263,9 @@ bptest(lmMod) %>%
     is_less_than(0.05) %>%
     if_else("Heteroskedastic (alpha = 5%)", 
             "Not heteroskedastic (alpha = 5%)")
-
-# Apply a Box-cox transformation to stabilize volatility
-# Calculate appropriate BoxCox lambda
-lambda <- BoxCox.lambda(SP500_ts)
-SP500_BoxCox <- BoxCox(SP500_ts, lambda)
-SP500_BoxCox %>%
-    tk_tbl(rename_index = "date") %>%
-    ggplot(aes(x = as_date(date), y = ROC.SP500, color = ROC.SP500 > mean(ROC.SP500))) +
-    geom_point(show.legend = FALSE, size = 2.5) +
-    geom_hline(aes(yintercept = mean(ROC.SP500)), color = "firebrick2", 
-               linetype = "dashed", size = 1) +
-    labs(title = "Box-Cox Transformed S&P 500 Monthly Returns",
-         y = "", x = "") +
-    scale_x_date(date_labels = "%Y-%b") +
-    theme_minimal()
 ```
 
 Looking at the S&P 500 monthly returns, it appears that over the nine year period, most monthly returns were positive. There also appeared to be high volatility of returns followed by low volatility and then high volatility again. However, the Breush Pagan test gave evidence that the series is not heteroskedastic (i.e., has stable volatility). 
-
-In addition, a BoxCox transformation was performed in an attempt to dampen the variance. The plot of the Box-Cox transformed series looked similar to the original S&P 500 returns data. We decided to stay with the original data.
 
 Let's check for autocorrelation.
 
