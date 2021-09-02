@@ -24,7 +24,8 @@ output:
 knitr::opts_chunk$set(
 	echo = TRUE,
 	message = FALSE,
-	warning = FALSE
+	warning = FALSE,
+	eval = FALSE
 )
 ```
 Disclaimer: I am not a data scientist, but I am an R, investing, and data science enthusiast.

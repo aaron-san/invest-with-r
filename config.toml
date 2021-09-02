@@ -24,11 +24,11 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   # Sets navbarTitle to match the section of the website
   dynamicTitles        = true
   # Sets RSS icons to appear on the sidebar with the social media buttons
-  rssAppearAtTop       = false
-  rssAppearAtBottom    = false
+  rssAppearAtTop       = true
+  rssAppearAtBottom    = true
   # Sets Social Media icons to appear on the sidebar
-  socialAppearAtTop    = false
-  socialAppearAtBottom = false
+  socialAppearAtTop    = true
+  socialAppearAtBottom = true
   # Sets Categories to sort by number of posts instead of alphabetical
   categoriesByCount    = true
   # set to show or to hide categories in the sidebar
@@ -39,18 +39,18 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   # apple-touch-icon-precomposed.png, favicon.png, favicon.ico, and mstile.png.
   # These are stored in the favicon folder. See the following for more information:
   # https://github.com/audreyr/favicon-cheat-sheet
-  loadFavicon          = false
+  loadFavicon          = true
   faviconVersion       = ""
   # Sets Social Share links to appear on posts
   socialShare          = true
   # Sets specific share to appear on posts (default behavior is to appear)
   socialShareTwitter   = true
-  socialShareGoogleplus = false
+  socialShareGoogleplus = true
   socialShareFacebook  = true
-  socialShareReddit    = false
+  socialShareReddit    = true
   socialShareLinkedin  = true
   socialShareStumbleupon = false
-  socialSharePinterest = false
+  socialSharePinterest = true
   socialShareEmail     = true
 
   # Load custom CSS or JavaScript files. The variable is an array so that you
@@ -90,10 +90,10 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 [params.intro]
   header    = ""
 
-  paragraph = "Learn about investing with the R programming language."
+  paragraph = "Learn about investing through the R programming language."
   # paragraph = "Another fine responsive site template by <a href=\"http://html5up.net\">HTML5 UP</a>. Ported by Julio Pescador with some extra goodies <i class='fa fa-hand-peace-o'></i>"
 
-  about     = "Here you can read about various methods of integrating R with the investing process."
+  about     = "Here you can learn about various methods of integrating R with the investing process."
 
   # This appears at the top of the sidebar above params.intro.header.
   # A width of less than 100px is recommended from a design perspective.

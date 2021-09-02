@@ -1,0 +1,504 @@
+---
+title: Logistic regression with stock returns
+#draft: true
+author: ''
+date: '2021-08-27'
+slug: logistic-regression-with-stock-returns
+categories: []
+tags: []
+description: 'Modeling stock returns with logistic regression'
+featured: ''
+featuredalt: ''
+featuredpath: ''
+linktitle: ''
+output:
+      blogdown::html_page:
+            highlight: tango
+            toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+## Summary
+The goal of this analysis is to fit a logistic model to data containing
+financial variables in an attempt to predict future stock price returns. We will 
+look at a group of companies in the technology sector and attempt to forecast 
+their six-month forward stock returns. We will use financial data from
+the companies' public financial statements.
+
+## Load data and packages
+First, we'll load external libraries and the data.
+
+```{r}
+library(tidyverse)
+library(tidymodels)
+library(workflows)
+library(tune)
+library(data.table)
+
+# Read the data
+ratios_final_file <- list.files("C:/Users/user/Desktop/Aaron/R/Projects/Fundamentals Data/cleaned data", pattern = "ratios_final", full.names = TRUE) %>% max()
+
+# Helper function to read csv
+read_tibble <- function(x, date_format = "%Y-%m-%d") {
+    x %>%
+        data.table::fread(fill = TRUE) %>% 
+        as_tibble() %>% 
+        mutate(across(which(sapply(., class) == "integer64" ), as.numeric)) %>% 
+        mutate(across(contains("date"), ~as.Date(.x, date_format)))
+}
+
+ratios_final <- 
+      read_tibble(ratios_final_file) %>% 
+      distinct()
+
+# Data table size
+dim(ratios_final)
+
+# Number of tickers
+ratios_final %>% distinct(ticker) %>% nrow()
+```
+
+## The data
+The original data is a time series of 118 financial variables for
+1,198 different public companies.
+
+We must make three decisions:
+
+1. What financial variables to use
+2. What time span to use
+3. Which tickers to use
+
+The data set was compiled from various data sources including Yahoo Finance,
+EDGAR, and others. I compiled the data using several R scripts that involve 
+web scraping and data cleaning. I cannot attest to the quality of the data.
+
+## Exploratory data analysis
+Let's inspect the data for missingness and view the variable distributions.
+
+### Missing data
+
+```{r}
+
+# Inspect missing data
+ratios_final %>% 
+      distinct() %>% 
+      summarize(across(where(is.numeric), ~sum(is.na(.x)))) %>% 
+      gather(key = variable, value = count_na) %>%
+      arrange(count_na) %>% 
+      # Select variables that are ratios derived from the raw figures
+      filter(str_detect(variable, "ratio|index|scaled")) %>% 
+      # Remove variables with "decision" prefix as these are future-dated ratios
+      filter(!str_detect(variable, "decision")) %>% 
+      mutate(p_na = count_na / nrow(ratios_final %>% distinct()))
+```
+
+There is a significant number of missing values in the data set. Moreover, 
+some variables are original raw data and others are ratios derived from 
+the raw data. We will choose a group of variables among the ratios type to 
+serve as input variables.
+
+## Variable selection
+We will select a group of the derived ratio variables as features and 
+attempt to predict the six-month stock return for one or more public
+companies.
+
+The variables **sales_growth_index**, **current_ratio**,
+**scaled_net_operating_assets**, **leverage_index**, and **asset_turnover**
+are missing less than 50% of their values, so we will choose them for the model.
+
+### Feature variables
+
+$sales\_growth\_index = \frac{annual \, sales_t}{annual \, sales_{t-12}}$
+$current\_ratio = \frac{total \, current \, assets_t} {total \, current \, liabilities_t}}$
+$scaled\_net\_operating\_assets = $
+snoa = ((total_assets - cash_and_short_term_investments) - 
+               (total_assets - short_long_term_debt - (total_liabilities - total_current_liabilities) - 
+                    (total_assets - total_liabilities))) / total_assets
+
+
+
+
+$leverage\_index = \frac{debt \, ratio_t} {debt \, ratio_{t-12}}$
+$asset\_turnover = \frac{annual \, revenue_t} {total \, assets_t}}$
+
+
+### Response variable
+
+$adj\_return\_6M\_\_\_9M\_ forward = log(\frac{adjusted \, price_t} {adjusted \, price_{t - 6}})$
+
+The variable **adj_return_6M___9M_forward** represents the 6-month stock price return using adjusted
+prices for a period ending nine months in the future. In reality, the raw data is not 
+published until several weeks or months after the close of the company's fiscal period, so
+it is important to assume that the financial ratios aren't available to decision makers
+until a sufficient time after their public disclosure. In this case, we assumed
+decision makers will have full access to the financial data three months after 
+the close of the fiscal period.
+
+## Data cleaning
+We will select the desired variables and create a new variable. 
+
+```{r}
+ratios <- 
+      ratios_final %>%
+      select(ticker, fundamentals_date, sales_growth_index, leverage_index, 
+             asset_turnover, current_ratio, asset_quality_index, 
+             asset_quality_index, scaled_net_operating_assets,
+             lt_debt_ratio, total_accruals_to_total_assets,
+             free_cash_flow_to_assets,
+             adj_return_6M) %>% 
+      distinct() %>%
+      mutate(adj_return_6M___9M_forward = lead(adj_return_6M, 9)) %>%
+      select(-adj_return_6M)
+```
+
+Now that we decided what variables to use, we will choose the time span. We would
+like a relatively long time span to ensure the logistic model can capture enough
+of the variance in the data to ensure a robust model. Ten years or less may be 
+sufficient, so we will use a time period beginning Dec. 31, 2010 and ending
+Dec. 31, 2019.
+
+```{r}
+tickers_to_use <-
+      ratios %>% 
+      filter(between(fundamentals_date, "2010-12-31", "2019-12-31")) %>% 
+      drop_na() %>% 
+      group_by(ticker) %>% 
+      arrange(fundamentals_date) %>% 
+      mutate(date_diff = as.numeric(fundamentals_date - lag(fundamentals_date))) %>% 
+      zoo::na.trim(sides = "left") %>%
+      filter(between(date_diff, 25, 35)) %>% 
+      arrange(fundamentals_date) %>%
+      mutate(date_diff = as.numeric(fundamentals_date - lag(fundamentals_date))) %>% 
+      zoo::na.trim(sides = "left") %>%
+      summarize(full_dates = all(between(date_diff, 25, 35))) %>% 
+      filter(full_dates == TRUE) %>% 
+      distinct(ticker)
+      
+tickers_to_use
+```
+
+This leaves us with `r nrow(tickers_to_use)` tickers to choose from. We will choose all companies in the
+technology sector.
+
+Now, we will choose the final data subset to feed into the logistical model.
+
+``` {r}
+ratios_filtered <-
+      ratios %>%
+      drop_na() %>% 
+      filter(ticker %in% pull(tickers_to_use, ticker)) %>% 
+      left_join(ratios_final %>% select(ticker, fundamentals_date, sector_yhoo)) %>%
+      filter(sector_yhoo == "technology") %>% 
+      filter(between(fundamentals_date, "2010-12-31", "2019-12-31")) %>% 
+      mutate(return_sign = factor(ifelse(adj_return_6M___9M_forward > 0, "pos", "neg"), levels = c("pos", "neg"))) %>% 
+      arrange(fundamentals_date) %>% 
+      select(-sector_yhoo)
+
+ratios_filtered %>% 
+      count(return_sign) %>% 
+      janitor::adorn_totals("row")
+
+# No. of months in data set
+ratios_filtered %>% 
+      select(fundamentals_date) %>% 
+      summarize(date_range = lubridate::interval(min(fundamentals_date), max(fundamentals_date)) %/% months(1))
+
+```
+
+### Data balance
+The response variable (return_sign) has twice as many positive values (1,935) than negative
+values (1008). This could skew the model results, so we will downsample the data
+in order to create balanced response outcomes.
+
+
+```{r}
+# View distributions
+ratios_filtered %>%
+      select(-return_sign, -ticker) %>% 
+      pivot_longer(-c(fundamentals_date), names_to = "variable") %>% 
+      group_by(variable) %>% 
+      mutate(median_x = median(value, na.rm = TRUE)) %>%
+      ggplot(aes(x = reorder(variable, median_x), y = value, fill = variable)) +
+      geom_boxplot(alpha = 0.5, show.legend = FALSE) +
+      labs(title = "Boxplots of model variables",
+           y = "", x = "") +
+      theme_minimal() +
+      coord_flip()
+
+```
+
+There appears to be outlier data points in the **sales_growth_index** and
+**total_accruals_to_total_assets** variables and possibly others. We will try 
+to remove remove extreme values.
+
+### Remove Outliers
+
+```{r}
+# Remove extreme values
+ratios_cleaned <- 
+      ratios_filtered %>% 
+      distinct() %>% 
+      # select(-return_sign) %>%
+      pivot_longer(-c(fundamentals_date, ticker, return_sign), names_to = "ratio") %>% 
+      group_by(ratio) %>% 
+      mutate(low_q = quantile(value, .005),
+             high_q = quantile(value, .995)) %>% 
+      filter(value >= low_q & value <= high_q) %>% 
+      select(-low_q, -high_q) %>% 
+      pivot_wider(names_from = ratio, values_from = value)
+      
+
+ratios_cleaned %>%
+      select(-return_sign, -ticker) %>% 
+      pivot_longer(-c(fundamentals_date), names_to = "variable") %>% 
+      group_by(variable) %>% 
+      mutate(median_x = median(value, na.rm = TRUE)) %>%
+      ggplot(aes(x = reorder(variable, median_x), y = value, fill = variable)) +
+      geom_boxplot(alpha = 0.5, show.legend = FALSE, na.rm = TRUE) +
+      labs(title = "Boxplots of model variables",
+           y = "", x = "") +
+      theme_minimal() +
+      coord_flip()
+
+```
+
+After removing extreme values, the variables contain more realistic values and the 
+fitted logistic model will likely be more robust and less affected by extreme values.
+
+## Statistical modeling
+We will use a logistic model with the four numeric feature variables mentioned earlier and
+the six-month stock return as the dependent variable.
+
+### Split the data into training and test sets
+
+```{r}
+# Split data
+set.seed(1234)
+
+data_split <- initial_split(ratios_cleaned %>% select(-ticker, -fundamentals_date,
+                                                      -adj_return_6M___9M_forward))
+data_train <- training(data_split)
+data_test <- testing(data_split)
+
+data_cv <- vfold_cv(data_train)
+
+# Preprocess the data
+ratios_recipe <- 
+      recipe(return_sign ~ ., data = data_train) %>%
+      # step_normalize(all_numeric()) #%>% 
+      # step_knnimpute(all_predictors())
+      # Filter out variables that are too correlated with each other
+      step_corr(all_predictors()) %>%
+      # Convert the factor columns into (one or more) numeric binary (0 and 1) variables
+      # step_dummy(all_nominal(), -all_outcomes()) %>% 
+      # Remove any numeric variables that have zero variance
+      # step_zv(all_numeric())
+      # Normalize (center and scale) the numeric variables
+      # step_normalize(all_numeric())
+      # Downsample the data, since there are significantly unbalanced data in the outcomes variable
+      # If we don't do this, our model will learn very effectively about how to predict one case rather than both
+      themis::step_downsample(return_sign)
+
+
+# Prepare the data
+data_prep <- 
+      ratios_recipe %>% 
+      prep()
+
+# Apply the transformations
+data_juiced <- 
+      data_prep %>% 
+      juice()
+
+data_count <-
+      data_juiced %>% 
+      count(return_sign) %>% 
+      janitor::adorn_totals("row")
+data_count
+
+```
+
+The downsampling reduced the data to `r scales::comma_format()(data_count %>% filter(return_sign == "Total") %>% pull())` observations with equal number of 
+**pos** and **neg** values in the response variable (return_sign). This will 
+prevent model results that are biased due to unbalanced response variable values 
+in the testing data.
+
+```{r}
+# Apply a logistic regression model
+lr_model <- 
+      logistic_reg() %>%
+      # Set the engine
+      set_engine("glm") %>%
+      # Set the mode
+      set_mode("classification") %>%
+      # Fit the model
+      fit(return_sign ~ ., data = data_juiced)
+
+tidy(lr_model, exponentiate = TRUE) %>%
+      filter(p.value < 0.05)
+
+```
+
+The logistic regression shows that the variables **sales_growth_index**, 
+**asset_turnover**, **scaled_net_operating_assets**, and 
+**total_accruals_to_total_assets** are significant with p-values below 0.05.
+
+We will fit a new logistic model using these variables.
+
+```{r}
+# Preprocess the data
+model_recipe <- recipe(return_sign ~ sales_growth_index + asset_turnover + 
+                             scaled_net_operating_assets + 
+                             total_accruals_to_total_assets, data = data_train) %>% 
+      themis::step_downsample(return_sign)
+      
+# Prepare the data
+data_prep <- 
+      model_recipe %>% 
+      prep()
+
+# Apply the transformations
+data_juiced <- 
+      data_prep %>% 
+      juice()
+
+# Apply a logistic regression model
+fitted_logistic_model <- 
+      logistic_reg() %>%
+      # Set the engine
+      set_engine("glm") %>%
+      # Set the mode
+      set_mode("classification") %>%
+      # Fit the model
+      fit(return_sign ~ sales_growth_index + asset_turnover + 
+                             scaled_net_operating_assets + 
+                             total_accruals_to_total_assets, data = data_juiced)
+
+tidy(fitted_logistic_model, exponentiate = TRUE) %>% 
+      filter(p.value < 0.05)
+```
+
+## Interpret results
+
+The variables **sales_growth_index** and **asset_turnover** still have 
+significant p-value so they will be used in the final model.
+
+## Final Model
+
+```{r}
+# Apply a logistic regression model
+final_logistic_model <- 
+      logistic_reg() %>%
+      # Set the engine
+      set_engine("glm") %>%
+      # Set the mode
+      set_mode("classification") %>%
+      # Fit the model
+      fit(return_sign ~ sales_growth_index + asset_turnover, data = data_juiced)
+```
+
+
+### Model predictions
+
+```{r}
+# Class prediction
+pred_class <- predict(final_logistic_model, new_data = data_test, type = "class")
+
+# Prediction Probabilities
+pred_probs <- predict(final_logistic_model, new_data = data_test, type = "prob")
+
+```
+
+
+### Model evaluation
+
+```{r}
+model_results <- 
+      data_test %>%
+      select(return_sign) %>%
+      bind_cols(pred_class, pred_probs)
+```
+
+The following definitions will apply:
+
+* TP = True Positive (prediction of positive return and actual positive return)
+* FP = False Positive (prediction of positive return, but actual negative return)
+* TN = True Negative (prediction of negative return and actual negative return)
+* FN = False Negative (prediction of negative return, but actual positive return)
+
+#### Confusion matrix
+
+```{r fig.width=4, fig.height=4}
+cf <- conf_mat(model_results, truth = return_sign, estimate = .pred_class)
+autoplot(cf, type = "heatmap")
+```
+
+#### Accuracy
+Accuracy measures the model's ability to make a 
+
+$Accuracy = \frac{ TP + TN}{ TN + FN + TP + FP}$
+
+```{r}
+# Accuracy
+accuracy <- model_results %>% accuracy(return_sign, .pred_class)
+accuracy
+```
+
+The accuracy is about `r accuracy %>% pull(.estimate) %>% signif(2)`, meaning the model correctly predicted a positive case
+or negative case `r {accuracy %>% pull(.estimate) %>% signif(2)}*100`% of the time.
+
+#### Sensitivity
+Sensitivity measures the model's ability to correctly classify positive cases.
+
+$Sensitivity = \frac{TP}{TP + FN}$
+
+```{r}
+# Sensitivity
+sensitivity <- model_results %>% sens(return_sign, .pred_class)
+sensitivity
+```
+
+The sensitivity is about `r sensitivity %>% pull(.estimate) %>% signif(2)`, meaning the model correctly predicted positive 
+cases `r {sensitivity %>% pull(.estimate) %>% signif(2)}*100`% of the time.
+
+
+#### Specificity
+Specificity measures the model's ability to correctly classify negative cases.
+
+$Specificity = \frac{TN}{TN + FP}$
+
+```{r}
+# Specificity
+specificity <- model_results %>% spec(return_sign, .pred_class)
+specificity
+```
+
+The specificity is `r specificity %>% pull(.estimate) %>% signif(2)`, meaning the model correctly classified negative cases
+`r {specificity %>% pull(.estimate) %>% signif(2)}*100`% of the time.
+
+
+## Final results
+
+The model did an overall mediocre job of predicting whether six-month stock returns
+for technology companies over the period 2012-12-31 to 2019-12-31 are positive or 
+negative using **asset_turnover** and **sales_growth_index** as input variables.
+The model correctly predicted a positive return about 
+`r {sensitivity %>% pull(.estimate) %>% signif(2)}*100`% of the time and 
+correctly predicted a negative return about 
+`r {specificity %>% pull(.estimate) %>% signif(2)}*100`% of the time.
+
+Many investors would place more weight on a model's ability to predict negative 
+returns, since these can be devastating for portfolios. 
+
+
+
+
+
+
