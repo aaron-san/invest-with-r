@@ -25,12 +25,16 @@ knitr::opts_chunk$set(
 )
 ```
 
+---
+
 ## Summary
-The goal of this analysis is to fit a logistic model to data containing
-financial variables in an attempt to predict future stock price returns. We will 
-look at a group of companies in the technology sector and attempt to forecast 
-their six-month forward stock returns. We will use financial data from
-the companies' public financial statements.
+
+The goal of this analysis is to fit a 
+[logistic model](https:://en.m.wikipedia.org/wiki/Logistic_regression) to data 
+containing financial variables in an attempt to predict future stock price 
+returns. We will look at a group of companies in the technology sector and 
+attempt to forecast their six-month forward stock returns. We will use financial 
+data from the companies' public financial statements.
 
 ## Load data and packages
 First, we'll load external libraries and the data.
@@ -66,6 +70,7 @@ ratios_final %>% distinct(ticker) %>% nrow()
 ```
 
 ## The data
+
 The original data is a time series of 118 financial variables for
 1,198 different public companies.
 
@@ -75,17 +80,22 @@ We must make three decisions:
 2. What time span to use
 3. Which tickers to use
 
-The data set was compiled from various data sources including Yahoo Finance,
-EDGAR, and others. I compiled the data using several R scripts that involve 
-web scraping and data cleaning. I cannot attest to the quality of the data.
+The data set was compiled from various data sources including 
+[Yahoo Finance](https://finance.yahoo.com),
+[EDGAR](https://www.sec.gov/edgar/searchedgar/companysearch.html), and others. 
+I compiled the data using several R scripts that involve web scraping and data 
+cleaning. I cannot attest to the quality of the data.
 
 ## Exploratory data analysis
-Let's inspect the data for missingness and view the variable distributions.
+
+Let's inspect the data for missing values and view the variable distributions.
 
 ### Missing data
 
-```{r}
+A common problem with large data sets is missing data. Our goal is to find a 
+subset of the data that is complete so that we can avoid having to do imputation.
 
+```{r}
 # Inspect missing data
 ratios_final %>% 
       distinct() %>% 
@@ -105,6 +115,7 @@ the raw data. We will choose a group of variables among the ratios type to
 serve as input variables.
 
 ## Variable selection
+
 We will select a group of the derived ratio variables as features and 
 attempt to predict the six-month stock return for one or more public
 companies.
@@ -116,18 +127,14 @@ are missing less than 50% of their values, so we will choose them for the model.
 ### Feature variables
 
 $sales\_growth\_index = \frac{annual \, sales_t}{annual \, sales_{t-12}}$
+
 $current\_ratio = \frac{total \, current \, assets_t} {total \, current \, liabilities_t}}$
-$scaled\_net\_operating\_assets = $
-snoa = ((total_assets - cash_and_short_term_investments) - 
-               (total_assets - short_long_term_debt - (total_liabilities - total_current_liabilities) - 
-                    (total_assets - total_liabilities))) / total_assets
 
-
-
+$scaled\_net\_operating\_assets = \frac{(total\,assets - cash \, and \, short\,term\,investments) - (total\,liabilities - total\,debt))} {total\,assets}$
 
 $leverage\_index = \frac{debt \, ratio_t} {debt \, ratio_{t-12}}$
-$asset\_turnover = \frac{annual \, revenue_t} {total \, assets_t}}$
 
+$asset\_turnover = \frac{annual \, revenue_t} {total \, assets_t}}$
 
 ### Response variable
 
@@ -142,6 +149,7 @@ decision makers will have full access to the financial data three months after
 the close of the fiscal period.
 
 ## Data cleaning
+
 We will select the desired variables and create a new variable. 
 
 ```{r}
@@ -204,21 +212,31 @@ ratios_filtered <-
 ratios_filtered %>% 
       count(return_sign) %>% 
       janitor::adorn_totals("row")
-
-# No. of months in data set
-ratios_filtered %>% 
-      select(fundamentals_date) %>% 
-      summarize(date_range = lubridate::interval(min(fundamentals_date), max(fundamentals_date)) %/% months(1))
-
 ```
 
 ### Data balance
+
 The response variable (return_sign) has twice as many positive values (1,935) than negative
 values (1008). This could skew the model results, so we will downsample the data
 in order to create balanced response outcomes.
 
+Let's see how many years of data exist in the data.
 
-```{r}
+``` {r}
+# No. of years in data set
+n_years <- 
+      ratios_filtered %>% 
+      select(fundamentals_date) %>% 
+      summarize(date_range = lubridate::interval(min(fundamentals_date), max(fundamentals_date)) %/% months(12))
+n_years
+```
+
+There are `r n_years` years of monthly data in the data set.
+
+Now, let's look at the distributions of each variable by through boxplots.
+
+
+```{r fig.height = 4, fig.width = 8}
 # View distributions
 ratios_filtered %>%
       select(-return_sign, -ticker) %>% 
@@ -240,8 +258,11 @@ to remove remove extreme values.
 
 ### Remove Outliers
 
-```{r}
-# Remove extreme values
+We will loosely define outliers as values in less than the 0.005 quantile or 
+greater than the 0.995 quantile for all input variables.
+
+```{r fig.height = 4, fig.width = 8}
+# Remove outliers
 ratios_cleaned <- 
       ratios_filtered %>% 
       distinct() %>% 
@@ -254,7 +275,6 @@ ratios_cleaned <-
       select(-low_q, -high_q) %>% 
       pivot_wider(names_from = ratio, values_from = value)
       
-
 ratios_cleaned %>%
       select(-return_sign, -ticker) %>% 
       pivot_longer(-c(fundamentals_date), names_to = "variable") %>% 
@@ -273,14 +293,20 @@ After removing extreme values, the variables contain more realistic values and t
 fitted logistic model will likely be more robust and less affected by extreme values.
 
 ## Statistical modeling
+
 We will use a logistic model with the four numeric feature variables mentioned earlier and
 the six-month stock return as the dependent variable.
 
 ### Split the data into training and test sets
 
+In order to test the results of our model, we will split the data into two 
+groups, a training set (75% of the data) and a test set (25% of the data). The
+logistic model will be applied to the training set and the resulting model will
+be evaluated on the remaining 25%.
+
 ```{r}
 # Split data
-set.seed(1234)
+set.seed(123)
 
 data_split <- initial_split(ratios_cleaned %>% select(-ticker, -fundamentals_date,
                                                       -adj_return_6M___9M_forward))
@@ -437,13 +463,15 @@ The following definitions will apply:
 
 ```{r fig.width=4, fig.height=4}
 cf <- conf_mat(model_results, truth = return_sign, estimate = .pred_class)
-autoplot(cf, type = "heatmap")
+autoplot(cf, type = "heatmap") +  scale_fill_gradient2(high = "lightblue")
 ```
 
 #### Accuracy
-Accuracy measures the model's ability to make a 
 
-$Accuracy = \frac{ TP + TN}{ TN + FN + TP + FP}$
+Accuracy measures the model's ability to make a correct positive case or 
+negative case.
+
+$Accuracy = \frac{TP + TN}{ TN + FN + TP + FP}$
 
 ```{r}
 # Accuracy
@@ -455,6 +483,7 @@ The accuracy is about `r accuracy %>% pull(.estimate) %>% signif(2)`, meaning th
 or negative case `r {accuracy %>% pull(.estimate) %>% signif(2)}*100`% of the time.
 
 #### Sensitivity
+
 Sensitivity measures the model's ability to correctly classify positive cases.
 
 $Sensitivity = \frac{TP}{TP + FN}$
@@ -468,8 +497,8 @@ sensitivity
 The sensitivity is about `r sensitivity %>% pull(.estimate) %>% signif(2)`, meaning the model correctly predicted positive 
 cases `r {sensitivity %>% pull(.estimate) %>% signif(2)}*100`% of the time.
 
-
 #### Specificity
+
 Specificity measures the model's ability to correctly classify negative cases.
 
 $Specificity = \frac{TN}{TN + FP}$
@@ -483,7 +512,6 @@ specificity
 The specificity is `r specificity %>% pull(.estimate) %>% signif(2)`, meaning the model correctly classified negative cases
 `r {specificity %>% pull(.estimate) %>% signif(2)}*100`% of the time.
 
-
 ## Final results
 
 The model did an overall mediocre job of predicting whether six-month stock returns
@@ -496,9 +524,6 @@ correctly predicted a negative return about
 
 Many investors would place more weight on a model's ability to predict negative 
 returns, since these can be devastating for portfolios. 
-
-
-
 
 
 

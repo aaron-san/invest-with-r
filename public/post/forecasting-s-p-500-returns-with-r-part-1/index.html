@@ -24,7 +24,7 @@
         "datePublished": "2021-02-22 00:00:00 \u002b0000 UTC",
         "dateModified" : "2021-02-22 00:00:00 \u002b0000 UTC",
         "url" : "\/post\/forecasting-s-p-500-returns-with-r-part-1\/",
-        "wordCount" : "3299",
+        "wordCount" : "3329",
         "keywords" : [ "Stocks","Data science","Forecasting","Time series","Blog" ]
     }
     </script>
@@ -82,7 +82,7 @@
         <meta itemprop="name" content="Forecasting S&amp;P 500 Returns with R (Part 1)">
 <meta itemprop="description" content="Modeling stock returns"><meta itemprop="datePublished" content="2021-02-22T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2021-02-22T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="3299">
+<meta itemprop="wordCount" content="3329">
 <meta itemprop="keywords" content="Stocks,Data science,Forecasting,Time series," />
         
 
@@ -230,8 +230,8 @@
                                 <h3><a href="/post/optimal-portfolio-construction/">Optimal Portfolio Construction</a></h3>
                                 
                                 <time class="published" datetime=
-                                    '2021-09-01'>
-                                    September 1, 2021</time>
+                                    '2021-09-03'>
+                                    September 3, 2021</time>
                             </header>
                             
 
@@ -242,8 +242,8 @@
                                 <h3><a href="/post/">Post</a></h3>
                                 
                                 <time class="published" datetime=
-                                    '2021-09-01'>
-                                    September 1, 2021</time>
+                                    '2021-09-03'>
+                                    September 3, 2021</time>
                             </header>
                             
 
@@ -569,6 +569,23 @@ code span.vs { color: #4e9a06; } /* VerbatimString */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<div id="TOC">
+<ul>
+<li><a href="#introduction">1. Introduction</a>
+<ul>
+<li><a href="#data">Data</a></li>
+</ul></li>
+<li><a href="#initial-setup---load-the-packages-and-dataset">2. Initial Setup - Load the packages and dataset</a></li>
+<li><a href="#data-preparation-and-preprocessing">3. Data Preparation and Preprocessing</a>
+<ul>
+<li><a href="#prepare-the-data">Prepare the data</a></li>
+<li><a href="#univarite-analysis">Univarite Analysis</a></li>
+<li><a href="#model---univariate-time-series">Model - Univariate Time Series</a></li>
+</ul></li>
+<li><a href="#conclusions">Conclusions</a></li>
+<li><a href="#other-considerations">Other Considerations</a></li>
+</ul>
+</div>
 
 <p>Disclaimer: I am not a data scientist, but I am an R, investing, and data science enthusiast.</p>
 <div id="introduction" class="section level2">
@@ -826,20 +843,13 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <h3>Model - Univariate Time Series</h3>
 <p>Although there appears to be no seasonality or significant trend, let’s fit several forecast models and check our prediction results. We will fit the following models:</p>
 <ul>
-<li><strong>Naive, random walk</strong>
-+ This method uses the last observation as the forecast for the next period.</li>
-<li><strong>Naive, random walk with a drift</strong>
-+ This method uses the last observation plus the historical trend to create a forecast for the next period.</li>
-<li><strong>Mean (Historical average)</strong>
-+ This method simply uses the historical average as the forecast for the next period.</li>
-<li><strong>ARIMA (Autoregressive Integrated Moving Average)</strong>
-+ This method models lags of the data as well as current and lagged errors to create forecasts.</li>
-<li><strong>TSLM (Time series linear model with trend and seasonality)</strong>
-+ This method uses a linear model with trend and seasonality to create forecasts.</li>
-<li><strong>ETS (Exponential time series)</strong>
-+ This method uses an exponential model with seasonality to create forecasts.</li>
-<li><strong>Mixed</strong>
-+ This method simple finds an average of the forecasts created from the models above to create forecast.</li>
+<li><p><strong>Naive, random walk</strong> - This method uses the last observation as the forecast for the next period.</p></li>
+<li><p><strong>Naive, random walk with a drift</strong> - This method uses the last observation plus the historical trend to create a forecast for the next period.</p></li>
+<li><p><strong>Mean (Historical average)</strong> - This method simply uses the historical average as the forecast for the next period.</p></li>
+<li><p><strong>ARIMA (Autoregressive Integrated Moving Average)</strong> - This method models lags of the data as well as current and lagged errors to create forecasts.</p></li>
+<li><p><strong>TSLM (Time series linear model with trend and seasonality)</strong> - This method uses a linear model with trend and seasonality to create forecasts.</p></li>
+<li><p><strong>ETS (Exponential time series)</strong> - This method uses an exponential model with seasonality to create forecasts.</p></li>
+<li><p><strong>Mixed</strong> - This method simple finds an average of the forecasts created from the models above to create forecast.</p></li>
 </ul>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the time series into training and test sets</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>initial_time_split <span class="ot">&lt;-</span> <span class="fu">initial_time_split</span>(SP500_tsi, <span class="at">prop =</span> <span class="fl">0.8</span>) </span>
@@ -1231,8 +1241,8 @@ s.setAttribute('data-timestamp', +new Date());
                 <a href="/post/optimal-portfolio-construction/">Optimal Portfolio Construction</a>
               </h3>
               
-              <time class="published" datetime='2021-09-01'>
-                September 1, 2021
+              <time class="published" datetime='2021-09-03'>
+                September 3, 2021
               </time>
             </header>
             
@@ -1245,8 +1255,8 @@ s.setAttribute('data-timestamp', +new Date());
                 <a href="/post/">Post</a>
               </h3>
               
-              <time class="published" datetime='2021-09-01'>
-                September 1, 2021
+              <time class="published" datetime='2021-09-03'>
+                September 3, 2021
               </time>
             </header>
             

@@ -16,6 +16,7 @@
       <span class="author">{{ .Params.format }}</span>
       {{ if isset .Params "link" }}
         <a href="{{ .Params.link }}" target="_blank">{{ .Params.linktitle }}</a>
+        <hr>
       {{ end }}
     </div>
 </header>

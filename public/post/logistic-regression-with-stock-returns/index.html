@@ -24,7 +24,7 @@
         "datePublished": "2021-08-27 00:00:00 \u002b0000 UTC",
         "dateModified" : "2021-08-27 00:00:00 \u002b0000 UTC",
         "url" : "\/post\/logistic-regression-with-stock-returns\/",
-        "wordCount" : "2568",
+        "wordCount" : "2729",
         "keywords" : [ "Blog" ]
     }
     </script>
@@ -80,7 +80,7 @@
         <meta itemprop="name" content="Logistic regression with stock returns">
 <meta itemprop="description" content="Modeling stock returns with logistic regression"><meta itemprop="datePublished" content="2021-08-27T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2021-08-27T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="2568">
+<meta itemprop="wordCount" content="2729">
 <meta itemprop="keywords" content="" />
         
 
@@ -228,8 +228,8 @@
                                 <h3><a href="/post/optimal-portfolio-construction/">Optimal Portfolio Construction</a></h3>
                                 
                                 <time class="published" datetime=
-                                    '2021-09-01'>
-                                    September 1, 2021</time>
+                                    '2021-09-03'>
+                                    September 3, 2021</time>
                             </header>
                             
 
@@ -240,8 +240,8 @@
                                 <h3><a href="/post/">Post</a></h3>
                                 
                                 <time class="published" datetime=
-                                    '2021-09-01'>
-                                    September 1, 2021</time>
+                                    '2021-09-03'>
+                                    September 3, 2021</time>
                             </header>
                             
 
@@ -600,13 +600,15 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 </div>
 
+<hr />
 <div id="summary" class="section level2">
 <h2>Summary</h2>
-<p>The goal of this analysis is to fit a logistic model to data containing
-financial variables in an attempt to predict future stock price returns. We will
-look at a group of companies in the technology sector and attempt to forecast
-their six-month forward stock returns. We will use financial data from
-the companies’ public financial statements.</p>
+<p>The goal of this analysis is to fit a
+<a href="https:://en.m.wikipedia.org/wiki/Logistic_regression">logistic model</a> to data
+containing financial variables in an attempt to predict future stock price
+returns. We will look at a group of companies in the technology sector and
+attempt to forecast their six-month forward stock returns. We will use financial
+data from the companies’ public financial statements.</p>
 </div>
 <div id="load-data-and-packages" class="section level2">
 <h2>Load data and packages</h2>
@@ -650,15 +652,19 @@ the companies’ public financial statements.</p>
 <li>What time span to use</li>
 <li>Which tickers to use</li>
 </ol>
-<p>The data set was compiled from various data sources including Yahoo Finance,
-EDGAR, and others. I compiled the data using several R scripts that involve
-web scraping and data cleaning. I cannot attest to the quality of the data.</p>
+<p>The data set was compiled from various data sources including
+<a href="https://finance.yahoo.com">Yahoo Finance</a>,
+<a href="https://www.sec.gov/edgar/searchedgar/companysearch.html">EDGAR</a>, and others.
+I compiled the data using several R scripts that involve web scraping and data
+cleaning. I cannot attest to the quality of the data.</p>
 </div>
 <div id="exploratory-data-analysis" class="section level2">
 <h2>Exploratory data analysis</h2>
-<p>Let’s inspect the data for missingness and view the variable distributions.</p>
+<p>Let’s inspect the data for missing values and view the variable distributions.</p>
 <div id="missing-data" class="section level3">
 <h3>Missing data</h3>
+<p>A common problem with large data sets is missing data. Our goal is to find a
+subset of the data that is complete so that we can avoid having to do imputation.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect missing data</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ratios_final <span class="sc">%&gt;%</span> </span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">distinct</span>() <span class="sc">%&gt;%</span> </span>
@@ -702,10 +708,11 @@ companies.</p>
 are missing less than 50% of their values, so we will choose them for the model.</p>
 <div id="feature-variables" class="section level3">
 <h3>Feature variables</h3>
-<p><span class="math inline">\(sales\_growth\_index = \frac{annual \, sales_t}{annual \, sales_{t-12}}\)</span>
-<span class="math inline">\(leverage\_index = \frac{debt \, ratio_t} {debt \, ratio_{t-12}}\)</span>
-<span class="math inline">\(asset\_turnover = \frac{annual \, revenue_t} {total \, assets_t}}\)</span>
-<span class="math inline">\(current\_ratio = \frac{total \, current \, assets_t} {total \, current \, liabilities_t}}\)</span></p>
+<p><span class="math inline">\(sales\_growth\_index = \frac{annual \, sales_t}{annual \, sales_{t-12}}\)</span></p>
+<p><span class="math inline">\(current\_ratio = \frac{total \, current \, assets_t} {total \, current \, liabilities_t}}\)</span></p>
+<p><span class="math inline">\(scaled\_net\_operating\_assets = \frac{(total\,assets - cash \, and \, short\,term\,investments) - (total\,liabilities - total\,debt))} {total\,assets}\)</span></p>
+<p><span class="math inline">\(leverage\_index = \frac{debt \, ratio_t} {debt \, ratio_{t-12}}\)</span></p>
+<p><span class="math inline">\(asset\_turnover = \frac{annual \, revenue_t} {total \, assets_t}}\)</span></p>
 </div>
 <div id="response-variable" class="section level3">
 <h3>Response variable</h3>
@@ -790,19 +797,24 @@ technology sector.</p>
 ##          pos 1935
 ##          neg 1008
 ##        Total 2943</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># No. of months in data set</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>ratios_filtered <span class="sc">%&gt;%</span> </span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(fundamentals_date) <span class="sc">%&gt;%</span> </span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarize</span>(<span class="at">date_range =</span> lubridate<span class="sc">::</span><span class="fu">interval</span>(<span class="fu">min</span>(fundamentals_date), <span class="fu">max</span>(fundamentals_date)) <span class="sc">%/%</span> <span class="fu">months</span>(<span class="dv">1</span>))</span></code></pre></div>
-<pre><code>## # A tibble: 1 x 1
-##   date_range
-##        &lt;dbl&gt;
-## 1        108</code></pre>
 <div id="data-balance" class="section level3">
 <h3>Data balance</h3>
 <p>The response variable (return_sign) has twice as many positive values (1,935) than negative
 values (1008). This could skew the model results, so we will downsample the data
 in order to create balanced response outcomes.</p>
+<p>Let’s see how many years of data exist in the data.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># No. of years in data set</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>n_years <span class="ot">&lt;-</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>      ratios_filtered <span class="sc">%&gt;%</span> </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(fundamentals_date) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarize</span>(<span class="at">date_range =</span> lubridate<span class="sc">::</span><span class="fu">interval</span>(<span class="fu">min</span>(fundamentals_date), <span class="fu">max</span>(fundamentals_date)) <span class="sc">%/%</span> <span class="fu">months</span>(<span class="dv">12</span>))</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>n_years</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##   date_range
+##        &lt;dbl&gt;
+## 1          9</code></pre>
+<p>There are 9 years of monthly data in the data set.</p>
+<p>Now, let’s look at the distributions of each variable by through boxplots.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View distributions</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>ratios_filtered <span class="sc">%&gt;%</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="sc">-</span>return_sign, <span class="sc">-</span>ticker) <span class="sc">%&gt;%</span> </span>
@@ -815,14 +827,16 @@ in order to create balanced response outcomes.</p>
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
 <span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">coord_flip</span>()</span></code></pre></div>
-<p><img src="/post/2021-07-27-logistic-regression-with-stock-returns_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="/post/2021-07-27-logistic-regression-with-stock-returns_files/figure-html/unnamed-chunk-7-1.png" width="768" /></p>
 <p>There appears to be outlier data points in the <strong>sales_growth_index</strong> and
 <strong>total_accruals_to_total_assets</strong> variables and possibly others. We will try
 to remove remove extreme values.</p>
 </div>
 <div id="remove-outliers" class="section level3">
 <h3>Remove Outliers</h3>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove extreme values</span></span>
+<p>We will loosely define outliers as values in less than the 0.005 quantile or
+greater than the 0.995 quantile for all input variables.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove outliers</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>ratios_cleaned <span class="ot">&lt;-</span> </span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>      ratios_filtered <span class="sc">%&gt;%</span> </span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">distinct</span>() <span class="sc">%&gt;%</span> </span>
@@ -835,19 +849,18 @@ to remove remove extreme values.</p>
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="sc">-</span>low_q, <span class="sc">-</span>high_q) <span class="sc">%&gt;%</span> </span>
 <span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> ratio, <span class="at">values_from =</span> value)</span>
 <span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>ratios_cleaned <span class="sc">%&gt;%</span></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="sc">-</span>return_sign, <span class="sc">-</span>ticker) <span class="sc">%&gt;%</span> </span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(fundamentals_date), <span class="at">names_to =</span> <span class="st">&quot;variable&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(variable) <span class="sc">%&gt;%</span> </span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">median_x =</span> <span class="fu">median</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(variable, median_x), <span class="at">y =</span> value, <span class="at">fill =</span> variable)) <span class="sc">+</span></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Boxplots of model variables&quot;</span>,</span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">coord_flip</span>()</span></code></pre></div>
-<p><img src="/post/2021-07-27-logistic-regression-with-stock-returns_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>ratios_cleaned <span class="sc">%&gt;%</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="sc">-</span>return_sign, <span class="sc">-</span>ticker) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(fundamentals_date), <span class="at">names_to =</span> <span class="st">&quot;variable&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(variable) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">median_x =</span> <span class="fu">median</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(variable, median_x), <span class="at">y =</span> value, <span class="at">fill =</span> variable)) <span class="sc">+</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Boxplots of model variables&quot;</span>,</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">coord_flip</span>()</span></code></pre></div>
+<p><img src="/post/2021-07-27-logistic-regression-with-stock-returns_files/figure-html/unnamed-chunk-8-1.png" width="768" /></p>
 <p>After removing extreme values, the variables contain more realistic values and the
 fitted logistic model will likely be more robust and less affected by extreme values.</p>
 </div>
@@ -858,8 +871,12 @@ fitted logistic model will likely be more robust and less affected by extreme va
 the six-month stock return as the dependent variable.</p>
 <div id="split-the-data-into-training-and-test-sets" class="section level3">
 <h3>Split the data into training and test sets</h3>
+<p>In order to test the results of our model, we will split the data into two
+groups, a training set (75% of the data) and a test set (25% of the data). The
+logistic model will be applied to the training set and the resulting model will
+be evaluated on the remaining 25%.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split data</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>data_split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(ratios_cleaned <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>ticker, <span class="sc">-</span>fundamentals_date,</span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>                                                      <span class="sc">-</span>adj_return_6M___9M_forward))</span>
@@ -902,10 +919,10 @@ the six-month stock return as the dependent variable.</p>
 <span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>      janitor<span class="sc">::</span><span class="fu">adorn_totals</span>(<span class="st">&quot;row&quot;</span>)</span>
 <span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>data_count</span></code></pre></div>
 <pre><code>##  return_sign    n
-##          pos  681
-##          neg  681
-##        Total 1362</code></pre>
-<p>The downsampling reduced the data to 1,362 observations with equal number of
+##          pos  661
+##          neg  661
+##        Total 1322</code></pre>
+<p>The downsampling reduced the data to 1,322 observations with equal number of
 <strong>pos</strong> and <strong>neg</strong> values in the response variable (return_sign). This will
 prevent model results that are biased due to unbalanced response variable values
 in the testing data.</p>
@@ -921,12 +938,10 @@ in the testing data.</p>
 <span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lr_model, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 5
-##   term                           estimate std.error statistic    p.value
-##   &lt;chr&gt;                             &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
-## 1 sales_growth_index                2.29      0.377      2.20 0.0275    
-## 2 asset_turnover                    1.94      0.147      4.52 0.00000621
-## 3 total_accruals_to_total_assets    0.129     0.722     -2.84 0.00453</code></pre>
+<pre><code>## # A tibble: 1 x 5
+##   term           estimate std.error statistic   p.value
+##   &lt;chr&gt;             &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 asset_turnover     1.93     0.159      4.12 0.0000376</code></pre>
 <p>The logistic regression shows that the variables <strong>sales_growth_index</strong>,
 <strong>asset_turnover</strong>, <strong>scaled_net_operating_assets</strong>, and
 <strong>total_accruals_to_total_assets</strong> are significant with p-values below 0.05.</p>
@@ -961,12 +976,13 @@ in the testing data.</p>
 <span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fitted_logistic_model, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 5
-##   term               estimate std.error statistic   p.value
-##   &lt;chr&gt;                 &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-## 1 (Intercept)           0.309    0.466      -2.52 0.0118   
-## 2 sales_growth_index    2.61     0.330       2.90 0.00374  
-## 3 asset_turnover        1.42     0.0898      3.91 0.0000922</code></pre>
+<pre><code>## # A tibble: 4 x 5
+##   term                           estimate std.error statistic    p.value
+##   &lt;chr&gt;                             &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+## 1 (Intercept)                       0.153    0.484      -3.87 0.000108  
+## 2 sales_growth_index                3.93     0.363       3.78 0.000159  
+## 3 asset_turnover                    1.57     0.0986      4.58 0.00000473
+## 4 total_accruals_to_total_assets    0.304    0.592      -2.01 0.0442</code></pre>
 </div>
 </div>
 <div id="interpret-results" class="section level2">
@@ -1009,22 +1025,23 @@ significant p-value so they will be used in the final model.</p>
 <div id="confusion-matrix" class="section level4">
 <h4>Confusion matrix</h4>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>cf <span class="ot">&lt;-</span> <span class="fu">conf_mat</span>(model_results, <span class="at">truth =</span> return_sign, <span class="at">estimate =</span> .pred_class)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(cf, <span class="at">type =</span> <span class="st">&quot;heatmap&quot;</span>)</span></code></pre></div>
-<p><img src="/post/2021-07-27-logistic-regression-with-stock-returns_files/figure-html/unnamed-chunk-14-1.png" width="384" /></p>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(cf, <span class="at">type =</span> <span class="st">&quot;heatmap&quot;</span>) <span class="sc">+</span>  <span class="fu">scale_fill_gradient2</span>(<span class="at">high =</span> <span class="st">&quot;lightblue&quot;</span>)</span></code></pre></div>
+<p><img src="/post/2021-07-27-logistic-regression-with-stock-returns_files/figure-html/unnamed-chunk-15-1.png" width="384" /></p>
 </div>
 <div id="accuracy" class="section level4">
 <h4>Accuracy</h4>
-<p>Accuracy measures the model’s ability to make a</p>
-<p><span class="math inline">\(Accuracy = \frac{ TP + TN}{ TN + FN + TP + FP}\)</span></p>
+<p>Accuracy measures the model’s ability to make a correct positive case or
+negative case.</p>
+<p><span class="math inline">\(Accuracy = \frac{TP + TN}{ TN + FN + TP + FP}\)</span></p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Accuracy</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>accuracy <span class="ot">&lt;-</span> model_results <span class="sc">%&gt;%</span> <span class="fu">accuracy</span>(return_sign, .pred_class)</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>accuracy</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 3
 ##   .metric  .estimator .estimate
 ##   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-## 1 accuracy binary         0.628</code></pre>
-<p>The accuracy is about 0.63, meaning the model correctly predicted a positive case
-or negative case 63% of the time.</p>
+## 1 accuracy binary         0.594</code></pre>
+<p>The accuracy is about 0.59, meaning the model correctly predicted a positive case
+or negative case 59% of the time.</p>
 </div>
 <div id="sensitivity" class="section level4">
 <h4>Sensitivity</h4>
@@ -1036,9 +1053,9 @@ or negative case 63% of the time.</p>
 <pre><code>## # A tibble: 1 x 3
 ##   .metric .estimator .estimate
 ##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-## 1 sens    binary         0.733</code></pre>
-<p>The sensitivity is about 0.73, meaning the model correctly predicted positive
-cases 73% of the time.</p>
+## 1 sens    binary         0.680</code></pre>
+<p>The sensitivity is about 0.68, meaning the model correctly predicted positive
+cases 68% of the time.</p>
 </div>
 <div id="specificity" class="section level4">
 <h4>Specificity</h4>
@@ -1050,9 +1067,9 @@ cases 73% of the time.</p>
 <pre><code>## # A tibble: 1 x 3
 ##   .metric .estimator .estimate
 ##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-## 1 spec    binary         0.420</code></pre>
-<p>The specificity is 0.42, meaning the model correctly classified negative cases
-42% of the time.</p>
+## 1 spec    binary         0.442</code></pre>
+<p>The specificity is 0.44, meaning the model correctly classified negative cases
+44% of the time.</p>
 </div>
 </div>
 </div>
@@ -1062,9 +1079,9 @@ cases 73% of the time.</p>
 for technology companies over the period 2012-12-31 to 2019-12-31 are positive or
 negative using <strong>asset_turnover</strong> and <strong>sales_growth_index</strong> as input variables.
 The model correctly predicted a positive return about
-73% of the time and
+68% of the time and
 correctly predicted a negative return about
-42% of the time.</p>
+44% of the time.</p>
 <p>Many investors would place more weight on a model’s ability to predict negative
 returns, since these can be devastating for portfolios.</p>
 </div>
@@ -1315,8 +1332,8 @@ s.setAttribute('data-timestamp', +new Date());
                 <a href="/post/optimal-portfolio-construction/">Optimal Portfolio Construction</a>
               </h3>
               
-              <time class="published" datetime='2021-09-01'>
-                September 1, 2021
+              <time class="published" datetime='2021-09-03'>
+                September 3, 2021
               </time>
             </header>
             
@@ -1329,8 +1346,8 @@ s.setAttribute('data-timestamp', +new Date());
                 <a href="/post/">Post</a>
               </h3>
               
-              <time class="published" datetime='2021-09-01'>
-                September 1, 2021
+              <time class="published" datetime='2021-09-03'>
+                September 3, 2021
               </time>
             </header>
             

@@ -20,7 +20,7 @@
 	embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby,
 	section, summary, time, mark, audio, video {
 		margin: 0;
-		padding: 0.2em;
+		/*padding: 0.2em;*/
 		border: 0;
 		font-size: 100%;
 		font: inherit;
@@ -280,6 +280,7 @@
 		margin: 0 0.25em;
 		padding: 0.25em 0.65em;
 		overflow: scroll; 
+		margin-left: 2em;
 	}
 
 	pre {
@@ -334,6 +335,10 @@
 	.align-right {
 		text-align: right;
 	}
+.TOC ul {
+      padding: 0;
+}
+
 
 /* Author and Format */
 
@@ -893,7 +898,14 @@
 
 		ul li {
 			padding-left: 0.5em;
+			margin-left: 2em;
 		}
+		
+		ul li li {
+		      list-style: circle; 
+		      margin-left: 0;
+		}
+		
 
 		ul.alt {
 			list-style: none;
@@ -1388,6 +1400,7 @@
     #content p a,
 		#content ul li a {
         border-bottom: dotted 2px rgba(160,160,160,.65);
+        color: blue;
     }
 
         #content p a:hover {
@@ -1395,9 +1408,13 @@
         }
 
     #content blockquote,
-		#content p,
-		#content ul{
-        margin: 1em 0;
+		#content p {
+        margin: 1em 1em;
+    }
+    
+    #content ul{
+      margin: 0 1em;
+          
     }
 
 		.post > .image.featured {
@@ -1976,6 +1993,15 @@
 	        /* Modern Browsers */
 	        opacity: 0.87;
 	    }
+	    
+	    
+	    article.post ol {
+	          margin-left: 2em;
+	    }
+	    
+	    
+	    
+	    
 
 /* Table */
 

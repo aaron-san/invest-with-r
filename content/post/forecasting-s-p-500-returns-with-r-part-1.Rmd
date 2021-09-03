@@ -18,6 +18,7 @@ linktitle: ''
 output:
       blogdown::html_page:
             highlight: tango
+            toc: true
 ---
 
 ```{r setup, include=FALSE}
@@ -336,20 +337,19 @@ We noticed that the RMSE of the *ETS model* without the seasonal component was h
 ### Model - Univariate Time Series
 Although there appears to be no seasonality or significant trend, let's fit several forecast models and check our prediction results. We will fit the following models:
 
-* **Naive, random walk**
-      + This method uses the last observation as the forecast for the next period.
-* **Naive, random walk with a drift**
-      + This method uses the last observation plus the historical trend to create a forecast for the next period.
-* **Mean (Historical average)**
-      + This method simply uses the historical average as the forecast for the next period.
-* **ARIMA (Autoregressive Integrated Moving Average)**
-      + This method models lags of the data as well as current and lagged errors to create forecasts.
-* **TSLM (Time series linear model with trend and seasonality)**
-      + This method uses a linear model with trend and seasonality to create forecasts.
-* **ETS (Exponential time series)**
-      + This method uses an exponential model with seasonality to create forecasts.
-* **Mixed**
-      + This method simple finds an average of the forecasts created from the models above to create forecast.
+* **Naive, random walk** - This method uses the last observation as the forecast for the next period.
+      
+* **Naive, random walk with a drift** - This method uses the last observation plus the historical trend to create a forecast for the next period.
+      
+* **Mean (Historical average)** - This method simply uses the historical average as the forecast for the next period.
+      
+* **ARIMA (Autoregressive Integrated Moving Average)** - This method models lags of the data as well as current and lagged errors to create forecasts.
+      
+* **TSLM (Time series linear model with trend and seasonality)** - This method uses a linear model with trend and seasonality to create forecasts.
+      
+* **ETS (Exponential time series)** - This method uses an exponential model with seasonality to create forecasts.
+      
+* **Mixed** - This method simple finds an average of the forecasts created from the models above to create forecast.
 
 ```{r}
 
