@@ -138,7 +138,7 @@ $asset\_turnover = \frac{annual \, revenue_t} {total \, assets_t}$
 
 ### Response variable
 
-$adj\_return\_6M\_\_\_9M\_ forward = log(\frac{adjusted \, price_t} {adjusted \, price_{t - 6}})$
+$adj\_return\_6M\_\_\_9M\_ forward = log(\frac{adjusted\,price_{t+9} {adjusted\,price_{t+3}})$
 
 The variable **adj_return_6M___9M_forward** represents the 6-month stock price return using adjusted
 prices for a period ending nine months in the future. In reality, the raw data is not 
