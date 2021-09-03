@@ -24,7 +24,7 @@
         "datePublished": "2021-08-27 00:00:00 \u002b0000 UTC",
         "dateModified" : "2021-08-27 00:00:00 \u002b0000 UTC",
         "url" : "\/post\/logistic-regression-with-stock-returns\/",
-        "wordCount" : "2729",
+        "wordCount" : "2715",
         "keywords" : [ "Blog" ]
     }
     </script>
@@ -80,7 +80,7 @@
         <meta itemprop="name" content="Logistic regression with stock returns">
 <meta itemprop="description" content="Modeling stock returns with logistic regression"><meta itemprop="datePublished" content="2021-08-27T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2021-08-27T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="2729">
+<meta itemprop="wordCount" content="2715">
 <meta itemprop="keywords" content="" />
         
 
@@ -709,14 +709,14 @@ are missing less than 50% of their values, so we will choose them for the model.
 <div id="feature-variables" class="section level3">
 <h3>Feature variables</h3>
 <p><span class="math inline">\(sales\_growth\_index = \frac{annual \, sales_t}{annual \, sales_{t-12}}\)</span></p>
-<p><span class="math inline">\(current\_ratio = \frac{total \, current \, assets_t} {total \, current \, liabilities_t}}\)</span></p>
+<p><span class="math inline">\(current\_ratio = \frac{total\,current\,assets_t} {total\,current\,liabilities_t}\)</span></p>
 <p><span class="math inline">\(scaled\_net\_operating\_assets = \frac{(total\,assets - cash \, and \, short\,term\,investments) - (total\,liabilities - total\,debt))} {total\,assets}\)</span></p>
 <p><span class="math inline">\(leverage\_index = \frac{debt \, ratio_t} {debt \, ratio_{t-12}}\)</span></p>
-<p><span class="math inline">\(asset\_turnover = \frac{annual \, revenue_t} {total \, assets_t}}\)</span></p>
+<p><span class="math inline">\(asset\_turnover = \frac{annual \, revenue_t} {total \, assets_t}\)</span></p>
 </div>
 <div id="response-variable" class="section level3">
 <h3>Response variable</h3>
-<p><span class="math inline">\(adj\_return\_6M\_\_\_9M\_ forward = log(\frac{adjusted \, price_t} {adjusted \, price_{t - 6}})\)</span></p>
+<p><span class="math inline">\(adj\_return\_6M\_\_\_9M\_ forward = log(\frac{adjusted\,price_{t+9} {adjusted\,price_{t+3}})\)</span></p>
 <p>The variable **adj_return_6M___9M_forward** represents the 6-month stock price return using adjusted
 prices for a period ending nine months in the future. In reality, the raw data is not
 published until several weeks or months after the close of the company’s fiscal period, so
