@@ -128,13 +128,13 @@ are missing less than 50% of their values, so we will choose them for the model.
 
 $sales\_growth\_index = \frac{annual \, sales_t}{annual \, sales_{t-12}}$
 
-$current\_ratio = \frac{total \, current \, assets_t} {total \, current \, liabilities_t}}$
+$current\_ratio = \frac{total\,current\,assets_t} {total\,current\,liabilities_t}$
 
 $scaled\_net\_operating\_assets = \frac{(total\,assets - cash \, and \, short\,term\,investments) - (total\,liabilities - total\,debt))} {total\,assets}$
 
 $leverage\_index = \frac{debt \, ratio_t} {debt \, ratio_{t-12}}$
 
-$asset\_turnover = \frac{annual \, revenue_t} {total \, assets_t}}$
+$asset\_turnover = \frac{annual \, revenue_t} {total \, assets_t}$
 
 ### Response variable
 
