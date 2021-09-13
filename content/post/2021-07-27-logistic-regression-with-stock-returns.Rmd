@@ -59,7 +59,7 @@ suppressPackageStartupMessages({
 # Helper function to read csv
 read_tibble <- function(x, date_format = "%Y-%m-%d") {
     x %>%
-        data.table::fread(fill = TRUE) %>% 
+        data.table::fread() %>% 
         as_tibble() %>% 
         mutate(across(which(sapply(., class) == "integer64" ), as.numeric)) %>% 
         mutate(across(contains("date"), ~as.Date(.x, date_format)))
