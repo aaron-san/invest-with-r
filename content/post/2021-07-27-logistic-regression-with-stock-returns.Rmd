@@ -1,6 +1,6 @@
 ---
 title: Logistic Regression with Stock Returns
-author: 'Aaron Hardy'
+author: Aaron Hardy
 date: '2021-09-13'
 slug: logistic-regression-with-stock-returns
 categories: []
