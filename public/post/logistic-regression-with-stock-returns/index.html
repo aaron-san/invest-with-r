@@ -24,7 +24,7 @@
         "datePublished": "2021-08-27 00:00:00 \u002b0000 UTC",
         "dateModified" : "2021-08-27 00:00:00 \u002b0000 UTC",
         "url" : "\/post\/logistic-regression-with-stock-returns\/",
-        "wordCount" : "2715",
+        "wordCount" : "3374",
         "keywords" : [ "Blog" ]
     }
     </script>
@@ -56,6 +56,8 @@
 
 
         
+            <meta name="author" content="Aaron Hardy">
+        
         
             <meta name="description" content="Modeling stock returns with logistic regression">
         
@@ -80,7 +82,7 @@
         <meta itemprop="name" content="Logistic regression with stock returns">
 <meta itemprop="description" content="Modeling stock returns with logistic regression"><meta itemprop="datePublished" content="2021-08-27T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2021-08-27T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="2715">
+<meta itemprop="wordCount" content="3374">
 <meta itemprop="keywords" content="" />
         
 
@@ -373,7 +375,7 @@
 
 
 <li>
-  <a href="mailto:?subject=Check out this post by &amp;body=%2fpost%2flogistic-regression-with-stock-returns%2f" target="_blank" class="share-btn email">
+  <a href="mailto:?subject=Check out this post by Aaron%20Hardy&amp;body=%2fpost%2flogistic-regression-with-stock-returns%2f" target="_blank" class="share-btn email">
     <i class="fa fa-envelope"></i>
     <p>Email</p>
   </a>
@@ -405,9 +407,9 @@
         <time class="published"
             datetime='2021-08-27'>
             August 27, 2021</time>
-        <span class="author"></span>
+        <span class="author">Aaron Hardy</span>
         
-            <p>13 minute read</p>
+            <p>16 minute read</p>
         
         
     </div>
@@ -486,7 +488,7 @@
 
 
 <li>
-  <a href="mailto:?subject=Check out this post by &amp;body=%2fpost%2flogistic-regression-with-stock-returns%2f" target="_blank" class="share-btn email">
+  <a href="mailto:?subject=Check out this post by Aaron%20Hardy&amp;body=%2fpost%2flogistic-regression-with-stock-returns%2f" target="_blank" class="share-btn email">
     <i class="fa fa-envelope"></i>
     <p>Email</p>
   </a>
@@ -597,6 +599,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="#model-evaluation">Model evaluation</a></li>
 </ul></li>
 <li><a href="#final-results">Final results</a></li>
+<li><a href="#discussion">Discussion</a></li>
 </ul>
 </div>
 
@@ -604,486 +607,743 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div id="summary" class="section level2">
 <h2>Summary</h2>
 <p>The goal of this analysis is to fit a
-<a href="https:://en.m.wikipedia.org/wiki/Logistic_regression">logistic model</a> to data
-containing financial variables in an attempt to predict future stock price
-returns. We will look at a group of companies in the technology sector and
-attempt to forecast their six-month forward stock returns. We will use financial
-data from the companies’ public financial statements.</p>
+<a href="https:://en.m.wikipedia.org/wiki/Logistic_regression">logistic
+model</a>
+to data containing financial variables
+in an attempt to predict future stock
+price returns. We will look at a group
+of companies in the technology sector
+and attempt to forecast their six-month
+forward stock returns. We will use
+financial data from the companies’
+public financial statements.</p>
 </div>
 <div id="load-data-and-packages" class="section level2">
 <h2>Load data and packages</h2>
-<p>First, we’ll load external libraries and the data.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(workflows)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tune)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the data</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>ratios_final_file <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">&quot;C:/Users/user/Desktop/Aaron/R/Projects/Fundamentals Data/cleaned data&quot;</span>, <span class="at">pattern =</span> <span class="st">&quot;ratios_final&quot;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> <span class="fu">max</span>()</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Helper function to read csv</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>read_tibble <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">date_format =</span> <span class="st">&quot;%Y-%m-%d&quot;</span>) {</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    x <span class="sc">%&gt;%</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="at">fill =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">which</span>(<span class="fu">sapply</span>(., class) <span class="sc">==</span> <span class="st">&quot;integer64&quot;</span> ), as.numeric)) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">contains</span>(<span class="st">&quot;date&quot;</span>), <span class="sc">~</span><span class="fu">as.Date</span>(.x, date_format)))</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>ratios_final <span class="ot">&lt;-</span> </span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">read_tibble</span>(ratios_final_file) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">distinct</span>()</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Data table size</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(ratios_final)</span></code></pre></div>
-<pre><code>## [1] 244270    120</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of tickers</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ratios_final <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(ticker) <span class="sc">%&gt;%</span> <span class="fu">nrow</span>()</span></code></pre></div>
+<p>First, we’ll load external libraries and
+the data.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">library</span>(tidymodels)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">library</span>(workflows)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">library</span>(tune)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">library</span>(data.table)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the data</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Helper function to read csv</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>read_tibble <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">date_format =</span> <span class="st">&quot;%Y-%m-%d&quot;</span>) {</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    x <span class="sc">%&gt;%</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="at">fill =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">which</span>(<span class="fu">sapply</span>(., class) <span class="sc">==</span> <span class="st">&quot;integer64&quot;</span> ), as.numeric)) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">contains</span>(<span class="st">&quot;date&quot;</span>), <span class="sc">~</span><span class="fu">as.Date</span>(.x, date_format)))</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>ratios_data <span class="ot">&lt;-</span> </span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">read_tibble</span>(<span class="st">&quot;C:/Users/user/Desktop/Aaron/R/Websites/invest-with-r/data/ratios_final.csv&quot;</span>, <span class="at">date_format =</span> <span class="st">&quot;%m/%d/%Y&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">distinct</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Select variables that are ratios derived from the raw figures</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(ticker, fundamentals_date, sector_yhoo, adj_return_6M, <span class="fu">contains</span>(<span class="fu">c</span>(<span class="st">&quot;ratio&quot;</span>, <span class="st">&quot;index&quot;</span>, <span class="st">&quot;scaled&quot;</span>, <span class="st">&quot;turnover&quot;</span>, <span class="st">&quot;_to_&quot;</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Remove variables with &quot;decision&quot; prefix as these are future-dated ratios</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="sc">-</span><span class="fu">starts_with</span>(<span class="st">&quot;decision&quot;</span>))</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>ratios_long <span class="ot">&lt;-</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>      ratios_data <span class="sc">%&gt;%</span> </span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(ticker, fundamentals_date, sector_yhoo), <span class="at">names_to =</span> <span class="st">&quot;field&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;value&quot;</span>)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of tickers</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>ratios_long <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(ticker) <span class="sc">%&gt;%</span> <span class="fu">nrow</span>()</span></code></pre></div>
 <pre><code>## [1] 1198</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of fields</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ratios_long <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(field) <span class="sc">%&gt;%</span> <span class="fu">nrow</span>()</span></code></pre></div>
+<pre><code>## [1] 17</code></pre>
 </div>
 <div id="the-data" class="section level2">
 <h2>The data</h2>
-<p>The original data is a time series of 118 financial variables for
-1,198 different public companies.</p>
+<p>The original data is a time series of
+1,198 tickers and
+17
+financial variables.</p>
 <p>We must make three decisions:</p>
 <ol style="list-style-type: decimal">
 <li>What financial variables to use</li>
 <li>What time span to use</li>
 <li>Which tickers to use</li>
 </ol>
-<p>The data set was compiled from various data sources including
-<a href="https://finance.yahoo.com">Yahoo Finance</a>,
-<a href="https://www.sec.gov/edgar/searchedgar/companysearch.html">EDGAR</a>, and others.
-I compiled the data using several R scripts that involve web scraping and data
-cleaning. I cannot attest to the quality of the data.</p>
+<p>The data set was compiled from various
+data sources including <a href="https://finance.yahoo.com">Yahoo
+Finance</a>,
+<a href="https://www.sec.gov/edgar/searchedgar/companysearch.html">EDGAR</a>,
+and others. I compiled the data using
+several R scripts that involve web
+scraping and data cleaning. I cannot
+attest to the quality of the data.</p>
 </div>
 <div id="exploratory-data-analysis" class="section level2">
 <h2>Exploratory data analysis</h2>
-<p>Let’s inspect the data for missing values and view the variable distributions.</p>
+<p>Let’s inspect the data for missing
+values and view the variable
+distributions</p>
 <div id="missing-data" class="section level3">
 <h3>Missing data</h3>
-<p>A common problem with large data sets is missing data. Our goal is to find a
-subset of the data that is complete so that we can avoid having to do imputation.</p>
+<p>A common problem with large data sets is
+missing data. Our goal is to find a
+subset of the data that is complete so
+that we can avoid having to do
+imputation. Importantly, some variables
+are raw data figures and others are
+ratios derived from the raw data. We
+will choose a group of variables among
+the derived ratios to serve as input
+variables.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect missing data</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ratios_final <span class="sc">%&gt;%</span> </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">distinct</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarize</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="sc">~</span><span class="fu">sum</span>(<span class="fu">is.na</span>(.x)))) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">gather</span>(<span class="at">key =</span> variable, <span class="at">value =</span> count_na) <span class="sc">%&gt;%</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">arrange</span>(count_na) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Select variables that are ratios derived from the raw figures</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(<span class="fu">str_detect</span>(variable, <span class="st">&quot;ratio|index|scaled&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Remove variables with &quot;decision&quot; prefix as these are future-dated ratios</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(variable, <span class="st">&quot;decision&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">p_na =</span> count_na <span class="sc">/</span> <span class="fu">nrow</span>(ratios_final <span class="sc">%&gt;%</span> <span class="fu">distinct</span>()))</span></code></pre></div>
-<pre><code>## # A tibble: 13 x 3
-##    variable                     count_na  p_na
-##    &lt;chr&gt;                           &lt;int&gt; &lt;dbl&gt;
-##  1 debt_ratio                      91333 0.374
-##  2 asset_quality_index             92793 0.380
-##  3 current_ratio                   92794 0.380
-##  4 scaled_net_operating_assets     92856 0.380
-##  5 lt_debt_ratio                   92856 0.380
-##  6 scaled_total_accruals           92866 0.380
-##  7 leverage_index                 110494 0.452
-##  8 lt_debt_ratio_pct_chg_1Y       113464 0.465
-##  9 sales_growth_index             118672 0.486
-## 10 days_sales_outstanding_index   129715 0.531
-## 11 depreciation_index             196618 0.805
-## 12 sga_index                      222911 0.913
-## 13 gross_margin_index             224032 0.917</code></pre>
-<p>There is a significant number of missing values in the data set. Moreover,
-some variables are original raw data and others are ratios derived from
-the raw data. We will choose a group of variables among the ratios type to
-serve as input variables.</p>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>start_date <span class="ot">&lt;-</span> <span class="st">&quot;2010-12-31&quot;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>end_date <span class="ot">&lt;-</span> <span class="st">&quot;2019-12-31&quot;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>tickers_with_full_dates <span class="ot">&lt;-</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>      ratios_long <span class="sc">%&gt;%</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">distinct</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(ticker) <span class="sc">%&gt;%</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(<span class="fu">first</span>(fundamentals_date) <span class="sc">&lt;=</span> start_date <span class="sc">&amp;</span> <span class="fu">last</span>(fundamentals_date) <span class="sc">&gt;=</span> end_date) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">distinct</span>(ticker) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pull</span>()</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Choose ratios that contain the desired date range</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>ratios_filtered <span class="ot">&lt;-</span> </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>      ratios_long <span class="sc">%&gt;%</span> </span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(ticker <span class="sc">%in%</span> tickers_with_full_dates) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(<span class="fu">between</span>(fundamentals_date, start_date, end_date)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">distinct</span>()</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Get ratios of missing values</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>ratios_na <span class="ot">&lt;-</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>      ratios_filtered <span class="sc">%&gt;%</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="sc">-</span>sector_yhoo, <span class="sc">-</span>fundamentals_date, <span class="sc">-</span>sector_yhoo) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Replace any infinity values with NA</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">value =</span> <span class="fu">ifelse</span>(<span class="fu">is.finite</span>(value), value, <span class="cn">NA</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(ticker, field) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>      <span class="co"># summarize(across(where(is.numeric), ~sum(is.na(.x)) / n())) %&gt;%</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">na_ratio =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(value)) <span class="sc">/</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>      <span class="fu">distinct</span>()</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="co"># See which tickers have at least 10 ratios with less than 10% of values missing</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>tickers_with_low_na <span class="ot">&lt;-</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>      ratios_na <span class="sc">%&gt;%</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>      <span class="fu">distinct</span>(ticker, field, na_ratio) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(ticker) <span class="sc">%&gt;%</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(na_ratio <span class="sc">&lt;</span> <span class="fl">0.1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>      <span class="fu">count</span>(ticker) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(n <span class="sc">==</span> <span class="fu">max</span>(n)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pull</span>(ticker)</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(tickers_with_low_na)</span></code></pre></div>
+<pre><code>## [1] 400</code></pre>
+<p>There are
+400 tickers
+with at least 10 ratios having less than
+10% of values missing.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View the ratio of missing data by ticker and field (for a sample of the data)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ratios_na <span class="sc">%&gt;%</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Choose 10 random tickers</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(ticker <span class="sc">%in%</span> <span class="fu">sample</span>(tickers_with_low_na, <span class="dv">10</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>      <span class="co"># mutate(font_color = factor(ifelse(na_ratio == 0, &quot;white&quot;, &quot;black&quot;))) %&gt;% </span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggplot</span>(<span class="fu">aes</span>(ticker, field, <span class="at">fill =</span> na_ratio)) <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;darkgray&quot;</span>, <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>      <span class="co"># geom_text(aes(label = percent_format(accuracy = 1)(na_ratio)), color = &quot;black&quot;, size = 4) +</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">&quot;white&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>, <span class="at">name =</span> <span class="st">&quot;&quot;</span>, <span class="at">labels =</span> percent) <span class="sc">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Percent of Missing Values&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="co">#legend.position = &quot;none&quot;,</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">3</span>),</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;cm&quot;</span>),</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">legend.key.width =</span> <span class="fu">unit</span>(<span class="fl">0.2</span>, <span class="st">&quot;cm&quot;</span>))</span></code></pre></div>
+<p><img src="/post/2021-07-27-logistic-regression-with-stock-returns_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>It looks like the variables
+<strong>sga_index</strong>, <strong>gross_margin_index</strong>
+and <strong>depreciation_index</strong> and others
+have a significant amount of missing
+values. We will try to find data without
+missing values and use it in the
+classification model.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># See which fields have complete data for some tickers</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>fields_to_use <span class="ot">&lt;-</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>      ratios_na <span class="sc">%&gt;%</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(na_ratio <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">distinct</span>(ticker, field, na_ratio) <span class="sc">%&gt;%</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">distinct</span>(field) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pull</span>()</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>tickers_to_use <span class="ot">&lt;-</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      ratios_na <span class="sc">%&gt;%</span> </span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">distinct</span>(ticker, field, na_ratio) <span class="sc">%&gt;%</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(field <span class="sc">%in%</span> fields_to_use) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(na_ratio <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">count</span>(ticker, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(n <span class="sc">==</span> <span class="fu">max</span>(n)) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pull</span>(ticker)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(tickers_to_use)</span></code></pre></div>
+<pre><code>## [1] 171</code></pre>
+<p>There are 171
+tickers with no missing values. These
+tickers will be used to develop a
+classification model.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ratios_na <span class="sc">%&gt;%</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Choose the fields to use</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(field <span class="sc">%in%</span> fields_to_use) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Choose 10 random tickers</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(ticker <span class="sc">%in%</span> <span class="fu">sample</span>(tickers_to_use, <span class="dv">10</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggplot</span>(<span class="fu">aes</span>(ticker, field, <span class="at">fill =</span> na_ratio)) <span class="sc">+</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;darkgray&quot;</span>, <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>      <span class="co"># geom_text(aes(label = percent_format(accuracy = 1)(na_ratio)), color = &quot;black&quot;, size = 4) +</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">&quot;white&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>, <span class="at">name =</span> <span class="st">&quot;&quot;</span>, <span class="at">labels =</span> percent) <span class="sc">+</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Percent of Missing Values&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">3</span>),</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;cm&quot;</span>),</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">legend.key.width =</span> <span class="fu">unit</span>(<span class="fl">0.2</span>, <span class="st">&quot;cm&quot;</span>))</span></code></pre></div>
+<p><img src="/post/2021-07-27-logistic-regression-with-stock-returns_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>The data was filtered to include only tickers and fields with complete data for
+the dates specified earlier.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ratios_final <span class="ot">&lt;-</span>  </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>      ratios_filtered <span class="sc">%&gt;%</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Select fields with complete data</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(field <span class="sc">%in%</span> fields_to_use) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Select tickers with complete data</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(ticker <span class="sc">%in%</span> tickers_to_use) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">distinct</span>()</span></code></pre></div>
 </div>
 </div>
 <div id="variable-selection" class="section level2">
 <h2>Variable selection</h2>
-<p>We will select a group of the derived ratio variables as features and
-attempt to predict the six-month stock return for one or more public
-companies.</p>
-<p>The variables <strong>sales_growth_index</strong>, <strong>current_ratio</strong>,
-<strong>scaled_net_operating_assets</strong>, <strong>leverage_index</strong>, and <strong>asset_turnover</strong>
-are missing less than 50% of their values, so we will choose them for the model.</p>
+<p>We will select a group of the ratio-type
+variables as features and attempt to
+predict the six-month stock return for
+one or more public companies.</p>
+<p>The variables <strong>current_ratio</strong>,
+<strong>debt_ratio</strong>, <strong>lt_debt_ratio</strong>,
+<strong>lt_debt_ratio_pct_chg_1Y</strong>,
+<strong>days_sales_outstanding_index</strong>,
+<strong>asset_quality_index</strong>,
+<strong>sales_growth_index</strong>,
+<strong>leverage_index</strong>,
+<strong>scaled_total_accruals</strong>,
+<strong>scaled_net_operating_assets</strong>,
+<strong>asset_turnover</strong>,
+<strong>total_accruals_to_total_assets</strong>, and
+<strong>free_cash_flow_to_assets</strong> will be
+used to predict <strong>adj_return_6M</strong>, which will
+transformed from a numeric to a nominal variable.</p>
 <div id="feature-variables" class="section level3">
 <h3>Feature variables</h3>
-<p><span class="math inline">\(sales\_growth\_index = \frac{annual \, sales_t}{annual \, sales_{t-12}}\)</span></p>
 <p><span class="math inline">\(current\_ratio = \frac{total\,current\,assets_t} {total\,current\,liabilities_t}\)</span></p>
-<p><span class="math inline">\(scaled\_net\_operating\_assets = \frac{(total\,assets - cash \, and \, short\,term\,investments) - (total\,liabilities - total\,debt))} {total\,assets}\)</span></p>
+<ul>
+<li><strong>current_ratio</strong> measures the
+amount of current assets relative to
+current liabilities.</li>
+</ul>
+<p><span class="math inline">\(debt\_ratio = \frac{total\,liabilities_t}{total\,assets_t}\)</span></p>
+<ul>
+<li><strong>debt_ratio</strong> measures the
+percentage of assets that is
+financed by short-term and long-term
+debt.</li>
+</ul>
+<p><span class="math inline">\(lt\_debt\_ratio = \frac{total\,liabilities_t - total\,current\,liabilities_t) }{total\_assets_t}\)</span></p>
+<ul>
+<li><strong>lt_debt_ratio</strong> measures the
+proportion of assets that are
+financed with long-term debt. Debt
+is used for leverage and can
+benefits healthy companies to a
+certain extent. Excessively high
+long-term debt ratios can</li>
+</ul>
+<p><span class="math inline">\(lt\_debt\_ratio\_pct\_chg\_1Y = \Delta \frac{total\, liabilities_t - total\,current\,liabilities_t}{total\,assets_t}-1\)</span></p>
+<ul>
+<li><strong>lt_debt_ratio_pct_chg_1Y</strong>
+measures the percent change in the
+long-term debt ratio. Growth in this
+ratio can be good for healthy
+companies and bad for others.</li>
+</ul>
+<p><span class="math inline">\(days\_sales\_outstanding\_index = \frac{days\,sales\,outsanding_t} {days\,sales\,outstanding_{t-12}}\)</span>
+where,
+<span class="math inline">\(days\,sales\,outstanding = \frac{365} {(\frac{revenue_t} {net\,receivables})}\)</span></p>
+<ul>
+<li><strong>days_sales_outstanding_index</strong>
+measures the ratio of the days sales outstanding ratio in the current year
+to the that in the prior year</li>
+</ul>
+<p><span class="math inline">\(asset\_quality\_index = \frac{(total\,assets_t - total\,current\,assets_t - property\,plant\,equipment_t)} {total\,assets_t}\)</span></p>
+<ul>
+<li><strong>asset_quality_index</strong> is a measure
+of the percentage of total assets
+that is in the form of intangible
+assets. All else equal, relatively
+more intangible assets is
+undesirable.</li>
+</ul>
+<p><span class="math inline">\(sales\_growth\_index = \frac{revenue_t} {revenue_{t-12}\)</span></p>
+<ul>
+<li><strong>sales_growth_index</strong> is the ratio of revenue in year <em>t</em> to that of the
+prior year. A growing value
+indicates sales growth.</li>
+</ul>
 <p><span class="math inline">\(leverage\_index = \frac{debt \, ratio_t} {debt \, ratio_{t-12}}\)</span></p>
+<ul>
+<li><strong>leverage_index</strong> measures the
+value of the debt ratio relative to
+its value the year before. A higher
+index means the debt is growing
+relative to assets.</li>
+</ul>
+<p><span class="math inline">\(scaled\_total\_accruals = \frac{(total\,current\,assets_t - cash\,and\,short\,term\,investments_t) - (total\,current\,liabilities_t - \Delta short-term\,portion\,of\,long\,term\,debt_t) - depreciation\,amortization_t)} {total\,assets_t}\)</span></p>
+<ul>
+<li><strong>scaled_total_accruals</strong> measures
+the amount of non-cash accumulated
+current assets relative total
+assets. Higher scaled total accruals
+can indicate a higher likelihood of
+earnings manipulation.</li>
+</ul>
+<p><span class="math inline">\(scaled\_net\_operating\_assets = \frac{(total\,assets - cash \, and \, short\,term\,investments) - (total\,liabilities - total\,debt))} {total\,assets}\)</span></p>
+<ul>
+<li><strong>scaled_net_operating_assets</strong>
+measures the proportion of assets
+that are used to generate sales less
+the proportion of liabilities that
+are used to finance those assets.
+Higher scaled net operating assets
+is a sign of relatively low asset
+accruals on the balance sheet, a
+good sign.</li>
+</ul>
 <p><span class="math inline">\(asset\_turnover = \frac{annual \, revenue_t} {total \, assets_t}\)</span></p>
+<ul>
+<li><strong>asset_turnover</strong> measures a firm’s
+ability to turn assets into sales
+revenue. A higher value indicates
+more efficient use of assets in
+generating sales revenue.</li>
+</ul>
+<p><span class="math inline">\(total\_accruals\_to\_total\_assets = \frac{(\Delta working\,cap\,ex\,cash_t - depreciation\,amortization_t)} {total\,assets_t}\)</span></p>
+<ul>
+<li><strong>total_accruals_to_total_assets</strong>
+measures the relative change in
+accruals. An increasing value
+indicates increasing non-cash assets
+relative to total assets and a
+higher likelihood of earnings
+manipulation.</li>
+</ul>
+<p><span class="math inline">\(free\_cash\_flow\_to\_assets = \frac{free\,cash\,flow_t} {total\,assets_t}\)</span></p>
+<ul>
+<li><strong>free_cash_flow_to_assets</strong>
+measures the amount of cash flow
+available to stock and bond holders
+relative to total assets.</li>
+</ul>
 </div>
 <div id="response-variable" class="section level3">
 <h3>Response variable</h3>
 <p><span class="math inline">\(adj\_return\_6M\_\_\_9M\_ forward = log(\frac{adjusted\,price_{t+9}} {adjusted\,price_{t+3}})\)</span></p>
-<p>The variable **adj_return_6M___9M_forward** represents the 6-month stock price return using adjusted
-prices for a period ending nine months in the future. In reality, the raw data is not
-published until several weeks or months after the close of the company’s fiscal period, so
-it is important to assume that the financial ratios aren’t available to decision makers
-until a sufficient time after their public disclosure. In this case, we assumed
-decision makers will have full access to the financial data three months after
-the close of the fiscal period.</p>
+<ul>
+<li><strong>adj_return_6M___9M_forward</strong>
+represents the 6-month stock price
+return using adjusted prices for a
+period ending nine months in the
+future. In reality, the raw data is
+not published until several weeks or
+months after the close of the
+company’s fiscal period, so it is
+important to assume that the
+financial ratios aren’t available to
+decision makers until a sufficient
+time after their public disclosure.
+In this case, we assumed decision
+makers will have full access to the
+financial data three months after
+the close of the fiscal period.</li>
+</ul>
 </div>
 </div>
 <div id="data-cleaning" class="section level2">
 <h2>Data cleaning</h2>
-<p>We will select the desired variables and create a new variable.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ratios <span class="ot">&lt;-</span> </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>      ratios_final <span class="sc">%&gt;%</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(ticker, fundamentals_date, sales_growth_index, leverage_index, </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>             asset_turnover, current_ratio, asset_quality_index, </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>             asset_quality_index, scaled_net_operating_assets,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>             lt_debt_ratio, total_accruals_to_total_assets,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>             free_cash_flow_to_assets,</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>             adj_return_6M) <span class="sc">%&gt;%</span> </span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">distinct</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">adj_return_6M___9M_forward =</span> <span class="fu">lead</span>(adj_return_6M, <span class="dv">9</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="sc">-</span>adj_return_6M)</span></code></pre></div>
-<p>Now that we decided what variables to use, we will choose the time span. We would
-like a relatively long time span to ensure the logistic model can capture enough
-of the variance in the data to ensure a robust model. Ten years or less may be
-sufficient, so we will use a time period beginning Dec. 31, 2010 and ending
-Dec. 31, 2019.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>tickers_to_use <span class="ot">&lt;-</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>      ratios <span class="sc">%&gt;%</span> </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(<span class="fu">between</span>(fundamentals_date, <span class="st">&quot;2010-12-31&quot;</span>, <span class="st">&quot;2019-12-31&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(ticker) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">arrange</span>(fundamentals_date) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">date_diff =</span> <span class="fu">as.numeric</span>(fundamentals_date <span class="sc">-</span> <span class="fu">lag</span>(fundamentals_date))) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>      zoo<span class="sc">::</span><span class="fu">na.trim</span>(<span class="at">sides =</span> <span class="st">&quot;left&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(<span class="fu">between</span>(date_diff, <span class="dv">25</span>, <span class="dv">35</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">arrange</span>(fundamentals_date) <span class="sc">%&gt;%</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">date_diff =</span> <span class="fu">as.numeric</span>(fundamentals_date <span class="sc">-</span> <span class="fu">lag</span>(fundamentals_date))) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>      zoo<span class="sc">::</span><span class="fu">na.trim</span>(<span class="at">sides =</span> <span class="st">&quot;left&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarize</span>(<span class="at">full_dates =</span> <span class="fu">all</span>(<span class="fu">between</span>(date_diff, <span class="dv">25</span>, <span class="dv">35</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(full_dates <span class="sc">==</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">distinct</span>(ticker)</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>tickers_to_use</span></code></pre></div>
-<pre><code>## # A tibble: 193 x 1
-##    ticker
-##    &lt;chr&gt; 
-##  1 AAPL  
-##  2 ABT   
-##  3 ACIW  
-##  4 ADBE  
-##  5 ADP   
-##  6 AEE   
-##  7 AME   
-##  8 AMED  
-##  9 AMGN  
-## 10 AMT   
-## # ... with 183 more rows</code></pre>
-<p>This leaves us with 193 tickers to choose from. We will choose all companies in the
-technology sector.</p>
-<p>Now, we will choose the final data subset to feed into the logistical model.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ratios_filtered <span class="ot">&lt;-</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>      ratios <span class="sc">%&gt;%</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(ticker <span class="sc">%in%</span> <span class="fu">pull</span>(tickers_to_use, ticker)) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">left_join</span>(ratios_final <span class="sc">%&gt;%</span> <span class="fu">select</span>(ticker, fundamentals_date, sector_yhoo)) <span class="sc">%&gt;%</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(sector_yhoo <span class="sc">==</span> <span class="st">&quot;technology&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(<span class="fu">between</span>(fundamentals_date, <span class="st">&quot;2010-12-31&quot;</span>, <span class="st">&quot;2019-12-31&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">return_sign =</span> <span class="fu">factor</span>(<span class="fu">ifelse</span>(adj_return_6M___9M_forward <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">&quot;pos&quot;</span>, <span class="st">&quot;neg&quot;</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;pos&quot;</span>, <span class="st">&quot;neg&quot;</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">arrange</span>(fundamentals_date) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="sc">-</span>sector_yhoo)</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>ratios_filtered <span class="sc">%&gt;%</span> </span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">count</span>(return_sign) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>      janitor<span class="sc">::</span><span class="fu">adorn_totals</span>(<span class="st">&quot;row&quot;</span>)</span></code></pre></div>
+<p>We will select the desired variables and
+create a new variable.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ratios <span class="ot">&lt;-</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>      ratios_final <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">&quot;field&quot;</span>, <span class="at">values_from =</span> <span class="st">&quot;value&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Get the 9-month forward values of the adj_return_6M variable</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">adj_return_6M_forward_9M =</span> <span class="fu">lead</span>(adj_return_6M, <span class="dv">9</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="sc">-</span>adj_return_6M)</span></code></pre></div>
+<p>This leaves us with 171
+tickers to choose from. We will choose
+all companies in the industrials sector.</p>
+<p>Now, we will choose the final data
+subset to feed into the logistic model.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ratios_filtered <span class="ot">&lt;-</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>      ratios <span class="sc">%&gt;%</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">left_join</span>(ratios_data <span class="sc">%&gt;%</span> <span class="fu">select</span>(ticker, fundamentals_date, sector_yhoo) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">distinct</span>(ticker, sector_yhoo)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(sector_yhoo <span class="sc">==</span> <span class="st">&quot;industrials&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">return_sign =</span> <span class="fu">factor</span>(<span class="fu">ifelse</span>(adj_return_6M_forward_9M <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">&quot;pos&quot;</span>, <span class="st">&quot;neg&quot;</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;pos&quot;</span>, <span class="st">&quot;neg&quot;</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">arrange</span>(fundamentals_date) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="sc">-</span>sector_yhoo, <span class="sc">-</span>adj_return_6M_forward_9M)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>data_count <span class="ot">&lt;-</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>      ratios_filtered <span class="sc">%&gt;%</span> </span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">count</span>(return_sign) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>      janitor<span class="sc">::</span><span class="fu">adorn_totals</span>(<span class="st">&quot;row&quot;</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>data_count</span></code></pre></div>
 <pre><code>##  return_sign    n
-##          pos 1935
-##          neg 1008
-##        Total 2943</code></pre>
+##          pos 2827
+##          neg 1206
+##        Total 4033</code></pre>
 <div id="data-balance" class="section level3">
 <h3>Data balance</h3>
-<p>The response variable (return_sign) has twice as many positive values (1,935) than negative
-values (1008). This could skew the model results, so we will downsample the data
-in order to create balanced response outcomes.</p>
-<p>Let’s see how many years of data exist in the data.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># No. of years in data set</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>n_years <span class="ot">&lt;-</span> </span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>      ratios_filtered <span class="sc">%&gt;%</span> </span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(fundamentals_date) <span class="sc">%&gt;%</span> </span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarize</span>(<span class="at">date_range =</span> lubridate<span class="sc">::</span><span class="fu">interval</span>(<span class="fu">min</span>(fundamentals_date), <span class="fu">max</span>(fundamentals_date)) <span class="sc">%/%</span> <span class="fu">months</span>(<span class="dv">12</span>))</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>n_years</span></code></pre></div>
-<pre><code>## # A tibble: 1 x 1
-##   date_range
-##        &lt;dbl&gt;
-## 1          9</code></pre>
-<p>There are 9 years of monthly data in the data set.</p>
-<p>Now, let’s look at the distributions of each variable by through boxplots.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View distributions</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>ratios_filtered <span class="sc">%&gt;%</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="sc">-</span>return_sign, <span class="sc">-</span>ticker) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(fundamentals_date), <span class="at">names_to =</span> <span class="st">&quot;variable&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(variable) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">median_x =</span> <span class="fu">median</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(variable, median_x), <span class="at">y =</span> value, <span class="at">fill =</span> variable)) <span class="sc">+</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Boxplots of model variables&quot;</span>,</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">coord_flip</span>()</span></code></pre></div>
-<p><img src="/post/2021-07-27-logistic-regression-with-stock-returns_files/figure-html/unnamed-chunk-7-1.png" width="768" /></p>
-<p>There appears to be outlier data points in the <strong>sales_growth_index</strong> and
-<strong>total_accruals_to_total_assets</strong> variables and possibly others. We will try
-to remove remove extreme values.</p>
+<p>The response variable (return_sign) has about
+twice as many positive values
+(2,827)
+than negative values
+(1,206).
+This could skew the model results, so we
+will downsample the data in order to
+create balanced response outcomes.</p>
+<p>Now, let’s look at the distributions of
+each variable through boxplots.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View distributions</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>ratios_filtered <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="sc">-</span>return_sign, <span class="sc">-</span>ticker) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pivot_longer</span>(<span class="sc">-</span>fundamentals_date, <span class="at">names_to =</span> <span class="st">&quot;field&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">median_x =</span> <span class="fu">median</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> value, <span class="at">y =</span> <span class="fu">reorder</span>(field, median_x), <span class="at">fill =</span> field)) <span class="sc">+</span> </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Boxplots of model variables&quot;</span>,</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">coord_cartesian</span>(<span class="at">clip =</span> <span class="st">&quot;off&quot;</span>) <span class="sc">+</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="sc">-</span><span class="dv">3</span>),</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">panel.border =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
+<p><img src="/post/2021-07-27-logistic-regression-with-stock-returns_files/figure-html/unnamed-chunk-8-1.png" width="768" /></p>
+<p>There appears to be outlier data points
+in the <strong>sales_growth_index</strong> and
+<strong>lt_debt_ratio_pct_chg_1Y</strong>
+variables and possibly others. We will
+try to remove these extreme values.</p>
 </div>
 <div id="remove-outliers" class="section level3">
 <h3>Remove Outliers</h3>
-<p>We will loosely define outliers as values in less than the 0.005 quantile or
-greater than the 0.995 quantile for all input variables.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove outliers</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>ratios_cleaned <span class="ot">&lt;-</span> </span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>      ratios_filtered <span class="sc">%&gt;%</span> </span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">distinct</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>      <span class="co"># select(-return_sign) %&gt;%</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(fundamentals_date, ticker, return_sign), <span class="at">names_to =</span> <span class="st">&quot;ratio&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(ratio) <span class="sc">%&gt;%</span> </span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">low_q =</span> <span class="fu">quantile</span>(value, .<span class="dv">005</span>),</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">high_q =</span> <span class="fu">quantile</span>(value, .<span class="dv">995</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(value <span class="sc">&gt;=</span> low_q <span class="sc">&amp;</span> value <span class="sc">&lt;=</span> high_q) <span class="sc">%&gt;%</span> </span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="sc">-</span>low_q, <span class="sc">-</span>high_q) <span class="sc">%&gt;%</span> </span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> ratio, <span class="at">values_from =</span> value)</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>ratios_cleaned <span class="sc">%&gt;%</span></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="sc">-</span>return_sign, <span class="sc">-</span>ticker) <span class="sc">%&gt;%</span> </span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(fundamentals_date), <span class="at">names_to =</span> <span class="st">&quot;variable&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(variable) <span class="sc">%&gt;%</span> </span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">median_x =</span> <span class="fu">median</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(variable, median_x), <span class="at">y =</span> value, <span class="at">fill =</span> variable)) <span class="sc">+</span></span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Boxplots of model variables&quot;</span>,</span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">coord_flip</span>()</span></code></pre></div>
-<p><img src="/post/2021-07-27-logistic-regression-with-stock-returns_files/figure-html/unnamed-chunk-8-1.png" width="768" /></p>
-<p>After removing extreme values, the variables contain more realistic values and the
-fitted logistic model will likely be more robust and less affected by extreme values.</p>
+<p>We will loosely define outliers as
+values in less than the 0.005 quantile
+or greater than the 0.995 quantile for
+all variables.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove outliers</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>ratios_cleaned <span class="ot">&lt;-</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>      ratios_filtered <span class="sc">%&gt;%</span> </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">distinct</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(fundamentals_date, ticker, return_sign), <span class="at">names_to =</span> <span class="st">&quot;field&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(field) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Replace extreme values with median of the field</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">value =</span> <span class="fu">ifelse</span>(value <span class="sc">&lt;</span> <span class="fu">quantile</span>(value, .<span class="dv">005</span>), <span class="fu">median</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), value),</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">value =</span> <span class="fu">ifelse</span>(value <span class="sc">&gt;</span> <span class="fu">quantile</span>(value, .<span class="dv">995</span>), <span class="fu">median</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), value)) <span class="sc">%&gt;%</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> field, <span class="at">values_from =</span> value)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>ratios_cleaned <span class="sc">%&gt;%</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="sc">-</span>return_sign, <span class="sc">-</span>ticker) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(fundamentals_date), <span class="at">names_to =</span> <span class="st">&quot;variable&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(variable) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">median_x =</span> <span class="fu">median</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> value, <span class="at">y =</span> <span class="fu">reorder</span>(variable, median_x), <span class="at">fill =</span> variable)) <span class="sc">+</span> </span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Boxplots of model variables&quot;</span>,</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">coord_cartesian</span>(<span class="at">clip =</span> <span class="st">&quot;off&quot;</span>) <span class="sc">+</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>            <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="sc">-</span><span class="dv">3</span>),</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>            <span class="at">panel.border =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>            <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>            <span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
+<p><img src="/post/2021-07-27-logistic-regression-with-stock-returns_files/figure-html/Remove%20Outliers-1.png" width="768" /></p>
+<p>After removing extreme values, the
+variables contain more realistic values
+and the fitted logistic model will
+likely be more robust and less affected
+by extreme values.</p>
 </div>
 </div>
 <div id="statistical-modeling" class="section level2">
 <h2>Statistical modeling</h2>
-<p>We will use a logistic model with the four numeric feature variables mentioned earlier and
-the six-month stock return as the dependent variable.</p>
+<p>We will use a logistic model with the
+four numeric feature variables mentioned
+earlier and the six-month stock return
+as the dependent variable.</p>
 <div id="split-the-data-into-training-and-test-sets" class="section level3">
 <h3>Split the data into training and test sets</h3>
-<p>In order to test the results of our model, we will split the data into two
-groups, a training set (75% of the data) and a test set (25% of the data). The
-logistic model will be applied to the training set and the resulting model will
-be evaluated on the remaining 25%.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split data</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>data_split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(ratios_cleaned <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>ticker, <span class="sc">-</span>fundamentals_date,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>                                                      <span class="sc">-</span>adj_return_6M___9M_forward))</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>data_train <span class="ot">&lt;-</span> <span class="fu">training</span>(data_split)</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>data_test <span class="ot">&lt;-</span> <span class="fu">testing</span>(data_split)</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>data_cv <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(data_train)</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Preprocess the data</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>ratios_recipe <span class="ot">&lt;-</span> </span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">recipe</span>(return_sign <span class="sc">~</span> ., <span class="at">data =</span> data_train) <span class="sc">%&gt;%</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>      <span class="co"># step_normalize(all_numeric()) #%&gt;% </span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>      <span class="co"># step_knnimpute(all_predictors())</span></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Filter out variables that are too correlated with each other</span></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">step_corr</span>(<span class="fu">all_predictors</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Convert the factor columns into (one or more) numeric binary (0 and 1) variables</span></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>      <span class="co"># step_dummy(all_nominal(), -all_outcomes()) %&gt;% </span></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Remove any numeric variables that have zero variance</span></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>      <span class="co"># step_zv(all_numeric())</span></span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Normalize (center and scale) the numeric variables</span></span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>      <span class="co"># step_normalize(all_numeric())</span></span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Downsample the data, since there are significantly unbalanced data in the outcomes variable</span></span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>      <span class="co"># If we don&#39;t do this, our model will learn very effectively about how to predict one case rather than both</span></span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>      themis<span class="sc">::</span><span class="fu">step_downsample</span>(return_sign)</span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the data</span></span>
-<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>data_prep <span class="ot">&lt;-</span> </span>
-<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>      ratios_recipe <span class="sc">%&gt;%</span> </span>
-<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>      <span class="fu">prep</span>()</span>
-<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the transformations</span></span>
-<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>data_juiced <span class="ot">&lt;-</span> </span>
-<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>      data_prep <span class="sc">%&gt;%</span> </span>
-<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>      <span class="fu">juice</span>()</span>
-<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>data_count <span class="ot">&lt;-</span></span>
-<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>      data_juiced <span class="sc">%&gt;%</span> </span>
-<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>      <span class="fu">count</span>(return_sign) <span class="sc">%&gt;%</span> </span>
-<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>      janitor<span class="sc">::</span><span class="fu">adorn_totals</span>(<span class="st">&quot;row&quot;</span>)</span>
-<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>data_count</span></code></pre></div>
+<p>In order to test the results of our
+model, we will split the data into two
+groups, a training set (75% of the data)
+and a test set (25% of the data). The
+logistic model will be applied to the
+training set and the resulting model
+will be evaluated on the remaining 25%.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split data</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>data_split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(ratios_cleaned <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>ticker, <span class="sc">-</span>fundamentals_date))</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>data_train <span class="ot">&lt;-</span> <span class="fu">training</span>(data_split)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>data_test <span class="ot">&lt;-</span> <span class="fu">testing</span>(data_split)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the model and feature engineering steps</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>ratios_recipe <span class="ot">&lt;-</span> </span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">recipe</span>(return_sign <span class="sc">~</span> ., <span class="at">data =</span> data_train) <span class="sc">%&gt;%</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Filter out variables that are too correlated with each other</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">step_corr</span>(<span class="fu">all_predictors</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Remove any numeric variables that have zero variance</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">step_zv</span>(<span class="fu">all_numeric</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Downsample the data, since there are significantly unbalanced data in the outcomes variable</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>      <span class="co"># If we don&#39;t do this, our model will learn very effectively about how to predict one case rather than both</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>      themis<span class="sc">::</span><span class="fu">step_downsample</span>(return_sign)</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the data</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>data_prep <span class="ot">&lt;-</span> ratios_recipe <span class="sc">%&gt;%</span> <span class="fu">prep</span>()</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply transformations</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>data_juiced <span class="ot">&lt;-</span> data_prep <span class="sc">%&gt;%</span> <span class="fu">juice</span>()</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>data_count <span class="ot">&lt;-</span></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>      data_juiced <span class="sc">%&gt;%</span> </span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">count</span>(return_sign) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>      janitor<span class="sc">::</span><span class="fu">adorn_totals</span>(<span class="st">&quot;row&quot;</span>)</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>data_count</span></code></pre></div>
 <pre><code>##  return_sign    n
-##          pos  661
-##          neg  661
-##        Total 1322</code></pre>
-<p>The downsampling reduced the data to 1,322 observations with equal number of
-<strong>pos</strong> and <strong>neg</strong> values in the response variable (return_sign). This will
-prevent model results that are biased due to unbalanced response variable values
-in the testing data.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply a logistic regression model</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>lr_model <span class="ot">&lt;-</span> </span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">logistic_reg</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Set the engine</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">set_engine</span>(<span class="st">&quot;glm&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Set the mode</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">set_mode</span>(<span class="st">&quot;classification&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Fit the model</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fit</span>(return_sign <span class="sc">~</span> ., <span class="at">data =</span> data_juiced)</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lr_model, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 1 x 5
-##   term           estimate std.error statistic   p.value
-##   &lt;chr&gt;             &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-## 1 asset_turnover     1.93     0.159      4.12 0.0000376</code></pre>
-<p>The logistic regression shows that the variables <strong>sales_growth_index</strong>,
-<strong>asset_turnover</strong>, <strong>scaled_net_operating_assets</strong>, and
-<strong>total_accruals_to_total_assets</strong> are significant with p-values below 0.05.</p>
-<p>We will fit a new logistic model using these variables.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Preprocess the data</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>model_recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(return_sign <span class="sc">~</span> sales_growth_index <span class="sc">+</span> asset_turnover <span class="sc">+</span> </span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                             scaled_net_operating_assets <span class="sc">+</span> </span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                             total_accruals_to_total_assets, <span class="at">data =</span> data_train) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>      themis<span class="sc">::</span><span class="fu">step_downsample</span>(return_sign)</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the data</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>data_prep <span class="ot">&lt;-</span> </span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>      model_recipe <span class="sc">%&gt;%</span> </span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">prep</span>()</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the transformations</span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>data_juiced <span class="ot">&lt;-</span> </span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>      data_prep <span class="sc">%&gt;%</span> </span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">juice</span>()</span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply a logistic regression model</span></span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>fitted_logistic_model <span class="ot">&lt;-</span> </span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">logistic_reg</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Set the engine</span></span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">set_engine</span>(<span class="st">&quot;glm&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Set the mode</span></span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">set_mode</span>(<span class="st">&quot;classification&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Fit the model</span></span>
-<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fit</span>(return_sign <span class="sc">~</span> sales_growth_index <span class="sc">+</span> asset_turnover <span class="sc">+</span> </span>
-<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>                             scaled_net_operating_assets <span class="sc">+</span> </span>
-<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>                             total_accruals_to_total_assets, <span class="at">data =</span> data_juiced)</span>
-<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fitted_logistic_model, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 4 x 5
-##   term                           estimate std.error statistic    p.value
-##   &lt;chr&gt;                             &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
-## 1 (Intercept)                       0.153    0.484      -3.87 0.000108  
-## 2 sales_growth_index                3.93     0.363       3.78 0.000159  
-## 3 asset_turnover                    1.57     0.0986      4.58 0.00000473
-## 4 total_accruals_to_total_assets    0.304    0.592      -2.01 0.0442</code></pre>
+##          pos  891
+##          neg  891
+##        Total 1782</code></pre>
+<p>The downsampling reduced the data to
+1,782
+observations with equal number of
+<strong>pos</strong> and <strong>neg</strong> values in the
+response variable (return_sign). This
+will prevent model results that are
+biased due to unbalanced response
+variable values in the testing data.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply a logistic regression model</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>lr_model <span class="ot">&lt;-</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">logistic_reg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">set_engine</span>(<span class="st">&quot;glm&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">set_mode</span>(<span class="st">&quot;classification&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Fit the model</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fit</span>(return_sign <span class="sc">~</span> ., <span class="at">data =</span> data_juiced)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lr_model, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(term)</span></code></pre></div>
+<pre><code>## [1] &quot;current_ratio&quot;               &quot;scaled_total_accruals&quot;      
+## [3] &quot;scaled_net_operating_assets&quot; &quot;asset_turnover&quot;             
+## [5] &quot;free_cash_flow_to_assets&quot;</code></pre>
+<p>The logistic regression shows that the
+variables <strong>current_ratio</strong>,
+<strong>scaled_total_accruals</strong>,
+<strong>scaled_net_operating_assets</strong>,
+<strong>asset_turnover</strong>, and
+<strong>free_cash_flow_to_assets</strong> have
+significant p-values.</p>
+<p>We will fit a new logistic model using
+these variables.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the model and feature engineering steps</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>model_recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(return_sign <span class="sc">~</span> current_ratio <span class="sc">+</span> scaled_total_accruals <span class="sc">+</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                             scaled_net_operating_assets <span class="sc">+</span> asset_turnover <span class="sc">+</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                             free_cash_flow_to_assets,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">data =</span> data_juiced)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the data</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>data_prep <span class="ot">&lt;-</span> ratios_recipe <span class="sc">%&gt;%</span> <span class="fu">prep</span>()</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply transformations</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>data_juiced <span class="ot">&lt;-</span> data_prep <span class="sc">%&gt;%</span> <span class="fu">juice</span>()</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply a logistic regression model</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>fitted_logistic_model <span class="ot">&lt;-</span> </span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">logistic_reg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">set_engine</span>(<span class="st">&quot;glm&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">set_mode</span>(<span class="st">&quot;classification&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Fit the model</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fit</span>(return_sign <span class="sc">~</span> ., <span class="at">data =</span> data_juiced)</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fitted_logistic_model, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(term)</span></code></pre></div>
+<pre><code>## [1] &quot;current_ratio&quot;               &quot;scaled_total_accruals&quot;      
+## [3] &quot;scaled_net_operating_assets&quot; &quot;asset_turnover&quot;             
+## [5] &quot;free_cash_flow_to_assets&quot;</code></pre>
 </div>
 </div>
 <div id="interpret-results" class="section level2">
 <h2>Interpret results</h2>
-<p>The variables <strong>sales_growth_index</strong> and <strong>asset_turnover</strong> still have
-significant p-value so they will be used in the final model.</p>
+<p>The variables <strong>current_ratio</strong>,
+<strong>scaled_total_accruals</strong>,
+<strong>scaled_net_operating_assets</strong>,
+<strong>asset_turnover</strong>, and
+<strong>free_cash_flow_to_assets</strong> still have
+significant p-values so they will be used
+in the final model.</p>
 </div>
 <div id="final-model" class="section level2">
 <h2>Final Model</h2>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply a logistic regression model</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>final_logistic_model <span class="ot">&lt;-</span> </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">logistic_reg</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Set the engine</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">set_engine</span>(<span class="st">&quot;glm&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Set the mode</span></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">set_mode</span>(<span class="st">&quot;classification&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Fit the model</span></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fit</span>(return_sign <span class="sc">~</span> sales_growth_index <span class="sc">+</span> asset_turnover, <span class="at">data =</span> data_juiced)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply final logistic regression model</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>final_logistic_model <span class="ot">&lt;-</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">logistic_reg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">set_engine</span>(<span class="st">&quot;glm&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">set_mode</span>(<span class="st">&quot;classification&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Fit the model</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fit</span>(return_sign <span class="sc">~</span> current_ratio <span class="sc">+</span> scaled_total_accruals <span class="sc">+</span> </span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>                             scaled_net_operating_assets <span class="sc">+</span> asset_turnover <span class="sc">+</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>                             free_cash_flow_to_assets, </span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> data_juiced)</span></code></pre></div>
 <div id="model-predictions" class="section level3">
 <h3>Model predictions</h3>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Class prediction</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>pred_class <span class="ot">&lt;-</span> <span class="fu">predict</span>(final_logistic_model, <span class="at">new_data =</span> data_test, <span class="at">type =</span> <span class="st">&quot;class&quot;</span>)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Prediction Probabilities</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>pred_probs <span class="ot">&lt;-</span> <span class="fu">predict</span>(final_logistic_model, <span class="at">new_data =</span> data_test, <span class="at">type =</span> <span class="st">&quot;prob&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Class prediction</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>pred_class <span class="ot">&lt;-</span> <span class="fu">predict</span>(final_logistic_model, <span class="at">new_data =</span> data_test, <span class="at">type =</span> <span class="st">&quot;class&quot;</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Prediction Probabilities</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>pred_probs <span class="ot">&lt;-</span> <span class="fu">predict</span>(final_logistic_model, <span class="at">new_data =</span> data_test, <span class="at">type =</span> <span class="st">&quot;prob&quot;</span>)</span></code></pre></div>
 </div>
 <div id="model-evaluation" class="section level3">
 <h3>Model evaluation</h3>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>model_results <span class="ot">&lt;-</span> </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>      data_test <span class="sc">%&gt;%</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(return_sign) <span class="sc">%&gt;%</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">bind_cols</span>(pred_class, pred_probs)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>model_results <span class="ot">&lt;-</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>      data_test <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(return_sign) <span class="sc">%&gt;%</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">bind_cols</span>(pred_class, pred_probs)</span></code></pre></div>
 <p>The following definitions will apply:</p>
 <ul>
-<li>TP = True Positive (prediction of positive return and actual positive return)</li>
-<li>FP = False Positive (prediction of positive return, but actual negative return)</li>
-<li>TN = True Negative (prediction of negative return and actual negative return)</li>
-<li>FN = False Negative (prediction of negative return, but actual positive return)</li>
+<li>TP = True Positive (prediction of
+positive return and actual positive
+return)</li>
+<li>FP = False Positive (prediction of
+positive return, but actual negative
+return)</li>
+<li>TN = True Negative (prediction of
+negative return and actual negative
+return)</li>
+<li>FN = False Negative (prediction of
+negative return, but actual positive
+return)</li>
 </ul>
 <div id="confusion-matrix" class="section level4">
 <h4>Confusion matrix</h4>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>cf <span class="ot">&lt;-</span> <span class="fu">conf_mat</span>(model_results, <span class="at">truth =</span> return_sign, <span class="at">estimate =</span> .pred_class)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(cf, <span class="at">type =</span> <span class="st">&quot;heatmap&quot;</span>) <span class="sc">+</span>  <span class="fu">scale_fill_gradient2</span>(<span class="at">high =</span> <span class="st">&quot;lightblue&quot;</span>)</span></code></pre></div>
-<p><img src="/post/2021-07-27-logistic-regression-with-stock-returns_files/figure-html/unnamed-chunk-15-1.png" width="384" /></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>cf <span class="ot">&lt;-</span> <span class="fu">conf_mat</span>(model_results, <span class="at">truth =</span> return_sign, <span class="at">estimate =</span> .pred_class)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(cf, <span class="at">type =</span> <span class="st">&quot;heatmap&quot;</span>) <span class="sc">+</span> <span class="fu">scale_fill_gradient2</span>(<span class="at">high =</span> <span class="st">&quot;lightblue&quot;</span>)</span></code></pre></div>
+<p><img src="/post/2021-07-27-logistic-regression-with-stock-returns_files/figure-html/Confusion%20Matrix-1.png" width="384" /></p>
 </div>
 <div id="accuracy" class="section level4">
 <h4>Accuracy</h4>
-<p>Accuracy measures the model’s ability to make a correct positive case or
-negative case.</p>
+<p>Accuracy measures the model’s ability to
+make a correct positive case or negative
+case.</p>
 <p><span class="math inline">\(Accuracy = \frac{TP + TN}{ TN + FN + TP + FP}\)</span></p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Accuracy</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>accuracy <span class="ot">&lt;-</span> model_results <span class="sc">%&gt;%</span> <span class="fu">accuracy</span>(return_sign, .pred_class)</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>accuracy</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Accuracy</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>accuracy <span class="ot">&lt;-</span> model_results <span class="sc">%&gt;%</span> <span class="fu">accuracy</span>(return_sign, .pred_class)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>accuracy</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 3
 ##   .metric  .estimator .estimate
 ##   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-## 1 accuracy binary         0.594</code></pre>
-<p>The accuracy is about 0.59, meaning the model correctly predicted a positive case
-or negative case 59% of the time.</p>
+## 1 accuracy binary         0.552</code></pre>
+<p>The accuracy is about
+0.55,
+meaning the model correctly predicted a
+positive case or negative case
+55%
+of the time.</p>
 </div>
 <div id="sensitivity" class="section level4">
 <h4>Sensitivity</h4>
-<p>Sensitivity measures the model’s ability to correctly classify positive cases.</p>
+<p>Sensitivity measures the model’s ability
+to correctly classify positive cases.</p>
 <p><span class="math inline">\(Sensitivity = \frac{TP}{TP + FN}\)</span></p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sensitivity</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>sensitivity <span class="ot">&lt;-</span> model_results <span class="sc">%&gt;%</span> <span class="fu">sens</span>(return_sign, .pred_class)</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>sensitivity</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sensitivity</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>sensitivity <span class="ot">&lt;-</span> model_results <span class="sc">%&gt;%</span> <span class="fu">sens</span>(return_sign, .pred_class)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>sensitivity</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 3
 ##   .metric .estimator .estimate
 ##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-## 1 sens    binary         0.680</code></pre>
-<p>The sensitivity is about 0.68, meaning the model correctly predicted positive
-cases 68% of the time.</p>
+## 1 sens    binary         0.555</code></pre>
+<p>The sensitivity is about
+0.55,
+meaning the model correctly predicted
+positive cases
+55%
+of the time.</p>
 </div>
 <div id="specificity" class="section level4">
 <h4>Specificity</h4>
-<p>Specificity measures the model’s ability to correctly classify negative cases.</p>
+<p>Specificity measures the model’s ability
+to correctly classify negative cases.</p>
 <p><span class="math inline">\(Specificity = \frac{TN}{TN + FP}\)</span></p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Specificity</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>specificity <span class="ot">&lt;-</span> model_results <span class="sc">%&gt;%</span> <span class="fu">spec</span>(return_sign, .pred_class)</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>specificity</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Specificity</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>specificity <span class="ot">&lt;-</span> model_results <span class="sc">%&gt;%</span> <span class="fu">spec</span>(return_sign, .pred_class)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>specificity</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 3
 ##   .metric .estimator .estimate
 ##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-## 1 spec    binary         0.442</code></pre>
-<p>The specificity is 0.44, meaning the model correctly classified negative cases
-44% of the time.</p>
+## 1 spec    binary         0.546</code></pre>
+<p>The specificity is
+0.55,
+meaning the model correctly classified
+negative cases
+55%
+of the time.</p>
 </div>
 </div>
 </div>
 <div id="final-results" class="section level2">
 <h2>Final results</h2>
-<p>The model did an overall mediocre job of predicting whether six-month stock returns
-for technology companies over the period 2012-12-31 to 2019-12-31 are positive or
-negative using <strong>asset_turnover</strong> and <strong>sales_growth_index</strong> as input variables.
-The model correctly predicted a positive return about
-68% of the time and
-correctly predicted a negative return about
-44% of the time.</p>
-<p>Many investors would place more weight on a model’s ability to predict negative
-returns, since these can be devastating for portfolios.</p>
+<p>The model did an overall mediocre job of
+predicting whether forward-looking six-month stock
+returns for industrial companies over
+the period December 31, 2010 to December 31, 2019 are
+positive or negative using
+<strong>current_ratio</strong>,
+<strong>scaled_total_accruals</strong>,
+<strong>scaled_net_operating_assets</strong>,
+<strong>asset_turnover</strong>, and
+<strong>free_cash_flow_to_assets</strong> as input
+variables. The model correctly predicted
+a positive return about
+55%
+of the time and correctly predicted a
+negative return about
+55%
+of the time.</p>
+</div>
+<div id="discussion" class="section level2">
+<h2>Discussion</h2>
+<p>This model is did a poor job at predicting forward-looking 6-month
+stock returns for the period ending nine months in the future when using a
+particular subset of industrial sector companies. An accuracy of 80% of higher
+would have been acceptable to justify further investigation as well as<br />
+formulation and testing of a trading strategy. Moreover, this model does not
+distinguish low positive returns from high positive returns and instead lumps
+them together as “positive returns.” Undoubtedly, an investor would like to
+know if a model is good at predicting high positive returns (or negative returns
+for that matter) rather than just positive (negative) returns. People, not just
+investors, have psychological biases, both cognitive and emotional. For example
+a 100% percent positive return to a portfolio is a huge benefit to the investor
+but a 100% negative return can be fatal to a portfolio, leading the investor to
+place more weight on a model’s ability to predict negative returns. The success
+of this model was based on its ability to equally predict positive returns or
+negative returns and on that basis, it did a poor job.</p>
 </div>
 
   </div>
