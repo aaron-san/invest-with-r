@@ -52,7 +52,7 @@ library(tidymodels)
 
 # Read the data
 ratios_data <- 
-      read_csv("https://raw.githubusercontent.com/aaron-san/invest-with-r/master/ratios_final.csv")
+      read_csv("https://raw.githubusercontent.com/aaron-san/invest-with-r/master/data/ratios_final.csv")
       
 ratios_long <-
       ratios_data %>% 
