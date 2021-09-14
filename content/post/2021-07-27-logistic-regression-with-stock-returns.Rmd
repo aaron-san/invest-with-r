@@ -46,13 +46,13 @@ First, we'll load external libraries and
 the data.
 
 ```{r Load Packages and Read Data}
-library(tidyverse)
 library(tidymodels)
+library(tidyverse)
 
 
 # Read the data
 ratios_data <- 
-      read_csv("https://raw.githubusercontent.com/aaron-san/invest-with-r/master/csv/ratios_final.csv")
+      read_csv("https://raw.githubusercontent.com/aaron-san/invest-with-r/master/csv/ratios_final.csv", col_types = cols())
       
 ratios_long <-
       ratios_data %>% 
@@ -115,15 +115,15 @@ tickers_with_full_dates <-
       ratios_long %>%
       distinct() %>% 
       group_by(ticker) %>%
-      filter(first(fundamentals_date) <= start_date & last(fundamentals_date) >= end_date) %>% 
+      filter(dplyr::first(fundamentals_date) <= start_date & dplyr::last(fundamentals_date) >= end_date) %>% 
       distinct(ticker) %>% 
       pull()
 
 # Choose ratios that contain the desired date range
 ratios_filtered <- 
       ratios_long %>% 
-      filter(ticker %in% tickers_with_full_dates) %>% 
-      filter(between(fundamentals_date, start_date, end_date)) %>% 
+      filter(ticker %in% tickers_with_full_dates) %>%
+      filter(between(fundamentals_date, as.Date(start_date), as.Date(end_date))) %>% 
       distinct()
 
 # Get ratios of missing values
@@ -170,8 +170,7 @@ ratios_na %>%
       scale_fill_gradient(low = "white", high = "red", name = "", labels = percent) +
       labs(title = "Percent of Missing Values", x = "", y = "") +
       theme_minimal() +
-      theme(#legend.position = "none",
-            plot.title = element_text(hjust = 3),
+      theme(plot.title = element_text(hjust = 3),
             legend.key.height = unit(1, "cm"),
             legend.key.width = unit(0.2, "cm"))
 
@@ -525,6 +524,8 @@ lr_model <-
       # Fit the model
       fit(return_sign ~ ., data = data_juiced)
 
+lr_model
+
 tidy(lr_model, exponentiate = TRUE) %>%
       filter(p.value < 0.05) %>% pull(term)
 ```
@@ -685,7 +686,7 @@ $Specificity = \frac{TN}{TN + FP}$
 
 ```{r}
 # Specificity
-specificity <- model_results %>% spec(return_sign, .pred_class)
+specificity <- yardstick::spec(model_results, return_sign, .pred_class)
 specificity
 ```
 
