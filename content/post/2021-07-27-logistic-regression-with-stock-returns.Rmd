@@ -46,13 +46,9 @@ First, we'll load external libraries and
 the data.
 
 ```{r Load Packages and Read Data}
-suppressPackageStartupMessages({
-      library(tidyverse)
-      library(tidymodels)
-      library(workflows)
-      library(tune)
-      library(data.table)
-})
+library(tidyverse)
+library(tidymodels)
+
 
 # Read the data
 ratios_data <- 
@@ -259,7 +255,7 @@ $lt\_debt\_ratio\_pct\_chg\_1Y = \Delta \frac{total\, liabilities_t - total\,cur
     ratio can be good for healthy
     companies and bad for others.
 
-$sales\_growth\_index = \frac{revenue_t} {revenue_{t-12}$
+$sales\_growth\_index = \frac{revenue_t} {revenue_{t-12}}$
 
 -   **sales_growth_index** is the ratio of revenue in year *t* to that of the 
     prior year. A growing value
