@@ -592,6 +592,8 @@ final_logistic_model <-
                              leverage_index + scaled_net_operating_assets + 
                              asset_turnover + free_cash_flow_to_assets, 
           data = data_juiced)
+
+final_logistic_model
 ```
 
 ### Model predictions
@@ -686,7 +688,7 @@ $Specificity = \frac{TN}{TN + FP}$
 
 ```{r}
 # Specificity
-specificity <- yardstick::spec(model_results, return_sign, .pred_class)
+specificity <- model_results %>% yardstick::spec(return_sign, .pred_class)
 specificity
 ```
 
