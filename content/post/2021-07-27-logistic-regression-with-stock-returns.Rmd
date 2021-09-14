@@ -196,10 +196,8 @@ ratios_na %>%
 
 ```
 
-It looks like the variables
-**sga_index**, **gross_margin_index**
-and **depreciation_index** and others
-have a significant amount of missing
+It looks like the variable
+**sga_index** has a significant amount of missing
 values. We will try to find data without
 missing values and use it in the
 classification model.
@@ -232,26 +230,6 @@ tickers will be used to develop a
 classification model.
 
 ```{r}
-ratios_na %>% 
-      # Choose the fields to use
-      filter(field %in% fields_to_use) %>% 
-      # Choose 10 random tickers
-      filter(ticker %in% sample(tickers_to_use, 10)) %>%
-      ggplot(aes(ticker, field, fill = na_ratio)) +
-      geom_tile(color = "darkgray", lwd = 1) +
-      # geom_text(aes(label = percent_format(accuracy = 1)(na_ratio)), color = "black", size = 4) +
-      scale_fill_gradient(low = "white", high = "red", name = "", labels = percent) +
-      labs(title = "Percent of Missing Values", x = "", y = "") +
-      theme_minimal() +
-      theme(plot.title = element_text(hjust = 3),
-            legend.key.height = unit(1, "cm"),
-            legend.key.width = unit(0.2, "cm"))
-```
-
-The data was filtered to include only tickers and fields with complete data for
-the dates specified earlier.
-
-```{r}
 ratios_final <-  
       ratios_filtered %>% 
       # Select fields with complete data
@@ -269,10 +247,7 @@ predict the six-month stock return for
 one or more public companies.
 
 The variables **current_ratio**,
-**debt_ratio**, **lt_debt_ratio**,
 **lt_debt_ratio_pct_chg_1Y**,
-**days_sales_outstanding_index**,
-**asset_quality_index**,
 **sales_growth_index**,
 **leverage_index**,
 **scaled_total_accruals**,
@@ -291,23 +266,6 @@ $current\_ratio = \frac{total\,current\,assets_t} {total\,current\,liabilities_t
     amount of current assets relative to
     current liabilities.
 
-$debt\_ratio = \frac{total\,liabilities_t}{total\,assets_t}$
-
--   **debt_ratio** measures the
-    percentage of assets that is
-    financed by short-term and long-term
-    debt.
-
-$lt\_debt\_ratio = \frac{total\,liabilities_t - total\,current\,liabilities_t) }{total\_assets_t}$
-
--   **lt_debt_ratio** measures the
-    proportion of assets that are
-    financed with long-term debt. Debt
-    is used for leverage and can
-    benefits healthy companies to a
-    certain extent. Excessively high
-    long-term debt ratios can
-
 $lt\_debt\_ratio\_pct\_chg\_1Y = \Delta \frac{total\, liabilities_t - total\,current\,liabilities_t}{total\,assets_t}-1$
 
 -   **lt_debt_ratio_pct_chg_1Y**
@@ -315,23 +273,6 @@ $lt\_debt\_ratio\_pct\_chg\_1Y = \Delta \frac{total\, liabilities_t - total\,cur
     long-term debt ratio. Growth in this
     ratio can be good for healthy
     companies and bad for others.
-
-$days\_sales\_outstanding\_index = \frac{days\,sales\,outsanding_t} {days\,sales\,outstanding_{t-12}}$
-      where,
-      $days\,sales\,outstanding = \frac{365} {(\frac{revenue_t} {net\,receivables})}$
-
--   **days_sales_outstanding_index**
-    measures the ratio of the days sales outstanding ratio in the current year 
-    to the that in the prior year
-
-$asset\_quality\_index = \frac{(total\,assets_t - total\,current\,assets_t - property\,plant\,equipment_t)} {total\,assets_t}$
-
--   **asset_quality_index** is a measure
-    of the percentage of total assets
-    that is in the form of intangible
-    assets. All else equal, relatively
-    more intangible assets is
-    undesirable.
 
 $sales\_growth\_index = \frac{revenue_t} {revenue_{t-12}$
 
@@ -454,7 +395,7 @@ data_count
 
 ### Data balance
 
-The response variable (return_sign) has about
+The response variable (return_sign) has over
 twice as many positive values
 (`r data_count %>% filter(return_sign == "pos") %>% pull(n) %>% comma_format()(.)`)
 than negative values
@@ -486,21 +427,20 @@ ratios_filtered %>%
 
 ```
 
-There appears to be outlier data points
-in the **sales_growth_index** and 
-**lt_debt_ratio_pct_chg_1Y**
-variables and possibly others. We will
-try to remove these extreme values.
+There appears to be outliers several feature
+variables, including asset_turnover. They could be due to once-in-a-lifetime 
+anamolies or data input errors. 
 
-### Remove Outliers
+### Clean Up Outliers
 
 We will loosely define outliers as
 values in less than the 0.005 quantile
 or greater than the 0.995 quantile for
-all variables.
+all variables. We will replace extreme values with the median
+values per field.
 
 ```{r Remove Outliers, fig.height = 4, fig.width = 8}
-# Remove outliers
+# Replace outliers with median values per field
 ratios_cleaned <- 
       ratios_filtered %>% 
       distinct() %>% 
@@ -610,7 +550,8 @@ tidy(lr_model, exponentiate = TRUE) %>%
 
 The logistic regression shows that the
 variables **current_ratio**, 
-**scaled_total_accruals**,
+**sales_growth_index**,
+**leverage_index**,
 **scaled_net_operating_assets**,
 **asset_turnover**, and
 **free_cash_flow_to_assets** have
@@ -621,9 +562,9 @@ these variables.
 
 ```{r Refit the Model with Significant Variables}
 # Define the model and feature engineering steps
-model_recipe <- recipe(return_sign ~ current_ratio + scaled_total_accruals + 
-                             scaled_net_operating_assets + asset_turnover +
-                             free_cash_flow_to_assets,
+model_recipe <- recipe(return_sign ~ current_ratio + sales_growth_index + 
+                             leverage_index + scaled_net_operating_assets + 
+                             asset_turnover + free_cash_flow_to_assets,
                        data = data_juiced)
       
 # Prepare the data
@@ -648,7 +589,8 @@ tidy(fitted_logistic_model, exponentiate = TRUE) %>%
 ## Interpret results
 
 The variables **current_ratio**, 
-**scaled_total_accruals**,
+**sales_growth_index**,
+**leverage_index**,
 **scaled_net_operating_assets**,
 **asset_turnover**, and
 **free_cash_flow_to_assets** still have
@@ -664,9 +606,9 @@ final_logistic_model <-
       set_engine("glm") %>%
       set_mode("classification") %>%
       # Fit the model
-      fit(return_sign ~ current_ratio + scaled_total_accruals + 
-                             scaled_net_operating_assets + asset_turnover +
-                             free_cash_flow_to_assets, 
+      fit(return_sign ~ current_ratio + sales_growth_index + 
+                             leverage_index + scaled_net_operating_assets + 
+                             asset_turnover + free_cash_flow_to_assets, 
           data = data_juiced)
 ```
 
@@ -782,7 +724,8 @@ returns for industrial companies over
 the period `r format(as.Date(start_date), format = '%B %d, %Y')` to `r format(as.Date(end_date), format = '%B %d, %Y')` are
 positive or negative using
 **current_ratio**, 
-**scaled_total_accruals**, 
+**sales_growth_index**,
+**leverage_index**,
 **scaled_net_operating_assets**,
 **asset_turnover**, and
 **free_cash_flow_to_assets** as input
