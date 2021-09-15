@@ -1,7 +1,7 @@
 ---
 title: Logistic Regression with Stock Returns
 author: Aaron Hardy
-date: '2021-09-13'
+date: '2021-09-15'
 slug: logistic-regression-with-stock-returns
 categories: []
 tags: []
@@ -46,23 +46,31 @@ First, we'll load external libraries and
 the data.
 
 ```{r Load Packages and Read Data}
+
+# Clear workspace
+rm(list = ls())
+
+# Load packages
 library(tidymodels)
 library(tidyverse)
 
+# Address some function conflicts
+filter <- dplyr::filter
+spec <- yardstick::spec
 
 # Read the data
 ratios_data <- 
-      read_csv("https://raw.githubusercontent.com/aaron-san/invest-with-r/master/csv/ratios_final.csv", col_types = cols())
-      
+      read_csv("C:/Users/user/Desktop/Aaron/R/Websites/invest-with-r/csv/ratios_final.csv", col_types = cols())
+      # read_csv("https://raw.githubusercontent.com/aaron-san/invest-with-r/master/csv/ratios_final.csv", col_types = cols())
+
+industries <- ratios_data %>% select(ticker, sector_yhoo) %>% distinct()
+
 ratios_long <-
       ratios_data %>% 
-      pivot_longer(-c(ticker, fundamentals_date, sector_yhoo), names_to = "field", values_to = "value")
+      select(-sector_yhoo) %>% 
+      pivot_longer(-c(ticker, fundamentals_date), names_to = "field", values_to = "value")
 
-# Number of tickers
-ratios_long %>% distinct(ticker) %>% nrow()
-
-# Number of fields
-ratios_long %>% distinct(field) %>% nrow()
+ratios_long %>% slice_head(n = 10)
 ```
 
 ## The data
@@ -129,7 +137,7 @@ ratios_filtered <-
 # Get ratios of missing values
 ratios_na <-
       ratios_filtered %>%
-      select(-sector_yhoo, -fundamentals_date, -sector_yhoo) %>% 
+      select(-fundamentals_date) %>% 
       # Replace any infinity values with NA
       mutate(value = ifelse(is.finite(value), value, NA)) %>%
       group_by(ticker, field) %>% 
@@ -158,7 +166,7 @@ with at least 10 ratios having less than
 10% of values missing.
 
 ```{r}
-# View the ratio of missing data by ticker and field (for a sample of the data)
+# View the percent of missing data by ticker and field (for a sample of the data)
 set.seed(123)
 ratios_na %>% 
       # Choose 10 random tickers
@@ -200,8 +208,7 @@ tickers_to_use <-
       filter(n == max(n)) %>% 
       pull(ticker)
 
-length(tickers_to_use)
-
+c(tickers_to_use %>% head(), "...")
 ```
 
 There are `r length(tickers_to_use)`
@@ -359,8 +366,7 @@ subset to feed into the logistic model.
 ```{r}
 ratios_filtered <-
       ratios %>% 
-      left_join(ratios_data %>% select(ticker, fundamentals_date, sector_yhoo) %>% 
-                      distinct(ticker, sector_yhoo)) %>%
+      left_join(industries) %>%
       filter(sector_yhoo == "industrials") %>% 
       mutate(return_sign = factor(ifelse(adj_return_6M_forward_9M > 0, "pos", "neg"), levels = c("pos", "neg"))) %>% 
       arrange(fundamentals_date) %>% 
@@ -420,18 +426,20 @@ all variables. We will replace extreme values with the median
 values per field.
 
 ```{r Remove Outliers, fig.height = 4, fig.width = 8}
-# Replace outliers with median values per field
+# Remove outlier rows
 ratios_cleaned <- 
       ratios_filtered %>% 
       distinct() %>% 
       pivot_longer(-c(fundamentals_date, ticker, return_sign), names_to = "field") %>% 
       group_by(field) %>% 
       # Replace extreme values with median of the field
-      mutate(value = ifelse(value < quantile(value, .005), median(value, na.rm = TRUE), value),
-             value = ifelse(value > quantile(value, .995), median(value, na.rm = TRUE), value)) %>%
-      pivot_wider(names_from = field, values_from = value)
+      mutate(value = ifelse(value < quantile(value, .005), NA, value)) %>% 
+      drop_na() %>% 
+      mutate(value = ifelse(value > quantile(value, .995), NA, value)) %>%
+      drop_na() %>% 
+      pivot_wider(names_from = field, values_from = value) %>% 
+      drop_na()
       
-
 ratios_cleaned %>%
       select(-return_sign, -ticker) %>% 
       pivot_longer(-c(fundamentals_date), names_to = "variable") %>% 
@@ -517,36 +525,39 @@ variable values in the testing data.
 
 ```{r Apply a Logistic Regression Model}
 # Apply a logistic regression model
-lr_model <- 
+lr_model_original <- 
       logistic_reg() %>%
       set_engine("glm") %>%
       set_mode("classification") %>%
       # Fit the model
       fit(return_sign ~ ., data = data_juiced)
 
-lr_model
-
-tidy(lr_model, exponentiate = TRUE) %>%
-      filter(p.value < 0.05) %>% pull(term)
+tidy(lr_model_original, exponentiate = TRUE) %>%
+      filter(p.value < 0.05)
 ```
 
 The logistic regression shows that the
 variables **current_ratio**, 
-**sales_growth_index**,
-**leverage_index**,
+**scaled_total_accruals**,
 **scaled_net_operating_assets**,
-**asset_turnover**, and
-**free_cash_flow_to_assets** have
+**free_cash_flow_to_assets**
+**asset_turnover**,
+**sales_growth_index** and
+**leverage_index** have
 significant p-values.
+
+
+
+
 
 We will fit a new logistic model using
 these variables.
 
 ```{r Refit the Model with Significant Variables}
 # Define the model and feature engineering steps
-model_recipe <- recipe(return_sign ~ current_ratio + sales_growth_index + 
-                             leverage_index + scaled_net_operating_assets + 
-                             asset_turnover + free_cash_flow_to_assets,
+model_recipe <- recipe(return_sign ~ current_ratio + scaled_total_accruals +
+                             scaled_net_operating_assets + free_cash_flow_to_assets +
+                             asset_turnover + sales_growth_index + leverage_index,
                        data = data_juiced)
       
 # Prepare the data
@@ -557,25 +568,26 @@ data_juiced <- data_prep %>% juice()
 
 
 # Apply a logistic regression model
-fitted_logistic_model <- 
+lr_model_revised <- 
       logistic_reg() %>%
       set_engine("glm") %>%
       set_mode("classification") %>%
       # Fit the model
       fit(return_sign ~ ., data = data_juiced)
 
-tidy(fitted_logistic_model, exponentiate = TRUE) %>% 
-      filter(p.value < 0.05) %>% pull(term)
+tidy(lr_model_revised, exponentiate = TRUE) %>% 
+      filter(p.value < 0.05)
 ```
 
 ## Interpret results
 
 The variables **current_ratio**, 
-**sales_growth_index**,
-**leverage_index**,
+**scaled_total_accruals**,
 **scaled_net_operating_assets**,
-**asset_turnover**, and
-**free_cash_flow_to_assets** still have
+**free_cash_flow_to_assets**
+**asset_turnover**,
+**sales_growth_index** and
+**leverage_index** still have
 significant p-values so they will be used
 in the final model.
 
@@ -583,17 +595,18 @@ in the final model.
 
 ```{r Fit Final Logistic Regression Model}
 # Apply final logistic regression model
-final_logistic_model <- 
+lr_model_final <- 
       logistic_reg() %>%
       set_engine("glm") %>%
       set_mode("classification") %>%
       # Fit the model
-      fit(return_sign ~ current_ratio + sales_growth_index + 
-                             leverage_index + scaled_net_operating_assets + 
-                             asset_turnover + free_cash_flow_to_assets, 
+      fit(return_sign ~ current_ratio + scaled_total_accruals +
+                             scaled_net_operating_assets + free_cash_flow_to_assets +
+                             asset_turnover + sales_growth_index + leverage_index, 
           data = data_juiced)
 
-final_logistic_model
+tidy(lr_model_final, exponentiate = TRUE) %>% 
+      filter(p.value < 0.05)
 ```
 
 ### Model predictions
@@ -688,7 +701,7 @@ $Specificity = \frac{TN}{TN + FP}$
 
 ```{r}
 # Specificity
-specificity <- model_results %>% yardstick::spec(return_sign, .pred_class)
+specificity <- model_results %>% spec(return_sign, .pred_class)
 specificity
 ```
 
