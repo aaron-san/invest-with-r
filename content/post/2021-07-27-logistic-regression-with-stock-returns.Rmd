@@ -57,6 +57,7 @@ library(tidyverse)
 # Address some function conflicts
 filter <- dplyr::filter
 spec <- yardstick::spec
+step <- recipes::step
 
 # Read the data
 ratios_data <- 
@@ -613,10 +614,10 @@ tidy(lr_model_final, exponentiate = TRUE) %>%
 
 ```{r Get Predictions}
 # Class prediction
-pred_class <- predict(final_logistic_model, new_data = data_test, type = "class")
+pred_class <- predict(lr_model_final, new_data = data_test, type = "class")
 
 # Prediction Probabilities
-pred_probs <- predict(final_logistic_model, new_data = data_test, type = "prob")
+pred_probs <- predict(lr_model_final, new_data = data_test, type = "prob")
 ```
 
 ### Model evaluation
