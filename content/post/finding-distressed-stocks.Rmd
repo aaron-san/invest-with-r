@@ -28,27 +28,22 @@ The goal of this analysis is to isolate stocks that are particularly risky to th
 
 ### Logit Probability of Financial Distress (LPFD)
 A logistic regression model is used to estimate whether a firm is in financial distress or not. 
-$$
-LPFD = -20.26 \times NIMTAAVG + 1.42 \times TLMTA \\
+
+$$LPFD = -20.26 \times NIMTAAVG + 1.42 \times TLMTA \\
 - 7.13 \times EXRETAVG + 1.41 \times SIGMA \\
 - 0.045 \times RSIZE - 2.13 \times CASHMTA + 
-\\0.075 \times MB - 0.058 \times PRICE - 9.16
-$$
+\\0.075 \times MB - 0.058 \times PRICE - 9.16 $$
 
 
 The "LPFD" is then transformed into a probability of financial distress (PFD).
 
 ### Probability of Financial Distress (PFD)
 
-$$ 
-PFD=\frac{1}{1+e^{-LPFD}} 
-$$
+$ PFD=\frac{1}{1+e^{-LPFD}} $
 
 
 ### Weighting the value
-$$
-XAVG = .5333 \times t + .2666 \times (t - 1) + .1333 \times (t - 2) + .0666 \times (t - 3)
-$$
+$ XAVG = .5333 \times t + .2666 \times (t - 1) + .1333 \times (t - 2) + .0666 \times (t - 3) $
 
 
 

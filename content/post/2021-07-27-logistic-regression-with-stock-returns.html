@@ -142,24 +142,25 @@ the data.</p>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Address some function conflicts</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Define default function for ambiguous functions where there is a name clash</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>filter <span class="ot">&lt;-</span> dplyr<span class="sc">::</span>filter</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>spec <span class="ot">&lt;-</span> yardstick<span class="sc">::</span>spec</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>step <span class="ot">&lt;-</span> recipes<span class="sc">::</span>step</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the data</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>ratios_data <span class="ot">&lt;-</span> </span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">read_csv</span>(<span class="st">&quot;C:/Users/user/Desktop/Aaron/R/Websites/invest-with-r/csv/ratios_final.csv&quot;</span>, <span class="at">col_types =</span> <span class="fu">cols</span>())</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>      <span class="co"># read_csv(&quot;https://raw.githubusercontent.com/aaron-san/invest-with-r/master/csv/ratios_final.csv&quot;, col_types = cols())</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>industries <span class="ot">&lt;-</span> ratios_data <span class="sc">%&gt;%</span> <span class="fu">select</span>(ticker, sector_yhoo) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>()</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>ratios_long <span class="ot">&lt;-</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>      ratios_data <span class="sc">%&gt;%</span> </span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="sc">-</span>sector_yhoo) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(ticker, fundamentals_date), <span class="at">names_to =</span> <span class="st">&quot;field&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;value&quot;</span>)</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>ratios_long <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>lag <span class="ot">&lt;-</span> dplyr<span class="sc">::</span>lag</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>spec <span class="ot">&lt;-</span> yardstick<span class="sc">::</span>spec</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>step <span class="ot">&lt;-</span> recipes<span class="sc">::</span>step</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the data</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>ratios_data <span class="ot">&lt;-</span> </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">read_csv</span>(<span class="st">&quot;C:/Users/user/Desktop/Aaron/R/Websites/invest-with-r/csv/ratios_final.csv&quot;</span>, <span class="at">col_types =</span> <span class="fu">cols</span>())</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>      <span class="co"># read_csv(&quot;https://raw.githubusercontent.com/aaron-san/invest-with-r/master/csv/ratios_final.csv&quot;, col_types = cols())</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>industries <span class="ot">&lt;-</span> ratios_data <span class="sc">%&gt;%</span> <span class="fu">select</span>(ticker, sector_yhoo) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>()</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>ratios_long <span class="ot">&lt;-</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>      ratios_data <span class="sc">%&gt;%</span> </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="sc">-</span>sector_yhoo) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(ticker, fundamentals_date), <span class="at">names_to =</span> <span class="st">&quot;field&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;value&quot;</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>ratios_long <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 10 x 4
 ##    ticker fundamentals_date field                           value
 ##    &lt;chr&gt;  &lt;date&gt;            &lt;chr&gt;                           &lt;dbl&gt;
@@ -780,7 +781,7 @@ of the time.</p>
 to correctly classify negative cases.</p>
 <p><span class="math inline">\(Specificity = \frac{TN}{TN + FP}\)</span></p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Specificity</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>specificity <span class="ot">&lt;-</span> model_results <span class="sc">%&gt;%</span> <span class="fu">spec</span>(return_sign, .pred_class)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>specificity <span class="ot">&lt;-</span> model_results <span class="sc">%&gt;%</span> <span class="fu">spec</span>(., return_sign, .pred_class)</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>specificity</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 3
 ##   .metric .estimator .estimate

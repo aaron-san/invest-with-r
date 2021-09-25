@@ -24,7 +24,7 @@
         "datePublished": "2021-02-22 00:00:00 \u002b0000 UTC",
         "dateModified" : "2021-02-22 00:00:00 \u002b0000 UTC",
         "url" : "\/post\/forecasting-s-p-500-returns-with-r-part-1\/",
-        "wordCount" : "3329",
+        "wordCount" : "3332",
         "keywords" : [ "Stocks","Data science","Forecasting","Time series","Blog" ]
     }
     </script>
@@ -82,7 +82,7 @@
         <meta itemprop="name" content="Forecasting S&amp;P 500 Returns with R (Part 1)">
 <meta itemprop="description" content="Modeling stock returns"><meta itemprop="datePublished" content="2021-02-22T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2021-02-22T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="3329">
+<meta itemprop="wordCount" content="3332">
 <meta itemprop="keywords" content="Stocks,Data science,Forecasting,Time series," />
         
 
@@ -227,6 +227,42 @@
                 
                         <article class="mini-post">
                             <header>
+                                <h3><a href="/post/gradient-descent-in-r/">Gradient Descent in R</a></h3>
+                                
+                                <time class="published" datetime=
+                                    '2021-09-25'>
+                                    September 25, 2021</time>
+                            </header>
+                            
+
+                        </article>
+                
+                        <article class="mini-post">
+                            <header>
+                                <h3><a href="/post/optimal-portfolio-construction/">Optimal Portfolio Construction</a></h3>
+                                
+                                <time class="published" datetime=
+                                    '2021-09-25'>
+                                    September 25, 2021</time>
+                            </header>
+                            
+
+                        </article>
+                
+                        <article class="mini-post">
+                            <header>
+                                <h3><a href="/post/">Post</a></h3>
+                                
+                                <time class="published" datetime=
+                                    '2021-09-25'>
+                                    September 25, 2021</time>
+                            </header>
+                            
+
+                        </article>
+                
+                        <article class="mini-post">
+                            <header>
                                 <h3><a href="/post/logistic-regression-with-stock-returns/">Logistic Regression with Stock Returns</a></h3>
                                 
                                 <time class="published" datetime=
@@ -239,47 +275,11 @@
                 
                         <article class="mini-post">
                             <header>
-                                <h3><a href="/post/">Post</a></h3>
-                                
-                                <time class="published" datetime=
-                                    '2021-09-15'>
-                                    September 15, 2021</time>
-                            </header>
-                            
-
-                        </article>
-                
-                        <article class="mini-post">
-                            <header>
-                                <h3><a href="/post/optimal-portfolio-construction/">Optimal Portfolio Construction</a></h3>
-                                
-                                <time class="published" datetime=
-                                    '2021-09-13'>
-                                    September 13, 2021</time>
-                            </header>
-                            
-
-                        </article>
-                
-                        <article class="mini-post">
-                            <header>
                                 <h3><a href="/post/forecasting-s-p-500-returns-with-r-part-1/">Forecasting S&amp;P 500 Returns with R (Part 1)</a></h3>
                                 
                                 <time class="published" datetime=
                                     '2021-02-22'>
                                     February 22, 2021</time>
-                            </header>
-                            
-
-                        </article>
-                
-                        <article class="mini-post">
-                            <header>
-                                <h3><a href="/post/finding-distressed-stocks/">Finding Distressed Stocks</a></h3>
-                                
-                                <time class="published" datetime=
-                                    '2020-03-12'>
-                                    March 12, 2020</time>
                             </header>
                             
 
@@ -639,24 +639,27 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">library</span>(sweep) <span class="co"># for sw_tidy(), sw_glance(), sw_augment()</span></span>
 <span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Variables</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>symbols <span class="ot">&lt;-</span> <span class="st">&quot;SP500&quot;</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>filter <span class="ot">&lt;-</span> dplr<span class="sc">::</span>filter</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Download data</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co"># data &lt;- symbols %&gt;%</span></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">#   tq_get(get = &quot;economic.data&quot;,</span></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">#          from = &quot;2010-12-31&quot;, to = &quot;2020-01-31&quot;)</span></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>tickers <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_xlsx</span>(<span class="st">&quot;C:/Users/user/Desktop/Aaron/R/Shiny apps/stock-analysis/data/FRED Tickers.xlsx&quot;</span>, <span class="at">sheet =</span> <span class="dv">1</span>, <span class="at">range =</span> <span class="st">&quot;A1:A300&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>      <span class="fu">drop_na</span>() </span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data </span></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&quot;C:/Users/user/Desktop/Aaron/R/Shiny apps/stock-analysis/data/Data from FRED (2021 02 21).csv&quot;</span>) <span class="sc">%&gt;%</span>   </span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span>   </span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">ymd</span>(date)) <span class="sc">%&gt;%</span>  </span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">filter</span>(symbol <span class="sc">%in%</span> symbols)    </span></code></pre></div>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Variables</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>symbols <span class="ot">&lt;-</span> <span class="st">&quot;SP500&quot;</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Download data</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co"># data &lt;- symbols %&gt;%</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">#   tq_get(get = &quot;economic.data&quot;,</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co">#          from = &quot;2010-12-31&quot;, to = &quot;2020-01-31&quot;)</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>tickers <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_xlsx</span>(<span class="st">&quot;C:/Users/user/Desktop/Aaron/R/Shiny apps/stock-analysis/data/FRED Tickers.xlsx&quot;</span>, <span class="at">sheet =</span> <span class="dv">1</span>, <span class="at">range =</span> <span class="st">&quot;A1:A300&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>      <span class="fu">drop_na</span>() </span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data </span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&quot;C:/Users/user/Desktop/Aaron/R/Shiny apps/stock-analysis/data/Data from FRED (2021 02 21).csv&quot;</span>) <span class="sc">%&gt;%</span>   </span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span>   </span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">ymd</span>(date)) <span class="sc">%&gt;%</span>  </span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">filter</span>(symbol <span class="sc">%in%</span> symbols)    </span></code></pre></div>
 </div>
 <div id="data-preparation-and-preprocessing" class="section level2">
 <h2>3. Data Preparation and Preprocessing</h2>
@@ -1061,8 +1064,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
     
 
     
-        <li><a href="/post/optimal-portfolio-construction/"
-                class="button big next">Optimal Portfolio Construction</a></li>
+        <li><a href="/post/logistic-regression-with-stock-returns/"
+                class="button big next">Logistic Regression with Stock Returns</a></li>
     
 </ul>
 
@@ -1233,6 +1236,48 @@ s.setAttribute('data-timestamp', +new Date());
           <article class="mini-post">
             <header>
               <h3>
+                <a href="/post/gradient-descent-in-r/">Gradient Descent in R</a>
+              </h3>
+              
+              <time class="published" datetime='2021-09-25'>
+                September 25, 2021
+              </time>
+            </header>
+            
+
+          </article>
+        
+          <article class="mini-post">
+            <header>
+              <h3>
+                <a href="/post/optimal-portfolio-construction/">Optimal Portfolio Construction</a>
+              </h3>
+              
+              <time class="published" datetime='2021-09-25'>
+                September 25, 2021
+              </time>
+            </header>
+            
+
+          </article>
+        
+          <article class="mini-post">
+            <header>
+              <h3>
+                <a href="/post/">Post</a>
+              </h3>
+              
+              <time class="published" datetime='2021-09-25'>
+                September 25, 2021
+              </time>
+            </header>
+            
+
+          </article>
+        
+          <article class="mini-post">
+            <header>
+              <h3>
                 <a href="/post/logistic-regression-with-stock-returns/">Logistic Regression with Stock Returns</a>
               </h3>
               
@@ -1247,53 +1292,11 @@ s.setAttribute('data-timestamp', +new Date());
           <article class="mini-post">
             <header>
               <h3>
-                <a href="/post/">Post</a>
-              </h3>
-              
-              <time class="published" datetime='2021-09-15'>
-                September 15, 2021
-              </time>
-            </header>
-            
-
-          </article>
-        
-          <article class="mini-post">
-            <header>
-              <h3>
-                <a href="/post/optimal-portfolio-construction/">Optimal Portfolio Construction</a>
-              </h3>
-              
-              <time class="published" datetime='2021-09-13'>
-                September 13, 2021
-              </time>
-            </header>
-            
-
-          </article>
-        
-          <article class="mini-post">
-            <header>
-              <h3>
                 <a href="/post/forecasting-s-p-500-returns-with-r-part-1/">Forecasting S&amp;P 500 Returns with R (Part 1)</a>
               </h3>
               
               <time class="published" datetime='2021-02-22'>
                 February 22, 2021
-              </time>
-            </header>
-            
-
-          </article>
-        
-          <article class="mini-post">
-            <header>
-              <h3>
-                <a href="/post/finding-distressed-stocks/">Finding Distressed Stocks</a>
-              </h3>
-              
-              <time class="published" datetime='2020-03-12'>
-                March 12, 2020
               </time>
             </header>
             

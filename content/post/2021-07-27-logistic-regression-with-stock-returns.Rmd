@@ -54,8 +54,9 @@ rm(list = ls())
 library(tidymodels)
 library(tidyverse)
 
-# Address some function conflicts
+# Define default function for ambiguous functions where there is a name clash
 filter <- dplyr::filter
+lag <- dplyr::lag
 spec <- yardstick::spec
 step <- recipes::step
 
@@ -702,7 +703,7 @@ $Specificity = \frac{TN}{TN + FP}$
 
 ```{r}
 # Specificity
-specificity <- model_results %>% spec(return_sign, .pred_class)
+specificity <- model_results %>% spec(., return_sign, .pred_class)
 specificity
 ```
 

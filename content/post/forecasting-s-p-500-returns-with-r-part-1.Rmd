@@ -83,6 +83,9 @@ suppressPackageStartupMessages({
     library(sweep) # for sw_tidy(), sw_glance(), sw_augment()
 })
 
+filter <- dplr::filter
+
+
 # Variables
 symbols <- "SP500"
 
