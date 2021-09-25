@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
 
 # Gradient Descent
 
-In machine learning a cost function is defined to measure the cumulative 
+In machine learning a cost function is a function that measures the cumulative 
 error that a predictive function makes relative to actual observations.
 
 Gradient descent is a learning algorithm that attempts to minimize this cost
@@ -60,12 +60,12 @@ Random noise was added so in order to make it more realistic.
 
 We must define the learning rate hyperparameter which determines the rate of
 convergence of the cost function towards its minimum, assuming there is one.
-With linear models, the cost function is often defined as the squared sum of
+With linear models, the cost function is often defined as the sum of squared
 errors, a quadratic function:
 
 $sse = \sum^n_i \frac{1} {2} \times (y^{(i)} - h(x^{(i)}))^2$
 
-where $$y^{(i)}$$ is ith observed value and $$h(x^{(i)})$$ is the ith predicted value
+where $y^{(i)}$ is *i*th observed value and $h(x^{(i)})$ is the *i*th predicted value
 
 ```{r}
 # learning_rate
