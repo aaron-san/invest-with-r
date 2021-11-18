@@ -1,0 +1,149 @@
+---
+title: Risk Parity Portfolio with R
+author: Aaron Hardy
+date: '`r Sys.Date()`'
+slug: []
+categories:
+  - Stocks
+  - Portfolio
+tags:
+  - Stocks
+description: ""
+featured: ""
+featuredalt: ""
+featuredpath: ""
+linktitle: ""
+editor_options: 
+  chunk_output_type: console
+output:
+      blogdown::html_page:
+            highlight: tango
+            toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = TRUE)
+```
+
+# Optimal Portfolio Construction
+In this article we will compare several portfolio construction methodologies. We will evaluate the Modern Portfolio Theory and the Risk Parity portfolio and Resampled Efficient Frontier approaches.
+ 
+The *Modern Portfolio Theory* approach attempts to maximize the return-to-risk ratio of a group of assets (a portfolio). It involves calculating the mean of returns and dividing by the standard deviation of returns. One weakness of this approach is its tendency to lead to overconcentrated portfolios.
+
+The *Resampled Efficient Frontier* approach involves creating hundreds of efficient frontiers from resampled data in an effort to create a more robust set of portfolios. It is popular for its tendency to reduce estimation error and create more stable estimates of optimal portfolio weights over time.
+
+An alternative approach is the *Risk Parity Approach* which attempts to produce a group of assets (a portfolio) whose members contribute equally to the risk of the portfolio. This approach is praised for its tendency to result in a more diverse group of portfolio assets than that of the Modern Portfolio Theory.
+
+
+
+```{r}
+
+# # Load packages
+# library(riskParityPortfolio)
+# library(fPortfolio)
+# library(tidyverse)
+# library(lubridate)
+# library(timetk)
+# library(tidyquant)
+# library(ggthemes) # For the economist theme
+# library(magrittr)
+# library(ggrepel)
+# 
+# # Define symbols to use
+# #   Stocks            ^GSPC represents the S&P 500 index
+# #   Bonds:            AGG represents investment-grade U.S. bonds
+# #   Commodities:      USCI represents diversified commodities such as oil, natural gas,                         gold, silver, aluminum, copper, corn, soybeans, live cattle,                              coffee, sugar, etc.
+# #   Real Estate:      VNQ represents U.S. REITs
+# #   Emerging Markets: VWO represents emerging markets
+# symbols <- c("^GSPC", "AGG", "USCI", "VNQ", "VWO")
+# 
+# 
+# # Get prices from Yahoo Finance
+# returns_monthly <- symbols %>%
+#   tq_get(get  = "stock.prices",
+#          from = "2004-12-31") %>%
+#   group_by(symbol) %>%
+#   tq_transmute(select     = adjusted,
+#             mutate_fun = periodReturn,
+#             period     = "monthly")
+# 
+# # Convert to xts object
+# returns_xts <- returns_monthly %>%
+#   pivot_wider(id_cols = date, names_from = symbol, values_from = monthly.returns) %>%
+#   drop_na() %>%
+#   tk_xts(select = -date, date_var = date)
+# 
+# 
+# # Calculate the covariance matrix
+# covariance <- cov(coredata(returns_xts))
+# 
+# # Compute the risk parity portfolio
+# portfolio_parity <- riskParityPortfolio(covariance)
+# 
+# # Compute the tangency portfolio
+# portfolio_tangency <- tangencyPortfolio(as.timeSeries(returns_xts),
+#                                         constraints = "LongOnly")
+# portfolio_weights <- rbind(portfolio_parity$w, getWeights(portfolio_tangency))
+# row.names(portfolio_weights) <- c("Parity Portfolio", "Tangency Portfolio")
+# 
+# 
+# portfolio_weights %>% 
+#   as.data.frame() %>%
+#   rownames_to_column("portfolio") %>%
+#   pivot_longer(-portfolio, names_to = "symbol", values_to = "weight") %>%
+#   ggplot(aes(x = symbol, y = weight)) + #, group =  portfolio)) +
+#   geom_bar(aes(fill = portfolio), stat = "identity", position = "dodge") +
+#   theme_economist()
+# 
+# returns_monthly %>% 
+#   mutate(cumulative.returns = cumprod(1 + monthly.returns)) %>%
+#   ggplot(aes(x = date, y = cumulative.returns)) + 
+#   geom_line(aes(color = symbol), size = 1.1, show.legend = FALSE) + 
+#   scale_x_date(#date_minor_breaks = "3 months",
+#                date_breaks= "1 year",
+#                date_labels = "%b %Y",
+#                expand = expand_scale(mult = c(0, .18))) +
+#   geom_label_repel(data = . %>% slice(n()),
+#                    aes(label = symbol, color = symbol),
+#                    nudge_x = 6,
+#                    min.segment.length = 0,
+#                    segment.color = NA,
+#                    direction = "x",
+#                    fontface = "bold", show.legend = FALSE) +
+#   labs(title = "Cumulative returns of various asset classes",
+#        y = "", x = "") +
+#   theme_economist() +
+#   theme(axis.text.x = element_text(angle = 45, hjust = 0.8, vjust = .5))   
+# 
+# 
+# tangency_wts <- portfolio_weights %>% extract("Tangency Portfolio", ) %>% round(2)
+# tangency_portfolio_returns <- returns_monthly %>%
+#   # drop_na() %>%
+#   # ungroup() %>%
+#   tq_portfolio(assets_col  = symbol,
+#                returns_col = monthly.returns, 
+#                weights     = tangency_wts, 
+#                col_rename  = "tangency_portfolio_return")
+# 
+# 
+# parity_wts <- portfolio_weights %>% extract("Parity Portfolio", ) %>% round(2)
+# parity_portfolio_returns <- returns_monthly %>%
+#   # drop_na() %>%
+#   # ungroup() %>%
+#   tq_portfolio(assets_col  = symbol,
+#                returns_col = monthly.returns, 
+#                weights     = parity_wts, 
+#                col_rename  = "parity_portfolio_return")
+# 
+# 
+# # Plot the cumulative returns of both strategies
+# parity_portfolio_returns %>%
+#   ggplot(aes(x = date, y = cumprod(1 + parity_portfolio_return))) +
+#   geom_line() +
+#   theme_economist()
+
+
+```
+
+
+

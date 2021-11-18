@@ -2,56 +2,73 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Post on Invest with R</title>
-    <link>/post/</link>
+    <link>https://www.investwithr.com/post/</link>
     <description>Recent content in Post on Invest with R</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 25 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 18 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://www.investwithr.com/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Gradient Descent in R</title>
-      <link>/post/gradient-descent-in-r/</link>
-      <pubDate>Sat, 25 Sep 2021 00:00:00 +0000</pubDate>
+      <title>Forecasting S&amp;P500 Stock Returns with R</title>
+      <link>https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/</link>
+      <pubDate>Thu, 18 Nov 2021 00:00:00 +0000</pubDate>
       
-      <guid>/post/gradient-descent-in-r/</guid>
+      <guid>https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/</guid>
       <description>pre  code.sourceCode { white-space: pre; position: relative; }pre  code.sourceCode  span { display: inline-block; line-height: 1.25; }pre  code.sourceCode  span:empty { height: 1.2em; }.sourceCode { overflow: visible; }code.sourceCode  span { color: inherit; text-decoration: inherit; }div.sourceCode { margin: 1em 0; }pre.sourceCode { margin: 0; }@media screen {div.sourceCode { overflow: auto; }}@media print {pre  code.</description>
     </item>
     
     <item>
-      <title>Optimal Portfolio Construction</title>
-      <link>/post/optimal-portfolio-construction/</link>
-      <pubDate>Sat, 25 Sep 2021 00:00:00 +0000</pubDate>
+      <title>PLTR Analysis</title>
+      <link>https://www.investwithr.com/post/pltr-analysis/</link>
+      <pubDate>Thu, 18 Nov 2021 00:00:00 +0000</pubDate>
       
-      <guid>/post/optimal-portfolio-construction/</guid>
-      <description>Optimal Portfolio ConstructionIn this article we will compare several portfolio construction methodologies. We will evaluate the Modern Portfolio Theory and the Risk Parity portfolio and Resampled Efficient Frontier approaches.
-The Modern Portfolio Theory approach attempts to maximize the return-to-risk ratio of a group of assets (a portfolio). It involves calculating the mean of returns and dividing by the standard deviation of returns. One weakness of this approach is its tendency to lead to overconcentrated portfolios.</description>
+      <guid>https://www.investwithr.com/post/pltr-analysis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Risk Parity Portfolio with R</title>
+      <link>https://www.investwithr.com/post/risk-parity-portfolio-with-r/</link>
+      <pubDate>Thu, 18 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.investwithr.com/post/risk-parity-portfolio-with-r/</guid>
+      <description>pre  code.sourceCode { white-space: pre; position: relative; }pre  code.sourceCode  span { display: inline-block; line-height: 1.25; }pre  code.sourceCode  span:empty { height: 1.2em; }.sourceCode { overflow: visible; }code.sourceCode  span { color: inherit; text-decoration: inherit; }div.sourceCode { margin: 1em 0; }pre.sourceCode { margin: 0; }@media screen {div.sourceCode { overflow: auto; }}@media print {pre  code.</description>
+    </item>
+    
+    <item>
+      <title>SOFI Analysis 2</title>
+      <link>https://www.investwithr.com/post/sofi-analysis/</link>
+      <pubDate>Thu, 18 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.investwithr.com/post/sofi-analysis/</guid>
+      <description></description>
     </item>
     
     <item>
       <title>Logistic Regression with Stock Returns</title>
-      <link>/post/logistic-regression-with-stock-returns/</link>
+      <link>https://www.investwithr.com/post/logistic-regression-with-stock-returns/</link>
       <pubDate>Wed, 15 Sep 2021 00:00:00 +0000</pubDate>
       
-      <guid>/post/logistic-regression-with-stock-returns/</guid>
-      <description>pre  code.sourceCode { white-space: pre; position: relative; }pre  code.sourceCode  span { display: inline-block; line-height: 1.25; }pre  code.sourceCode  span:empty { height: 1.2em; }.sourceCode { overflow: visible; }code.sourceCode  span { color: inherit; text-decoration: inherit; }div.sourceCode { margin: 1em 0; }pre.sourceCode { margin: 0; }@media screen {div.sourceCode { overflow: auto; }}@media print {pre  code.</description>
-    </item>
-    
-    <item>
-      <title>Forecasting S&amp;P 500 Returns with R (Part 1)</title>
-      <link>/post/forecasting-s-p-500-returns-with-r-part-1/</link>
-      <pubDate>Mon, 22 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>/post/forecasting-s-p-500-returns-with-r-part-1/</guid>
+      <guid>https://www.investwithr.com/post/logistic-regression-with-stock-returns/</guid>
       <description>pre  code.sourceCode { white-space: pre; position: relative; }pre  code.sourceCode  span { display: inline-block; line-height: 1.25; }pre  code.sourceCode  span:empty { height: 1.2em; }.sourceCode { overflow: visible; }code.sourceCode  span { color: inherit; text-decoration: inherit; }div.sourceCode { margin: 1em 0; }pre.sourceCode { margin: 0; }@media screen {div.sourceCode { overflow: auto; }}@media print {pre  code.</description>
     </item>
     
     <item>
       <title>Finding Distressed Stocks</title>
-      <link>/post/finding-distressed-stocks/</link>
-      <pubDate>Thu, 12 Mar 2020 00:00:00 +0000</pubDate>
+      <link>https://www.investwithr.com/post/finding-distressed-stocks/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/post/finding-distressed-stocks/</guid>
+      <guid>https://www.investwithr.com/post/finding-distressed-stocks/</guid>
       <description>Finding Stocks at Risk of Financial DistressThe goal of this analysis is to isolate stocks that are particularly risky to the long-only investor. A probability of distress will be computed based on observable financial data. The model was derived in academia and later utilized in a book titled “Quantitative Value” (2013).
 The FormulaLogit Probability of Financial Distress (LPFD)A logistic regression model is used to estimate whether a firm is in financial distress or not.</description>
+    </item>
+    
+    <item>
+      <title>Gradient Descent in R</title>
+      <link>https://www.investwithr.com/post/gradient-descent-in-r/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.investwithr.com/post/gradient-descent-in-r/</guid>
+      <description></description>
     </item>
     
   </channel>

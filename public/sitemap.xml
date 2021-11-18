@@ -2,108 +2,76 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/categories/</loc>
-    <lastmod>2021-09-25T00:00:00+00:00</lastmod>
+    <loc>https://www.investwithr.com/categories/</loc>
+    <lastmod>2021-11-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/post/gradient-descent-in-r/</loc>
-    <lastmod>2021-09-25T00:00:00+00:00</lastmod>
+    <loc>https://www.investwithr.com/tags/data-science/</loc>
+    <lastmod>2021-11-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/</loc>
-    <lastmod>2021-09-25T00:00:00+00:00</lastmod>
+    <loc>https://www.investwithr.com/tags/forecasting/</loc>
+    <lastmod>2021-11-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/post/optimal-portfolio-construction/</loc>
-    <lastmod>2021-09-25T00:00:00+00:00</lastmod>
+    <loc>https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/</loc>
+    <lastmod>2021-11-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/post/</loc>
-    <lastmod>2021-09-25T00:00:00+00:00</lastmod>
+    <loc>https://www.investwithr.com/</loc>
+    <lastmod>2021-11-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/tags/stocks/</loc>
-    <lastmod>2021-09-25T00:00:00+00:00</lastmod>
+    <loc>https://www.investwithr.com/post/pltr-analysis/</loc>
+    <lastmod>2021-11-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/categories/stocks/</loc>
-    <lastmod>2021-09-25T00:00:00+00:00</lastmod>
+    <loc>https://www.investwithr.com/categories/portfolio/</loc>
+    <lastmod>2021-11-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/tags/</loc>
-    <lastmod>2021-09-25T00:00:00+00:00</lastmod>
+    <loc>https://www.investwithr.com/post/</loc>
+    <lastmod>2021-11-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/post/logistic-regression-with-stock-returns/</loc>
+    <loc>https://www.investwithr.com/tags/r/</loc>
+    <lastmod>2021-11-18T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.investwithr.com/categories/r/</loc>
+    <lastmod>2021-11-18T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.investwithr.com/post/risk-parity-portfolio-with-r/</loc>
+    <lastmod>2021-11-18T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.investwithr.com/post/sofi-analysis/</loc>
+    <lastmod>2021-11-18T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.investwithr.com/tags/stocks/</loc>
+    <lastmod>2021-11-18T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.investwithr.com/categories/stocks/</loc>
+    <lastmod>2021-11-18T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.investwithr.com/tags/</loc>
+    <lastmod>2021-11-18T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.investwithr.com/tags/time-series/</loc>
+    <lastmod>2021-11-18T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.investwithr.com/post/logistic-regression-with-stock-returns/</loc>
     <lastmod>2021-09-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/tags/data-science/</loc>
-    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/forecasting/</loc>
-    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/post/forecasting-s-p-500-returns-with-r-part-1/</loc>
-    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/time-series/</loc>
-    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/post/finding-distressed-stocks/</loc>
-    <lastmod>2020-03-12T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/itemized/item1/</loc>
+    <loc>https://www.investwithr.com/itemized/item1/</loc>
     <lastmod>2017-06-22T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/itemized/item2/</loc>
+    <loc>https://www.investwithr.com/itemized/item2/</loc>
     <lastmod>2017-06-22T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/itemized/item3/</loc>
+    <loc>https://www.investwithr.com/itemized/item3/</loc>
     <lastmod>2017-06-22T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/itemized/item4/</loc>
+    <loc>https://www.investwithr.com/itemized/item4/</loc>
     <lastmod>2017-06-22T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/itemized/</loc>
+    <loc>https://www.investwithr.com/itemized/</loc>
     <lastmod>2017-06-22T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/blog/</loc>
-    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
+    <loc>https://www.investwithr.com/contact/</loc>
   </url><url>
-    <loc>/blog/2015-07-23-r-rmarkdown/</loc>
-    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
+    <loc>https://www.investwithr.com/post/finding-distressed-stocks/</loc>
   </url><url>
-    <loc>/tags/plot/</loc>
-    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
-  </url><url>
-    <loc>/categories/r/</loc>
-    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
-  </url><url>
-    <loc>/tags/r-markdown/</loc>
-    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
-  </url><url>
-    <loc>/tags/regression/</loc>
-    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
-  </url><url>
-    <loc>/blog/creating-a-new-theme/</loc>
-    <lastmod>2014-09-28T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/categories/hugo/</loc>
-    <lastmod>2014-09-28T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/tutorial/</loc>
-    <lastmod>2014-09-28T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/about/</loc>
-    <lastmod>2014-04-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/blog/goisforlovers/</loc>
-    <lastmod>2014-04-02T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/blog/hugoisforlovers/</loc>
-    <lastmod>2014-04-02T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/categories/go/</loc>
-    <lastmod>2014-04-02T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/categories/jekyll/</loc>
-    <lastmod>2014-03-10T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/blog/migrate-from-jekyll/</loc>
-    <lastmod>2014-03-10T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/contact/</loc>
+    <loc>https://www.investwithr.com/post/gradient-descent-in-r/</loc>
   </url>
 </urlset>
