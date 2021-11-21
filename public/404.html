@@ -1,367 +1,956 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-    <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600" />
-    <link rel="stylesheet" media="screen" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<!DOCTYPE html><html lang="en-us" >
 
 
-    <style>
-     * {
-         -moz-box-sizing:border-box;
-         -webkit-box-sizing:border-box;
-         box-sizing:border-box;
-     }
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.3.0 for Hugo" />
+  
 
-     html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-     abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp,
-     small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li,
-     fieldset, form, label, legend, caption, article, aside, canvas, details, figcaption, figure,  footer, header, hgroup,
-     menu, nav, section, summary, time, mark, audio, video {
-         margin:0;
-         padding:0;
-         border:0;
-         outline:0;
-         vertical-align:baseline;
-         background:transparent;
-     }
-
-     article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
-         display: block;
-     }
-
-     html {
-         font-size: 16px;
-         line-height: 24px;
-         width:100%;
-         height:100%;
-         -webkit-text-size-adjust: 100%;
-         -ms-text-size-adjust: 100%;
-         overflow-y:scroll;
-         overflow-x:hidden;
-     }
-
-     img {
-         vertical-align:middle;
-         max-width: 100%;
-         height: auto;
-         border: 0;
-         -ms-interpolation-mode: bicubic;
-     }
-
-     body {
-         min-height:100%;
-         -webkit-font-smoothing: subpixel-antialiased;
-     }
-
-     .clearfix {
-	       clear:both;
-	       zoom: 1;
-     }
-     .clearfix:before, .clearfix:after {
-         content: "\0020";
-         display: block;
-         height: 0;
-         visibility: hidden;
-     }
-     .clearfix:after {
-         clear: both;
-     }
-    </style>
-    <style>
-  .plain.error-page-wrapper {
-    font-family: 'Source Sans Pro', sans-serif;
-    background-color:#6355bc;
-    padding:0 5%;
-    position:relative;
-  }
-
-  .plain.error-page-wrapper .content-container {
-    -webkit-transition: left .5s ease-out, opacity .5s ease-out;
-    -moz-transition: left .5s ease-out, opacity .5s ease-out;
-    -ms-transition: left .5s ease-out, opacity .5s ease-out;
-    -o-transition: left .5s ease-out, opacity .5s ease-out;
-    transition: left .5s ease-out, opacity .5s ease-out;
-    max-width:400px;
-    position:relative;
-    left:-30px;
-    opacity:0;
-  }
-
-  .plain.error-page-wrapper .content-container.in {
-    left: 0px;
-    opacity:1;
-  }
-
-  .plain.error-page-wrapper .head-line {
-    transition: color .2s linear;
-    font-size:48px;
-    line-height:60px;
-    color:rgba(255,255,255,.2);
-    letter-spacing: -1px;
-    margin-bottom: 5px;
-  }
-  .plain.error-page-wrapper .subheader {
-    transition: color .2s linear;
-    font-size:36px;
-    line-height:46px;
-    color:#fff;
-  }
-  .plain.error-page-wrapper hr {
-    height:1px;
-    background-color: rgba(255,255,255,.2);
-    border:none;
-    width:250px;
-    margin:35px 0;
-  }
-  .plain.error-page-wrapper .context {
-    transition: color .2s linear;
-    font-size:18px;
-    line-height:27px;
-    color:#fff;
-  }
-  .plain.error-page-wrapper .context p {
-    margin:0;
-  }
-  .plain.error-page-wrapper .context p:nth-child(n+2) {
-    margin-top:12px;
-  }
-  .plain.error-page-wrapper .buttons-container {
-    margin-top: 45px;
-    overflow: hidden;
-  }
-  .plain.error-page-wrapper .buttons-container a {
-    transition: color .2s linear, border-color .2s linear;
-    font-size:14px;
-    text-transform: uppercase;
-    text-decoration: none;
-    color:#fff;
-    border:2px solid white;
-    border-radius: 99px;
-    padding:8px 30px 9px;
-    display: inline-block;
-    float:left;
-  }
-  .plain.error-page-wrapper .buttons-container a:hover {
-    background-color:rgba(255,255,255,.05);
-  }
-  .plain.error-page-wrapper .buttons-container a:first-child {
-    margin-right:25px;
-  }
-
-  @media screen and (max-width: 485px) {
-    .plain.error-page-wrapper .header {
-      font-size:36px;
-     }
-    .plain.error-page-wrapper .subheader {
-      font-size:27px;
-      line-height:38px;
-     }
-    .plain.error-page-wrapper hr {
-      width:185px;
-      margin:25px 0;
-     }
-
-    .plain.error-page-wrapper .context {
-      font-size:16px;
-      line-height: 24px;
-     }
-    .plain.error-page-wrapper .buttons-container {
-      margin-top:35px;
-    }
-
-    .plain.error-page-wrapper .buttons-container a {
-      font-size:13px;
-      padding:8px 0 7px;
-      width:45%;
-      text-align: center;
-    }
-    .plain.error-page-wrapper .buttons-container a:first-child {
-      margin-right:10%;
-    }
-  }
-</style>
-    <style>
-
-    .background-color {
-      background-color: rgba(244, 244, 244, 1) !important;
-    }
+  
+  
 
 
-    .primary-text-color {
-      color: rgba(171, 171, 171, 1) !important;
-    }
 
-    .secondary-text-color {
-      color: rgba(0, 0, 0, 1) !important;
-    }
 
-    .sign-text-color {
-      color: #FFBA00 !important;
-    }
 
-    .sign-frame-color {
-      color: #343C3F;
-    }
 
-    .pane {
-      background-color: #FFFFFF !important;
-    }
 
-    .border-button {
-      color: rgba(46, 186, 174, 1) !important;
-      border-color: rgba(46, 186, 174, 1) !important;
-    }
-    .button {
-      background-color: rgba(46, 186, 174, 1) !important;
-      color: #FFFFFF !important;
-    }
 
-    .shadow {
-      box-shadow: 0 0 60px #000000;
-    }
 
-</style>
-  </head>
-  <body class="plain error-page-wrapper background-color background-image">
-    <div class="content-container">
-	<div class="head-line secondary-text-color">
-		404
-	</div>
-	<div class="subheader primary-text-color">
-		Oops, the page you're <br>
-		looking for does not exist.
-	</div>
-	<hr>
-	<div class="clearfix"></div>
-	<div class="context primary-text-color">
-		
-    <p>
-      You may want to head back to the homepage.<br />
-      If you think something is broken, report a problem.
-    </p>
-	</div>
-	<div class="buttons-container">
-		<a class="border-button" href="https://www.investwithr.com/">Go To Homepage</a>
-		<a class="border-button" href="mailto:example">Report A Problem</a>
-	</div>
+  
+
+
+
+
+  
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Alice Bighetti (吳恩達)" />
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Professor of Artificial Intelligence" />
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://academic-demo.netlify.app/404.html" />
+
+  
+  
+  
+    <meta name="theme-color" content="#1565c0" />
+  
+
+  
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.f1ecf783c14edc00c9320c205831ad8e.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/styles/github.min.css" crossorigin="anonymous" title="hl-light" media="print" onload="this.media='all'">
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" media="print" onload="this.media='all'" disabled>
+        
+      
+    
+
+    
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.min.css" integrity="" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.e9dfd0d72348b3575652bf8384f1cedc.css" />
+
+  
+
+
+
+  
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+    <link rel="manifest" href="/manifest.webmanifest" />
+  
+
+  <link rel="icon" type="image/png" href="/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_32x32_fill_lanczos_center_3.png" />
+  <link rel="apple-touch-icon" type="image/png" href="/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_180x180_fill_lanczos_center_3.png" />
+
+  <link rel="canonical" href="https://academic-demo.netlify.app/404.html" />
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+  
+  
+
+  
+  
+    
+    
+  
+  <meta property="twitter:card" content="summary" />
+  
+  <meta property="og:site_name" content="Academic" />
+  <meta property="og:url" content="https://academic-demo.netlify.app/404.html" />
+  <meta property="og:title" content="404 Page not found | Academic" />
+  <meta property="og:description" content="Professor of Artificial Intelligence" /><meta property="og:image" content="https://academic-demo.netlify.app/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_3.png" />
+    <meta property="twitter:image" content="https://academic-demo.netlify.app/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+  
+    
+  
+
+  
+
+
+
+  
+
+  
+
+
+
+
+
+  <title>404 Page not found | Academic</title>
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   "  >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.2da3b1fa37e894630bf6de39b1b694b3.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container-xl">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Academic</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Academic</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>Demo</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#talks"><span>Talks</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#featured"><span>Publications</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/courses/"><span>Courses</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+      
+      
+        
+          
+          <li class="nav-item d-none d-lg-inline-flex">
+            <a class="nav-link" href="https://twitter.com/GeorgeCushen" data-toggle="tooltip" data-placement="bottom" title="Follow me on Twitter" target="_blank" rel="noopener" aria-label="Follow me on Twitter">
+              <i class="fab fa-twitter" aria-hidden="true"></i>
+            </a>
+          </li>
+        
+      
+
+      
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      
+      <li class="nav-item dropdown theme-dropdown">
+        <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item js-set-theme-light">
+            <span>Light</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-dark">
+            <span>Dark</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-auto">
+            <span>Automatic</span>
+          </a>
+        </div>
+      </li>
+      
+
+      
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  </div>
+
+  <div class="page-body">
+    <div class="universal-wrapper pt-3">
+
+  <h1>Page not found</h1>
+
+  
+  
+  <form class="d-flex align-items-center mb-3">
+    <input name="q" type="search" class="form-control" placeholder="Search..." autocomplete="off">
+  </form>
+  
+
+  
+
+  <p>Perhaps you were looking for one of these?</p>
+
+  
+  
+  
+  <h2>Latest</h2>
+  <ul>
+    
+      <li><a href="/event/">Recent &amp; Upcoming Talks</a></li>
+    
+      <li><a href="/talk/example-talk/">Example Talk</a></li>
+    
+      <li><a href="/courses/example/">📊 Learn Data Science</a></li>
+    
+      <li><a href="/courses/">Courses</a></li>
+    
+      <li><a href="/courses/example/stats/">Statistics</a></li>
+    
+      <li><a href="/courses/example/visualization/">Visualization</a></li>
+    
+      <li><a href="/courses/example/python/">Python basics</a></li>
+    
+      <li><a href="/post/getting-started/">Welcome to Wowchemy, the website builder for Hugo</a></li>
+    
+      <li><a href="/post/">Posts</a></li>
+    
+      <li><a href="/post/writing-technical-content/">Writing technical content in Academic</a></li>
+    
+  </ul>
+  
+
+</div>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+
+  <p class="powered-by">
+    
+    
+    
+      
+      
+      
+      
+      
+      
+      Published with <a href="https://wowchemy.com/?utm_campaign=poweredby" target="_blank" rel="noopener">Wowchemy</a> — the free, <a href="https://github.com/wowchemy/wowchemy-hugo-themes" target="_blank" rel="noopener">open source</a> website builder that empowers creators.
+    
+  </p>
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
 </div>
 
-    <script>
-     function ErrorPage(container, pageType, templateName) {
-       this.$container = $(container);
-       this.$contentContainer = this.$container.find(templateName == 'sign' ? '.sign-container' : '.content-container');
-       this.pageType = pageType;
-       this.templateName = templateName;
-     }
+      
 
-     ErrorPage.prototype.centerContent = function () {
-       var containerHeight = this.$container.outerHeight()
-         , contentContainerHeight = this.$contentContainer.outerHeight()
-         , top = (containerHeight - contentContainerHeight) / 2
-         , offset = this.templateName == 'sign' ? -100 : 0;
+    
+    <script src="/js/vendor-bundle.min.b73dfaac3b6499dc997741748a7c3fe2.js"></script>
 
-       this.$contentContainer.css('top', top + offset);
-     };
+    
+    
+    
+      
+      
+        <script src="https://cdn.jsdelivr.net/gh/desandro/imagesloaded@v4.1.4/imagesloaded.pkgd.min.js" integrity="sha512-S5PZ9GxJZO16tT9r3WJp/Safn31eu8uWrzglMahDT4dsmgqWonRY9grk3j+3tfuPr9WJNsfooOR7Gi7HL5W2jw==" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/gh/metafizzy/isotope@v3.0.6/dist/isotope.pkgd.min.js" integrity="sha512-Zq2BOxyhvnRFXu0+WE6ojpZLOU2jdnqbrM1hmVdGzyeCa1DgM3X5Q4A/Is9xA1IkbUeDd7755dNNI/PzSf2Pew==" crossorigin="anonymous"></script>
+      
 
-     ErrorPage.prototype.initialize = function () {
-       var self = this;
+      
+      
 
-       this.centerContent();
-       this.$container.on('resize', function (e) {
-         e.preventDefault();
-         e.stopPropagation();
-         self.centerContent();
-       });
+      
 
-       
-       if (this.templateName == 'plain') {
-         window.setTimeout(function () {
-           self.$contentContainer.addClass('in');
-         }, 500);
-       }
+      
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/highlight.min.js" integrity="sha512-Ypjm0o7jOxAd4hpdoppSEN0TQOC19UtPAqD+4s5AlXmUvbmmS/YMxYqAqarQYyxTnB6/rqip9qcxlNB/3U9Wdg==" crossorigin="anonymous"></script>
+        
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/languages/r.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/languages/python.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/languages/latex.min.js" crossorigin="anonymous"></script>
+        
+      
 
-       
-       if (this.templateName == 'sign') {
-         $('.sign-container').animate({textIndent : 0}, {
-           step : function (now) {
-             $(this).css({
-               transform : 'rotate(' + now + 'deg)',
-               'transform-origin' : 'top center'
-             });
-           },
-           duration : 1000,
-           easing : 'easeOutBounce'
-         });
-       }
-     };
+    
 
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.min.js" integrity="" crossorigin="anonymous"></script>
+    
 
-     ErrorPage.prototype.createTimeRangeTag = function(start, end) {
-       return (
-         '<time utime=' + start + ' simple_format="MMM DD, YYYY HH:mm">' + start + '</time> - <time utime=' + end + ' simple_format="MMM DD, YYYY HH:mm">' + end + '</time>.'
-       )
-     };
+    
+    
 
+    
+    
+    
+      
+      <script id="search-hit-fuse-template" type="text/x-template">
+        <div class="search-hit" id="summary-{{key}}">
+          <div class="search-hit-content">
+            <div class="search-hit-name">
+              <a href="{{relpermalink}}">{{title}}</a>
+              <div class="article-metadata search-hit-type">{{type}}</div>
+              <p class="search-hit-description">{{snippet}}</p>
+            </div>
+          </div>
+        </div>
+      </script>
+      
+        <script src="https://cdn.jsdelivr.net/gh/krisk/Fuse@v3.2.1/dist/fuse.min.js" integrity="sha512-o38bmzBGX+hD3JHWUFCDA09btWaqrNmoJ3RXLlrysA7PP01Kgs4UlE4MhelE1v5dJR3+cxlR4qQlotsW7jKsnw==" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/gh/julmot/mark.js@8.11.1/dist/jquery.mark.min.js" integrity="sha512-mhbv5DqBMgrWL+32MmsDOt/OAvqr/cHimk6B8y/bx/xS88MVkYGPiVv2ixKVrkywF2qHplNRUvFsAHUdxZ3Krg==" crossorigin="anonymous"></script>
+      
+    
 
-     ErrorPage.prototype.handleStatusFetchSuccess = function (pageType, data) {
-       if (pageType == '503') {
-         $('#replace-with-fetched-data').html(data.status.description);
-       } else {
-         if (!!data.scheduled_maintenances.length) {
-           var maint = data.scheduled_maintenances[0];
-           $('#replace-with-fetched-data').html(this.createTimeRangeTag(maint.scheduled_for, maint.scheduled_until));
-           $.fn.localizeTime();
-         }
-         else {
-           $('#replace-with-fetched-data').html('<em>(there are no active scheduled maintenances)</em>');
-         }
-       }
-     };
+    
+    
 
+    
+    
+    
+    
 
-     ErrorPage.prototype.handleStatusFetchFail = function (pageType) {
-       $('#replace-with-fetched-data').html('<em>(enter a valid StatusPage.io url)</em>');
-     };
+    
+    
+      
+      
+      
+      
+      
+      
+      
+    
 
+    
+    
+    
+    
+    
+    
+    
+    
+      
+      
+    
+    
+    <script src="/en/js/wowchemy.min.7cd6ec29d281a73c92a2958a1584aadc.js"></script>
 
-     ErrorPage.prototype.fetchStatus = function (pageUrl, pageType) {
-       
-       if (!pageUrl || !pageType || pageType == '404') return;
-
-       var url = ''
-         , self = this;
-
-       if (pageType == '503') {
-         url = pageUrl + '/api/v2/status.json';
-       }
-       else {
-         url = pageUrl + '/api/v2/scheduled-maintenances/active.json';
-       }
-
-       $.ajax({
-         type : "GET",
-         url : url,
-       }).success(function (data, status) {
-         
-         self.handleStatusFetchSuccess(pageType, data);
-       }).fail(function (xhr, msg) {
-         
-         self.handleStatusFetchFail(pageType);
-       });
-
-     };
-     var ep = new ErrorPage('body', "404", "plain");
-     ep.initialize();
-
-     
-     $(window).on('resize', function() {
-       $('body').trigger('resize')
-     });
-
-    </script>
+    
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
 
 
-  </body>
+
+
+</body>
 </html>
