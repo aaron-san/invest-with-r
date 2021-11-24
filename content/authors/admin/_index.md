@@ -1,17 +1,17 @@
 ---
 # Display name
-title: Alice Bighetti (吳恩達)
+title: Aaron Hardy
 
 # Is this the primary user of the site?
 superuser: true
 
 # Role/position/tagline
-role: Professor of Artificial Intelligence
+role: Investor and aspiring data modeler
 
 # Organizations/Affiliations to show in About widget
 organizations:
-- name: Stanford University
-  url: https://www.stanford.edu/
+- name: Profile
+  url: https://www.linkedin.com/in/aaron-hardy-651b2410/?lipi=urn%3Ali%3Apage%3Ad_flagship3_feed%3BEHqTVp6YQqO15iYVqW1qfg%3D%3D
 
 # Short bio (displayed in user profile at end of posts)
 bio: My research interests include distributed robotics, mobile computing and programmable matter.
