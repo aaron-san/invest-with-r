@@ -8866,7 +8866,7 @@ html[dir='rtl'] body {
 
 @media (max-width: 991.98px) {
   .home-section.fullscreen {
-    min-height: calc(100vh - 50px); } }
+    /*min-height: calc(100vh - 50px);*/ } }
 
 .no-navbar .home-section.fullscreen {
   min-height: 100vh; }
@@ -9523,3 +9523,10 @@ div.chart {
 
 .portrait-title h2 {
   font-size: 1.5rem; }
+
+img {
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3), 0 7px 21px 0 rgba(0, 0, 0, 0.2); }
+
+.home-section.fullscreen {
+  /* min-height: calc(100vh - 70px); */
+  min-height: 0px; }

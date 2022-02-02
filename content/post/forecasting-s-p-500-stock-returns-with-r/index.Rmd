@@ -19,7 +19,7 @@ editor_options:
   chunk_output_type: console
 output:
       blogdown::html_page:
-            highlight: tango
+            # highlight: tango
             toc: true
 ---
 
@@ -460,10 +460,10 @@ It appears that the *Random Walk* and *Random Walk with a Drift* models are equa
 
 Relatively speaking, the *Random Walk* and *Random Walk with a Drift* models outperform the others, but are they useful in forecasting returns? Actually, an RMSE of 6.5% (0.0652) is not an acceptable forecast error when considing the average monthly return of 0.9% over the nine-year period 2011-2019. It is informative to notice that the MAPE (Mean Absolute Percentage Error) of 329% for these two models. Perhaps a MAPE of less than 20% would be acceptable.
 
-# Conclusions
+## 4. Conclusions
 Based on the preceding analysis, it appears that stock returns cannot be effectively modeled with the handful of forecast models employed in this analysis. There appears to be too much randomness that cannot be effectively captured in the models used.
 
-# Other Considerations
+### Other Considerations
 
 **Type of analysis**
 

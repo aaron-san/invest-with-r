@@ -1,1 +1,11 @@
 // Override this file to add your own SCSS styling.
+
+img {
+      box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3), 0 7px 21px 0 rgba(0, 0, 0, 0.2);
+}
+
+
+.home-section.fullscreen {
+    /* min-height: calc(100vh - 70px); */
+    min-height: 0px;
+}

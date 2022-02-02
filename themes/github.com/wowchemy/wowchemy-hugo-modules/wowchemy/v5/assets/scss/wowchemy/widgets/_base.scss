@@ -16,7 +16,7 @@
 }
 @include media-breakpoint-down(md) {
   .home-section.fullscreen {
-    min-height: calc(100vh - 50px);
+    /*min-height: calc(100vh - 50px);*/
   }
 }
 .no-navbar .home-section.fullscreen {
