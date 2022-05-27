@@ -1,0 +1,1441 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts | Invest With R</title>
+    <link>https://www.investwithr.com/post/</link>
+      <atom:link href="https://www.investwithr.com/post/index.xml" rel="self" type="application/rss+xml" />
+    <description>Posts</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>© 2022 Aaron Hardy</copyright><lastBuildDate>Wed, 02 Feb 2022 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://www.investwithr.com/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_3.png</url>
+      <title>Posts</title>
+      <link>https://www.investwithr.com/post/</link>
+    </image>
+    
+    <item>
+      <title>Forecasting S&amp;P500 Stock Returns with R</title>
+      <link>https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/</link>
+      <pubDate>Wed, 02 Feb 2022 00:00:00 +0000</pubDate>
+      <guid>https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/</guid>
+      <description>
+&lt;script src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/lightable/lightable.css&#34; rel=&#34;stylesheet&#34; /&gt;
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;1. Introduction&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#data&#34;&gt;Data&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#initial-setup---load-the-packages-and-dataset&#34;&gt;2. Initial Setup - Load the packages and dataset&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#data-preparation-and-preprocessing&#34;&gt;3. Data Preparation and Preprocessing&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#prepare-the-data&#34;&gt;Prepare the data&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#univarite-analysis&#34;&gt;Univarite Analysis&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#model---univariate-time-series&#34;&gt;Model - Univariate Time Series&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#conclusions&#34;&gt;4. Conclusions&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#other-considerations&#34;&gt;Other Considerations&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Disclaimer: I am not a data scientist, but I am an R, investing, and data science enthusiast.&lt;/p&gt;
+&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;1. Introduction&lt;/h2&gt;
+&lt;p&gt;Is it possible to predict stock returns? We will look at a group of 500 large U.S. companies and try to identify any historical patterns that can be used to predict future returns. Specifically, we will focus on the S&amp;amp;P 500 stock index which represents the stock performance of a diverse group of 500 of the largest U.S. companies.&lt;/p&gt;
+&lt;p&gt;Why predict S&amp;amp;P 500 returns? Millions of people are invested in U.S. stocks through pension plans and individual investment accounts. Many of these investors want to protect their investments by buying before prices rise and selling before prices fall.&lt;/p&gt;
+&lt;p&gt;We will perform the analysis in three broad steps:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Data preparation,&lt;/li&gt;
+&lt;li&gt;Model fitting, and&lt;/li&gt;
+&lt;li&gt;Evaluation of model performance&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div id=&#34;data&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Data&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;S&amp;amp;P 500 monthly returns, 2011-2019 (FRED symbol: &lt;em&gt;SP500&lt;/em&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This data is available on the &lt;a href=&#34;https://fred.stlouisfed.org&#34;&gt;FRED&lt;/a&gt; website.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;initial-setup---load-the-packages-and-dataset&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;2. Initial Setup - Load the packages and dataset&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Load libraries
+suppressPackageStartupMessages({
+    
+    # General purpose
+    library(tidyverse) # for mutate(), select(), filter()
+    library(tidyquant) # for ROC(), endpoints()
+    library(data.table) # for fread()
+    library(lubridate) # for days()
+    library(magrittr) # for is_less_than()
+    library(janitor) # for clean_names()
+    library(kableExtra) # for kable()
+    
+    # Models
+    library(tidymodels)
+    library(feasts) # for STL()
+    library(lmtest) # for bptest() for heteroskedasticity
+    library(forecast) # for forecast()
+    
+    # Time series
+    library(tsibble) # for as_tsibble()
+    library(fable)  # for ARIMA(), ETS(), MEAN(), NAIVE(), SNAIVE() TSLM()
+    library(timetk) # for tk_ts(), tk_tbl()
+    
+    # Plotting
+    library(ggthemes) # for theme_hc()
+    library(formattable) # for formattable()
+    
+    # Data processing
+    library(sweep) # for sw_tidy(), sw_glance(), sw_augment()
+})
+
+
+# Variables
+symbols &amp;lt;- &amp;quot;SP500&amp;quot;
+
+# Download data
+# data &amp;lt;- symbols %&amp;gt;%
+#   tq_get(get = &amp;quot;economic.data&amp;quot;,
+#          from = &amp;quot;2010-12-31&amp;quot;, to = &amp;quot;2020-01-31&amp;quot;)
+
+
+# Load data
+tickers &amp;lt;- readxl::read_xlsx(&amp;quot;C:/Users/user/Desktop/Aaron/R/Projects/Fundamentals-Data/data/FRED Tickers.xlsx&amp;quot;, sheet = 1, range = &amp;quot;A1:A300&amp;quot;) %&amp;gt;%
+      drop_na() 
+    
+# Load data 
+data &amp;lt;- fread(&amp;quot;C:/Users/user/Desktop/Aaron/R/Projects/Fundamentals-Data/data/keep/Prices from FRED (2021 11 15).csv&amp;quot;) %&amp;gt;%
+      as_tibble() %&amp;gt;%   
+      mutate(date = ymd(date)) %&amp;gt;%  
+      filter(symbol %in% symbols)   &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;data-preparation-and-preprocessing&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;3. Data Preparation and Preprocessing&lt;/h2&gt;
+&lt;div id=&#34;prepare-the-data&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Prepare the data&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Reformat the data
+SP500_tbl &amp;lt;- data %&amp;gt;%
+      complete(date = seq.Date(from = min(date), to = max(date), by = &amp;quot;days&amp;quot;)) %&amp;gt;%
+      arrange(date) %&amp;gt;%
+      fill(price, symbol) %&amp;gt;%
+      pivot_wider(names_from = symbol, values_from = price) %&amp;gt;%
+      slice(endpoints(date, on = &amp;quot;month&amp;quot;)) %&amp;gt;%
+      mutate(ROC.SP500 = ROC(SP500)) %&amp;gt;%
+      drop_na() %&amp;gt;%
+      filter(date &amp;gt; &amp;quot;2011-12-31&amp;quot; &amp;amp; date &amp;lt;= &amp;quot;2021-10-31&amp;quot;)
+
+# Coerce the data to a time series
+SP500_ts &amp;lt;- SP500_tbl %&amp;gt;%
+    tk_ts(select = ROC.SP500, start = .$date[1] %&amp;gt;% as.yearmon(), frequency = 12)
+
+# Coerce the data to a tsibble
+SP500_tsi &amp;lt;- as_tsibble(SP500_ts, index = date) %&amp;gt;%
+    rename(ROC.SP500 = value, date = index)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;univarite-analysis&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Univarite Analysis&lt;/h3&gt;
+&lt;p&gt;Let’s look at the S&amp;amp;P 500 time series as a univariate series. Is it possible to predict with reasonable accuracy future returns of the S&amp;amp;P 500 just looking at historical data over the nine year period 2011-2019 (an admittedly arbitrary period)? Is there predictable seasonality, for example? Let’s take a look at the data in its original form and do some exploratory analysis.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Scatterplot
+SP500_tbl %&amp;gt;%
+    ggplot(aes(x = date, y = ROC.SP500)) + #, color = ROC.SP500 &amp;gt; mean(ROC.SP500))) +
+    geom_line(show.legend = FALSE, color = &amp;quot;steelblue&amp;quot;) +
+    geom_hline(aes(yintercept = mean(ROC.SP500)), color = &amp;quot;firebrick2&amp;quot;, 
+               linetype = &amp;quot;dashed&amp;quot;, size = 0.7) +
+    labs(title = &amp;quot;S&amp;amp;P 500 monthly Returns, 2011-2019&amp;quot;,
+         subtitle = &amp;quot;(Mean return in red)&amp;quot;,
+         y = &amp;quot;Return&amp;quot;, x = &amp;quot;&amp;quot;) +
+    scale_y_continuous(labels = scales::percent_format()) +    
+    scale_x_date(date_labels = &amp;quot;%Y %b&amp;quot;) +
+    theme_minimal()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/scatterplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Get summary data
+summary(SP500_tbl)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##       date                SP500        ROC.SP500       
+##  Min.   :2012-01-31   Min.   :1310   Min.   :-0.13367  
+##  1st Qu.:2014-07-07   1st Qu.:1925   1st Qu.:-0.00351  
+##  Median :2016-12-15   Median :2219   Median : 0.01775  
+##  Mean   :2016-12-14   Mean   :2441   Mean   : 0.01100  
+##  3rd Qu.:2019-05-23   3rd Qu.:2910   3rd Qu.: 0.03282  
+##  Max.   :2021-10-31   Max.   :4605   Max.   : 0.11942&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The simple scatter plot doesn’t seem to reveal any clear trends or seasonality. Let’s look at distributions of returns grouped by year. The violin plot is useful here.&lt;/p&gt;
+&lt;p&gt;The mean monthly return over the nine-year period 2011-2019 was 0.9%.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Violin plot of returns    
+SP500_tbl %&amp;gt;%
+    mutate(yr = year(date)) %&amp;gt;%
+    ggplot(aes(x = date, y = ROC.SP500)) +
+    geom_violin(aes(group = yr), draw_quantiles = c(0.25, 0.5, 0.75), 
+                show.legend = FALSE, fill = &amp;quot;lightblue2&amp;quot;, alpha = 0.5) +
+    geom_hline(yintercept = 0, color = &amp;quot;darkgrey&amp;quot;, size = 0.7) +
+    geom_hline(aes(yintercept = mean(ROC.SP500)), color = &amp;quot;firebrick2&amp;quot;, 
+               size = 0.7, linetype = &amp;quot;longdash&amp;quot;) +
+    labs(title = &amp;quot;Violin plots of Returns by Year&amp;quot;,
+         subtitle = &amp;quot;Mean in red&amp;quot;,
+         x = &amp;quot;&amp;quot;, y = &amp;quot;Return&amp;quot;) +
+    scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+    scale_x_date(date_breaks = &amp;quot;3 months&amp;quot;, date_labels = &amp;quot;%Y %b&amp;quot;) +
+    geom_point(aes(color = factor(yr)), size = 0.9,
+               show.legend = FALSE) +
+    theme_hc() +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1),
+          panel.grid = element_blank()) +
+    facet_grid(~ yr, scale = &amp;quot;free&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/violinplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The violin plots show high volatility of returns in 2011 followed by decreased volatility in subsequent years and finally high volatility again in 2018 and 2019. The range of returns (distance from bottom of violin plot to its top) seems to increase and decrease without any clear regularity. No clear patterns of volatility stand out.&lt;/p&gt;
+&lt;p&gt;Let’s look at some more distributions of returns, but this time grouped by month. For example, the distribution for January includes January returns for each year (2011-2019).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Get summary data
+SP500_tbl %&amp;gt;%
+      group_by(month = month(date)) %&amp;gt;%
+      summarize(mean = mean(ROC.SP500),
+                median = median(ROC.SP500),
+                stdev = sd(ROC.SP500),
+                downdev = DownsideDeviation(ROC.SP500, MAR = 0)) %&amp;gt;%
+      mutate(mean_to_sd = mean / stdev,
+             mean_to_dd = mean / downdev) %&amp;gt;%
+      mutate_all(~ round(., 3)) %&amp;gt;%
+      kable() %&amp;gt;%
+      kable_styling(&amp;quot;striped&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-striped&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+month
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+mean
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+median
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+stdev
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+downdev
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+mean_to_sd
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+mean_to_dd
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.011
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.008
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.044
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.023
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.245
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.473
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.011
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.028
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.044
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.031
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.242
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.348
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.002
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.012
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.055
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.043
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.032
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.040
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.025
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.009
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.038
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.002
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.660
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+10.446
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.002
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.013
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.037
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.030
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.045
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.057
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.012
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.026
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.008
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.541
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1.683
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+7
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.024
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.021
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.020
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.005
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1.228
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5.075
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+8
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.007
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.010
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.038
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.023
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.176
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.286
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+9
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+-0.004
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.002
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.028
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.022
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+-0.140
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+-0.174
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+10
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.012
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.021
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.047
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.026
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.248
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.446
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+11
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.030
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.028
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.030
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.000
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1.011
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+Inf
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+12
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.001
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.010
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.040
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.033
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.013
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.016
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Density plot of returns by month
+SP500_tbl %&amp;gt;%
+    group_by(month(date)) %&amp;gt;%
+    mutate(medians = median(ROC.SP500),
+           means = mean(ROC.SP500)) %&amp;gt;%
+    ggplot(aes(x = ROC.SP500, group = month(date))) +
+    geom_density(aes(x = ROC.SP500, fill = factor(months(date, abbr = TRUE), levels = month.abb)), show.legend = FALSE, alpha = 0.4) +
+    labs(title = &amp;quot;Density Plot of Returns by Month&amp;quot;,
+         subtitle = &amp;quot;(Mean in red)\n(Median in green)&amp;quot;,
+         x = &amp;quot;Return&amp;quot;, y = &amp;quot;Count&amp;quot;) +
+    facet_wrap(~ factor(months(date, abbr = TRUE), levels = month.abb), ncol = 4) +
+    geom_vline(xintercept = 0) +
+    geom_vline(aes(xintercept = medians), color = &amp;quot;green&amp;quot;, 
+               linetype = &amp;quot;longdash&amp;quot;, size = 0.8) +
+    geom_vline(aes(xintercept = means), color = &amp;quot;firebrick2&amp;quot;, 
+               linetype = &amp;quot;longdash&amp;quot;, size = 0.8) +
+
+    scale_x_continuous(labels = scales::percent_format()) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 90),
+          panel.grid = element_blank())&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/densityplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;If we calculate the ratio of average return to standard deviation for returns grouped by month, we notice that February, April, July, and November especially have high average returns to standard deviation. More importantly, we notice that the ratio of mean return to downside deviation is especially high for February, April, July, and November. In other words, the returns to risk ratio appears to be especially good for investors in these months.&lt;/p&gt;
+&lt;p&gt;The density plots seem to reveal that February, July, and November especially experience a high proportion of returns greater than zero. This can be visualized by noticing that the mean and medians of each of these months’ returns are considerably greater than the zero-lines (in black) and their density curves have high peaks on the right side of the zero-line. This would suggest that stocks held in these months experience consistently positive monthly returns.&lt;/p&gt;
+&lt;p&gt;Let’s look at a calendar plot that shows returns across months and years.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Calendar plot
+SP500_tbl %&amp;gt;% 
+    mutate(date = date - lubridate::days(1)) %&amp;gt;%
+    mutate(month = month(date),
+           year = year(date)) %&amp;gt;%
+    mutate(bin = cut(ROC.SP500, breaks = c(-Inf, -0.02, 0, 0.02, Inf), labels = c(&amp;quot;Below -2%&amp;quot;, &amp;quot;(-2%, 0%)&amp;quot;, &amp;quot;(0%, 2%)&amp;quot;, &amp;quot;Above 2%&amp;quot;))) %&amp;gt;%
+    ggplot(aes(x = factor(months(date, abbr = TRUE), levels = month.abb), y = substr(year, 1, 4), fill = bin)) +
+    geom_tile(color = &amp;quot;white&amp;quot;) +
+    scale_fill_manual(values = c(&amp;quot;firebrick2&amp;quot;, &amp;quot;pink&amp;quot;, &amp;quot;lightblue&amp;quot;, &amp;quot;mediumturquoise&amp;quot;)) +
+    labs(title = &amp;quot;Calendar plot&amp;quot;, subtitle = &amp;quot;S&amp;amp;P 500 Monthly Returns&amp;quot;, 
+         x = &amp;quot;&amp;quot;, y = &amp;quot;&amp;quot;, fill = &amp;quot;&amp;quot;) +
+    theme_hc() +
+    theme(panel.grid.major = element_blank(),
+          panel.border= element_blank(),
+          axis.text.x = element_text(angle = 90, hjust = 1),
+          legend.position = &amp;quot;top&amp;quot;,
+          axis.ticks = element_blank())&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;A look at the calendar plot reveals that February, April, July, and November experience positive returns in at least seven of the nine years observed. It appears that returns in these months are consistently positive.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Breush Pagan Test for heteroskedasticity
+# - First create a linear model and use residuals to test for heteroskedasticity
+lmMod &amp;lt;- tslm(SP500_ts ~ trend) # initial model
+bptest(lmMod) %&amp;gt;%
+    sw_glance() %&amp;gt;%
+    pull(p.value) %&amp;gt;%
+    is_less_than(0.05) %&amp;gt;%
+    if_else(&amp;quot;Heteroskedastic (alpha = 5%)&amp;quot;, 
+            &amp;quot;Not heteroskedastic (alpha = 5%)&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Heteroskedastic (alpha = 5%)&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Looking at the S&amp;amp;P 500 monthly returns, it appears that over the nine year period, most monthly returns were positive. There also appeared to be high volatility of returns followed by low volatility and then high volatility again. However, the Breush Pagan test gave evidence that the series is not heteroskedastic (i.e., has stable volatility).&lt;/p&gt;
+&lt;p&gt;Let’s check for autocorrelation.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Augmented Dickey-Fuller Test for stationarity
+ndiffs(SP500_ts)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# View the ACF and PCF plots
+SP500_ts %&amp;gt;% 
+    ggtsdisplay(theme = theme_minimal(), main = &amp;quot;S&amp;amp;P 500 returns monthly&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Box Test for Autocorrelation
+# - Test of whether any of a group of autocorrelations of a time series are different from zero. Instead of testing randomness at each distinct lag, it tests the &amp;quot;overall&amp;quot; randomness based on a number of lags.
+Box.test(SP500_ts, type = &amp;quot;Ljung&amp;quot;) %&amp;gt;%
+    sw_glance() %&amp;gt;%
+    pull(p.value) %&amp;gt;%
+    is_less_than(0.05) %&amp;gt;%
+    if_else(&amp;quot;Autocorrelation exists (alpha = 5%).&amp;quot;, 
+            &amp;quot;No autocorrelation exists (alpha = 5%).&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;No autocorrelation exists (alpha = 5%).&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We tested if the series is trend-stationary by determining how many first differences should be applied to the series to make it stationary. The result was 0, so the series is likely stationary (i.e., mean-reverting).&lt;/p&gt;
+&lt;p&gt;The autocorrelation function (ACF) plot shows no significant correlations with any of the prior 12 lagged months. The same was observed for the partial autocorrelation function (PACF) plot. The Ljung-Box test gave evidence that no autocorrelation exists in the time series. Overall, it appears that the S&amp;amp;P 500 monthly returns series is white noise (i.e., follows a random walk). To further test that, we could take several time slices of the series and check that the means and volatilities of each subseries match those of the entire series.&lt;/p&gt;
+&lt;p&gt;Let’s now check for seasonality. The S&amp;amp;P 500 returns appears to be white noise. Let’s decompose the returns and look at the seasonal component. We’ll also test if the seasonal component is useful in forecasting. We’ll check this by building two ETS models: one with a seasonal component and one without. If the RMSE of the model with the seasonal component is higher than that of the model without the seasonal component, then the seasonal component likely contributed to model performance.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Seasonal decomposition
+SP500_tsi %&amp;gt;%
+    model(STL(ROC.SP500 ~ season())) %&amp;gt;%
+    components() %&amp;gt;%
+    rename(original = ROC.SP500,
+           seasonal = season_year) %&amp;gt;%
+    clean_names() %&amp;gt;%
+    select(-model) %&amp;gt;%
+    pivot_longer(-c(date, season_adjust), names_to = &amp;quot;component&amp;quot;) %&amp;gt;%
+    arrange(factor(component, levels = unique(component)), date) %&amp;gt;% 
+    ggplot(aes(x = date, y = value)) +
+    geom_line() +
+    scale_y_continuous(labels = scales::percent_format()) +
+    facet_wrap(~ component) +
+    labs(title = &amp;quot;Plot of Decomposed S&amp;amp;P 500 Returns&amp;quot;,
+         x = &amp;quot;&amp;quot;, y = &amp;quot;&amp;quot;) +
+    theme_minimal()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/seasonal_decomposition-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Informal test for signifance of seasonality
+# Exponential time series model with &amp;quot;Additive&amp;quot; Error, &amp;quot;None&amp;quot; trend, and &amp;quot;Additive&amp;quot; season types
+SP500_tsi %&amp;gt;% 
+    model(ETS(ROC.SP500 ~ season(&amp;quot;A&amp;quot;) + trend(&amp;quot;N&amp;quot;) + error(&amp;quot;A&amp;quot;))) %&amp;gt;% 
+    forecast::accuracy() %&amp;gt;% 
+    pull(RMSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.03657014&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Exponential time series model with &amp;quot;Additive&amp;quot; Error, &amp;quot;None&amp;quot; trend, and &amp;quot;None&amp;quot; season types
+SP500_tsi %&amp;gt;% 
+    model(ETS(ROC.SP500 ~ season(&amp;quot;N&amp;quot;) + trend(&amp;quot;N&amp;quot;) + error(&amp;quot;A&amp;quot;))) %&amp;gt;%
+    forecast::accuracy() %&amp;gt;% 
+    pull(RMSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.03775592&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We noticed that the RMSE of the &lt;em&gt;ETS model&lt;/em&gt; without the seasonal component was higher and therefore suggests the seasonal component did not add to the performance of the model.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;model---univariate-time-series&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Model - Univariate Time Series&lt;/h3&gt;
+&lt;p&gt;Although there appears to be no seasonality or significant trend, let’s fit several forecast models and check our prediction results. We will fit the following models:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Naive, random walk&lt;/strong&gt; - This method uses the last observation as the forecast for the next period.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Naive, random walk with a drift&lt;/strong&gt; - This method uses the last observation plus the historical trend to create a forecast for the next period.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Mean (Historical average)&lt;/strong&gt; - This method simply uses the historical average as the forecast for the next period.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;ARIMA (Autoregressive Integrated Moving Average)&lt;/strong&gt; - This method models lags of the data as well as current and lagged errors to create forecasts.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;TSLM (Time series linear model with trend and seasonality)&lt;/strong&gt; - This method uses a linear model with trend and seasonality to create forecasts.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;ETS (Exponential time series)&lt;/strong&gt; - This method uses an exponential model with seasonality to create forecasts.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Mixed&lt;/strong&gt; - This method simple finds an average of the forecasts created from the models above to create forecast.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Split the time series into training and test sets
+initial_time_split &amp;lt;- initial_time_split(SP500_tsi, prop = 0.8) 
+training_data &amp;lt;- initial_time_split %&amp;gt;% training() 
+test_data &amp;lt;- initial_time_split %&amp;gt;% testing()
+
+SP500_recipe &amp;lt;- training_data %&amp;gt;%
+    recipe(ROC.SP500 ~ .) %&amp;gt;%
+        prep()
+
+# Extract the data from the SP500_recipe object
+SP500_training &amp;lt;- SP500_recipe %&amp;gt;% juice()
+
+# Apply the recipe to the testing data
+SP500_testing &amp;lt;- SP500_recipe %&amp;gt;% bake(test_data)
+
+
+# Fit multiple time series models
+fit &amp;lt;- SP500_training %&amp;gt;%
+    model(
+        # Naive, Random Walk Forecasts
+        # Forecasts equal to last observed value (appropriate for many financial series)
+        rw = RW(ROC.SP500),
+        # Drift method
+        # Forecasts equal to last value plus average change over series (appears as line)
+        rw.drift = RW(ROC.SP500, drift = TRUE),
+        # Forecasts equal to mean of historical data
+        mean = MEAN(ROC.SP500),
+        # Seasonal Naive
+        # Forecasts equal to last value from same season
+        snaive = SNAIVE(ROC.SP500 ~ lag(&amp;quot;year&amp;quot;)),
+        # ARIMA
+        # Forecasts based on lagged values of series as well as lagged errors
+        arima = ARIMA(ROC.SP500),
+        # TSLM (Time Series Linear Model)
+        # Applies a trend, seasonal, and error terms to the data
+        tslm = TSLM(ROC.SP500 ~ trend() + season()),
+        # ETS (Exponential Time Series)
+        # Uses an exponential model with trend and seasonality to create forecasts
+        ets = ETS(ROC.SP500)) %&amp;gt;%
+        mutate(mixed = (rw + rw.drift + mean + snaive + arima + tslm + ets) / 7)
+
+# Optimal ARIMA model parameters
+fit %&amp;gt;% select(arima) %&amp;gt;% report()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Series: ROC.SP500 
+## Model: ARIMA(0,0,1) w/ mean 
+## 
+## Coefficients:
+##           ma1  constant
+##       -0.3032    0.0092
+## s.e.   0.1244    0.0022
+## 
+## sigma^2 estimated as 0.0009633:  log likelihood=194.01
+## AIC=-382.01   AICc=-381.75   BIC=-374.38&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Create the forecasts
+fcast &amp;lt;- fit %&amp;gt;% 
+    forecast(h = nrow(SP500_testing))
+
+# Plot the forecasts
+fcast %&amp;gt;% 
+    filter(.model %in% c(&amp;quot;rw&amp;quot;, &amp;quot;snaive&amp;quot;, &amp;quot;rw.drift&amp;quot;, &amp;quot;mean&amp;quot;)) %&amp;gt;%
+  autoplot(SP500_training) +
+  labs(title = &amp;quot;Forecasts for S&amp;amp;P 500 monthly returns&amp;quot;,
+       x = &amp;quot;Year&amp;quot;, y = &amp;quot;Monthly return&amp;quot;) +
+  guides(colour = guide_legend(title = &amp;quot;Forecast&amp;quot;)) +
+    scale_y_continuous(labels = scales::percent_format()) +
+    theme_minimal() +
+    facet_wrap(~ .model)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;fcast %&amp;gt;% 
+    filter(.model %in% c(&amp;quot;arima&amp;quot;, &amp;quot;tslm&amp;quot;, &amp;quot;ets&amp;quot;, &amp;quot;mixed&amp;quot;)) %&amp;gt;%
+  autoplot(SP500_training) +
+  labs(title = &amp;quot;Forecasts for S&amp;amp;P 500 monthly returns&amp;quot;,
+       x = &amp;quot;Year&amp;quot;, y = &amp;quot;Monthly return&amp;quot;) +
+  guides(colour = guide_legend(title = &amp;quot;Forecast&amp;quot;)) +
+    scale_y_continuous(labels = scales::percent_format()) +
+    theme_minimal() +
+    facet_wrap(~ .model)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/unnamed-chunk-4-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Model performance
+forecast::accuracy(fcast, SP500_testing) %&amp;gt;% 
+      arrange(desc(RMSE)) %&amp;gt;%
+      mutate_if(is.numeric, ~ round(., 3)) %&amp;gt;%
+      kable() %&amp;gt;%
+      kable_styling(bootstrap_options = c(&amp;quot;striped&amp;quot;),
+                    full_width = FALSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-striped&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+.model
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+.type
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+ME
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+RMSE
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+MAE
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+MPE
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+MAPE
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+MASE
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+RMSSE
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+ACF1
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+snaive
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Test
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.008
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.077
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.066
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+370.768
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+411.014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+NaN
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+NaN
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+-0.025
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+tslm
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Test
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.012
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.058
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.046
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+132.466
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+132.466
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+NaN
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+NaN
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.044
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+mixed
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Test
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.006
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.057
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.044
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+150.533
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+151.580
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+NaN
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+NaN
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.044
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+arima
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Test
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.008
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.056
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.043
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+107.178
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+112.863
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+NaN
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+NaN
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.006
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+ets
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Test
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.008
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.055
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.043
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+106.764
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+112.474
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+NaN
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+NaN
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.006
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+mean
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Test
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.008
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.055
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.043
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+106.882
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+112.837
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+NaN
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+NaN
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.006
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+rw
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Test
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+-0.003
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.055
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.040
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+114.838
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+138.226
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+NaN
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+NaN
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.006
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+rw.drift
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Test
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+-0.003
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.055
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.040
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+114.838
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+138.226
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+NaN
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+NaN
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.006
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Check residuals
+interp.residuals &amp;lt;- fit %&amp;gt;% 
+    residuals(type=&amp;quot;response&amp;quot;)
+
+# Plot residuals
+interp.residuals %&amp;gt;%
+    ggplot(aes(x = as_date(date), y = .resid)) +
+    geom_point() +
+    geom_smooth(method = &amp;quot;loess&amp;quot;, se = TRUE, level = 0.95) +
+    scale_y_continuous(labels = scales::percent_format()) +
+    scale_x_date(date_labels = &amp;quot;%Y&amp;quot;) +
+    facet_wrap(~ .model, ncol = 3) +
+    labs(title = &amp;quot;Residuals plot&amp;quot;, x = &amp;quot;&amp;quot;, y = &amp;quot;Residual&amp;quot;) +
+    theme_hc()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/unnamed-chunk-4-3.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Plot density of residuals
+interp.residuals %&amp;gt;%
+    ggplot(aes(x = .resid)) + 
+    geom_density(aes(color = .model), show.legend = FALSE) +
+    scale_y_continuous(labels = scales::label_number(accuracy = 1)) +
+    scale_x_continuous(labels = scales::percent_format()) +
+    facet_wrap(~ .model, ncol = 3) +
+    labs(title = &amp;quot;Density plots of residuals&amp;quot;, x = &amp;quot;Residual&amp;quot;, y = &amp;quot;Frequency&amp;quot;) +
+    theme_hc()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/unnamed-chunk-4-4.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;It appears that the &lt;em&gt;Random Walk&lt;/em&gt; and &lt;em&gt;Random Walk with a Drift&lt;/em&gt; models are equally the best models among the eight applied. They resulted in the highest RMSEs for out-of-sample test data. The performance metrics for these two models are roughly equal, perhaps because the trend component in the &lt;em&gt;Random Walk with a Drift&lt;/em&gt; was approximately flat.&lt;/p&gt;
+&lt;p&gt;Relatively speaking, the &lt;em&gt;Random Walk&lt;/em&gt; and &lt;em&gt;Random Walk with a Drift&lt;/em&gt; models outperform the others, but are they useful in forecasting returns? Actually, an RMSE of 6.5% (0.0652) is not an acceptable forecast error when considing the average monthly return of 0.9% over the nine-year period 2011-2019. It is informative to notice that the MAPE (Mean Absolute Percentage Error) of 329% for these two models. Perhaps a MAPE of less than 20% would be acceptable.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;conclusions&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;4. Conclusions&lt;/h2&gt;
+&lt;p&gt;Based on the preceding analysis, it appears that stock returns cannot be effectively modeled with the handful of forecast models employed in this analysis. There appears to be too much randomness that cannot be effectively captured in the models used.&lt;/p&gt;
+&lt;div id=&#34;other-considerations&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Other Considerations&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Type of analysis&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;We conducted a supervised learning model of a numerical variable (monthly returns), but we could have conducted a supervised learning model of a categorical variable. We could have classified monthly returns as a logical variable (positive return = TRUE, negative return = FALSE) and performed a random forest and logical regression models, among others.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Limitations&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;While the results are interesting, they aren’t necessarily useful for several reasons:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Data Insufficiency&lt;/strong&gt; - First, there doesn’t appear to be a sufficient number of data. Ideally, we would use several decades that span economic cycles and government regimes. Moreover, the breadth of the data (we used only the S&amp;amp;P 500 index) should include a greater range of stocks to be able to make such broad conclusions.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Transaction Costs&lt;/strong&gt; - Another limitation is that transaction costs were not considered in the monthly return calculations which could prove costly and change the conclusions reached herein.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Model Insufficiency&lt;/strong&gt; - Seven forecast models were fit to the data, but there are other forecast models that could be analyzed and applied. It is possible that this could change the results and conclusions of the analysis.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Academic Findings&lt;/strong&gt; - Many leaders in the academic community have analyzed stock returns over longer time horizons and over wider groups of stocks (not just 500 of the largest) and found that generally, stock returns follow random walks (i.e., behave like white noise).&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Welcome to Wowchemy, the website builder for Hugo</title>
+      <link>https://www.investwithr.com/post/getting-started/</link>
+      <pubDate>Sun, 13 Dec 2020 00:00:00 +0000</pubDate>
+      <guid>https://www.investwithr.com/post/getting-started/</guid>
+      <description>&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;The Wowchemy website builder for Hugo, along with its starter templates, is designed for professional creators, educators, and teams/organizations - although it can be used to create any kind of site&lt;/li&gt;
+&lt;li&gt;The template can be modified and customised to suit your needs. It&amp;rsquo;s a good platform for anyone looking to take control of their data and online identity whilst having the convenience to start off with a &lt;strong&gt;no-code solution (write in Markdown and customize with YAML parameters)&lt;/strong&gt; and having &lt;strong&gt;flexibility to later add even deeper personalization with HTML and CSS&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;You can work with all your favourite tools and apps with hundreds of plugins and integrations to speed up your workflows, interact with your readers, and much more&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;get-started&#34;&gt;Get Started&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;👉 &lt;a href=&#34;https://wowchemy.com/templates/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;Create a new site&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;📚 &lt;a href=&#34;https://wowchemy.com/docs/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;Personalize your site&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;💬 &lt;a href=&#34;https://discord.gg/z8wNYzb&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Chat with the &lt;strong&gt;Wowchemy community&lt;/strong&gt;&lt;/a&gt; or &lt;a href=&#34;https://discourse.gohugo.io&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;Hugo community&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;🐦 Twitter: &lt;a href=&#34;https://twitter.com/wowchemy&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;@wowchemy&lt;/a&gt; &lt;a href=&#34;https://twitter.com/GeorgeCushen&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;@GeorgeCushen&lt;/a&gt; &lt;a href=&#34;https://twitter.com/search?q=%28%23MadeWithWowchemy%20OR%20%23MadeWithAcademic%29&amp;amp;src=typed_query&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;#MadeWithWowchemy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;💡 &lt;a href=&#34;https://github.com/wowchemy/wowchemy-hugo-modules/issues&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Request a &lt;strong&gt;feature&lt;/strong&gt; or report a &lt;strong&gt;bug&lt;/strong&gt; for &lt;em&gt;Wowchemy&lt;/em&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;⬆️ &lt;strong&gt;Updating Wowchemy?&lt;/strong&gt; View the &lt;a href=&#34;https://wowchemy.com/docs/guide/update/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Update Guide&lt;/a&gt; and &lt;a href=&#34;https://wowchemy.com/updates/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Release Notes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;crowd-funded-open-source-software&#34;&gt;Crowd-funded open-source software&lt;/h2&gt;
+&lt;p&gt;To help us develop this template and software sustainably under the MIT license, we ask all individuals and businesses that use it to help support its ongoing maintenance and development via sponsorship.&lt;/p&gt;
+&lt;h3 id=&#34;-click-here-to-become-a-sponsor-and-help-support-wowchemys-future-httpswowchemycomplans&#34;&gt;&lt;a href=&#34;https://wowchemy.com/plans/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;❤️ Click here to become a sponsor and help support Wowchemy&amp;rsquo;s future ❤️&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;As a token of appreciation for sponsoring, you can &lt;strong&gt;unlock &lt;a href=&#34;https://wowchemy.com/plans/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;these&lt;/a&gt; awesome rewards and extra features 🦄✨&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;ecosystem&#34;&gt;Ecosystem&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href=&#34;https://github.com/wowchemy/hugo-academic-cli&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Hugo Academic CLI&lt;/a&gt;:&lt;/strong&gt; Automatically import publications from BibTeX&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;inspiration&#34;&gt;Inspiration&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://academic-demo.netlify.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Check out the latest &lt;strong&gt;demo&lt;/strong&gt;&lt;/a&gt; of what you&amp;rsquo;ll get in less than 10 minutes, or &lt;a href=&#34;https://wowchemy.com/user-stories/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;view the &lt;strong&gt;showcase&lt;/strong&gt;&lt;/a&gt; of personal, project, and business sites.&lt;/p&gt;
+&lt;h2 id=&#34;features&#34;&gt;Features&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Page builder&lt;/strong&gt; - Create &lt;em&gt;anything&lt;/em&gt; with &lt;a href=&#34;https://wowchemy.com/docs/page-builder/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;widgets&lt;/strong&gt;&lt;/a&gt; and &lt;a href=&#34;https://wowchemy.com/docs/writing-markdown-latex/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;elements&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Edit any type of content&lt;/strong&gt; - Blog posts, publications, talks, slides, projects, and more!&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Create content&lt;/strong&gt; in &lt;a href=&#34;https://wowchemy.com/docs/writing-markdown-latex/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;Markdown&lt;/strong&gt;&lt;/a&gt;, &lt;a href=&#34;https://wowchemy.com/docs/import/jupyter/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;Jupyter&lt;/strong&gt;&lt;/a&gt;, or &lt;a href=&#34;https://wowchemy.com/docs/install-locally/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;RStudio&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Plugin System&lt;/strong&gt; - Fully customizable &lt;a href=&#34;https://wowchemy.com/docs/customization/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;color&lt;/strong&gt; and &lt;strong&gt;font themes&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Display Code and Math&lt;/strong&gt; - Code highlighting and &lt;a href=&#34;https://en.wikibooks.org/wiki/LaTeX/Mathematics&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;LaTeX math&lt;/a&gt; supported&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Integrations&lt;/strong&gt; - &lt;a href=&#34;https://analytics.google.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Google Analytics&lt;/a&gt;, &lt;a href=&#34;https://disqus.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Disqus commenting&lt;/a&gt;, Maps, Contact Forms, and more!&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Beautiful Site&lt;/strong&gt; - Simple and refreshing one page design&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Industry-Leading SEO&lt;/strong&gt; - Help get your website found on search engines and social media&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Media Galleries&lt;/strong&gt; - Display your images and videos with captions in a customizable gallery&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Mobile Friendly&lt;/strong&gt; - Look amazing on every screen with a mobile friendly version of your site&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Multi-language&lt;/strong&gt; - 34+ language packs including English, 中文, and Português&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Multi-user&lt;/strong&gt; - Each author gets their own profile page&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Privacy Pack&lt;/strong&gt; - Assists with GDPR&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Stand Out&lt;/strong&gt; - Bring your site to life with animation, parallax backgrounds, and scroll effects&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;One-Click Deployment&lt;/strong&gt; - No servers. No databases. Only files.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;themes&#34;&gt;Themes&lt;/h2&gt;
+&lt;p&gt;Wowchemy and its templates come with &lt;strong&gt;automatic day (light) and night (dark) mode&lt;/strong&gt; built-in. Alternatively, visitors can choose their preferred mode - click the moon icon in the top right of the &lt;a href=&#34;https://academic-demo.netlify.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Demo&lt;/a&gt; to see it in action! Day/night mode can also be disabled by the site admin in &lt;code&gt;params.toml&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://wowchemy.com/docs/customization&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Choose a stunning &lt;strong&gt;theme&lt;/strong&gt; and &lt;strong&gt;font&lt;/strong&gt;&lt;/a&gt; for your site. Themes are fully customizable.&lt;/p&gt;
+&lt;h2 id=&#34;license&#34;&gt;License&lt;/h2&gt;
+&lt;p&gt;Copyright 2016-present &lt;a href=&#34;https://georgecushen.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;George Cushen&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Released under the &lt;a href=&#34;https://github.com/wowchemy/wowchemy-hugo-modules/blob/master/LICENSE.md&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;MIT&lt;/a&gt; license.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Writing technical content in Academic</title>
+      <link>https://www.investwithr.com/post/writing-technical-content/</link>
+      <pubDate>Fri, 12 Jul 2019 00:00:00 +0000</pubDate>
+      <guid>https://www.investwithr.com/post/writing-technical-content/</guid>
+      <description>&lt;p&gt;Academic is designed to give technical content creators a seamless experience. You can focus on the content and Academic handles the rest.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Highlight your code snippets, take notes on math classes, and draw diagrams from textual representation.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;On this page, you&amp;rsquo;ll find some examples of the types of technical content that can be rendered with Academic.&lt;/p&gt;
+&lt;h2 id=&#34;examples&#34;&gt;Examples&lt;/h2&gt;
+&lt;h3 id=&#34;code&#34;&gt;Code&lt;/h3&gt;
+&lt;p&gt;Academic supports a Markdown extension for highlighting code syntax. You can enable this feature by toggling the &lt;code&gt;highlight&lt;/code&gt; option in your &lt;code&gt;config/_default/params.toml&lt;/code&gt; file.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;```python
+import pandas as pd
+data = pd.read_csv(&amp;quot;data.csv&amp;quot;)
+data.head()
+```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;renders as&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import pandas as pd
+data = pd.read_csv(&amp;quot;data.csv&amp;quot;)
+data.head()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;charts&#34;&gt;Charts&lt;/h3&gt;
+&lt;p&gt;Academic supports the popular &lt;a href=&#34;https://plot.ly/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Plotly&lt;/a&gt; chart format.&lt;/p&gt;
+&lt;p&gt;Save your Plotly JSON in your page folder, for example &lt;code&gt;chart.json&lt;/code&gt;, and then add the &lt;code&gt;{{&amp;lt; chart data=&amp;quot;chart&amp;quot; &amp;gt;}}&lt;/code&gt; shortcode where you would like the chart to appear.&lt;/p&gt;
+&lt;p&gt;Demo:&lt;/p&gt;
+
+
+&lt;div id=&#34;chart-197856324&#34; class=&#34;chart&#34;&gt;&lt;/div&gt;
+&lt;script&gt;
+  (function() {
+    let a = setInterval( function() {
+      if ( typeof window.Plotly === &#39;undefined&#39; ) {
+        return;
+      }
+      clearInterval( a );
+
+      Plotly.d3.json(&#34;./line-chart.json&#34;, function(chart) {
+        Plotly.plot(&#39;chart-197856324&#39;, chart.data, chart.layout, {responsive: true});
+      });
+    }, 500 );
+  })();
+&lt;/script&gt;
+&lt;p&gt;You might also find the &lt;a href=&#34;http://plotly-json-editor.getforge.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Plotly JSON Editor&lt;/a&gt; useful.&lt;/p&gt;
+&lt;h3 id=&#34;math&#34;&gt;Math&lt;/h3&gt;
+&lt;p&gt;Academic supports a Markdown extension for $\LaTeX$ math. You can enable this feature by toggling the &lt;code&gt;math&lt;/code&gt; option in your &lt;code&gt;config/_default/params.toml&lt;/code&gt; file.&lt;/p&gt;
+&lt;p&gt;To render &lt;em&gt;inline&lt;/em&gt; or &lt;em&gt;block&lt;/em&gt; math, wrap your LaTeX math with &lt;code&gt;$...$&lt;/code&gt; or &lt;code&gt;$$...$$&lt;/code&gt;, respectively.&lt;/p&gt;
+&lt;p&gt;Example &lt;strong&gt;math block&lt;/strong&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-latex&#34;&gt;$$\gamma_{n} = \frac{ 
+\left | \left (\mathbf x_{n} - \mathbf x_{n-1} \right )^T 
+\left [\nabla F (\mathbf x_{n}) - \nabla F (\mathbf x_{n-1}) \right ] \right |}
+{\left \|\nabla F(\mathbf{x}_{n}) - \nabla F(\mathbf{x}_{n-1}) \right \|^2}$$
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;renders as&lt;/p&gt;
+&lt;p&gt;$$\gamma_{n} = \frac{ \left | \left (\mathbf x_{n} - \mathbf x_{n-1} \right )^T \left [\nabla F (\mathbf x_{n}) - \nabla F (\mathbf x_{n-1}) \right ] \right |}{\left |\nabla F(\mathbf{x}&lt;em&gt;{n}) - \nabla F(\mathbf{x}&lt;/em&gt;{n-1}) \right |^2}$$&lt;/p&gt;
+&lt;p&gt;Example &lt;strong&gt;inline math&lt;/strong&gt; &lt;code&gt;$\nabla F(\mathbf{x}_{n})$&lt;/code&gt; renders as $\nabla F(\mathbf{x}_{n})$.&lt;/p&gt;
+&lt;p&gt;Example &lt;strong&gt;multi-line math&lt;/strong&gt; using the &lt;code&gt;\\\\&lt;/code&gt; math linebreak:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-latex&#34;&gt;$$f(k;p_{0}^{*}) = \begin{cases}p_{0}^{*} &amp;amp; \text{if }k=1, \\\\
+1-p_{0}^{*} &amp;amp; \text{if }k=0.\end{cases}$$
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;renders as&lt;/p&gt;
+&lt;p&gt;$$f(k;p_{0}^{&lt;em&gt;}) = \begin{cases}p_{0}^{&lt;/em&gt;} &amp;amp; \text{if }k=1, \\
+1-p_{0}^{*} &amp;amp; \text{if }k=0.\end{cases}$$&lt;/p&gt;
+&lt;h3 id=&#34;diagrams&#34;&gt;Diagrams&lt;/h3&gt;
+&lt;p&gt;Academic supports a Markdown extension for diagrams. You can enable this feature by toggling the &lt;code&gt;diagram&lt;/code&gt; option in your &lt;code&gt;config/_default/params.toml&lt;/code&gt; file or by adding &lt;code&gt;diagram: true&lt;/code&gt; to your page front matter.&lt;/p&gt;
+&lt;p&gt;An example &lt;strong&gt;flowchart&lt;/strong&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;```mermaid
+graph TD
+A[Hard] --&amp;gt;|Text| B(Round)
+B --&amp;gt; C{Decision}
+C --&amp;gt;|One| D[Result 1]
+C --&amp;gt;|Two| E[Result 2]
+```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;renders as&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-mermaid&#34;&gt;graph TD
+A[Hard] --&amp;gt;|Text| B(Round)
+B --&amp;gt; C{Decision}
+C --&amp;gt;|One| D[Result 1]
+C --&amp;gt;|Two| E[Result 2]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;An example &lt;strong&gt;sequence diagram&lt;/strong&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;```mermaid
+sequenceDiagram
+Alice-&amp;gt;&amp;gt;John: Hello John, how are you?
+loop Healthcheck
+    John-&amp;gt;&amp;gt;John: Fight against hypochondria
+end
+Note right of John: Rational thoughts!
+John--&amp;gt;&amp;gt;Alice: Great!
+John-&amp;gt;&amp;gt;Bob: How about you?
+Bob--&amp;gt;&amp;gt;John: Jolly good!
+```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;renders as&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-mermaid&#34;&gt;sequenceDiagram
+Alice-&amp;gt;&amp;gt;John: Hello John, how are you?
+loop Healthcheck
+    John-&amp;gt;&amp;gt;John: Fight against hypochondria
+end
+Note right of John: Rational thoughts!
+John--&amp;gt;&amp;gt;Alice: Great!
+John-&amp;gt;&amp;gt;Bob: How about you?
+Bob--&amp;gt;&amp;gt;John: Jolly good!
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;An example &lt;strong&gt;Gantt diagram&lt;/strong&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;```mermaid
+gantt
+section Section
+Completed :done,    des1, 2014-01-06,2014-01-08
+Active        :active,  des2, 2014-01-07, 3d
+Parallel 1   :         des3, after des1, 1d
+Parallel 2   :         des4, after des1, 1d
+Parallel 3   :         des5, after des3, 1d
+Parallel 4   :         des6, after des4, 1d
+```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;renders as&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-mermaid&#34;&gt;gantt
+section Section
+Completed :done,    des1, 2014-01-06,2014-01-08
+Active        :active,  des2, 2014-01-07, 3d
+Parallel 1   :         des3, after des1, 1d
+Parallel 2   :         des4, after des1, 1d
+Parallel 3   :         des5, after des3, 1d
+Parallel 4   :         des6, after des4, 1d
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;An example &lt;strong&gt;class diagram&lt;/strong&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;```mermaid
+classDiagram
+Class01 &amp;lt;|-- AveryLongClass : Cool
+&amp;lt;&amp;lt;interface&amp;gt;&amp;gt; Class01
+Class09 --&amp;gt; C2 : Where am i?
+Class09 --* C3
+Class09 --|&amp;gt; Class07
+Class07 : equals()
+Class07 : Object[] elementData
+Class01 : size()
+Class01 : int chimp
+Class01 : int gorilla
+class Class10 {
+  &amp;lt;&amp;lt;service&amp;gt;&amp;gt;
+  int id
+  size()
+}
+```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;renders as&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-mermaid&#34;&gt;classDiagram
+Class01 &amp;lt;|-- AveryLongClass : Cool
+&amp;lt;&amp;lt;interface&amp;gt;&amp;gt; Class01
+Class09 --&amp;gt; C2 : Where am i?
+Class09 --* C3
+Class09 --|&amp;gt; Class07
+Class07 : equals()
+Class07 : Object[] elementData
+Class01 : size()
+Class01 : int chimp
+Class01 : int gorilla
+class Class10 {
+  &amp;lt;&amp;lt;service&amp;gt;&amp;gt;
+  int id
+  size()
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;An example &lt;strong&gt;state diagram&lt;/strong&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;```mermaid
+stateDiagram
+[*] --&amp;gt; Still
+Still --&amp;gt; [*]
+Still --&amp;gt; Moving
+Moving --&amp;gt; Still
+Moving --&amp;gt; Crash
+Crash --&amp;gt; [*]
+```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;renders as&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-mermaid&#34;&gt;stateDiagram
+[*] --&amp;gt; Still
+Still --&amp;gt; [*]
+Still --&amp;gt; Moving
+Moving --&amp;gt; Still
+Moving --&amp;gt; Crash
+Crash --&amp;gt; [*]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;todo-lists&#34;&gt;Todo lists&lt;/h3&gt;
+&lt;p&gt;You can even write your todo lists in Academic too:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;- [x] Write math example
+- [x] Write diagram example
+- [ ] Do something else
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;renders as&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Write math example&lt;/li&gt;
+&lt;li&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Write diagram example&lt;/li&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Do something else&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;tables&#34;&gt;Tables&lt;/h3&gt;
+&lt;p&gt;Represent your data in tables:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;| First Header  | Second Header |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;renders as&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;First Header&lt;/th&gt;
+&lt;th&gt;Second Header&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Content Cell&lt;/td&gt;
+&lt;td&gt;Content Cell&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Content Cell&lt;/td&gt;
+&lt;td&gt;Content Cell&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;callouts&#34;&gt;Callouts&lt;/h3&gt;
+&lt;p&gt;Academic supports a &lt;a href=&#34;https://wowchemy.com/docs/content/writing-markdown-latex/#callouts&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;shortcode for callouts&lt;/a&gt;, also referred to as &lt;em&gt;asides&lt;/em&gt;, &lt;em&gt;hints&lt;/em&gt;, or &lt;em&gt;alerts&lt;/em&gt;. By wrapping a paragraph in &lt;code&gt;{{% callout note %}} ... {{% /callout %}}&lt;/code&gt;, it will render as an aside.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;{{% callout note %}}
+A Markdown aside is useful for displaying notices, hints, or definitions to your readers.
+{{% /callout %}}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;renders as&lt;/p&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    A Markdown aside is useful for displaying notices, hints, or definitions to your readers.
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;h3 id=&#34;spoilers&#34;&gt;Spoilers&lt;/h3&gt;
+&lt;p&gt;Add a spoiler to a page to reveal text, such as an answer to a question, after a button is clicked.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;{{&amp;lt; spoiler text=&amp;quot;Click to view the spoiler&amp;quot; &amp;gt;}}
+You found me!
+{{&amp;lt; /spoiler &amp;gt;}}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;renders as&lt;/p&gt;
+&lt;details class=&#34;spoiler &#34;  id=&#34;spoiler-2&#34;&gt;
+  &lt;summary&gt;Click to view the spoiler&lt;/summary&gt;
+  &lt;p&gt;You found me!&lt;/p&gt;
+&lt;/details&gt;
+&lt;h3 id=&#34;icons&#34;&gt;Icons&lt;/h3&gt;
+&lt;p&gt;Academic enables you to use a wide range of &lt;a href=&#34;https://sourcethemes.com/academic/docs/page-builder/#icons&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;icons from &lt;em&gt;Font Awesome&lt;/em&gt; and &lt;em&gt;Academicons&lt;/em&gt;&lt;/a&gt; in addition to &lt;a href=&#34;https://sourcethemes.com/academic/docs/writing-markdown-latex/#emojis&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;emojis&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Here are some examples using the &lt;code&gt;icon&lt;/code&gt; shortcode to render icons:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;{{&amp;lt; icon name=&amp;quot;terminal&amp;quot; pack=&amp;quot;fas&amp;quot; &amp;gt;}} Terminal  
+{{&amp;lt; icon name=&amp;quot;python&amp;quot; pack=&amp;quot;fab&amp;quot; &amp;gt;}} Python  
+{{&amp;lt; icon name=&amp;quot;r-project&amp;quot; pack=&amp;quot;fab&amp;quot; &amp;gt;}} R
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;renders as&lt;/p&gt;
+&lt;p&gt;
+  &lt;i class=&#34;fas fa-terminal  pr-1 fa-fw&#34;&gt;&lt;/i&gt; Terminal&lt;br&gt;
+
+  &lt;i class=&#34;fab fa-python  pr-1 fa-fw&#34;&gt;&lt;/i&gt; Python&lt;br&gt;
+
+  &lt;i class=&#34;fab fa-r-project  pr-1 fa-fw&#34;&gt;&lt;/i&gt; R&lt;/p&gt;
+&lt;h3 id=&#34;did-you-find-this-page-helpful-consider-sharing-it-&#34;&gt;Did you find this page helpful? Consider sharing it 🙌&lt;/h3&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Display Jupyter Notebooks with Academic</title>
+      <link>https://www.investwithr.com/post/jupyter/</link>
+      <pubDate>Tue, 05 Feb 2019 00:00:00 +0000</pubDate>
+      <guid>https://www.investwithr.com/post/jupyter/</guid>
+      <description>&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;from IPython.core.display import Image
+Image(&#39;https://www.python.org/static/community_logos/python-logo-master-v3-TM-flattened.png&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;./index_1_0.png&#34; alt=&#34;png&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;print(&amp;quot;Welcome to Academic!&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;Welcome to Academic!
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;install-python-and-jupyterlab&#34;&gt;Install Python and JupyterLab&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.anaconda.com/distribution/#download-section&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Install Anaconda&lt;/a&gt; which includes Python 3 and JupyterLab.&lt;/p&gt;
+&lt;p&gt;Alternatively, install JupyterLab with &lt;code&gt;pip3 install jupyterlab&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;create-or-upload-a-jupyter-notebook&#34;&gt;Create or upload a Jupyter notebook&lt;/h2&gt;
+&lt;p&gt;Run the following commands in your Terminal, substituting &lt;code&gt;&amp;lt;MY-WEBSITE-FOLDER&amp;gt;&lt;/code&gt; and &lt;code&gt;&amp;lt;SHORT-POST-TITLE&amp;gt;&lt;/code&gt; with the file path to your Academic website folder and a short title for your blog post (use hyphens instead of spaces), respectively:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;mkdir -p &amp;lt;MY-WEBSITE-FOLDER&amp;gt;/content/post/&amp;lt;SHORT-POST-TITLE&amp;gt;/
+cd &amp;lt;MY-WEBSITE-FOLDER&amp;gt;/content/post/&amp;lt;SHORT-POST-TITLE&amp;gt;/
+jupyter lab index.ipynb
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;code&gt;jupyter&lt;/code&gt; command above will launch the JupyterLab editor, allowing us to add Academic metadata and write the content.&lt;/p&gt;
+&lt;h2 id=&#34;edit-your-post-metadata&#34;&gt;Edit your post metadata&lt;/h2&gt;
+&lt;p&gt;The first cell of your Jupter notebook will contain your post metadata (&lt;a href=&#34;https://sourcethemes.com/academic/docs/front-matter/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;front matter&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;In Jupter, choose &lt;em&gt;Markdown&lt;/em&gt; as the type of the first cell and wrap your Academic metadata in three dashes, indicating that it is YAML front matter:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;---
+title: My post&#39;s title
+date: 2019-09-01
+
+# Put any other Academic metadata here...
+---
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Edit the metadata of your post, using the &lt;a href=&#34;https://sourcethemes.com/academic/docs/managing-content&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;documentation&lt;/a&gt; as a guide to the available options.&lt;/p&gt;
+&lt;p&gt;To set a &lt;a href=&#34;https://sourcethemes.com/academic/docs/managing-content/#featured-image&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;featured image&lt;/a&gt;, place an image named &lt;code&gt;featured&lt;/code&gt; into your post&amp;rsquo;s folder.&lt;/p&gt;
+&lt;p&gt;For other tips, such as using math, see the guide on &lt;a href=&#34;https://sourcethemes.com/academic/docs/writing-markdown-latex/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;writing content with Academic&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;convert-notebook-to-markdown&#34;&gt;Convert notebook to Markdown&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;jupyter nbconvert index.ipynb --to markdown --NbConvertApp.output_files_dir=.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;example&#34;&gt;Example&lt;/h2&gt;
+&lt;p&gt;This post was created with Jupyter. The orginal files can be found at &lt;a href=&#34;https://github.com/gcushen/hugo-academic/tree/master/exampleSite/content/post/jupyter&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://github.com/gcushen/hugo-academic/tree/master/exampleSite/content/post/jupyter&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -3,6 +3,7 @@ widget: hero
 headless: true
 weight: 10
 title: Invest With R
+# content > home
 hero_media: dashboard.png #hero-academic.png
 cta:
   label: '**Get Help with a Project**'

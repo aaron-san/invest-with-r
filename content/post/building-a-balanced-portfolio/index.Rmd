@@ -1,0 +1,394 @@
+---
+title: Building a Balanced Portfolio
+author: Aaron Hardy
+# date: "`r format(Sys.Date(), '%d %B %Y')`"
+date: '`r Sys.Date()`'
+slug: building-a-balanced-portfolio
+categories:
+  - Portfolio
+tags: []
+subtitle: ''
+summary: ''
+authors: []
+# lastmod: "`r Sys.time()`"
+
+featured: ''
+featuredalt: ''
+featuredpath: ''
+linktitle: ''
+projects: []
+editor_options: 
+  chunk_output_type: console
+output:
+      blogdown::html_page:
+            # highlight: tango
+            toc: true
+---
+
+
+Building a balanced portfolio is not as easy as it might seem.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = TRUE)
+```
+
+```{r data}
+
+library(tidyverse)
+library(lubridate)
+library(tidyquant, quietly = TRUE)
+library(echarts4r)
+library(plotly)
+library(arrow)
+
+filter <- dplyr::filter
+lag <- dplyr::lag
+
+file_prices <- list.files(here::here("static", "data"),
+           pattern = "Prices from Tickers", full.names = TRUE) %>% max()
+
+prices <- read_csv(file_prices, col_types = cols()) %>% 
+      select(ticker, date, adjusted)
+
+tickers_to_use <- c("GSG", "USO", "BND", "SPY", "VEA") 
+
+
+# GSG : commodities
+# USO : oil
+# BND : U.S. bonds
+# VWO : emerging markets
+# SPY : large-cap U.S. companies
+# VEA : developed markets
+```
+
+# Clean the Data
+
+Let's create the returns table and define the start and end date of the time series.
+
+```{r clean_data}
+ticker_returns <-
+  prices %>%
+  filter(ticker %in% tickers_to_use) %>%
+  drop_na(adjusted) %>%
+  group_by(ticker) %>%
+  slice(xts::endpoints(date, on = "months")) %>%
+  arrange(date) %>%
+  mutate(return = adjusted / lag(adjusted) - 1) %>%
+  mutate(index = adjusted / adjusted[1]) %>%
+  ungroup() %>%
+  select(ticker, date, return, index) %>%
+  drop_na()
+
+start_date <-
+  ticker_returns %>%
+  group_by(ticker) %>%
+  filter(date == min(date)) %>%
+  pull(date) %>%
+  max()
+
+end_date <-
+  ticker_returns %>%
+  group_by(ticker) %>%
+  filter(date == max(date)) %>%
+  pull(date) %>%
+  min() %>%
+  round_date(unit = "months") %>%
+  {
+    . - days(1)
+  } %>%
+  as.character()
+
+# No. Years:
+time_period <- (as.Date(end_date) - as.Date(start_date)) %>% as.numeric()
+ # 14 yrs 8 months
+
+
+ticker_returns <-
+  ticker_returns %>%
+  filter(date >= start_date, date <= end_date)
+
+```
+
+The data spans `r time_period %/% 365` years and `r (time_period %% 365) %/% (365/12)` months.
+
+# Asset Performance
+
+How did each asset perform individually?
+
+```{r plot}
+ticker_returns %>%
+  group_by(ticker) %>%
+  e_chart(x = date) %>%
+  e_line(serie = index,
+         symbol = 'emptyCircle',
+         symbolSize = 1) %>%
+  e_tooltip(trigger = "axis", backgroundColor = 'white') %>%
+  e_grid(right = "15%", top = "20%") %>%
+  e_title(text = "Growth of select ETFs",
+          # subtext = "index value",
+          left = "center",
+          top = "5%") %>%
+  e_legend(orient = "vertical",
+           # type = "scroll",
+           top = "15%",
+           right = "5",) %>%
+  e_datazoom(type = "slider",
+             start = 0,
+             end = 100) %>%
+  e_theme("shine") %>%
+  e_toolbox_feature("dataZoom", selector = list(start = '20',
+                                                end = '80')) %>%
+  e_toolbox_feature(feature = "reset") %>%
+  e_toolbox_feature("dataView") %>%
+  e_toolbox_feature("saveAsImage")
+
+# e_legend(
+#   # selector = list(
+#            #       list(type = 'inverse', title = 'Invert'),
+#            #       list(type = 'all', title = 'Reset')
+# )
+
+
+```
+
+
+## Weights
+
+One decision we have to make is how much of each asset to add to our portfolio.
+There are many ways to do this and one popular way is to use mean-variance 
+optimization to determine which portfolio (out of a set of portfolios with 
+with varying asset weights) achieved the highest return for each unit of risk.
+Here, risk is measured as the standard deviation of such returns.
+
+## Set Benchmark
+
+We will assume that investing equally in all assets is a reasonable benchmark 
+for this analysis.
+
+
+```{r weights}
+# stats <- 
+#       ticker_returns %>% 
+#       tq_performance(Ra = return,
+#                      Rb = NULL,
+#                      performance_fun = SharpeRatio)
+
+equal_wts <- rep(1/length(tickers_to_use), length(tickers_to_use))
+
+bm_returns <- 
+      ticker_returns %>%
+      suppressMessages(
+            tq_portfolio(assets_col = ticker,
+                   returns_col = return,
+                   weights = equal_wts,
+                   col_rename = "return")
+                   )
+
+wts_list <- list()
+length(wts_list) <- length(tickers_to_use)
+wts_grid <- map(wts_list, ~seq(0, 1, 0.1))
+
+weights_grid <- tibble(expand.grid(
+      wts_grid
+      )) %>% 
+      filter(rowSums(.) == 1)
+
+n_portfolios <- nrow(weights_grid)
+
+weights <- weights_grid %>% transpose() %>% unlist(use.names = FALSE)
+
+ticker_returns_grid <-
+  ticker_returns %>% 
+  select(-index) %>% 
+  tq_repeat_df(n = n_portfolios)
+
+tickers <- ticker_returns %>% distinct(ticker) %>% pull()
+
+weights_table <-
+  tibble(tickers) %>%
+  tq_repeat_df(n = n_portfolios) %>%
+  bind_cols(tibble(weights)) %>% 
+  full_join(tibble(portfolio = 0, tickers = tickers_to_use, weights = equal_wts))
+
+
+weights_table %>%
+  ggplot(aes(x = portfolio, y = weights, fill = tickers)) +
+  geom_col(alpha = 0.8) +
+  scale_y_continuous(labels = scales::percent) +
+  theme_minimal() +
+  labs(title = "Weights for portfolio assets",
+       subtitle = "What are the possible ways to combine assets in a portfolio",
+       x = "portfolio #", y = "",
+       fill = "Ticker") +
+  theme(
+    plot.title = element_text(face = "bold", size = 13),
+    plot.title.position = "plot"
+  )
+
+```
+
+As you can see, there are hundreds of possible portfolio constructions. So,
+which one yielded the best performance over the ...
+
+
+## Performance stats
+
+```{r performance_stats}
+# port_returns_grid <-
+#       ticker_returns_grid %>%
+#       tq_portfolio(assets_col = ticker,
+#                    returns_col = return,
+#                    weights = weights_table,
+#                    col_rename = "port_return")
+# 
+# write_feather(port_returns_grid, "data/port_returns_grid")
+# write_csv(port_returns_grid, "data/port_returns_grid.csv", col_names = TRUE)
+port_returns_grid <- read_feather(here::here("static", "data", "port_returns_grid")) %>% ungroup()
+# port_returns_grid <- data.table::fread("data/port_returns_grid.csv") %>% as_tibble()
+
+# library(here)
+
+bm_returns_grid <-
+      bm_returns %>%
+      tq_portfolio(assets = ticker,
+                   returns_col = return,
+                   weights = equal_wts,
+                   col_rename = "port_return") %>% 
+      add_column(portfolio = 0)
+
+combined_returns_grid <-
+      port_returns_grid %>%
+      full_join(bm_returns_grid) %>% 
+      arrange(portfolio)
+```
+
+                                                                                                                                                                                                                                                                                                                                    vv    v    v    v      v      vv                                                                                                                                                                                                         
+```{r performance_stats_2}
+# capm_stats_grid <-
+#       combined_returns %>%
+#       filter(portfolio != 0) %>% 
+#       full_join(bm_returns_grid %>% select(date, bm_return = port_return)) %>%
+#       tq_performance(
+#             Ra = port_return,
+#             Rb = bm_return,
+#             performance_fun = table.CAPM)
+# 
+# write_feather(capm_stats, "data/capm_stats")
+capm_stats <- read_feather(here::here("static", "data", "capm_stats")) %>% ungroup()
+
+# port_performance <-
+#       combined_returns_grid %>%
+#       left_join(benchmark_returns %>% select(date, bm_return = return), by = "date") %>%
+#       tq_performance(Ra = port_return,
+#                      performance_fun = table.Stats)
+# 
+# write_feather(port_performance, "data/port_performance")
+port_performance <- 
+  read_feather(here::here("static", "data", "port_performance")) %>% 
+  ungroup()
+
+combined_performance <- 
+  port_performance %>% 
+  ungroup() %>% 
+  janitor::clean_names() %>% 
+  mutate(annual_return = geometric_mean * 12) %>% 
+  mutate(annual_stdev = stdev*sqrt(12)) %>% 
+  mutate(sharpe_ratio = ((annual_return - 0.03) / annual_stdev))
+```
+
+# Portfolios with Highest Returns
+What portfolios experienced the highest returns over the period?
+
+```{r best_return}
+best_return <-
+  combined_performance %>%
+  arrange(desc(annual_return),
+          desc(sharpe_ratio),
+          stdev,
+          desc(skewness)) %>%
+  select(portfolio, sharpe_ratio, geometric_mean, variance, skewness) %>%
+  slice(1:10) %>%
+  pull(portfolio)
+
+weights_table %>%
+  filter(portfolio %in% best_return) %>%
+  ggplot(aes(x = tickers, y = weights, fill = tickers)) +
+  geom_col() +
+  geom_text(aes(label = scales::percent_format()(weights)),
+            nudge_y = 0.07,
+            color = "darkgray") +
+  scale_y_continuous(labels = scales::percent) +
+  facet_wrap(. ~ paste("Portfolio: ", portfolio)) +
+  labs(
+    x = "",
+    y = "",
+    title = "Portfolio Weights",
+    subtitle = "Weights for portfolios with best returns",
+    fill = "Title"
+  ) +
+  theme_bw() +
+  theme(
+    axis.text.y = element_blank(),
+    plot.title = element_text(face = "bold", size = 13),
+    legend.background = element_rect(
+      fill = "white",
+      size = 4,
+      colour = "white"
+    ),
+    axis.ticks = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title.position = "plot"
+  )
+```
+
+
+```{r best_sharpe_ratio}
+best_sharpe <-
+  combined_performance %>%
+  arrange(desc(sharpe_ratio),
+          desc(geometric_mean),
+          stdev,
+          desc(skewness)) %>%
+  select(portfolio, sharpe_ratio, geometric_mean, variance, skewness) %>%
+  slice(1:10) %>%
+  pull(portfolio)
+
+
+weights_table %>%
+  filter(portfolio %in% best_sharpe) %>%
+  ggplot(aes(x = tickers, y = weights, fill = tickers)) +
+  geom_col() +
+  geom_text(aes(label = scales::percent_format()(weights)),
+            nudge_y = 0.07,
+            color = "darkgray") +
+  scale_y_continuous(labels = scales::percent) +
+  facet_wrap(. ~ paste("Portfolio: ", portfolio)) +
+  labs(
+    x = "",
+    y = "",
+    title = "Best risk-adjusted returns",
+    subtitle = "Weights for portfolios with best sharpe_ratios (best return for each unit of risk)",
+    fill = "Ticker"
+  ) +
+  theme_bw() +
+  theme(
+    axis.text.y = element_blank(),
+    plot.title = element_text(face = "bold", size = 13),
+    legend.background = element_rect(
+      fill = "white",
+      size = 4,
+      colour = "white"
+    ),
+    axis.ticks = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title.position = "plot"
+  )
+
+# tq_performance_fun_options()
+
+```
+
+
+
