@@ -5,7 +5,7 @@
     <link>https://www.investwithr.com/post/</link>
       <atom:link href="https://www.investwithr.com/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>© 2022 Aaron Hardy</copyright><lastBuildDate>Wed, 02 Feb 2022 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>© 2022 Aaron Hardy</copyright><lastBuildDate>Wed, 01 Jun 2022 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://www.investwithr.com/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_3.png</url>
       <title>Posts</title>
@@ -15,7 +15,7 @@
     <item>
       <title>Forecasting S&amp;P500 Stock Returns with R</title>
       <link>https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/</link>
-      <pubDate>Wed, 02 Feb 2022 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 01 Jun 2022 00:00:00 +0000</pubDate>
       <guid>https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/</guid>
       <description>
 &lt;script src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
@@ -1137,7 +1137,7 @@ data.head()
 &lt;p&gt;Demo:&lt;/p&gt;
 
 
-&lt;div id=&#34;chart-319276548&#34; class=&#34;chart&#34;&gt;&lt;/div&gt;
+&lt;div id=&#34;chart-314657982&#34; class=&#34;chart&#34;&gt;&lt;/div&gt;
 &lt;script&gt;
   (function() {
     let a = setInterval( function() {
@@ -1147,7 +1147,7 @@ data.head()
       clearInterval( a );
 
       Plotly.d3.json(&#34;./line-chart.json&#34;, function(chart) {
-        Plotly.plot(&#39;chart-319276548&#39;, chart.data, chart.layout, {responsive: true});
+        Plotly.plot(&#39;chart-314657982&#39;, chart.data, chart.layout, {responsive: true});
       });
     }, 500 );
   })();

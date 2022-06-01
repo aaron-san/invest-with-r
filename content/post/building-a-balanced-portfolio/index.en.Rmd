@@ -1,0 +1,596 @@
+---
+title: Building a Balanced Portfolio
+author: Aaron Hardy
+date: '`r Sys.Date()`'
+slug: building-a-balanced-portfolio
+categories:
+  - Portfolio
+tags: []
+subtitle: ''
+summary: ''
+authors: []
+featured: ''
+featuredalt: ''
+featuredpath: ''
+linktitle: ''
+projects: []
+editor_options: 
+  chunk_output_type: console
+output:
+      blogdown::html_page:
+            # highlight: tango
+            toc: true
+---
+
+
+Building a balanced portfolio is not as easy as it might seem.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = TRUE)
+```
+
+```{r data}
+
+library(tidyverse)
+library(lubridate)
+library(tidyquant, quietly = TRUE)
+library(echarts4r)
+library(arrow)
+library(here)
+
+filter <- dplyr::filter
+lag <- dplyr::lag
+
+file_prices <- list.files(here("static", "data"),
+           pattern = "ETF prices", full.names = TRUE) %>% max()
+
+prices <- read_csv(file_prices, col_types = cols()) %>% 
+      select(ticker, date, adjusted)
+
+file_t_note_rates <- list.files(here("static", "data"),
+           pattern = "T Note Rates", full.names = TRUE) %>% max()
+
+t_note_rates <- read_csv(file_t_note_rates, col_types = cols()) %>% 
+      select(ticker, date, monthly_rate)
+
+```
+
+# Data
+
+The raw data consists daily prices for seven ETFs:
+- AGG: U.S. total bond market
+- EEM: Emerging Markets
+- EFA: International equities  (excluding the U.S. and Canada)
+- GSG: Commodities
+- IEF: 7-10 Year Treasury
+- IYR: U.S. Real Estate
+- VTI: All U.S. stocks 
+
+The monthly returns are then computed and an index starting at 1 is created
+for each ETF for plotting purposes.
+
+Since each ETF has a different inception date and therefore time span, we will 
+set the time span of the analysis to be that of the span of the ETF with the 
+most recent inception date.
+
+```{r clean_data}
+
+# Get monthly Treasury note rates
+rf_monthly <-
+      t_note_rates %>%
+      select(-ticker) %>%
+      complete(date = seq.Date(
+            from = min(ymd(date)),
+            to = max(ymd(date)),
+            by = "day"
+      )) %>%
+      arrange(date) %>%
+      fill(monthly_rate) %>%
+      slice(xts::endpoints(date, on = "months"))
+
+monthly_prices <- 
+      prices %>%
+      filter(!ticker %in% c("VWO", "VNQ", "^IXIC")) %>% 
+      complete(date = seq.Date(
+            from = min(ymd(date)),
+            to = max(ymd(date)),
+            by = "day"
+      )) %>%
+      arrange(ticker, date) %>%
+      group_by(ticker) %>%
+      fill(adjusted) %>% 
+      slice(xts::endpoints(date, on = "months")) %>%
+      arrange(date) %>% 
+      mutate(ticker = case_when(ticker == "AGG" ~ "us_bonds",
+                                ticker == "EEM" ~ "emerging_markets",
+                                ticker == "EFA" ~ "global_stocks",
+                                ticker == "GSG" ~ "commodities",
+                                ticker == "IEF" ~ "treasury_notes",
+                                ticker == "IYR" ~ "us_real_estate",
+                                ticker == "VTI" ~ "us_stocks",
+                                TRUE ~ NA_character_))
+
+start_date <-
+  monthly_prices %>%
+  group_by(ticker) %>%
+  filter(date == min(date)) %>%
+  pull(date) %>%
+  max()
+
+end_date <-
+  monthly_prices %>%
+  group_by(ticker) %>%
+  filter(date == max(date)) %>%
+  pull(date) %>%
+  min() %>%
+  round_date(unit = "months") %>%
+  {
+    . - days(1)
+  } %>%
+  as.character()
+
+returns <-
+      monthly_prices %>%
+      group_by(ticker) %>%
+      mutate(return = adjusted / lag(adjusted) - 1) %>%
+      filter(date >= start_date, date <= end_date) %>%
+      mutate(index = adjusted / adjusted[1]) %>%
+      arrange(ticker, date) %>%
+      ungroup() %>% 
+      drop_na() %>%
+      left_join(rf_monthly %>% rename(Rf = monthly_rate), by = "date")
+      
+returns
+
+returns_xts <-
+      returns %>% 
+      select(date, ticker, return) %>% 
+      split(.$ticker) %>% 
+      map(~xts(x = .x$return, order.by = .x$date)) %>% 
+      reduce(merge) %>% 
+      na.omit() %>%
+      setNames(returns %>% distinct(ticker) %>% pull())
+
+# Calculate ther period for the returns data
+time_period <- (as.Date(max(returns$date)) - as.Date(min(returns$date))) %>% as.numeric()
+   
+tickers <- returns %>% distinct(ticker) %>% pull()
+```
+
+The data consists of tables with columns for dates, ticker, monthly return, and
+index value. The index value starts at 1 for all tickers and grows according to 
+each asset's the monthly return.
+
+
+The data spans `r time_period %/% 365` years and `r (time_period %% 365) %/% (365/12)` months.
+
+# Asset Performance
+
+How did each asset perform individually?
+
+```{r plot}
+returns %>%
+      group_by(ticker) %>%
+      e_chart(x = date) %>%
+      e_line(serie = index,
+             symbol = 'emptyCircle',
+             symbolSize = 1) %>%
+      e_tooltip(trigger = "axis", backgroundColor = 'white') %>%
+      e_grid(right = "15%", top = "20%") %>%
+      e_title(text = "Growth of select ETFs",
+              # subtext = "index value",
+              left = "center",
+              top = "5%") %>%
+      e_legend(orient = "vertical",
+               # type = "scroll",
+               top = "15%",
+               right = "5",
+      ) %>%
+      e_datazoom(type = "slider",
+                 start = 0,
+                 end = 100) %>%
+      e_theme("shine") %>%
+      e_toolbox_feature("dataZoom", selector = list(start = '20',
+                                                    end = '80')) %>%
+      e_toolbox_feature(feature = "reset") %>%
+      e_toolbox_feature("dataView") %>%
+      e_toolbox_feature("saveAsImage") %>%
+      e_legend(selector = list(
+            list(type = 'inverse', title = 'Invert'),
+            list(type = 'all', title = 'Reset')
+      ))
+
+```
+
+Over the period, there were notable performance divergences: 
+- Commodities had disappointing performance continuously losing 
+value over the period, starting at 1 and slowly declining to about 0.5.
+- Emerging markets had unstable growth, with an index starting at a value of 1 
+and eventually reaching a value of about 1.8.
+- Global stocks also had unstable growth, with an index starting at a value 
+of 1 and reaching a value of about 1.6.
+- The Treasury note portfolio had stable growth, starting at a value of 1 and ending
+at a value of about 1.85, outperforming commodities, emerging markets, and global stocks.
+- U.S. bonds also experienced modest, stable growth starting with an index value 
+of 1 and reaching a value of about 1.68, slightly underperforming the Treasury 
+note ETF.
+- U.S. real estate experienced high volatility at the beginning and end of the 
+period, but overall grew from a value of 1 to a value of about 2.6, outperforming
+all previously mentioned asset classes.
+- U.S. stocks experienced a mostly stable growth, with the index starting at a 
+value of 1 to a value of  about 4.42. There was modest volatility during the period.
+
+Based solely on total return, it would have been better to have invested all one's
+money in the U.S. stock market over the period. Of course, this could not have
+been known prior to the period, so investors often make more diversified 
+portfolios in order to spread out their risks.
+
+
+## Return Profiles
+
+```{r return_profiles}
+returns %>% 
+      ggplot(aes(x = ticker, y = return, color = ticker)) +
+      geom_violin() +
+      geom_jitter(width = 0.15, alpha = 0.8) +
+      scale_y_continuous(labels = scales::percent) +
+      theme_minimal() +
+      labs(title = "Distribution of returns for various ETFs",
+           subtitle = paste("For the ", time_period %/% 365, "years ended ", 
+                            format(as.Date(end_date), "%B %Y")),
+           x = "", y = "") +
+      theme(legend.position = "none",
+            plot.title = element_text(face = "bold", size = 13),
+            plot.title.position = "plot")
+```
+
+
+Commodities, Emerging markets, global stocks, U.S. real estate, and U.S. stocks
+experienced about the same volatility during the period. U.S. Treasury returns
+and U.S. bonds experienced low volatility of returns over the period.
+
+```{r gains_losses}
+up_days <-
+      returns_xts %>% 
+      as_tibble() %>% 
+      {. > 0} %>% 
+      colSums()
+
+down_days <-
+      returns_xts %>% 
+      as_tibble() %>% 
+      {. < 0} %>% 
+      colSums()
+
+perc_up_days <- 
+      {up_days / (up_days + down_days)} %>% 
+      tibble(ticker = names(.), perc_up = round(., 2)) %>% 
+      arrange(desc(perc_up))
+
+perc_up_days
+```
+
+## Gains vs. Losses
+
+It turns out that U.S. stocks, U.S. real estate, and U.S. bonds had positive return 
+months at least 60% of the time over the period.
+
+## Correlations
+
+```{r correlations}
+
+corr <- returns_xts %>% cor() %>% round(2)
+      
+ggcorrplot::ggcorrplot(
+      corr,
+      outline.col = "white",
+      type = "lower",
+      hc.order = TRUE,
+      lab = TRUE
+) +
+      labs(title = "Correlations between ETF returns",
+           subtitle = "Which ETFs tended to move together?") +
+      theme(plot.title = element_text(face = "bold", size = 13),
+            plot.title.position = "plot")
+```
+
+Over the period, there were several notable return patterns:
+- Commodity returns were moderately correlated with emerging market stocks, 
+global stocks, and U.S. stocks
+- Emerging market returns were strongly correlated with global stocks 
+and U.S. stocks
+- Global stocks were highly correlated with U.S. stocks
+- Treasury returns were highly correlated with U.S. bonds 
+- Treasury returns were moderately negatively correlated with commodities
+and U.S. stocks indicating there are potential diversification benefits from 
+including Treausury ETFs in the portfolio containing stocks
+
+
+## Weights
+
+One decision one has to make is how much of each asset to add to the portfolio.
+There are many ways to do this and one popular way is to use mean-variance 
+optimization to determine which portfolio (out of a set of portfolios with 
+with varying asset weights) achieved the highest return for each unit of risk.
+Here, risk is measured as the standard deviation of such returns.
+
+## Set Benchmark
+
+We will assume that investing equally in all assets is a reasonable benchmark 
+for this analysis.
+
+```{r weights}
+
+equal_wts <- rep(1/length(tickers), length(tickers))
+
+wts_list <- list()
+length(wts_list) <- length(tickers)
+wts_grid <- map(wts_list, ~seq(0, 1, 0.1))
+
+weights_grid <- tibble(expand.grid(
+      wts_grid
+      )) %>% 
+      filter(rowSums(.) == 1)
+
+n_portfolios <- nrow(weights_grid)
+
+weights <- weights_grid %>% transpose() %>% unlist(use.names = FALSE)
+
+ticker_returns_grid <-
+      returns %>% 
+      select(date, ticker, return) %>% 
+      tq_repeat_df(n = n_portfolios)
+
+weights_table <-
+      tibble(tickers) %>%
+      tq_repeat_df(n = n_portfolios) %>%
+      bind_cols(tibble(weights)) %>%
+      full_join(tibble(
+            portfolio = 0,
+            tickers = tickers,
+            weights = equal_wts
+      )) %>%
+      rename(ticker =  tickers, weight = weights)
+
+wts_plot <- 
+      weights_table %>%
+            filter(portfolio %in% seq(0, 7500, by = 250)) %>%
+            ggplot(aes(x = portfolio, y = weight, fill = ticker)) +
+            geom_col(alpha = 0.8) +
+            scale_y_continuous(labels = scales::percent, breaks = seq(0, 1, by = .1)) +
+            theme_minimal() +
+            labs(
+                  title = "Weights for portfolio assets",
+                  subtitle = "What are the possible ways to combine assets in a portfolio",
+                  x = "portfolio #",
+                  y = "",
+                  fill = "Ticker"
+            ) +
+            theme(plot.title = element_text(face = "bold", size = 13),
+                  plot.title.position = "plot")
+
+plotly::ggplotly(wts_plot)
+
+```
+
+There happen to be thousands of possible portfolio constructions. So,
+which one yielded the best performance over the ...
+
+
+## Performance stats
+
+```{r performance_stats}
+# Get portfolio returns
+# port_returns_grid <- 
+#   ticker_returns_grid %>% 
+#   left_join(weights_table) %>% 
+#   mutate(wtd_rtn = weight * return) %>% 
+#   group_by(portfolio, date) %>% 
+#   summarize(port_return = sum(wtd_rtn))
+
+# write_feather(port_returns_grid, "static/data/port_returns_grid")
+port_returns_grid <- read_feather(here("static", "data", "port_returns_grid")) %>% ungroup()
+
+
+bm_returns <-
+  returns %>%
+  left_join(tibble(weight = equal_wts, ticker = tickers)) %>% 
+  select(date, ticker, return, weight) %>% 
+  mutate(wtd_rtn = weight * return) %>% 
+  group_by(date) %>% 
+  summarize(bm_return = sum(wtd_rtn)) 
+
+bm_returns_xts <- 
+  bm_returns %>%
+  xts(x = .$bm_return, order.by = .$date) %>% 
+  setNames("bm_return")
+
+risk_free <- 
+      rf_monthly %>% 
+      filter(date >= start_date, date <= end_date) %>% 
+      select(date, risk_free = monthly_rate)
+
+risk_free_xts <-
+      risk_free %>% 
+      xts(x = .$risk_free, order.by = .$date) %>% 
+      setNames("risk_free")
+
+cleaned_returns_list <-
+      port_returns_grid %>%
+      filter(portfolio != 0) %>%
+      split(., .$portfolio)
+
+cleaned_returns_list_xts <-
+      cleaned_returns_list %>% 
+      map(~xts(.x$port_return, order.by = .x$date))
+
+# returns_xts <- reduce(cleaned_returns_list_xts, merge)
+# saveRDS(returns_xts, "static/data/returns_xts.rds")
+returns_xts <- readRDS(here("static", "data", "returns_xts.rds"))
+```
+
+
+```{r capm_stats}
+
+# Slow
+# capm_stats <- table.CAPM(Ra = returns_xts, Rb = bm_returns_xts, Rf = risk_free_xts) 
+
+# capm_stats_cleaned <- 
+#   capm_stats %>% 
+#   rownames_to_column(var = "measure") %>%
+#   as_tibble() %>%
+#   set_names(c("measure", paste0("port_", seq_along(.)[-ncol(.)])))
+
+# saveRDS(capm_stats_cleaned, "static/data/capm_stats.rds")
+capm_stats <- readRDS(here("static", "data", "capm_stats.rds"))
+      
+
+
+# port_performance <- table.Stats(R = returns_xts)
+#       
+# port_performance_cleaned <-
+#   port_performance %>%
+#   rownames_to_column(var = "measure") %>%
+#   as_tibble() %>%
+#   set_names(c("measure", paste0("port_", seq_along(.)[-ncol(.)])))
+
+# saveRDS(port_performance_cleaned, "static/data/port_performance.rds")
+port_performance <- readRDS(here("static", "data", "port_performance.rds"))
+
+
+port_performance %>% 
+  distinct(measure)
+
+port_performance <-
+  port_performance %>%
+  pivot_longer(-measure) %>% 
+  filter(measure %in% c("Geometric Mean", "Stdev", "Skewness")) %>% 
+  pivot_wider(names_from = "measure") %>% 
+  janitor::clean_names() %>% 
+  rename(portfolio = name) %>% 
+  mutate(portfolio = as.numeric(str_extract(portfolio, "\\d+"))) %>% 
+  mutate(annual_return = geometric_mean * 12) %>%
+  mutate(annual_stdev = stdev*sqrt(12)) %>%
+  mutate(sharpe_ratio = ((annual_return - 0.03) / annual_stdev))
+
+```
+
+# Portfolios with Highest Returns
+What portfolios experienced the highest returns over the period?
+
+```{r best_return}
+best_return <-
+  port_performance %>%
+  arrange(desc(annual_return),
+          desc(sharpe_ratio),
+          stdev,
+          desc(skewness)) %>%
+  select(portfolio, sharpe_ratio, geometric_mean, skewness) %>%
+  slice(1:10) %>%
+  pull(portfolio)
+
+weights_table %>%
+  filter(portfolio %in% best_return) %>%
+  ggplot(aes(x = ticker, y = weight, fill = ticker)) +
+  geom_col() +
+  geom_text(aes(label = scales::percent_format()(weight)),
+            nudge_y = 0.07,
+            color = "darkgray") +
+  scale_y_continuous(labels = scales::percent) +
+  facet_wrap(. ~ paste("Portfolio: ", portfolio)) +
+  labs(
+    x = "",
+    y = "",
+    title = "Portfolio Weights",
+    subtitle = "Weights for portfolios with best returns",
+    fill = "Asset"
+  ) +
+  theme_bw() +
+  theme(
+    axis.text.y = element_blank(),
+    plot.title = element_text(face = "bold", size = 13),
+    legend.background = element_rect(
+      fill = "white",
+      size = 4,
+      colour = "white"
+    ),
+    axis.ticks = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title.position = "plot",
+    axis.text.x = element_blank()
+  )
+```
+
+It's no surprise that the top 10 portfolios based on total return were comprised 
+almost entirely of U.S. stocks which significantly outperformed the other asset 
+classes over the investment period.
+
+```{r best_sharpe_ratio}
+best_sharpe <-
+  port_performance %>% 
+  arrange(desc(sharpe_ratio),
+          desc(geometric_mean),
+          stdev,
+          desc(skewness)) %>%
+  select(portfolio, sharpe_ratio, geometric_mean, skewness) %>%
+  slice(1:10) %>%
+  pull(portfolio)
+
+
+weights_table %>%
+  filter(portfolio %in% best_sharpe) %>%
+  ggplot(aes(x = ticker, y = weight, fill = ticker)) +
+  geom_col() +
+  geom_text(aes(label = scales::percent_format()(weight)),
+            nudge_y = 0.07,
+            color = "darkgray") +
+  scale_y_continuous(labels = scales::percent) +
+  facet_wrap(. ~ paste("Portfolio: ", portfolio)) +
+  labs(
+    x = "",
+    y = "",
+    title = "Best risk-adjusted returns",
+    subtitle = "Weights for portfolios with best sharpe_ratios (best return for each unit of risk)",
+    fill = "Ticker"
+  ) +
+  theme_bw() +
+  theme(
+    axis.text.y = element_blank(),
+    plot.title = element_text(face = "bold", size = 13),
+    legend.background = element_rect(
+      fill = "white",
+      size = 4,
+      colour = "white"
+    ),
+    axis.ticks = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title.position = "plot",
+    axis.text.x = element_blank()
+  )
+
+# tq_performance_fun_options()
+
+```
+
+????? Update ------ It turns out that even when adjusting for "risk," the top performing portfolios 
+were also comprised almost entirely of U.S. stocks.
+
+# Summary
+
+Over the last `r time_period %/% 365` years and 
+`r (time_period %% 365) %/% (365/12)` months it would have been generally 
+better to invest almost all of one's cash into the overall U.S. stock market. 
+
+# Limitations
+
+This analysis spans a relatively small time period. It is not a good idea to 
+make future investment decisions based on research using such short data spans.
+One approach to the data limitation problem is to run the analysis on indexes
+(not ETFs) with longer data histories and then utilize ETFs as proxies to 
+represent the uninvestible indexes. This may be appropriate if the ETFs closely
+track the indexes they are purported to track.
+
+
+
