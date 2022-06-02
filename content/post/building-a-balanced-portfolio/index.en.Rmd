@@ -242,6 +242,7 @@ returns %>%
       theme(legend.position = "none",
             plot.title = element_text(face = "bold", size = 13),
             plot.title.position = "plot")
+
 ```
 
 
@@ -524,7 +525,33 @@ weights_table %>%
 
 It's no surprise that the top 10 portfolios based on total return were comprised 
 almost entirely of U.S. stocks which significantly outperformed the other asset 
-classes over the investment period.
+classes over the investment period. So, if we had invested almost all of out 
+cash in U.S. stocks, we would have outperformed other asset classes. However,
+at the same time, we need to account for risk (in this case, we're using volatility,
+or standard deviation, as a proxy for volatility). Let's look at volatility and
+how it should be considered in the invetment decision.
+
+# Portfolio Volatility
+
+```{r}
+port_performance %>% 
+  arrange(desc(annual_stdev)) %>% 
+  select(portfolio, annual_stdev) %>% 
+  mutate(rank = percent_rank(annual_stdev)) %>% 
+  filter(portfolio %in% best_return)
+
+```
+
+The top 10 portfolios with the highest returns also happened to have relatively 
+high volatility. In fact, all 10 portfolios had volatility in the top 40% of high
+volatility portfolios. So, what should we have done?
+
+# Investment Efficiency
+
+Of course, every investor tries to maximize the total return on investments. 
+However, higher returns usually come with higher volatility. Investors want 
+high returns and low volatility. So, how can we maximize our returns for each 
+unit of volatility?
 
 ```{r best_sharpe_ratio}
 best_sharpe <-
@@ -570,18 +597,47 @@ weights_table %>%
     axis.text.x = element_blank()
   )
 
-# tq_performance_fun_options()
 
 ```
 
-????? Update ------ It turns out that even when adjusting for "risk," the top performing portfolios 
-were also comprised almost entirely of U.S. stocks.
+
+It turns out the efficient portfolios (i.e., portfolios that maximize return to 
+risk) consisted of a mix of Treasury funds and U.S. stocks, and sometimes 
+U.S. bonds. What does this reveal? It seems that a mix of higher returns (U.S. stocks)
+and low volatility (Treasury funds and U.S. bonds) resulted in the best balance
+of return and risk. One option for an investor in this case is to mix these three
+assets, usually mostly comprised of Treasury funds, followed by U.S. stocks, and 
+then U.S. bonds (e.g., 50%, 40%, 10%, respectively for portfolio 6904).
+
+How did the beste Sharpe ratio (efficient) portfolios perform based on total 
+returns?
+
+```{r}
+port_performance %>%
+  arrange(desc(annual_return),
+          desc(sharpe_ratio),
+          stdev,
+          desc(skewness)) %>% 
+  mutate(rank = percent_rank(annual_return)) %>% 
+  filter(portfolio %in% best_sharpe) %>% 
+  select(portfolio, annual_return, rank)
+  
+```
+
+Overall, each of the top 10 efficient portfolios were in the top 20th percentile
+in terms of total return. So, it seems like a balanced, more efficient portfolio
+can minimize volatility for each level of return and at the same time not sacrifice 
+too much in terms of total return.
 
 # Summary
 
 Over the last `r time_period %/% 365` years and 
 `r (time_period %% 365) %/% (365/12)` months it would have been generally 
-better to invest almost all of one's cash into the overall U.S. stock market. 
+better to invest almost all of one's cash into the overall U.S. stock market if 
+one did not care about risk. However, since investors do care about risk, it turns
+out it would have been better to combine a mix of Treasury funds, U.S. bonds, and
+U.S. stocks to experience a more efficient and balanced portfolio while still
+experiencing high returns.
 
 # Limitations
 
