@@ -1,9 +1,9 @@
 ---
-title: Internal Project
-summary: An example of using the in-built project page.
+title: Get and Clean Fundamentals Data from EDGAR
+summary: This project's goal is to collect fundamentals data from the EDGAR website, clean it, and prepare it for analysis.
 tags:
-- Deep Learning
-date: "2016-04-27T00:00:00Z"
+- Fundamentals Data
+date: "2022-06-03"
 
 # Optional external URL for project (replaces project detail page).
 external_link: ""

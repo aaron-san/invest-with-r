@@ -304,7 +304,7 @@ and U.S. stocks
 - Treasury returns were highly correlated with U.S. bonds 
 - Treasury returns were moderately negatively correlated with commodities
 and U.S. stocks indicating there are potential diversification benefits from 
-including Treausury ETFs in the portfolio containing stocks
+including Treasury ETFs in the portfolio containing stocks
 
 
 ## Weights
@@ -599,7 +599,6 @@ weights_table %>%
 
 
 ```
-
 
 It turns out the efficient portfolios (i.e., portfolios that maximize return to 
 risk) consisted of a mix of Treasury funds and U.S. stocks, and sometimes 

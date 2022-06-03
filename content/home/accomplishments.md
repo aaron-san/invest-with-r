@@ -23,14 +23,16 @@ date_format: Jan 2006
 #   Leave other parameters empty if not required.
 #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
 item:
-- certificate_url: https://www.coursera.org
-  date_end: ""
-  date_start: "2021-01-25"
-  description: ""
-  organization: Coursera
-  organization_url: https://www.coursera.org
-  title: Neural Networks and Deep Learning
-  url: ""
+
+- certificate_url: "/uploads/cfa_results.pdf"
+  date_end: "2018-12-31"
+  date_start: "2013-12-31"
+  description: "Passed all three exams for that test for expertise and real-world skills in investment analysis"
+  organization: CFA Institute
+  organization_url: https://www.cfainstitute.org/
+  title: Passed all CFA exams
+  url: "https://www.cfainstitute.org/"
+  
 - certificate_url: https://www.edx.org
   date_end: ""
   date_start: "2021-01-01"
