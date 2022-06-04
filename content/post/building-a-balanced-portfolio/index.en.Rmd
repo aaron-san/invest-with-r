@@ -27,6 +27,23 @@ Building a balanced portfolio is not as easy as it might seem.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = TRUE)
+
+# blogdown::check_gitignore() # Checks gitignore
+# blogdown::check_content()   # Checks content
+
+# To give you a rough idea on how to start, here was my configuration process:
+# 
+# Opened the config folder and edited the basic configuration of the site.
+# Commented out the widgets I didn't need in the config/_menus_default/menus.yaml file.
+# Edited the .yaml files in the content folder
+# Added my profile picture under content\authors\admin\avatar.jpg
+# Added my PDF CV to static/uploads
+# Added some icons to the assets/media/icons/brands folder
+# Removed template blog posts
+# Created this post by running blogdown::new_post()
+
+# blogdown::check_site() can run a series of checks in your website project to help you identify common problems. It also provides tips on how to fix these problems.
+
 ```
 
 ```{r data}
