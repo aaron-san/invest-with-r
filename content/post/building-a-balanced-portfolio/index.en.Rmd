@@ -16,6 +16,10 @@ linktitle: ''
 projects: []
 editor_options: 
   chunk_output_type: console
+disable_codefolding: false #to turn off code folding for the post.
+Set codefolding_show: show #to hide the code blocks in the post
+Set codefolding_nobutton: false
+
 output:
       blogdown::html_page:
             # highlight: tango
@@ -50,7 +54,8 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = TRU
 
 library(tidyverse)
 library(lubridate)
-library(tidyquant, quietly = TRUE)
+library(gt)
+library(xts)
 library(echarts4r)
 library(arrow)
 library(here)
@@ -75,13 +80,14 @@ t_note_rates <- read_csv(file_t_note_rates, col_types = cols()) %>%
 # Data
 
 The raw data consists daily prices for seven ETFs:
-- AGG: U.S. total bond market
-- EEM: Emerging Markets
-- EFA: International equities  (excluding the U.S. and Canada)
-- GSG: Commodities
-- IEF: 7-10 Year Treasury
-- IYR: U.S. Real Estate
-- VTI: All U.S. stocks 
+
+* AGG: U.S. total bond market
+* EEM: Emerging Markets
+* EFA: International equities  (excluding the U.S. and Canada)
+* GSG: Commodities
+* IEF: 7-10 Year Treasury
+* IYR: U.S. Real Estate
+* VTI: All U.S. stocks
 
 The monthly returns are then computed and an index starting at 1 is created
 for each ETF for plotting purposes.
@@ -157,7 +163,21 @@ returns <-
       drop_na() %>%
       left_join(rf_monthly %>% rename(Rf = monthly_rate), by = "date")
       
-returns
+
+returns %>% 
+  janitor::clean_names(case = "title") %>% 
+  rename(`Asset Class` = Ticker) %>% 
+  mutate(across(c("Adjusted", "Return", "Index"), ~round(.x, 2))) %>% 
+  mutate(across("Rf", ~round(.x, 4))) %>% 
+  group_by(`Asset Class`) %>% 
+  slice_tail(n=2) %>%
+  ungroup() %>% 
+  gt() %>% 
+  tab_header(
+    title = "Returns of Asset Classes",
+    subtitle = md("*How did each asset class perform?*")
+  )
+
 
 returns_xts <-
       returns %>% 
@@ -176,7 +196,7 @@ tickers <- returns %>% distinct(ticker) %>% pull()
 
 The data consists of tables with columns for dates, ticker, monthly return, and
 index value. The index value starts at 1 for all tickers and grows according to 
-each asset's the monthly return.
+each asset's monthly return.
 
 
 The data spans `r time_period %/% 365` years and `r (time_period %% 365) %/% (365/12)` months.
@@ -193,11 +213,12 @@ returns %>%
              symbol = 'emptyCircle',
              symbolSize = 1) %>%
       e_tooltip(trigger = "axis", backgroundColor = 'white') %>%
-      e_grid(right = "15%", top = "20%") %>%
-      e_title(text = "Growth of select ETFs",
-              # subtext = "index value",
-              left = "center",
-              top = "5%") %>%
+      e_grid(right = "15%", top = "25%") %>%
+      e_title(text = "Growth of Select ETFs",
+              subtext = "How did each asset class perform?",
+              # left = "center",
+              left = "3%",
+              top = "3%") %>%
       e_legend(orient = "vertical",
                # type = "scroll",
                top = "15%",
@@ -247,15 +268,23 @@ portfolios in order to spread out their risks.
 
 ```{r return_profiles}
 returns %>% 
+  mutate(ticker = case_when(ticker == "commodities" ~ "Commodities",
+                            ticker == "emerging_markets" ~ "Emerging Markets",
+                            ticker == "global_stocks" ~ "Global Stocks",
+                            ticker == "treasury_notes" ~ "Treasury Notes",
+                            ticker == "us_real_estate" ~ "U.S. Real Estate",
+                            ticker == "us_bonds" ~ "U.S. Bonds",
+                            ticker == "us_stocks" ~ "U.S. Stocks",
+                            TRUE ~ NA_character_)) %>% 
       ggplot(aes(x = ticker, y = return, color = ticker)) +
       geom_violin() +
       geom_jitter(width = 0.15, alpha = 0.8) +
       scale_y_continuous(labels = scales::percent) +
       theme_minimal() +
-      labs(title = "Distribution of returns for various ETFs",
+      labs(title = "Distribution of Returns Asset Classes",
            subtitle = paste("For the ", time_period %/% 365, "years ended ", 
                             format(as.Date(end_date), "%B %Y")),
-           x = "", y = "") +
+           x = "", y = "Return") +
       theme(legend.position = "none",
             plot.title = element_text(face = "bold", size = 13),
             plot.title.position = "plot")
@@ -392,7 +421,7 @@ plotly::ggplotly(wts_plot)
 ```
 
 There happen to be thousands of possible portfolio constructions. So,
-which one yielded the best performance over the ...
+which one yielded the best performance over the period?
 
 
 ## Performance stats
@@ -449,8 +478,6 @@ returns_xts <- readRDS(here("static", "data", "returns_xts.rds"))
 
 
 ```{r capm_stats}
-
-# Slow
 # capm_stats <- table.CAPM(Ra = returns_xts, Rb = bm_returns_xts, Rf = risk_free_xts) 
 
 # capm_stats_cleaned <- 
@@ -462,7 +489,6 @@ returns_xts <- readRDS(here("static", "data", "returns_xts.rds"))
 # saveRDS(capm_stats_cleaned, "static/data/capm_stats.rds")
 capm_stats <- readRDS(here("static", "data", "capm_stats.rds"))
       
-
 
 # port_performance <- table.Stats(R = returns_xts)
 #       
@@ -477,7 +503,30 @@ port_performance <- readRDS(here("static", "data", "port_performance.rds"))
 
 
 port_performance %>% 
-  distinct(measure)
+  distinct(measure) %>% 
+  mutate(Description = c(
+    "Number of observations",
+    "Number of NA (not available) values",
+    "Global minimum",
+    "First quartile value (25th percentile)",
+    "Median (50th percentile)",
+    "Arithmatic average",
+    "Average when compounding is applied",
+    "Third quartile value (75th percentile)",
+    "Global maximum",
+    "Standard error of the mean (standard deviation of the means from repeated sampling of the population)",
+    "Lower confidence limit (95th percentile) (lower limit for true mean value at a 10% confidence level)",
+    "Upper confidence limit (95th percentil) (upper limit for true mean value at a 10% confidence level)",
+    "Variance (measure of dispersion)",
+    "Standard deviation (normalized measure of disperson)",
+    "Skewness (measure of assymetry)",
+    "Kurtosis (measure of concentration)"
+  )) %>% 
+  gt(rowname_col = "measure") %>% 
+  tab_stubhead(label = "Measure") %>% 
+  tab_header(
+    title = md("**Description of Performance Indicators**")
+  )
 
 port_performance <-
   port_performance %>%

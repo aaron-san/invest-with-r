@@ -250,7 +250,7 @@
   
   
   
-  <link rel="stylesheet" href="/css/wowchemy.d05b4e8a6e1b12f6217770ba57a74266.css" />
+  <link rel="stylesheet" href="/css/wowchemy.2ea20a814dafbfadb6ba43954e8f3353.css" />
 
   
 
@@ -667,6 +667,21 @@
   <p class="page-subtitle">Learn how to blog in Academic using Jupyter notebooks</p>
   
 
+
+ 
+
+<div id="code-folding-buttons" class="dropdown btn-group pull-right">
+  <a class="btn btn-light btn-sm dropdown-toggle" href="#" role="button" id="allCodeToggleButton"
+     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Code
+  </a>
+  <div class="dropdown-menu" aria-labelledby="allCodeToggleButton">
+    <a id="rmd-show-all-code" class="dropdown-item small" href="#">Show all</a>
+    <a id="rmd-hide-all-code" class="dropdown-item small" href="#">Hide all</a>
+  </div>
+</div>
+
+
   
 
 
@@ -1054,6 +1069,12 @@ date: 2019-09-01
 
 
 
+  <script src="/js/collapse.js"></script>
+  <script src="/js/dropdown.js"></script>
+  <script src="/js/transition.js"></script>
+
+
+
   </div>
 </article>
   </div>
@@ -1099,6 +1120,17 @@ date: 2019-09-01
       Published with <a href="https://wowchemy.com/?utm_campaign=poweredby" target="_blank" rel="noopener">Wowchemy</a> — the free, <a href="https://github.com/wowchemy/wowchemy-hugo-themes" target="_blank" rel="noopener">open source</a> website builder that empowers creators.
     
   </p>
+
+
+ 
+  <script>
+  $(document).ready(function () {
+    window.initializeCodeFolding("show" === "show");
+  });
+  </script>
+  <script src="/js/codefolding.js"></script>
+
+
 </footer>
 
     </div>
@@ -1229,7 +1261,7 @@ date: 2019-09-01
     <script src="/en/js/wowchemy.min.7cd6ec29d281a73c92a2958a1584aadc.js"></script>
 
     
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  
 
 
 
