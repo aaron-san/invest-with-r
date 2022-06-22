@@ -17,9 +17,13 @@
     xArr = Array.from(x);
     xArr.map(elem => {
       if (elem.style.display === "none") {
+      // if (elem.classList) {
+        // elem.classList.add("shown")
         elem.style.display = "block";
         btn.innerHTML = "Hide Code"
       } else {
+        // elem.classList.add("hidden")
+        // elem.style.visibility = "hidden";
         elem.style.display = "none";
         btn.innerHTML = "Show Code"
       }

@@ -8,7 +8,7 @@
     margin: 0;
     position: fixed;
     z-index: 10;
-    top: 125px; // define your value here
+    top: 75px; // define your value here
     right: 5px; // define your value here
     font-size: 14px;
     width: 90px;
@@ -157,22 +157,26 @@
 
 
 
-// #allCodeToggleButton {
+// .shown {
+//     display: block;
 //     background: darkslateblue;
 //     color: white;
 //     padding: 10px 16px;
-//     // transition: 5.9s;
+//     transition: 5.9s;
 // }
 
-// #allCodeToggleButton:hover {
-//     background: slateblue;
+// .hidden {
+//     // visibility: hidden;
+//     // transition: visibility 2s;
+//     display: none;
+//     background: pink;
+//     color: black;
+//     padding: 10px 16px;
+//     // opacity: 0;
+//     // transition: opacity 2s;
+    
 // }
+
 
 
 // /* End code folding */
-
-// // code {
-// //     transition: 4s;
-// // }
-
-

@@ -9528,7 +9528,7 @@ div.chart {
   margin: 0;
   position: fixed;
   z-index: 10;
-  top: 125px;
+  top: 75px;
   right: 5px;
   font-size: 14px;
   width: 90px;
