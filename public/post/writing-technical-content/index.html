@@ -5,6 +5,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <script src="js/jquery-3.6.0.min.js"></script>
+
   
   
   
@@ -254,7 +256,7 @@ Highlight your code snippets, take notes on math classes, and draw diagrams from
   
   
   
-  <link rel="stylesheet" href="/css/wowchemy.2ea20a814dafbfadb6ba43954e8f3353.css" />
+  <link rel="stylesheet" href="/css/wowchemy.a044c8f658bf1be7d97a05d4d70cf525.css" />
 
   
 
@@ -378,6 +380,12 @@ Highlight your code snippets, take notes on math classes, and draw diagrams from
 
 
 
+
+
+  
+  <script src="/js/collapse.js"></script>
+  <script src="/js/dropdown.js"></script>
+  <script src="/js/transition.js"></script>
 
 
   <title>Writing technical content in Academic | Invest With R</title>
@@ -668,19 +676,25 @@ Highlight your code snippets, take notes on math classes, and draw diagrams from
 
   
 
+  
 
- 
 
-<div id="code-folding-buttons" class="dropdown btn-group pull-right">
-  <a class="btn btn-light btn-sm dropdown-toggle" href="#" role="button" id="allCodeToggleButton"
-     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Code
-  </a>
-  <div class="dropdown-menu" aria-labelledby="allCodeToggleButton">
-    <a id="rmd-show-all-code" class="dropdown-item small" href="#">Show all</a>
-    <a id="rmd-hide-all-code" class="dropdown-item small" href="#">Hide all</a>
-  </div>
-</div>
+<script>
+  function myFunction() {
+  var x = document.getElementByClass(".r");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+  }
+</script>
+
+<button onclick="myFunction()">Toggle Code</button>
+
+
+
+
 
 
   
@@ -766,7 +780,7 @@ data.head()
 <p>Demo:</p>
 
 
-<div id="chart-476381259" class="chart"></div>
+<div id="chart-754268319" class="chart"></div>
 <script>
   (function() {
     let a = setInterval( function() {
@@ -776,7 +790,7 @@ data.head()
       clearInterval( a );
 
       Plotly.d3.json("./line-chart.json", function(chart) {
-        Plotly.plot('chart-476381259', chart.data, chart.layout, {responsive: true});
+        Plotly.plot('chart-754268319', chart.data, chart.layout, {responsive: true});
       });
     }, 500 );
   })();
@@ -1296,6 +1310,16 @@ You found me!
 
   <p class="powered-by">
     
+     
+  <script>
+  $(document).ready(function () {
+    window.initializeCodeFolding("show" === "show");
+  });
+  </script>
+  <script src="/js/codefolding.js"></script>
+
+
+    
     
     
       
@@ -1308,14 +1332,7 @@ You found me!
     
   </p>
 
-
- 
-  <script>
-  $(document).ready(function () {
-    window.initializeCodeFolding("show" === "show");
-  });
-  </script>
-  <script src="/js/codefolding.js"></script>
+  <script src="js/codefolding.js"></script>
 
 
 </footer>
@@ -1452,7 +1469,7 @@ You found me!
     <script src="/en/js/wowchemy.min.7cd6ec29d281a73c92a2958a1584aadc.js"></script>
 
     
-  
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
 
 
 

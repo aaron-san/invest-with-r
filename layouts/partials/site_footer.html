@@ -34,6 +34,9 @@
   {{ partial "site_footer_license" . }}
 
   <p class="powered-by">
+    <!-- Init code folding -->
+    {{ partial "article_footer_js.html" . }}
+
     {{ $is_sponsor := site.Params.i_am_a_sponsor | default false }}
     {{ $hide_published_with_footer := site.Params.power_ups.hide_published_with | default true }}
     {{ if not (and $is_sponsor $hide_published_with_footer) }}
@@ -50,7 +53,7 @@
     {{ end }}
   </p>
 
-<!-- Init code folding -->
-{{ partial "article_footer_js.html" . }}
+  <script src="js/codefolding.js"></script>
+
 
 </footer>

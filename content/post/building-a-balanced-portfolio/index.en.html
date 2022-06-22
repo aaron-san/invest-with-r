@@ -1,7 +1,7 @@
 ---
 title: Building a Balanced Portfolio
 author: Aaron Hardy
-date: '2022-06-17'
+date: '2022-06-21'
 slug: building-a-balanced-portfolio
 categories:
   - Portfolio
@@ -16,10 +16,6 @@ linktitle: ''
 projects: []
 editor_options: 
   chunk_output_type: console
-disable_codefolding: false #to turn off code folding for the post.
-Set codefolding_show: show #to hide the code blocks in the post
-Set codefolding_nobutton: false
-
 output:
       blogdown::html_page:
             # highlight: tango
@@ -60,16 +56,18 @@ output:
 </ul>
 </div>
 
+<!-- disable_codefolding: false #to turn off code folding for the post. -->
+<!-- Set codefolding_show: show #to hide the code blocks in the post -->
+<!-- Set codefolding_nobutton: false -->
 <p>Building a balanced portfolio is not as easy as it might seem.</p>
 <pre class="r"><code>library(tidyverse)
 library(lubridate)
 library(gt)
-library(xts)
 library(echarts4r)
+library(tidyquant)
 library(arrow)
-library(here)
-
-filter &lt;- dplyr::filter
+library(here)</code></pre>
+<pre class="r"><code>filter &lt;- dplyr::filter
 lag &lt;- dplyr::lag
 
 file_prices &lt;- list.files(here(&quot;static&quot;, &quot;data&quot;),
@@ -179,12 +177,12 @@ returns %&gt;%
     title = &quot;Returns of Asset Classes&quot;,
     subtitle = md(&quot;*How did each asset class perform?*&quot;)
   )</code></pre>
-<div id="bjvufqphfj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="qduorweqjj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#bjvufqphfj .gt_table {
+#qduorweqjj .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -209,7 +207,7 @@ returns %&gt;%
   border-left-color: #D3D3D3;
 }
 
-#bjvufqphfj .gt_heading {
+#qduorweqjj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -221,7 +219,7 @@ returns %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#bjvufqphfj .gt_title {
+#qduorweqjj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -233,7 +231,7 @@ returns %&gt;%
   border-bottom-width: 0;
 }
 
-#bjvufqphfj .gt_subtitle {
+#qduorweqjj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -245,13 +243,13 @@ returns %&gt;%
   border-top-width: 0;
 }
 
-#bjvufqphfj .gt_bottom_border {
+#qduorweqjj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#bjvufqphfj .gt_col_headings {
+#qduorweqjj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -266,7 +264,7 @@ returns %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#bjvufqphfj .gt_col_heading {
+#qduorweqjj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -286,7 +284,7 @@ returns %&gt;%
   overflow-x: hidden;
 }
 
-#bjvufqphfj .gt_column_spanner_outer {
+#qduorweqjj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -298,15 +296,15 @@ returns %&gt;%
   padding-right: 4px;
 }
 
-#bjvufqphfj .gt_column_spanner_outer:first-child {
+#qduorweqjj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bjvufqphfj .gt_column_spanner_outer:last-child {
+#qduorweqjj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bjvufqphfj .gt_column_spanner {
+#qduorweqjj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -318,7 +316,7 @@ returns %&gt;%
   width: 100%;
 }
 
-#bjvufqphfj .gt_group_heading {
+#qduorweqjj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -343,7 +341,7 @@ returns %&gt;%
   vertical-align: middle;
 }
 
-#bjvufqphfj .gt_empty_group_heading {
+#qduorweqjj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -358,15 +356,15 @@ returns %&gt;%
   vertical-align: middle;
 }
 
-#bjvufqphfj .gt_from_md > :first-child {
+#qduorweqjj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#bjvufqphfj .gt_from_md > :last-child {
+#qduorweqjj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#bjvufqphfj .gt_row {
+#qduorweqjj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -385,7 +383,7 @@ returns %&gt;%
   overflow-x: hidden;
 }
 
-#bjvufqphfj .gt_stub {
+#qduorweqjj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -398,7 +396,7 @@ returns %&gt;%
   padding-right: 5px;
 }
 
-#bjvufqphfj .gt_stub_row_group {
+#qduorweqjj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -412,11 +410,11 @@ returns %&gt;%
   vertical-align: top;
 }
 
-#bjvufqphfj .gt_row_group_first td {
+#qduorweqjj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#bjvufqphfj .gt_summary_row {
+#qduorweqjj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -426,16 +424,16 @@ returns %&gt;%
   padding-right: 5px;
 }
 
-#bjvufqphfj .gt_first_summary_row {
+#qduorweqjj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#bjvufqphfj .gt_first_summary_row.thick {
+#qduorweqjj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#bjvufqphfj .gt_last_summary_row {
+#qduorweqjj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -445,7 +443,7 @@ returns %&gt;%
   border-bottom-color: #D3D3D3;
 }
 
-#bjvufqphfj .gt_grand_summary_row {
+#qduorweqjj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -455,7 +453,7 @@ returns %&gt;%
   padding-right: 5px;
 }
 
-#bjvufqphfj .gt_first_grand_summary_row {
+#qduorweqjj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -465,11 +463,11 @@ returns %&gt;%
   border-top-color: #D3D3D3;
 }
 
-#bjvufqphfj .gt_striped {
+#qduorweqjj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#bjvufqphfj .gt_table_body {
+#qduorweqjj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -478,7 +476,7 @@ returns %&gt;%
   border-bottom-color: #D3D3D3;
 }
 
-#bjvufqphfj .gt_footnotes {
+#qduorweqjj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -492,7 +490,7 @@ returns %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#bjvufqphfj .gt_footnote {
+#qduorweqjj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -501,7 +499,7 @@ returns %&gt;%
   padding-right: 5px;
 }
 
-#bjvufqphfj .gt_sourcenotes {
+#qduorweqjj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -515,7 +513,7 @@ returns %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#bjvufqphfj .gt_sourcenote {
+#qduorweqjj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -523,36 +521,36 @@ returns %&gt;%
   padding-right: 5px;
 }
 
-#bjvufqphfj .gt_left {
+#qduorweqjj .gt_left {
   text-align: left;
 }
 
-#bjvufqphfj .gt_center {
+#qduorweqjj .gt_center {
   text-align: center;
 }
 
-#bjvufqphfj .gt_right {
+#qduorweqjj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bjvufqphfj .gt_font_normal {
+#qduorweqjj .gt_font_normal {
   font-weight: normal;
 }
 
-#bjvufqphfj .gt_font_bold {
+#qduorweqjj .gt_font_bold {
   font-weight: bold;
 }
 
-#bjvufqphfj .gt_font_italic {
+#qduorweqjj .gt_font_italic {
   font-style: italic;
 }
 
-#bjvufqphfj .gt_super {
+#qduorweqjj .gt_super {
   font-size: 65%;
 }
 
-#bjvufqphfj .gt_two_val_uncert {
+#qduorweqjj .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -561,31 +559,31 @@ returns %&gt;%
   margin-left: 0.1em;
 }
 
-#bjvufqphfj .gt_footnote_marks {
+#qduorweqjj .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#bjvufqphfj .gt_asterisk {
+#qduorweqjj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#bjvufqphfj .gt_slash_mark {
+#qduorweqjj .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#bjvufqphfj .gt_fraction_numerator {
+#qduorweqjj .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#bjvufqphfj .gt_fraction_denominator {
+#qduorweqjj .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -823,13 +821,13 @@ perc_up_days</code></pre>
 <pre><code>## # A tibble: 7 x 3
 ##       . ticker           perc_up
 ##   &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt;
-## 1 0.677 us_stocks           0.68
-## 2 0.619 us_real_estate      0.62
-## 3 0.596 us_bonds            0.6 
-## 4 0.582 global_stocks       0.58
-## 5 0.540 commodities         0.54
-## 6 0.540 treasury_notes      0.54
-## 7 0.519 emerging_markets    0.52</code></pre>
+## 1 0.674 us_stocks           0.67
+## 2 0.616 us_real_estate      0.62
+## 3 0.6   us_bonds            0.6 
+## 4 0.584 global_stocks       0.58
+## 5 0.542 commodities         0.54
+## 6 0.542 treasury_notes      0.54
+## 7 0.521 emerging_markets    0.52</code></pre>
 </div>
 <div id="gains-vs.-losses" class="section level2">
 <h2>Gains vs. Losses</h2>
@@ -925,7 +923,7 @@ wts_plot &lt;-
 
 plotly::ggplotly(wts_plot)</code></pre>
 <div id="htmlwidget-2" style="width:672px;height:480px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-2">{"x":{"data":[{"orientation":"v","width":[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],"base":[0.9,0.9,1,0.6,0.8,0.8,1,0.9,0.8,1,1,1,1,0.9,0.8,1,1,0.9,1,0.9,1,1,0.8,1,1,1,0.9,1,0.8,1,0.857142857142857],"x":[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],"y":[0.1,0.1,0,0.4,0.2,0.2,0,0.0999999999999999,0.2,0,0,0,0,0.0999999999999999,0.2,0,0,0.0999999999999999,0,0.1,0,0,0.2,0,0,0,0.1,0,0.2,0,0.142857142857143],"text":["portfolio:  250<br />weight: 0.1000000<br />ticker: commodities","portfolio:  500<br />weight: 0.1000000<br />ticker: commodities","portfolio:  750<br />weight: 0.0000000<br />ticker: commodities","portfolio: 1000<br />weight: 0.4000000<br />ticker: commodities","portfolio: 1250<br />weight: 0.2000000<br />ticker: commodities","portfolio: 1500<br />weight: 0.2000000<br />ticker: commodities","portfolio: 1750<br />weight: 0.0000000<br />ticker: commodities","portfolio: 2000<br />weight: 0.1000000<br />ticker: commodities","portfolio: 2250<br />weight: 0.2000000<br />ticker: commodities","portfolio: 2500<br />weight: 0.0000000<br />ticker: commodities","portfolio: 2750<br />weight: 0.0000000<br />ticker: commodities","portfolio: 3000<br />weight: 0.0000000<br />ticker: commodities","portfolio: 3250<br />weight: 0.0000000<br />ticker: commodities","portfolio: 3500<br />weight: 0.1000000<br />ticker: commodities","portfolio: 3750<br />weight: 0.2000000<br />ticker: commodities","portfolio: 4000<br />weight: 0.0000000<br />ticker: commodities","portfolio: 4250<br />weight: 0.0000000<br />ticker: commodities","portfolio: 4500<br />weight: 0.1000000<br />ticker: commodities","portfolio: 4750<br />weight: 0.0000000<br />ticker: commodities","portfolio: 5000<br />weight: 0.1000000<br />ticker: commodities","portfolio: 5250<br />weight: 0.0000000<br />ticker: commodities","portfolio: 5500<br />weight: 0.0000000<br />ticker: commodities","portfolio: 5750<br />weight: 0.2000000<br />ticker: commodities","portfolio: 6000<br />weight: 0.0000000<br />ticker: commodities","portfolio: 6250<br />weight: 0.0000000<br />ticker: commodities","portfolio: 6500<br />weight: 0.0000000<br />ticker: commodities","portfolio: 6750<br />weight: 0.1000000<br />ticker: commodities","portfolio: 7000<br />weight: 0.0000000<br />ticker: commodities","portfolio: 7250<br />weight: 0.2000000<br />ticker: commodities","portfolio: 7500<br />weight: 0.0000000<br />ticker: commodities","portfolio:    0<br />weight: 0.1428571<br />ticker: commodities"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,0.8)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"commodities","legendgroup":"commodities","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],"base":[0.8,0.7,0.9,0.6,0.8,0.8,0.9,0.6,0.8,0.9,0.8,0.6,0.7,0.9,0.7,0.9,0.8,0.7,1,0.8,0.9,0.6,0.8,1,0.8,0.8,0.8,0.6,0.6,1,0.714285714285714],"x":[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],"y":[0.1,0.2,0.1,0,0,0,0.0999999999999999,0.3,0,0.0999999999999999,0.2,0.4,0.3,0,0.1,0.0999999999999999,0.2,0.2,0,0.1,0.1,0.4,0,0,0.2,0.2,0.1,0.4,0.2,0,0.142857142857143],"text":["portfolio:  250<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio:  500<br />weight: 0.2000000<br />ticker: emerging_markets","portfolio:  750<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 1000<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 1250<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 1500<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 1750<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 2000<br />weight: 0.3000000<br />ticker: emerging_markets","portfolio: 2250<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 2500<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 2750<br />weight: 0.2000000<br />ticker: emerging_markets","portfolio: 3000<br />weight: 0.4000000<br />ticker: emerging_markets","portfolio: 3250<br />weight: 0.3000000<br />ticker: emerging_markets","portfolio: 3500<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 3750<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 4000<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 4250<br />weight: 0.2000000<br />ticker: emerging_markets","portfolio: 4500<br />weight: 0.2000000<br />ticker: emerging_markets","portfolio: 4750<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 5000<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 5250<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 5500<br />weight: 0.4000000<br />ticker: emerging_markets","portfolio: 5750<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 6000<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 6250<br />weight: 0.2000000<br />ticker: emerging_markets","portfolio: 6500<br />weight: 0.2000000<br />ticker: emerging_markets","portfolio: 6750<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 7000<br />weight: 0.4000000<br />ticker: emerging_markets","portfolio: 7250<br />weight: 0.2000000<br />ticker: emerging_markets","portfolio: 7500<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio:    0<br />weight: 0.1428571<br />ticker: emerging_markets"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(196,154,0,0.8)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"emerging_markets","legendgroup":"emerging_markets","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],"base":[0.8,0.2,0.4,0.2,0.5,0.5,0.6,0.6,0.6,0.6,0.8,0.6,0.4,0.9,0.5,0.9,0.7,0.7,1,0.4,0.8,0.6,0.6,0.9,0.5,0.8,0.8,0.6,0.6,0.8,0.571428571428571],"x":[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],"y":[0,0.5,0.5,0.4,0.3,0.3,0.3,0,0.2,0.3,0,0,0.3,0,0.2,0,0.1,0,0,0.4,0.1,0,0.2,0.1,0.3,0,0,0,0,0.2,0.142857142857143],"text":["portfolio:  250<br />weight: 0.0000000<br />ticker: global_stocks","portfolio:  500<br />weight: 0.5000000<br />ticker: global_stocks","portfolio:  750<br />weight: 0.5000000<br />ticker: global_stocks","portfolio: 1000<br />weight: 0.4000000<br />ticker: global_stocks","portfolio: 1250<br />weight: 0.3000000<br />ticker: global_stocks","portfolio: 1500<br />weight: 0.3000000<br />ticker: global_stocks","portfolio: 1750<br />weight: 0.3000000<br />ticker: global_stocks","portfolio: 2000<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 2250<br />weight: 0.2000000<br />ticker: global_stocks","portfolio: 2500<br />weight: 0.3000000<br />ticker: global_stocks","portfolio: 2750<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 3000<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 3250<br />weight: 0.3000000<br />ticker: global_stocks","portfolio: 3500<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 3750<br />weight: 0.2000000<br />ticker: global_stocks","portfolio: 4000<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 4250<br />weight: 0.1000000<br />ticker: global_stocks","portfolio: 4500<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 4750<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 5000<br />weight: 0.4000000<br />ticker: global_stocks","portfolio: 5250<br />weight: 0.1000000<br />ticker: global_stocks","portfolio: 5500<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 5750<br />weight: 0.2000000<br />ticker: global_stocks","portfolio: 6000<br />weight: 0.1000000<br />ticker: global_stocks","portfolio: 6250<br />weight: 0.3000000<br />ticker: global_stocks","portfolio: 6500<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 6750<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 7000<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 7250<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 7500<br />weight: 0.2000000<br />ticker: global_stocks","portfolio:    0<br />weight: 0.1428571<br />ticker: global_stocks"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(83,180,0,0.8)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"global_stocks","legendgroup":"global_stocks","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],"base":[0,0.2,0.4,0.1,0.2,0.5,0.2,0.5,0.4,0.5,0.7,0.1,0.3,0.8,0.3,0.9,0.5,0.7,0.8,0.3,0.7,0.5,0.6,0.8,0.5,0.6,0.8,0.5,0.5,0.6,0.428571428571429],"x":[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],"y":[0.8,0,0,0.1,0.3,0,0.4,0.1,0.2,0.1,0.1,0.5,0.1,0.1,0.2,0,0.2,0,0.2,0.1,0.1,0.1,0,0.1,0,0.2,0,0.1,0.1,0.2,0.142857142857143],"text":["portfolio:  250<br />weight: 0.8000000<br />ticker: treasury_notes","portfolio:  500<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio:  750<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio: 1000<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 1250<br />weight: 0.3000000<br />ticker: treasury_notes","portfolio: 1500<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio: 1750<br />weight: 0.4000000<br />ticker: treasury_notes","portfolio: 2000<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 2250<br />weight: 0.2000000<br />ticker: treasury_notes","portfolio: 2500<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 2750<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 3000<br />weight: 0.5000000<br />ticker: treasury_notes","portfolio: 3250<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 3500<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 3750<br />weight: 0.2000000<br />ticker: treasury_notes","portfolio: 4000<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio: 4250<br />weight: 0.2000000<br />ticker: treasury_notes","portfolio: 4500<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio: 4750<br />weight: 0.2000000<br />ticker: treasury_notes","portfolio: 5000<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 5250<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 5500<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 5750<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio: 6000<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 6250<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio: 6500<br />weight: 0.2000000<br />ticker: treasury_notes","portfolio: 6750<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio: 7000<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 7250<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 7500<br />weight: 0.2000000<br />ticker: treasury_notes","portfolio:    0<br />weight: 0.1428571<br />ticker: treasury_notes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,192,148,0.8)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"treasury_notes","legendgroup":"treasury_notes","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],"base":[0,0,0,0.1,0.1,0.1,0.2,0.2,0.3,0.4,0.6,0.1,0.1,0.1,0.2,0.2,0.3,0.4,0.7,0.2,0.2,0.3,0.4,0.6,0.3,0.4,0.8,0.5,0.5,0.6,0.285714285714286],"x":[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],"y":[0,0.2,0.4,0,0.1,0.4,0,0.3,0.1,0.1,0.1,0,0.2,0.7,0.1,0.7,0.2,0.3,0.1,0.1,0.5,0.2,0.2,0.2,0.2,0.2,0,0,0,0,0.142857142857143],"text":["portfolio:  250<br />weight: 0.0000000<br />ticker: us_bonds","portfolio:  500<br />weight: 0.2000000<br />ticker: us_bonds","portfolio:  750<br />weight: 0.4000000<br />ticker: us_bonds","portfolio: 1000<br />weight: 0.0000000<br />ticker: us_bonds","portfolio: 1250<br />weight: 0.1000000<br />ticker: us_bonds","portfolio: 1500<br />weight: 0.4000000<br />ticker: us_bonds","portfolio: 1750<br />weight: 0.0000000<br />ticker: us_bonds","portfolio: 2000<br />weight: 0.3000000<br />ticker: us_bonds","portfolio: 2250<br />weight: 0.1000000<br />ticker: us_bonds","portfolio: 2500<br />weight: 0.1000000<br />ticker: us_bonds","portfolio: 2750<br />weight: 0.1000000<br />ticker: us_bonds","portfolio: 3000<br />weight: 0.0000000<br />ticker: us_bonds","portfolio: 3250<br />weight: 0.2000000<br />ticker: us_bonds","portfolio: 3500<br />weight: 0.7000000<br />ticker: us_bonds","portfolio: 3750<br />weight: 0.1000000<br />ticker: us_bonds","portfolio: 4000<br />weight: 0.7000000<br />ticker: us_bonds","portfolio: 4250<br />weight: 0.2000000<br />ticker: us_bonds","portfolio: 4500<br />weight: 0.3000000<br />ticker: us_bonds","portfolio: 4750<br />weight: 0.1000000<br />ticker: us_bonds","portfolio: 5000<br />weight: 0.1000000<br />ticker: us_bonds","portfolio: 5250<br />weight: 0.5000000<br />ticker: us_bonds","portfolio: 5500<br />weight: 0.2000000<br />ticker: us_bonds","portfolio: 5750<br />weight: 0.2000000<br />ticker: us_bonds","portfolio: 6000<br />weight: 0.2000000<br />ticker: us_bonds","portfolio: 6250<br />weight: 0.2000000<br />ticker: us_bonds","portfolio: 6500<br />weight: 0.2000000<br />ticker: us_bonds","portfolio: 6750<br />weight: 0.0000000<br />ticker: us_bonds","portfolio: 7000<br />weight: 0.0000000<br />ticker: us_bonds","portfolio: 7250<br />weight: 0.0000000<br />ticker: us_bonds","portfolio: 7500<br />weight: 0.0000000<br />ticker: us_bonds","portfolio:    0<br />weight: 0.1428571<br />ticker: us_bonds"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,182,235,0.8)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"us_bonds","legendgroup":"us_bonds","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],"base":[0,0,0,0,0,0,0,0,0,0,0,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.2,0.2,0.2,0.2,0.2,0.3,0.3,0.3,0.4,0.5,0.6,0.142857142857143],"x":[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],"y":[0,0,0,0.1,0.1,0.1,0.2,0.2,0.3,0.4,0.6,0,0,0,0.1,0.1,0.2,0.3,0.6,0,0,0.1,0.2,0.4,0,0.1,0.5,0.1,0,0,0.142857142857143],"text":["portfolio:  250<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio:  500<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio:  750<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 1000<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 1250<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 1500<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 1750<br />weight: 0.2000000<br />ticker: us_real_estate","portfolio: 2000<br />weight: 0.2000000<br />ticker: us_real_estate","portfolio: 2250<br />weight: 0.3000000<br />ticker: us_real_estate","portfolio: 2500<br />weight: 0.4000000<br />ticker: us_real_estate","portfolio: 2750<br />weight: 0.6000000<br />ticker: us_real_estate","portfolio: 3000<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 3250<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 3500<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 3750<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 4000<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 4250<br />weight: 0.2000000<br />ticker: us_real_estate","portfolio: 4500<br />weight: 0.3000000<br />ticker: us_real_estate","portfolio: 4750<br />weight: 0.6000000<br />ticker: us_real_estate","portfolio: 5000<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 5250<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 5500<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 5750<br />weight: 0.2000000<br />ticker: us_real_estate","portfolio: 6000<br />weight: 0.4000000<br />ticker: us_real_estate","portfolio: 6250<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 6500<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 6750<br />weight: 0.5000000<br />ticker: us_real_estate","portfolio: 7000<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 7250<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 7500<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio:    0<br />weight: 0.1428571<br />ticker: us_real_estate"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(165,138,255,0.8)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"us_real_estate","legendgroup":"us_real_estate","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],"base":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"x":[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],"y":[0,0,0,0,0,0,0,0,0,0,0,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.2,0.2,0.2,0.2,0.2,0.3,0.3,0.3,0.4,0.5,0.6,0.142857142857143],"text":["portfolio:  250<br />weight: 0.0000000<br />ticker: us_stocks","portfolio:  500<br />weight: 0.0000000<br />ticker: us_stocks","portfolio:  750<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 1000<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 1250<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 1500<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 1750<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 2000<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 2250<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 2500<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 2750<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 3000<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 3250<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 3500<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 3750<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 4000<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 4250<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 4500<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 4750<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 5000<br />weight: 0.2000000<br />ticker: us_stocks","portfolio: 5250<br />weight: 0.2000000<br />ticker: us_stocks","portfolio: 5500<br />weight: 0.2000000<br />ticker: us_stocks","portfolio: 5750<br />weight: 0.2000000<br />ticker: us_stocks","portfolio: 6000<br />weight: 0.2000000<br />ticker: us_stocks","portfolio: 6250<br />weight: 0.3000000<br />ticker: us_stocks","portfolio: 6500<br />weight: 0.3000000<br />ticker: us_stocks","portfolio: 6750<br />weight: 0.3000000<br />ticker: us_stocks","portfolio: 7000<br />weight: 0.4000000<br />ticker: us_stocks","portfolio: 7250<br />weight: 0.5000000<br />ticker: us_stocks","portfolio: 7500<br />weight: 0.6000000<br />ticker: us_stocks","portfolio:    0<br />weight: 0.1428571<br />ticker: us_stocks"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(251,97,215,0.8)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"us_stocks","legendgroup":"us_stocks","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.4968866749689,"r":7.30593607305936,"b":40.1826484018265,"l":34.337899543379},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"<b> Weights for portfolio assets <\/b>","font":{"color":"rgba(0,0,0,1)","family":"","size":17.2685761726858},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-498.75,7998.75],"tickmode":"array","ticktext":["0","2000","4000","6000"],"tickvals":[-5.6843418860808e-14,2000,4000,6000],"categoryorder":"array","categoryarray":["0","2000","4000","6000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"portfolio #","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.05,1.05],"tickmode":"array","ticktext":["0%","10%","20%","30%","40%","50%","60%","70%","80%","90%","100%"],"tickvals":[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1],"categoryorder":"array","categoryarray":["0%","10%","20%","30%","40%","50%","60%","70%","80%","90%","100%"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"Ticker","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"28428f03f5c":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"28428f03f5c","visdat":{"28428f03f5c":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-2">{"x":{"data":[{"orientation":"v","width":[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],"base":[0.9,0.9,1,0.6,0.8,0.8,1,0.9,0.8,1,1,1,1,0.9,0.8,1,1,0.9,1,0.9,1,1,0.8,1,1,1,0.9,1,0.8,1,0.857142857142857],"x":[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],"y":[0.1,0.1,0,0.4,0.2,0.2,0,0.0999999999999999,0.2,0,0,0,0,0.0999999999999999,0.2,0,0,0.0999999999999999,0,0.1,0,0,0.2,0,0,0,0.1,0,0.2,0,0.142857142857143],"text":["portfolio:  250<br />weight: 0.1000000<br />ticker: commodities","portfolio:  500<br />weight: 0.1000000<br />ticker: commodities","portfolio:  750<br />weight: 0.0000000<br />ticker: commodities","portfolio: 1000<br />weight: 0.4000000<br />ticker: commodities","portfolio: 1250<br />weight: 0.2000000<br />ticker: commodities","portfolio: 1500<br />weight: 0.2000000<br />ticker: commodities","portfolio: 1750<br />weight: 0.0000000<br />ticker: commodities","portfolio: 2000<br />weight: 0.1000000<br />ticker: commodities","portfolio: 2250<br />weight: 0.2000000<br />ticker: commodities","portfolio: 2500<br />weight: 0.0000000<br />ticker: commodities","portfolio: 2750<br />weight: 0.0000000<br />ticker: commodities","portfolio: 3000<br />weight: 0.0000000<br />ticker: commodities","portfolio: 3250<br />weight: 0.0000000<br />ticker: commodities","portfolio: 3500<br />weight: 0.1000000<br />ticker: commodities","portfolio: 3750<br />weight: 0.2000000<br />ticker: commodities","portfolio: 4000<br />weight: 0.0000000<br />ticker: commodities","portfolio: 4250<br />weight: 0.0000000<br />ticker: commodities","portfolio: 4500<br />weight: 0.1000000<br />ticker: commodities","portfolio: 4750<br />weight: 0.0000000<br />ticker: commodities","portfolio: 5000<br />weight: 0.1000000<br />ticker: commodities","portfolio: 5250<br />weight: 0.0000000<br />ticker: commodities","portfolio: 5500<br />weight: 0.0000000<br />ticker: commodities","portfolio: 5750<br />weight: 0.2000000<br />ticker: commodities","portfolio: 6000<br />weight: 0.0000000<br />ticker: commodities","portfolio: 6250<br />weight: 0.0000000<br />ticker: commodities","portfolio: 6500<br />weight: 0.0000000<br />ticker: commodities","portfolio: 6750<br />weight: 0.1000000<br />ticker: commodities","portfolio: 7000<br />weight: 0.0000000<br />ticker: commodities","portfolio: 7250<br />weight: 0.2000000<br />ticker: commodities","portfolio: 7500<br />weight: 0.0000000<br />ticker: commodities","portfolio:    0<br />weight: 0.1428571<br />ticker: commodities"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,0.8)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"commodities","legendgroup":"commodities","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],"base":[0.8,0.7,0.9,0.6,0.8,0.8,0.9,0.6,0.8,0.9,0.8,0.6,0.7,0.9,0.7,0.9,0.8,0.7,1,0.8,0.9,0.6,0.8,1,0.8,0.8,0.8,0.6,0.6,1,0.714285714285714],"x":[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],"y":[0.1,0.2,0.1,0,0,0,0.0999999999999999,0.3,0,0.0999999999999999,0.2,0.4,0.3,0,0.1,0.0999999999999999,0.2,0.2,0,0.1,0.1,0.4,0,0,0.2,0.2,0.1,0.4,0.2,0,0.142857142857143],"text":["portfolio:  250<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio:  500<br />weight: 0.2000000<br />ticker: emerging_markets","portfolio:  750<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 1000<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 1250<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 1500<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 1750<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 2000<br />weight: 0.3000000<br />ticker: emerging_markets","portfolio: 2250<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 2500<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 2750<br />weight: 0.2000000<br />ticker: emerging_markets","portfolio: 3000<br />weight: 0.4000000<br />ticker: emerging_markets","portfolio: 3250<br />weight: 0.3000000<br />ticker: emerging_markets","portfolio: 3500<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 3750<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 4000<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 4250<br />weight: 0.2000000<br />ticker: emerging_markets","portfolio: 4500<br />weight: 0.2000000<br />ticker: emerging_markets","portfolio: 4750<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 5000<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 5250<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 5500<br />weight: 0.4000000<br />ticker: emerging_markets","portfolio: 5750<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 6000<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 6250<br />weight: 0.2000000<br />ticker: emerging_markets","portfolio: 6500<br />weight: 0.2000000<br />ticker: emerging_markets","portfolio: 6750<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 7000<br />weight: 0.4000000<br />ticker: emerging_markets","portfolio: 7250<br />weight: 0.2000000<br />ticker: emerging_markets","portfolio: 7500<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio:    0<br />weight: 0.1428571<br />ticker: emerging_markets"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(196,154,0,0.8)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"emerging_markets","legendgroup":"emerging_markets","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],"base":[0.8,0.2,0.4,0.2,0.5,0.5,0.6,0.6,0.6,0.6,0.8,0.6,0.4,0.9,0.5,0.9,0.7,0.7,1,0.4,0.8,0.6,0.6,0.9,0.5,0.8,0.8,0.6,0.6,0.8,0.571428571428571],"x":[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],"y":[0,0.5,0.5,0.4,0.3,0.3,0.3,0,0.2,0.3,0,0,0.3,0,0.2,0,0.1,0,0,0.4,0.1,0,0.2,0.1,0.3,0,0,0,0,0.2,0.142857142857143],"text":["portfolio:  250<br />weight: 0.0000000<br />ticker: global_stocks","portfolio:  500<br />weight: 0.5000000<br />ticker: global_stocks","portfolio:  750<br />weight: 0.5000000<br />ticker: global_stocks","portfolio: 1000<br />weight: 0.4000000<br />ticker: global_stocks","portfolio: 1250<br />weight: 0.3000000<br />ticker: global_stocks","portfolio: 1500<br />weight: 0.3000000<br />ticker: global_stocks","portfolio: 1750<br />weight: 0.3000000<br />ticker: global_stocks","portfolio: 2000<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 2250<br />weight: 0.2000000<br />ticker: global_stocks","portfolio: 2500<br />weight: 0.3000000<br />ticker: global_stocks","portfolio: 2750<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 3000<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 3250<br />weight: 0.3000000<br />ticker: global_stocks","portfolio: 3500<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 3750<br />weight: 0.2000000<br />ticker: global_stocks","portfolio: 4000<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 4250<br />weight: 0.1000000<br />ticker: global_stocks","portfolio: 4500<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 4750<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 5000<br />weight: 0.4000000<br />ticker: global_stocks","portfolio: 5250<br />weight: 0.1000000<br />ticker: global_stocks","portfolio: 5500<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 5750<br />weight: 0.2000000<br />ticker: global_stocks","portfolio: 6000<br />weight: 0.1000000<br />ticker: global_stocks","portfolio: 6250<br />weight: 0.3000000<br />ticker: global_stocks","portfolio: 6500<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 6750<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 7000<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 7250<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 7500<br />weight: 0.2000000<br />ticker: global_stocks","portfolio:    0<br />weight: 0.1428571<br />ticker: global_stocks"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(83,180,0,0.8)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"global_stocks","legendgroup":"global_stocks","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],"base":[0,0.2,0.4,0.1,0.2,0.5,0.2,0.5,0.4,0.5,0.7,0.1,0.3,0.8,0.3,0.9,0.5,0.7,0.8,0.3,0.7,0.5,0.6,0.8,0.5,0.6,0.8,0.5,0.5,0.6,0.428571428571429],"x":[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],"y":[0.8,0,0,0.1,0.3,0,0.4,0.1,0.2,0.1,0.1,0.5,0.1,0.1,0.2,0,0.2,0,0.2,0.1,0.1,0.1,0,0.1,0,0.2,0,0.1,0.1,0.2,0.142857142857143],"text":["portfolio:  250<br />weight: 0.8000000<br />ticker: treasury_notes","portfolio:  500<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio:  750<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio: 1000<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 1250<br />weight: 0.3000000<br />ticker: treasury_notes","portfolio: 1500<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio: 1750<br />weight: 0.4000000<br />ticker: treasury_notes","portfolio: 2000<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 2250<br />weight: 0.2000000<br />ticker: treasury_notes","portfolio: 2500<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 2750<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 3000<br />weight: 0.5000000<br />ticker: treasury_notes","portfolio: 3250<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 3500<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 3750<br />weight: 0.2000000<br />ticker: treasury_notes","portfolio: 4000<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio: 4250<br />weight: 0.2000000<br />ticker: treasury_notes","portfolio: 4500<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio: 4750<br />weight: 0.2000000<br />ticker: treasury_notes","portfolio: 5000<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 5250<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 5500<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 5750<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio: 6000<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 6250<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio: 6500<br />weight: 0.2000000<br />ticker: treasury_notes","portfolio: 6750<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio: 7000<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 7250<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 7500<br />weight: 0.2000000<br />ticker: treasury_notes","portfolio:    0<br />weight: 0.1428571<br />ticker: treasury_notes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,192,148,0.8)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"treasury_notes","legendgroup":"treasury_notes","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],"base":[0,0,0,0.1,0.1,0.1,0.2,0.2,0.3,0.4,0.6,0.1,0.1,0.1,0.2,0.2,0.3,0.4,0.7,0.2,0.2,0.3,0.4,0.6,0.3,0.4,0.8,0.5,0.5,0.6,0.285714285714286],"x":[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],"y":[0,0.2,0.4,0,0.1,0.4,0,0.3,0.1,0.1,0.1,0,0.2,0.7,0.1,0.7,0.2,0.3,0.1,0.1,0.5,0.2,0.2,0.2,0.2,0.2,0,0,0,0,0.142857142857143],"text":["portfolio:  250<br />weight: 0.0000000<br />ticker: us_bonds","portfolio:  500<br />weight: 0.2000000<br />ticker: us_bonds","portfolio:  750<br />weight: 0.4000000<br />ticker: us_bonds","portfolio: 1000<br />weight: 0.0000000<br />ticker: us_bonds","portfolio: 1250<br />weight: 0.1000000<br />ticker: us_bonds","portfolio: 1500<br />weight: 0.4000000<br />ticker: us_bonds","portfolio: 1750<br />weight: 0.0000000<br />ticker: us_bonds","portfolio: 2000<br />weight: 0.3000000<br />ticker: us_bonds","portfolio: 2250<br />weight: 0.1000000<br />ticker: us_bonds","portfolio: 2500<br />weight: 0.1000000<br />ticker: us_bonds","portfolio: 2750<br />weight: 0.1000000<br />ticker: us_bonds","portfolio: 3000<br />weight: 0.0000000<br />ticker: us_bonds","portfolio: 3250<br />weight: 0.2000000<br />ticker: us_bonds","portfolio: 3500<br />weight: 0.7000000<br />ticker: us_bonds","portfolio: 3750<br />weight: 0.1000000<br />ticker: us_bonds","portfolio: 4000<br />weight: 0.7000000<br />ticker: us_bonds","portfolio: 4250<br />weight: 0.2000000<br />ticker: us_bonds","portfolio: 4500<br />weight: 0.3000000<br />ticker: us_bonds","portfolio: 4750<br />weight: 0.1000000<br />ticker: us_bonds","portfolio: 5000<br />weight: 0.1000000<br />ticker: us_bonds","portfolio: 5250<br />weight: 0.5000000<br />ticker: us_bonds","portfolio: 5500<br />weight: 0.2000000<br />ticker: us_bonds","portfolio: 5750<br />weight: 0.2000000<br />ticker: us_bonds","portfolio: 6000<br />weight: 0.2000000<br />ticker: us_bonds","portfolio: 6250<br />weight: 0.2000000<br />ticker: us_bonds","portfolio: 6500<br />weight: 0.2000000<br />ticker: us_bonds","portfolio: 6750<br />weight: 0.0000000<br />ticker: us_bonds","portfolio: 7000<br />weight: 0.0000000<br />ticker: us_bonds","portfolio: 7250<br />weight: 0.0000000<br />ticker: us_bonds","portfolio: 7500<br />weight: 0.0000000<br />ticker: us_bonds","portfolio:    0<br />weight: 0.1428571<br />ticker: us_bonds"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,182,235,0.8)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"us_bonds","legendgroup":"us_bonds","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],"base":[0,0,0,0,0,0,0,0,0,0,0,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.2,0.2,0.2,0.2,0.2,0.3,0.3,0.3,0.4,0.5,0.6,0.142857142857143],"x":[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],"y":[0,0,0,0.1,0.1,0.1,0.2,0.2,0.3,0.4,0.6,0,0,0,0.1,0.1,0.2,0.3,0.6,0,0,0.1,0.2,0.4,0,0.1,0.5,0.1,0,0,0.142857142857143],"text":["portfolio:  250<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio:  500<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio:  750<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 1000<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 1250<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 1500<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 1750<br />weight: 0.2000000<br />ticker: us_real_estate","portfolio: 2000<br />weight: 0.2000000<br />ticker: us_real_estate","portfolio: 2250<br />weight: 0.3000000<br />ticker: us_real_estate","portfolio: 2500<br />weight: 0.4000000<br />ticker: us_real_estate","portfolio: 2750<br />weight: 0.6000000<br />ticker: us_real_estate","portfolio: 3000<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 3250<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 3500<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 3750<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 4000<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 4250<br />weight: 0.2000000<br />ticker: us_real_estate","portfolio: 4500<br />weight: 0.3000000<br />ticker: us_real_estate","portfolio: 4750<br />weight: 0.6000000<br />ticker: us_real_estate","portfolio: 5000<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 5250<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 5500<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 5750<br />weight: 0.2000000<br />ticker: us_real_estate","portfolio: 6000<br />weight: 0.4000000<br />ticker: us_real_estate","portfolio: 6250<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 6500<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 6750<br />weight: 0.5000000<br />ticker: us_real_estate","portfolio: 7000<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 7250<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 7500<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio:    0<br />weight: 0.1428571<br />ticker: us_real_estate"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(165,138,255,0.8)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"us_real_estate","legendgroup":"us_real_estate","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],"base":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"x":[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],"y":[0,0,0,0,0,0,0,0,0,0,0,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.2,0.2,0.2,0.2,0.2,0.3,0.3,0.3,0.4,0.5,0.6,0.142857142857143],"text":["portfolio:  250<br />weight: 0.0000000<br />ticker: us_stocks","portfolio:  500<br />weight: 0.0000000<br />ticker: us_stocks","portfolio:  750<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 1000<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 1250<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 1500<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 1750<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 2000<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 2250<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 2500<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 2750<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 3000<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 3250<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 3500<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 3750<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 4000<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 4250<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 4500<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 4750<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 5000<br />weight: 0.2000000<br />ticker: us_stocks","portfolio: 5250<br />weight: 0.2000000<br />ticker: us_stocks","portfolio: 5500<br />weight: 0.2000000<br />ticker: us_stocks","portfolio: 5750<br />weight: 0.2000000<br />ticker: us_stocks","portfolio: 6000<br />weight: 0.2000000<br />ticker: us_stocks","portfolio: 6250<br />weight: 0.3000000<br />ticker: us_stocks","portfolio: 6500<br />weight: 0.3000000<br />ticker: us_stocks","portfolio: 6750<br />weight: 0.3000000<br />ticker: us_stocks","portfolio: 7000<br />weight: 0.4000000<br />ticker: us_stocks","portfolio: 7250<br />weight: 0.5000000<br />ticker: us_stocks","portfolio: 7500<br />weight: 0.6000000<br />ticker: us_stocks","portfolio:    0<br />weight: 0.1428571<br />ticker: us_stocks"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(251,97,215,0.8)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"us_stocks","legendgroup":"us_stocks","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.4968866749689,"r":7.30593607305936,"b":40.1826484018265,"l":34.337899543379},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"<b> Weights for portfolio assets <\/b>","font":{"color":"rgba(0,0,0,1)","family":"","size":17.2685761726858},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-498.75,7998.75],"tickmode":"array","ticktext":["0","2000","4000","6000"],"tickvals":[-5.6843418860808e-14,2000,4000,6000],"categoryorder":"array","categoryarray":["0","2000","4000","6000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"portfolio #","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.05,1.05],"tickmode":"array","ticktext":["0%","10%","20%","30%","40%","50%","60%","70%","80%","90%","100%"],"tickvals":[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1],"categoryorder":"array","categoryarray":["0%","10%","20%","30%","40%","50%","60%","70%","80%","90%","100%"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"Ticker","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"14bc74502b42":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"14bc74502b42","visdat":{"14bc74502b42":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 <p>There happen to be thousands of possible portfolio constructions. So,
 which one yielded the best performance over the period?</p>
 </div>
@@ -1027,12 +1025,12 @@ port_performance %&gt;%
   tab_header(
     title = md(&quot;**Description of Performance Indicators**&quot;)
   )</code></pre>
-<div id="oezyzuuwoq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="hhesdgbexy" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#oezyzuuwoq .gt_table {
+#hhesdgbexy .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1057,7 +1055,7 @@ port_performance %&gt;%
   border-left-color: #D3D3D3;
 }
 
-#oezyzuuwoq .gt_heading {
+#hhesdgbexy .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1069,7 +1067,7 @@ port_performance %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#oezyzuuwoq .gt_title {
+#hhesdgbexy .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1081,7 +1079,7 @@ port_performance %&gt;%
   border-bottom-width: 0;
 }
 
-#oezyzuuwoq .gt_subtitle {
+#hhesdgbexy .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1093,13 +1091,13 @@ port_performance %&gt;%
   border-top-width: 0;
 }
 
-#oezyzuuwoq .gt_bottom_border {
+#hhesdgbexy .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#oezyzuuwoq .gt_col_headings {
+#hhesdgbexy .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1114,7 +1112,7 @@ port_performance %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#oezyzuuwoq .gt_col_heading {
+#hhesdgbexy .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1134,7 +1132,7 @@ port_performance %&gt;%
   overflow-x: hidden;
 }
 
-#oezyzuuwoq .gt_column_spanner_outer {
+#hhesdgbexy .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1146,15 +1144,15 @@ port_performance %&gt;%
   padding-right: 4px;
 }
 
-#oezyzuuwoq .gt_column_spanner_outer:first-child {
+#hhesdgbexy .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#oezyzuuwoq .gt_column_spanner_outer:last-child {
+#hhesdgbexy .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#oezyzuuwoq .gt_column_spanner {
+#hhesdgbexy .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1166,7 +1164,7 @@ port_performance %&gt;%
   width: 100%;
 }
 
-#oezyzuuwoq .gt_group_heading {
+#hhesdgbexy .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1191,7 +1189,7 @@ port_performance %&gt;%
   vertical-align: middle;
 }
 
-#oezyzuuwoq .gt_empty_group_heading {
+#hhesdgbexy .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1206,15 +1204,15 @@ port_performance %&gt;%
   vertical-align: middle;
 }
 
-#oezyzuuwoq .gt_from_md > :first-child {
+#hhesdgbexy .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#oezyzuuwoq .gt_from_md > :last-child {
+#hhesdgbexy .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#oezyzuuwoq .gt_row {
+#hhesdgbexy .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1233,7 +1231,7 @@ port_performance %&gt;%
   overflow-x: hidden;
 }
 
-#oezyzuuwoq .gt_stub {
+#hhesdgbexy .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1246,7 +1244,7 @@ port_performance %&gt;%
   padding-right: 5px;
 }
 
-#oezyzuuwoq .gt_stub_row_group {
+#hhesdgbexy .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1260,11 +1258,11 @@ port_performance %&gt;%
   vertical-align: top;
 }
 
-#oezyzuuwoq .gt_row_group_first td {
+#hhesdgbexy .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#oezyzuuwoq .gt_summary_row {
+#hhesdgbexy .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1274,16 +1272,16 @@ port_performance %&gt;%
   padding-right: 5px;
 }
 
-#oezyzuuwoq .gt_first_summary_row {
+#hhesdgbexy .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#oezyzuuwoq .gt_first_summary_row.thick {
+#hhesdgbexy .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#oezyzuuwoq .gt_last_summary_row {
+#hhesdgbexy .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1293,7 +1291,7 @@ port_performance %&gt;%
   border-bottom-color: #D3D3D3;
 }
 
-#oezyzuuwoq .gt_grand_summary_row {
+#hhesdgbexy .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1303,7 +1301,7 @@ port_performance %&gt;%
   padding-right: 5px;
 }
 
-#oezyzuuwoq .gt_first_grand_summary_row {
+#hhesdgbexy .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1313,11 +1311,11 @@ port_performance %&gt;%
   border-top-color: #D3D3D3;
 }
 
-#oezyzuuwoq .gt_striped {
+#hhesdgbexy .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#oezyzuuwoq .gt_table_body {
+#hhesdgbexy .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1326,7 +1324,7 @@ port_performance %&gt;%
   border-bottom-color: #D3D3D3;
 }
 
-#oezyzuuwoq .gt_footnotes {
+#hhesdgbexy .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1340,7 +1338,7 @@ port_performance %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#oezyzuuwoq .gt_footnote {
+#hhesdgbexy .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1349,7 +1347,7 @@ port_performance %&gt;%
   padding-right: 5px;
 }
 
-#oezyzuuwoq .gt_sourcenotes {
+#hhesdgbexy .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1363,7 +1361,7 @@ port_performance %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#oezyzuuwoq .gt_sourcenote {
+#hhesdgbexy .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1371,36 +1369,36 @@ port_performance %&gt;%
   padding-right: 5px;
 }
 
-#oezyzuuwoq .gt_left {
+#hhesdgbexy .gt_left {
   text-align: left;
 }
 
-#oezyzuuwoq .gt_center {
+#hhesdgbexy .gt_center {
   text-align: center;
 }
 
-#oezyzuuwoq .gt_right {
+#hhesdgbexy .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#oezyzuuwoq .gt_font_normal {
+#hhesdgbexy .gt_font_normal {
   font-weight: normal;
 }
 
-#oezyzuuwoq .gt_font_bold {
+#hhesdgbexy .gt_font_bold {
   font-weight: bold;
 }
 
-#oezyzuuwoq .gt_font_italic {
+#hhesdgbexy .gt_font_italic {
   font-style: italic;
 }
 
-#oezyzuuwoq .gt_super {
+#hhesdgbexy .gt_super {
   font-size: 65%;
 }
 
-#oezyzuuwoq .gt_two_val_uncert {
+#hhesdgbexy .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -1409,31 +1407,31 @@ port_performance %&gt;%
   margin-left: 0.1em;
 }
 
-#oezyzuuwoq .gt_footnote_marks {
+#hhesdgbexy .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#oezyzuuwoq .gt_asterisk {
+#hhesdgbexy .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#oezyzuuwoq .gt_slash_mark {
+#hhesdgbexy .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#oezyzuuwoq .gt_fraction_numerator {
+#hhesdgbexy .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#oezyzuuwoq .gt_fraction_denominator {
+#hhesdgbexy .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;

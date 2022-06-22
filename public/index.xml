@@ -130,7 +130,7 @@ The variance of the distribution is $\sigma^{2}$.
     <item>
       <title>Building a Balanced Portfolio</title>
       <link>https://www.investwithr.com/post/building-a-balanced-portfolio/</link>
-      <pubDate>Fri, 17 Jun 2022 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 21 Jun 2022 00:00:00 +0000</pubDate>
       <guid>https://www.investwithr.com/post/building-a-balanced-portfolio/</guid>
       <description>
 &lt;script src=&#34;https://www.investwithr.com/post/building-a-balanced-portfolio/index.en_files/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
@@ -167,16 +167,18 @@ The variance of the distribution is $\sigma^{2}$.
 &lt;/ul&gt;
 &lt;/div&gt;
 
+&lt;!-- disable_codefolding: false #to turn off code folding for the post. --&gt;
+&lt;!-- Set codefolding_show: show #to hide the code blocks in the post --&gt;
+&lt;!-- Set codefolding_nobutton: false --&gt;
 &lt;p&gt;Building a balanced portfolio is not as easy as it might seem.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
 library(lubridate)
 library(gt)
-library(xts)
 library(echarts4r)
+library(tidyquant)
 library(arrow)
-library(here)
-
-filter &amp;lt;- dplyr::filter
+library(here)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;filter &amp;lt;- dplyr::filter
 lag &amp;lt;- dplyr::lag
 
 file_prices &amp;lt;- list.files(here(&amp;quot;static&amp;quot;, &amp;quot;data&amp;quot;),
@@ -286,12 +288,12 @@ returns %&amp;gt;%
     title = &amp;quot;Returns of Asset Classes&amp;quot;,
     subtitle = md(&amp;quot;*How did each asset class perform?*&amp;quot;)
   )&lt;/code&gt;&lt;/pre&gt;
-&lt;div id=&#34;bjvufqphfj&#34; style=&#34;overflow-x:auto;overflow-y:auto;width:auto;height:auto;&#34;&gt;
+&lt;div id=&#34;qduorweqjj&#34; style=&#34;overflow-x:auto;overflow-y:auto;width:auto;height:auto;&#34;&gt;
 &lt;style&gt;html {
   font-family: -apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Roboto, Oxygen, Ubuntu, Cantarell, &#39;Helvetica Neue&#39;, &#39;Fira Sans&#39;, &#39;Droid Sans&#39;, Arial, sans-serif;
 }
 
-#bjvufqphfj .gt_table {
+#qduorweqjj .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -316,7 +318,7 @@ returns %&amp;gt;%
   border-left-color: #D3D3D3;
 }
 
-#bjvufqphfj .gt_heading {
+#qduorweqjj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -328,7 +330,7 @@ returns %&amp;gt;%
   border-right-color: #D3D3D3;
 }
 
-#bjvufqphfj .gt_title {
+#qduorweqjj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -340,7 +342,7 @@ returns %&amp;gt;%
   border-bottom-width: 0;
 }
 
-#bjvufqphfj .gt_subtitle {
+#qduorweqjj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -352,13 +354,13 @@ returns %&amp;gt;%
   border-top-width: 0;
 }
 
-#bjvufqphfj .gt_bottom_border {
+#qduorweqjj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#bjvufqphfj .gt_col_headings {
+#qduorweqjj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -373,7 +375,7 @@ returns %&amp;gt;%
   border-right-color: #D3D3D3;
 }
 
-#bjvufqphfj .gt_col_heading {
+#qduorweqjj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -393,7 +395,7 @@ returns %&amp;gt;%
   overflow-x: hidden;
 }
 
-#bjvufqphfj .gt_column_spanner_outer {
+#qduorweqjj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -405,15 +407,15 @@ returns %&amp;gt;%
   padding-right: 4px;
 }
 
-#bjvufqphfj .gt_column_spanner_outer:first-child {
+#qduorweqjj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bjvufqphfj .gt_column_spanner_outer:last-child {
+#qduorweqjj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bjvufqphfj .gt_column_spanner {
+#qduorweqjj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -425,7 +427,7 @@ returns %&amp;gt;%
   width: 100%;
 }
 
-#bjvufqphfj .gt_group_heading {
+#qduorweqjj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -450,7 +452,7 @@ returns %&amp;gt;%
   vertical-align: middle;
 }
 
-#bjvufqphfj .gt_empty_group_heading {
+#qduorweqjj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -465,15 +467,15 @@ returns %&amp;gt;%
   vertical-align: middle;
 }
 
-#bjvufqphfj .gt_from_md &gt; :first-child {
+#qduorweqjj .gt_from_md &gt; :first-child {
   margin-top: 0;
 }
 
-#bjvufqphfj .gt_from_md &gt; :last-child {
+#qduorweqjj .gt_from_md &gt; :last-child {
   margin-bottom: 0;
 }
 
-#bjvufqphfj .gt_row {
+#qduorweqjj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -492,7 +494,7 @@ returns %&amp;gt;%
   overflow-x: hidden;
 }
 
-#bjvufqphfj .gt_stub {
+#qduorweqjj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -505,7 +507,7 @@ returns %&amp;gt;%
   padding-right: 5px;
 }
 
-#bjvufqphfj .gt_stub_row_group {
+#qduorweqjj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -519,11 +521,11 @@ returns %&amp;gt;%
   vertical-align: top;
 }
 
-#bjvufqphfj .gt_row_group_first td {
+#qduorweqjj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#bjvufqphfj .gt_summary_row {
+#qduorweqjj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -533,16 +535,16 @@ returns %&amp;gt;%
   padding-right: 5px;
 }
 
-#bjvufqphfj .gt_first_summary_row {
+#qduorweqjj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#bjvufqphfj .gt_first_summary_row.thick {
+#qduorweqjj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#bjvufqphfj .gt_last_summary_row {
+#qduorweqjj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -552,7 +554,7 @@ returns %&amp;gt;%
   border-bottom-color: #D3D3D3;
 }
 
-#bjvufqphfj .gt_grand_summary_row {
+#qduorweqjj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -562,7 +564,7 @@ returns %&amp;gt;%
   padding-right: 5px;
 }
 
-#bjvufqphfj .gt_first_grand_summary_row {
+#qduorweqjj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -572,11 +574,11 @@ returns %&amp;gt;%
   border-top-color: #D3D3D3;
 }
 
-#bjvufqphfj .gt_striped {
+#qduorweqjj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#bjvufqphfj .gt_table_body {
+#qduorweqjj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -585,7 +587,7 @@ returns %&amp;gt;%
   border-bottom-color: #D3D3D3;
 }
 
-#bjvufqphfj .gt_footnotes {
+#qduorweqjj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -599,7 +601,7 @@ returns %&amp;gt;%
   border-right-color: #D3D3D3;
 }
 
-#bjvufqphfj .gt_footnote {
+#qduorweqjj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -608,7 +610,7 @@ returns %&amp;gt;%
   padding-right: 5px;
 }
 
-#bjvufqphfj .gt_sourcenotes {
+#qduorweqjj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -622,7 +624,7 @@ returns %&amp;gt;%
   border-right-color: #D3D3D3;
 }
 
-#bjvufqphfj .gt_sourcenote {
+#qduorweqjj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -630,36 +632,36 @@ returns %&amp;gt;%
   padding-right: 5px;
 }
 
-#bjvufqphfj .gt_left {
+#qduorweqjj .gt_left {
   text-align: left;
 }
 
-#bjvufqphfj .gt_center {
+#qduorweqjj .gt_center {
   text-align: center;
 }
 
-#bjvufqphfj .gt_right {
+#qduorweqjj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bjvufqphfj .gt_font_normal {
+#qduorweqjj .gt_font_normal {
   font-weight: normal;
 }
 
-#bjvufqphfj .gt_font_bold {
+#qduorweqjj .gt_font_bold {
   font-weight: bold;
 }
 
-#bjvufqphfj .gt_font_italic {
+#qduorweqjj .gt_font_italic {
   font-style: italic;
 }
 
-#bjvufqphfj .gt_super {
+#qduorweqjj .gt_super {
   font-size: 65%;
 }
 
-#bjvufqphfj .gt_two_val_uncert {
+#qduorweqjj .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -668,31 +670,31 @@ returns %&amp;gt;%
   margin-left: 0.1em;
 }
 
-#bjvufqphfj .gt_footnote_marks {
+#qduorweqjj .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#bjvufqphfj .gt_asterisk {
+#qduorweqjj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#bjvufqphfj .gt_slash_mark {
+#qduorweqjj .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#bjvufqphfj .gt_fraction_numerator {
+#qduorweqjj .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#bjvufqphfj .gt_fraction_denominator {
+#qduorweqjj .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -930,13 +932,13 @@ perc_up_days&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## # A tibble: 7 x 3
 ##       . ticker           perc_up
 ##   &amp;lt;dbl&amp;gt; &amp;lt;chr&amp;gt;              &amp;lt;dbl&amp;gt;
-## 1 0.677 us_stocks           0.68
-## 2 0.619 us_real_estate      0.62
-## 3 0.596 us_bonds            0.6 
-## 4 0.582 global_stocks       0.58
-## 5 0.540 commodities         0.54
-## 6 0.540 treasury_notes      0.54
-## 7 0.519 emerging_markets    0.52&lt;/code&gt;&lt;/pre&gt;
+## 1 0.674 us_stocks           0.67
+## 2 0.616 us_real_estate      0.62
+## 3 0.6   us_bonds            0.6 
+## 4 0.584 global_stocks       0.58
+## 5 0.542 commodities         0.54
+## 6 0.542 treasury_notes      0.54
+## 7 0.521 emerging_markets    0.52&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;gains-vs.-losses&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Gains vs. Losses&lt;/h2&gt;
@@ -1032,7 +1034,7 @@ wts_plot &amp;lt;-
 
 plotly::ggplotly(wts_plot)&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;htmlwidget-2&#34; style=&#34;width:672px;height:480px;&#34; class=&#34;plotly html-widget&#34;&gt;&lt;/div&gt;
-&lt;script type=&#34;application/json&#34; data-for=&#34;htmlwidget-2&#34;&gt;{&#34;x&#34;:{&#34;data&#34;:[{&#34;orientation&#34;:&#34;v&#34;,&#34;width&#34;:[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],&#34;base&#34;:[0.9,0.9,1,0.6,0.8,0.8,1,0.9,0.8,1,1,1,1,0.9,0.8,1,1,0.9,1,0.9,1,1,0.8,1,1,1,0.9,1,0.8,1,0.857142857142857],&#34;x&#34;:[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],&#34;y&#34;:[0.1,0.1,0,0.4,0.2,0.2,0,0.0999999999999999,0.2,0,0,0,0,0.0999999999999999,0.2,0,0,0.0999999999999999,0,0.1,0,0,0.2,0,0,0,0.1,0,0.2,0,0.142857142857143],&#34;text&#34;:[&#34;portfolio:  250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio:  500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio:  750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 1000&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 1250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 1500&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 1750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 2000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 2250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 2500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 2750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 3000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 3250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 3500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 3750&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 4000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 4250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 4500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 4750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 5000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 5250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 5500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 5750&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 6000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 6250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 6500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 6750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 7000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 7250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 7500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio:    0&lt;br /&gt;weight: 0.1428571&lt;br /&gt;ticker: commodities&#34;],&#34;type&#34;:&#34;bar&#34;,&#34;textposition&#34;:&#34;none&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(248,118,109,0.8)&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;transparent&#34;}},&#34;name&#34;:&#34;commodities&#34;,&#34;legendgroup&#34;:&#34;commodities&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;orientation&#34;:&#34;v&#34;,&#34;width&#34;:[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],&#34;base&#34;:[0.8,0.7,0.9,0.6,0.8,0.8,0.9,0.6,0.8,0.9,0.8,0.6,0.7,0.9,0.7,0.9,0.8,0.7,1,0.8,0.9,0.6,0.8,1,0.8,0.8,0.8,0.6,0.6,1,0.714285714285714],&#34;x&#34;:[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],&#34;y&#34;:[0.1,0.2,0.1,0,0,0,0.0999999999999999,0.3,0,0.0999999999999999,0.2,0.4,0.3,0,0.1,0.0999999999999999,0.2,0.2,0,0.1,0.1,0.4,0,0,0.2,0.2,0.1,0.4,0.2,0,0.142857142857143],&#34;text&#34;:[&#34;portfolio:  250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio:  500&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio:  750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 1000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 1250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 1500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 1750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 2000&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 2250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 2500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 2750&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 3000&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 3250&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 3500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 3750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 4000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 4250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 4500&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 4750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 5000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 5250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 5500&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 5750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 6000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 6250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 6500&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 6750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 7000&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 7250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 7500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio:    0&lt;br /&gt;weight: 0.1428571&lt;br /&gt;ticker: emerging_markets&#34;],&#34;type&#34;:&#34;bar&#34;,&#34;textposition&#34;:&#34;none&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(196,154,0,0.8)&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;transparent&#34;}},&#34;name&#34;:&#34;emerging_markets&#34;,&#34;legendgroup&#34;:&#34;emerging_markets&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;orientation&#34;:&#34;v&#34;,&#34;width&#34;:[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],&#34;base&#34;:[0.8,0.2,0.4,0.2,0.5,0.5,0.6,0.6,0.6,0.6,0.8,0.6,0.4,0.9,0.5,0.9,0.7,0.7,1,0.4,0.8,0.6,0.6,0.9,0.5,0.8,0.8,0.6,0.6,0.8,0.571428571428571],&#34;x&#34;:[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],&#34;y&#34;:[0,0.5,0.5,0.4,0.3,0.3,0.3,0,0.2,0.3,0,0,0.3,0,0.2,0,0.1,0,0,0.4,0.1,0,0.2,0.1,0.3,0,0,0,0,0.2,0.142857142857143],&#34;text&#34;:[&#34;portfolio:  250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio:  500&lt;br /&gt;weight: 0.5000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio:  750&lt;br /&gt;weight: 0.5000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 1000&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 1250&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 1500&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 1750&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 2000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 2250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 2500&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 2750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 3000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 3250&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 3500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 3750&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 4000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 4250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 4500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 4750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 5000&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 5250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 5500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 5750&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 6000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 6250&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 6500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 6750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 7000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 7250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 7500&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio:    0&lt;br /&gt;weight: 0.1428571&lt;br /&gt;ticker: global_stocks&#34;],&#34;type&#34;:&#34;bar&#34;,&#34;textposition&#34;:&#34;none&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(83,180,0,0.8)&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;transparent&#34;}},&#34;name&#34;:&#34;global_stocks&#34;,&#34;legendgroup&#34;:&#34;global_stocks&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;orientation&#34;:&#34;v&#34;,&#34;width&#34;:[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],&#34;base&#34;:[0,0.2,0.4,0.1,0.2,0.5,0.2,0.5,0.4,0.5,0.7,0.1,0.3,0.8,0.3,0.9,0.5,0.7,0.8,0.3,0.7,0.5,0.6,0.8,0.5,0.6,0.8,0.5,0.5,0.6,0.428571428571429],&#34;x&#34;:[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],&#34;y&#34;:[0.8,0,0,0.1,0.3,0,0.4,0.1,0.2,0.1,0.1,0.5,0.1,0.1,0.2,0,0.2,0,0.2,0.1,0.1,0.1,0,0.1,0,0.2,0,0.1,0.1,0.2,0.142857142857143],&#34;text&#34;:[&#34;portfolio:  250&lt;br /&gt;weight: 0.8000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio:  500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio:  750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 1000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 1250&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 1500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 1750&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 2000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 2250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 2500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 2750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 3000&lt;br /&gt;weight: 0.5000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 3250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 3500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 3750&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 4000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 4250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 4500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 4750&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 5000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 5250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 5500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 5750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 6000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 6250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 6500&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 6750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 7000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 7250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 7500&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio:    0&lt;br /&gt;weight: 0.1428571&lt;br /&gt;ticker: treasury_notes&#34;],&#34;type&#34;:&#34;bar&#34;,&#34;textposition&#34;:&#34;none&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(0,192,148,0.8)&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;transparent&#34;}},&#34;name&#34;:&#34;treasury_notes&#34;,&#34;legendgroup&#34;:&#34;treasury_notes&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;orientation&#34;:&#34;v&#34;,&#34;width&#34;:[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],&#34;base&#34;:[0,0,0,0.1,0.1,0.1,0.2,0.2,0.3,0.4,0.6,0.1,0.1,0.1,0.2,0.2,0.3,0.4,0.7,0.2,0.2,0.3,0.4,0.6,0.3,0.4,0.8,0.5,0.5,0.6,0.285714285714286],&#34;x&#34;:[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],&#34;y&#34;:[0,0.2,0.4,0,0.1,0.4,0,0.3,0.1,0.1,0.1,0,0.2,0.7,0.1,0.7,0.2,0.3,0.1,0.1,0.5,0.2,0.2,0.2,0.2,0.2,0,0,0,0,0.142857142857143],&#34;text&#34;:[&#34;portfolio:  250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio:  500&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio:  750&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 1000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 1250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 1500&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 1750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 2000&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 2250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 2500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 2750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 3000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 3250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 3500&lt;br /&gt;weight: 0.7000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 3750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 4000&lt;br /&gt;weight: 0.7000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 4250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 4500&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 4750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 5000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 5250&lt;br /&gt;weight: 0.5000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 5500&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 5750&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 6000&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 6250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 6500&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 6750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 7000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 7250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 7500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio:    0&lt;br /&gt;weight: 0.1428571&lt;br /&gt;ticker: us_bonds&#34;],&#34;type&#34;:&#34;bar&#34;,&#34;textposition&#34;:&#34;none&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(0,182,235,0.8)&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;transparent&#34;}},&#34;name&#34;:&#34;us_bonds&#34;,&#34;legendgroup&#34;:&#34;us_bonds&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;orientation&#34;:&#34;v&#34;,&#34;width&#34;:[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],&#34;base&#34;:[0,0,0,0,0,0,0,0,0,0,0,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.2,0.2,0.2,0.2,0.2,0.3,0.3,0.3,0.4,0.5,0.6,0.142857142857143],&#34;x&#34;:[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],&#34;y&#34;:[0,0,0,0.1,0.1,0.1,0.2,0.2,0.3,0.4,0.6,0,0,0,0.1,0.1,0.2,0.3,0.6,0,0,0.1,0.2,0.4,0,0.1,0.5,0.1,0,0,0.142857142857143],&#34;text&#34;:[&#34;portfolio:  250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio:  500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio:  750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 1000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 1250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 1500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 1750&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 2000&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 2250&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 2500&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 2750&lt;br /&gt;weight: 0.6000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 3000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 3250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 3500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 3750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 4000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 4250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 4500&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 4750&lt;br /&gt;weight: 0.6000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 5000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 5250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 5500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 5750&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 6000&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 6250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 6500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 6750&lt;br /&gt;weight: 0.5000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 7000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 7250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 7500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio:    0&lt;br /&gt;weight: 0.1428571&lt;br /&gt;ticker: us_real_estate&#34;],&#34;type&#34;:&#34;bar&#34;,&#34;textposition&#34;:&#34;none&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(165,138,255,0.8)&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;transparent&#34;}},&#34;name&#34;:&#34;us_real_estate&#34;,&#34;legendgroup&#34;:&#34;us_real_estate&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;orientation&#34;:&#34;v&#34;,&#34;width&#34;:[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],&#34;base&#34;:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],&#34;x&#34;:[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],&#34;y&#34;:[0,0,0,0,0,0,0,0,0,0,0,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.2,0.2,0.2,0.2,0.2,0.3,0.3,0.3,0.4,0.5,0.6,0.142857142857143],&#34;text&#34;:[&#34;portfolio:  250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio:  500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio:  750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 1000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 1250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 1500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 1750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 2000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 2250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 2500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 2750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 3000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 3250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 3500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 3750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 4000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 4250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 4500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 4750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 5000&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 5250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 5500&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 5750&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 6000&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 6250&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 6500&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 6750&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 7000&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 7250&lt;br /&gt;weight: 0.5000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 7500&lt;br /&gt;weight: 0.6000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio:    0&lt;br /&gt;weight: 0.1428571&lt;br /&gt;ticker: us_stocks&#34;],&#34;type&#34;:&#34;bar&#34;,&#34;textposition&#34;:&#34;none&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(251,97,215,0.8)&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;transparent&#34;}},&#34;name&#34;:&#34;us_stocks&#34;,&#34;legendgroup&#34;:&#34;us_stocks&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null}],&#34;layout&#34;:{&#34;margin&#34;:{&#34;t&#34;:43.4968866749689,&#34;r&#34;:7.30593607305936,&#34;b&#34;:40.1826484018265,&#34;l&#34;:34.337899543379},&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:14.6118721461187},&#34;title&#34;:{&#34;text&#34;:&#34;&lt;b&gt; Weights for portfolio assets &lt;\/b&gt;&#34;,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:17.2685761726858},&#34;x&#34;:0,&#34;xref&#34;:&#34;paper&#34;},&#34;xaxis&#34;:{&#34;domain&#34;:[0,1],&#34;automargin&#34;:true,&#34;type&#34;:&#34;linear&#34;,&#34;autorange&#34;:false,&#34;range&#34;:[-498.75,7998.75],&#34;tickmode&#34;:&#34;array&#34;,&#34;ticktext&#34;:[&#34;0&#34;,&#34;2000&#34;,&#34;4000&#34;,&#34;6000&#34;],&#34;tickvals&#34;:[-5.6843418860808e-14,2000,4000,6000],&#34;categoryorder&#34;:&#34;array&#34;,&#34;categoryarray&#34;:[&#34;0&#34;,&#34;2000&#34;,&#34;4000&#34;,&#34;6000&#34;],&#34;nticks&#34;:null,&#34;ticks&#34;:&#34;&#34;,&#34;tickcolor&#34;:null,&#34;ticklen&#34;:3.65296803652968,&#34;tickwidth&#34;:0,&#34;showticklabels&#34;:true,&#34;tickfont&#34;:{&#34;color&#34;:&#34;rgba(77,77,77,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:11.689497716895},&#34;tickangle&#34;:-0,&#34;showline&#34;:false,&#34;linecolor&#34;:null,&#34;linewidth&#34;:0,&#34;showgrid&#34;:true,&#34;gridcolor&#34;:&#34;rgba(235,235,235,1)&#34;,&#34;gridwidth&#34;:0.66417600664176,&#34;zeroline&#34;:false,&#34;anchor&#34;:&#34;y&#34;,&#34;title&#34;:{&#34;text&#34;:&#34;portfolio #&#34;,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:14.6118721461187}},&#34;hoverformat&#34;:&#34;.2f&#34;},&#34;yaxis&#34;:{&#34;domain&#34;:[0,1],&#34;automargin&#34;:true,&#34;type&#34;:&#34;linear&#34;,&#34;autorange&#34;:false,&#34;range&#34;:[-0.05,1.05],&#34;tickmode&#34;:&#34;array&#34;,&#34;ticktext&#34;:[&#34;0%&#34;,&#34;10%&#34;,&#34;20%&#34;,&#34;30%&#34;,&#34;40%&#34;,&#34;50%&#34;,&#34;60%&#34;,&#34;70%&#34;,&#34;80%&#34;,&#34;90%&#34;,&#34;100%&#34;],&#34;tickvals&#34;:[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1],&#34;categoryorder&#34;:&#34;array&#34;,&#34;categoryarray&#34;:[&#34;0%&#34;,&#34;10%&#34;,&#34;20%&#34;,&#34;30%&#34;,&#34;40%&#34;,&#34;50%&#34;,&#34;60%&#34;,&#34;70%&#34;,&#34;80%&#34;,&#34;90%&#34;,&#34;100%&#34;],&#34;nticks&#34;:null,&#34;ticks&#34;:&#34;&#34;,&#34;tickcolor&#34;:null,&#34;ticklen&#34;:3.65296803652968,&#34;tickwidth&#34;:0,&#34;showticklabels&#34;:true,&#34;tickfont&#34;:{&#34;color&#34;:&#34;rgba(77,77,77,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:11.689497716895},&#34;tickangle&#34;:-0,&#34;showline&#34;:false,&#34;linecolor&#34;:null,&#34;linewidth&#34;:0,&#34;showgrid&#34;:true,&#34;gridcolor&#34;:&#34;rgba(235,235,235,1)&#34;,&#34;gridwidth&#34;:0.66417600664176,&#34;zeroline&#34;:false,&#34;anchor&#34;:&#34;x&#34;,&#34;title&#34;:{&#34;text&#34;:&#34;&#34;,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:14.6118721461187}},&#34;hoverformat&#34;:&#34;.2f&#34;},&#34;shapes&#34;:[{&#34;type&#34;:&#34;rect&#34;,&#34;fillcolor&#34;:null,&#34;line&#34;:{&#34;color&#34;:null,&#34;width&#34;:0,&#34;linetype&#34;:[]},&#34;yref&#34;:&#34;paper&#34;,&#34;xref&#34;:&#34;paper&#34;,&#34;x0&#34;:0,&#34;x1&#34;:1,&#34;y0&#34;:0,&#34;y1&#34;:1}],&#34;showlegend&#34;:true,&#34;legend&#34;:{&#34;bgcolor&#34;:null,&#34;bordercolor&#34;:null,&#34;borderwidth&#34;:0,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:11.689497716895},&#34;title&#34;:{&#34;text&#34;:&#34;Ticker&#34;,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:14.6118721461187}}},&#34;hovermode&#34;:&#34;closest&#34;,&#34;barmode&#34;:&#34;relative&#34;},&#34;config&#34;:{&#34;doubleClick&#34;:&#34;reset&#34;,&#34;modeBarButtonsToAdd&#34;:[&#34;hoverclosest&#34;,&#34;hovercompare&#34;],&#34;showSendToCloud&#34;:false},&#34;source&#34;:&#34;A&#34;,&#34;attrs&#34;:{&#34;28428f03f5c&#34;:{&#34;x&#34;:{},&#34;y&#34;:{},&#34;fill&#34;:{},&#34;type&#34;:&#34;bar&#34;}},&#34;cur_data&#34;:&#34;28428f03f5c&#34;,&#34;visdat&#34;:{&#34;28428f03f5c&#34;:[&#34;function (y) &#34;,&#34;x&#34;]},&#34;highlight&#34;:{&#34;on&#34;:&#34;plotly_click&#34;,&#34;persistent&#34;:false,&#34;dynamic&#34;:false,&#34;selectize&#34;:false,&#34;opacityDim&#34;:0.2,&#34;selected&#34;:{&#34;opacity&#34;:1},&#34;debounce&#34;:0},&#34;shinyEvents&#34;:[&#34;plotly_hover&#34;,&#34;plotly_click&#34;,&#34;plotly_selected&#34;,&#34;plotly_relayout&#34;,&#34;plotly_brushed&#34;,&#34;plotly_brushing&#34;,&#34;plotly_clickannotation&#34;,&#34;plotly_doubleclick&#34;,&#34;plotly_deselect&#34;,&#34;plotly_afterplot&#34;,&#34;plotly_sunburstclick&#34;],&#34;base_url&#34;:&#34;https://plot.ly&#34;},&#34;evals&#34;:[],&#34;jsHooks&#34;:[]}&lt;/script&gt;
+&lt;script type=&#34;application/json&#34; data-for=&#34;htmlwidget-2&#34;&gt;{&#34;x&#34;:{&#34;data&#34;:[{&#34;orientation&#34;:&#34;v&#34;,&#34;width&#34;:[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],&#34;base&#34;:[0.9,0.9,1,0.6,0.8,0.8,1,0.9,0.8,1,1,1,1,0.9,0.8,1,1,0.9,1,0.9,1,1,0.8,1,1,1,0.9,1,0.8,1,0.857142857142857],&#34;x&#34;:[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],&#34;y&#34;:[0.1,0.1,0,0.4,0.2,0.2,0,0.0999999999999999,0.2,0,0,0,0,0.0999999999999999,0.2,0,0,0.0999999999999999,0,0.1,0,0,0.2,0,0,0,0.1,0,0.2,0,0.142857142857143],&#34;text&#34;:[&#34;portfolio:  250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio:  500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio:  750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 1000&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 1250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 1500&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 1750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 2000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 2250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 2500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 2750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 3000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 3250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 3500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 3750&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 4000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 4250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 4500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 4750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 5000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 5250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 5500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 5750&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 6000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 6250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 6500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 6750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 7000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 7250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio: 7500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: commodities&#34;,&#34;portfolio:    0&lt;br /&gt;weight: 0.1428571&lt;br /&gt;ticker: commodities&#34;],&#34;type&#34;:&#34;bar&#34;,&#34;textposition&#34;:&#34;none&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(248,118,109,0.8)&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;transparent&#34;}},&#34;name&#34;:&#34;commodities&#34;,&#34;legendgroup&#34;:&#34;commodities&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;orientation&#34;:&#34;v&#34;,&#34;width&#34;:[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],&#34;base&#34;:[0.8,0.7,0.9,0.6,0.8,0.8,0.9,0.6,0.8,0.9,0.8,0.6,0.7,0.9,0.7,0.9,0.8,0.7,1,0.8,0.9,0.6,0.8,1,0.8,0.8,0.8,0.6,0.6,1,0.714285714285714],&#34;x&#34;:[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],&#34;y&#34;:[0.1,0.2,0.1,0,0,0,0.0999999999999999,0.3,0,0.0999999999999999,0.2,0.4,0.3,0,0.1,0.0999999999999999,0.2,0.2,0,0.1,0.1,0.4,0,0,0.2,0.2,0.1,0.4,0.2,0,0.142857142857143],&#34;text&#34;:[&#34;portfolio:  250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio:  500&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio:  750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 1000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 1250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 1500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 1750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 2000&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 2250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 2500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 2750&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 3000&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 3250&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 3500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 3750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 4000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 4250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 4500&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 4750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 5000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 5250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 5500&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 5750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 6000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 6250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 6500&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 6750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 7000&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 7250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio: 7500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: emerging_markets&#34;,&#34;portfolio:    0&lt;br /&gt;weight: 0.1428571&lt;br /&gt;ticker: emerging_markets&#34;],&#34;type&#34;:&#34;bar&#34;,&#34;textposition&#34;:&#34;none&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(196,154,0,0.8)&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;transparent&#34;}},&#34;name&#34;:&#34;emerging_markets&#34;,&#34;legendgroup&#34;:&#34;emerging_markets&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;orientation&#34;:&#34;v&#34;,&#34;width&#34;:[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],&#34;base&#34;:[0.8,0.2,0.4,0.2,0.5,0.5,0.6,0.6,0.6,0.6,0.8,0.6,0.4,0.9,0.5,0.9,0.7,0.7,1,0.4,0.8,0.6,0.6,0.9,0.5,0.8,0.8,0.6,0.6,0.8,0.571428571428571],&#34;x&#34;:[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],&#34;y&#34;:[0,0.5,0.5,0.4,0.3,0.3,0.3,0,0.2,0.3,0,0,0.3,0,0.2,0,0.1,0,0,0.4,0.1,0,0.2,0.1,0.3,0,0,0,0,0.2,0.142857142857143],&#34;text&#34;:[&#34;portfolio:  250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio:  500&lt;br /&gt;weight: 0.5000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio:  750&lt;br /&gt;weight: 0.5000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 1000&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 1250&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 1500&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 1750&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 2000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 2250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 2500&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 2750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 3000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 3250&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 3500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 3750&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 4000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 4250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 4500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 4750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 5000&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 5250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 5500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 5750&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 6000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 6250&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 6500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 6750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 7000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 7250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio: 7500&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: global_stocks&#34;,&#34;portfolio:    0&lt;br /&gt;weight: 0.1428571&lt;br /&gt;ticker: global_stocks&#34;],&#34;type&#34;:&#34;bar&#34;,&#34;textposition&#34;:&#34;none&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(83,180,0,0.8)&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;transparent&#34;}},&#34;name&#34;:&#34;global_stocks&#34;,&#34;legendgroup&#34;:&#34;global_stocks&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;orientation&#34;:&#34;v&#34;,&#34;width&#34;:[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],&#34;base&#34;:[0,0.2,0.4,0.1,0.2,0.5,0.2,0.5,0.4,0.5,0.7,0.1,0.3,0.8,0.3,0.9,0.5,0.7,0.8,0.3,0.7,0.5,0.6,0.8,0.5,0.6,0.8,0.5,0.5,0.6,0.428571428571429],&#34;x&#34;:[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],&#34;y&#34;:[0.8,0,0,0.1,0.3,0,0.4,0.1,0.2,0.1,0.1,0.5,0.1,0.1,0.2,0,0.2,0,0.2,0.1,0.1,0.1,0,0.1,0,0.2,0,0.1,0.1,0.2,0.142857142857143],&#34;text&#34;:[&#34;portfolio:  250&lt;br /&gt;weight: 0.8000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio:  500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio:  750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 1000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 1250&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 1500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 1750&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 2000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 2250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 2500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 2750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 3000&lt;br /&gt;weight: 0.5000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 3250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 3500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 3750&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 4000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 4250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 4500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 4750&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 5000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 5250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 5500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 5750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 6000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 6250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 6500&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 6750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 7000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 7250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio: 7500&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: treasury_notes&#34;,&#34;portfolio:    0&lt;br /&gt;weight: 0.1428571&lt;br /&gt;ticker: treasury_notes&#34;],&#34;type&#34;:&#34;bar&#34;,&#34;textposition&#34;:&#34;none&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(0,192,148,0.8)&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;transparent&#34;}},&#34;name&#34;:&#34;treasury_notes&#34;,&#34;legendgroup&#34;:&#34;treasury_notes&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;orientation&#34;:&#34;v&#34;,&#34;width&#34;:[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],&#34;base&#34;:[0,0,0,0.1,0.1,0.1,0.2,0.2,0.3,0.4,0.6,0.1,0.1,0.1,0.2,0.2,0.3,0.4,0.7,0.2,0.2,0.3,0.4,0.6,0.3,0.4,0.8,0.5,0.5,0.6,0.285714285714286],&#34;x&#34;:[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],&#34;y&#34;:[0,0.2,0.4,0,0.1,0.4,0,0.3,0.1,0.1,0.1,0,0.2,0.7,0.1,0.7,0.2,0.3,0.1,0.1,0.5,0.2,0.2,0.2,0.2,0.2,0,0,0,0,0.142857142857143],&#34;text&#34;:[&#34;portfolio:  250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio:  500&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio:  750&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 1000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 1250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 1500&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 1750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 2000&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 2250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 2500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 2750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 3000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 3250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 3500&lt;br /&gt;weight: 0.7000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 3750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 4000&lt;br /&gt;weight: 0.7000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 4250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 4500&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 4750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 5000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 5250&lt;br /&gt;weight: 0.5000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 5500&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 5750&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 6000&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 6250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 6500&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 6750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 7000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 7250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio: 7500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_bonds&#34;,&#34;portfolio:    0&lt;br /&gt;weight: 0.1428571&lt;br /&gt;ticker: us_bonds&#34;],&#34;type&#34;:&#34;bar&#34;,&#34;textposition&#34;:&#34;none&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(0,182,235,0.8)&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;transparent&#34;}},&#34;name&#34;:&#34;us_bonds&#34;,&#34;legendgroup&#34;:&#34;us_bonds&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;orientation&#34;:&#34;v&#34;,&#34;width&#34;:[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],&#34;base&#34;:[0,0,0,0,0,0,0,0,0,0,0,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.2,0.2,0.2,0.2,0.2,0.3,0.3,0.3,0.4,0.5,0.6,0.142857142857143],&#34;x&#34;:[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],&#34;y&#34;:[0,0,0,0.1,0.1,0.1,0.2,0.2,0.3,0.4,0.6,0,0,0,0.1,0.1,0.2,0.3,0.6,0,0,0.1,0.2,0.4,0,0.1,0.5,0.1,0,0,0.142857142857143],&#34;text&#34;:[&#34;portfolio:  250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio:  500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio:  750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 1000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 1250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 1500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 1750&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 2000&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 2250&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 2500&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 2750&lt;br /&gt;weight: 0.6000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 3000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 3250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 3500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 3750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 4000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 4250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 4500&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 4750&lt;br /&gt;weight: 0.6000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 5000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 5250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 5500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 5750&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 6000&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 6250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 6500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 6750&lt;br /&gt;weight: 0.5000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 7000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 7250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio: 7500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_real_estate&#34;,&#34;portfolio:    0&lt;br /&gt;weight: 0.1428571&lt;br /&gt;ticker: us_real_estate&#34;],&#34;type&#34;:&#34;bar&#34;,&#34;textposition&#34;:&#34;none&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(165,138,255,0.8)&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;transparent&#34;}},&#34;name&#34;:&#34;us_real_estate&#34;,&#34;legendgroup&#34;:&#34;us_real_estate&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;orientation&#34;:&#34;v&#34;,&#34;width&#34;:[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],&#34;base&#34;:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],&#34;x&#34;:[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],&#34;y&#34;:[0,0,0,0,0,0,0,0,0,0,0,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.2,0.2,0.2,0.2,0.2,0.3,0.3,0.3,0.4,0.5,0.6,0.142857142857143],&#34;text&#34;:[&#34;portfolio:  250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio:  500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio:  750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 1000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 1250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 1500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 1750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 2000&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 2250&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 2500&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 2750&lt;br /&gt;weight: 0.0000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 3000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 3250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 3500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 3750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 4000&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 4250&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 4500&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 4750&lt;br /&gt;weight: 0.1000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 5000&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 5250&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 5500&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 5750&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 6000&lt;br /&gt;weight: 0.2000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 6250&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 6500&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 6750&lt;br /&gt;weight: 0.3000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 7000&lt;br /&gt;weight: 0.4000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 7250&lt;br /&gt;weight: 0.5000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio: 7500&lt;br /&gt;weight: 0.6000000&lt;br /&gt;ticker: us_stocks&#34;,&#34;portfolio:    0&lt;br /&gt;weight: 0.1428571&lt;br /&gt;ticker: us_stocks&#34;],&#34;type&#34;:&#34;bar&#34;,&#34;textposition&#34;:&#34;none&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(251,97,215,0.8)&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;transparent&#34;}},&#34;name&#34;:&#34;us_stocks&#34;,&#34;legendgroup&#34;:&#34;us_stocks&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null}],&#34;layout&#34;:{&#34;margin&#34;:{&#34;t&#34;:43.4968866749689,&#34;r&#34;:7.30593607305936,&#34;b&#34;:40.1826484018265,&#34;l&#34;:34.337899543379},&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:14.6118721461187},&#34;title&#34;:{&#34;text&#34;:&#34;&lt;b&gt; Weights for portfolio assets &lt;\/b&gt;&#34;,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:17.2685761726858},&#34;x&#34;:0,&#34;xref&#34;:&#34;paper&#34;},&#34;xaxis&#34;:{&#34;domain&#34;:[0,1],&#34;automargin&#34;:true,&#34;type&#34;:&#34;linear&#34;,&#34;autorange&#34;:false,&#34;range&#34;:[-498.75,7998.75],&#34;tickmode&#34;:&#34;array&#34;,&#34;ticktext&#34;:[&#34;0&#34;,&#34;2000&#34;,&#34;4000&#34;,&#34;6000&#34;],&#34;tickvals&#34;:[-5.6843418860808e-14,2000,4000,6000],&#34;categoryorder&#34;:&#34;array&#34;,&#34;categoryarray&#34;:[&#34;0&#34;,&#34;2000&#34;,&#34;4000&#34;,&#34;6000&#34;],&#34;nticks&#34;:null,&#34;ticks&#34;:&#34;&#34;,&#34;tickcolor&#34;:null,&#34;ticklen&#34;:3.65296803652968,&#34;tickwidth&#34;:0,&#34;showticklabels&#34;:true,&#34;tickfont&#34;:{&#34;color&#34;:&#34;rgba(77,77,77,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:11.689497716895},&#34;tickangle&#34;:-0,&#34;showline&#34;:false,&#34;linecolor&#34;:null,&#34;linewidth&#34;:0,&#34;showgrid&#34;:true,&#34;gridcolor&#34;:&#34;rgba(235,235,235,1)&#34;,&#34;gridwidth&#34;:0.66417600664176,&#34;zeroline&#34;:false,&#34;anchor&#34;:&#34;y&#34;,&#34;title&#34;:{&#34;text&#34;:&#34;portfolio #&#34;,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:14.6118721461187}},&#34;hoverformat&#34;:&#34;.2f&#34;},&#34;yaxis&#34;:{&#34;domain&#34;:[0,1],&#34;automargin&#34;:true,&#34;type&#34;:&#34;linear&#34;,&#34;autorange&#34;:false,&#34;range&#34;:[-0.05,1.05],&#34;tickmode&#34;:&#34;array&#34;,&#34;ticktext&#34;:[&#34;0%&#34;,&#34;10%&#34;,&#34;20%&#34;,&#34;30%&#34;,&#34;40%&#34;,&#34;50%&#34;,&#34;60%&#34;,&#34;70%&#34;,&#34;80%&#34;,&#34;90%&#34;,&#34;100%&#34;],&#34;tickvals&#34;:[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1],&#34;categoryorder&#34;:&#34;array&#34;,&#34;categoryarray&#34;:[&#34;0%&#34;,&#34;10%&#34;,&#34;20%&#34;,&#34;30%&#34;,&#34;40%&#34;,&#34;50%&#34;,&#34;60%&#34;,&#34;70%&#34;,&#34;80%&#34;,&#34;90%&#34;,&#34;100%&#34;],&#34;nticks&#34;:null,&#34;ticks&#34;:&#34;&#34;,&#34;tickcolor&#34;:null,&#34;ticklen&#34;:3.65296803652968,&#34;tickwidth&#34;:0,&#34;showticklabels&#34;:true,&#34;tickfont&#34;:{&#34;color&#34;:&#34;rgba(77,77,77,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:11.689497716895},&#34;tickangle&#34;:-0,&#34;showline&#34;:false,&#34;linecolor&#34;:null,&#34;linewidth&#34;:0,&#34;showgrid&#34;:true,&#34;gridcolor&#34;:&#34;rgba(235,235,235,1)&#34;,&#34;gridwidth&#34;:0.66417600664176,&#34;zeroline&#34;:false,&#34;anchor&#34;:&#34;x&#34;,&#34;title&#34;:{&#34;text&#34;:&#34;&#34;,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:14.6118721461187}},&#34;hoverformat&#34;:&#34;.2f&#34;},&#34;shapes&#34;:[{&#34;type&#34;:&#34;rect&#34;,&#34;fillcolor&#34;:null,&#34;line&#34;:{&#34;color&#34;:null,&#34;width&#34;:0,&#34;linetype&#34;:[]},&#34;yref&#34;:&#34;paper&#34;,&#34;xref&#34;:&#34;paper&#34;,&#34;x0&#34;:0,&#34;x1&#34;:1,&#34;y0&#34;:0,&#34;y1&#34;:1}],&#34;showlegend&#34;:true,&#34;legend&#34;:{&#34;bgcolor&#34;:null,&#34;bordercolor&#34;:null,&#34;borderwidth&#34;:0,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:11.689497716895},&#34;title&#34;:{&#34;text&#34;:&#34;Ticker&#34;,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:14.6118721461187}}},&#34;hovermode&#34;:&#34;closest&#34;,&#34;barmode&#34;:&#34;relative&#34;},&#34;config&#34;:{&#34;doubleClick&#34;:&#34;reset&#34;,&#34;modeBarButtonsToAdd&#34;:[&#34;hoverclosest&#34;,&#34;hovercompare&#34;],&#34;showSendToCloud&#34;:false},&#34;source&#34;:&#34;A&#34;,&#34;attrs&#34;:{&#34;14bc74502b42&#34;:{&#34;x&#34;:{},&#34;y&#34;:{},&#34;fill&#34;:{},&#34;type&#34;:&#34;bar&#34;}},&#34;cur_data&#34;:&#34;14bc74502b42&#34;,&#34;visdat&#34;:{&#34;14bc74502b42&#34;:[&#34;function (y) &#34;,&#34;x&#34;]},&#34;highlight&#34;:{&#34;on&#34;:&#34;plotly_click&#34;,&#34;persistent&#34;:false,&#34;dynamic&#34;:false,&#34;selectize&#34;:false,&#34;opacityDim&#34;:0.2,&#34;selected&#34;:{&#34;opacity&#34;:1},&#34;debounce&#34;:0},&#34;shinyEvents&#34;:[&#34;plotly_hover&#34;,&#34;plotly_click&#34;,&#34;plotly_selected&#34;,&#34;plotly_relayout&#34;,&#34;plotly_brushed&#34;,&#34;plotly_brushing&#34;,&#34;plotly_clickannotation&#34;,&#34;plotly_doubleclick&#34;,&#34;plotly_deselect&#34;,&#34;plotly_afterplot&#34;,&#34;plotly_sunburstclick&#34;],&#34;base_url&#34;:&#34;https://plot.ly&#34;},&#34;evals&#34;:[],&#34;jsHooks&#34;:[]}&lt;/script&gt;
 &lt;p&gt;There happen to be thousands of possible portfolio constructions. So,
 which one yielded the best performance over the period?&lt;/p&gt;
 &lt;/div&gt;
@@ -1134,12 +1136,12 @@ port_performance %&amp;gt;%
   tab_header(
     title = md(&amp;quot;**Description of Performance Indicators**&amp;quot;)
   )&lt;/code&gt;&lt;/pre&gt;
-&lt;div id=&#34;oezyzuuwoq&#34; style=&#34;overflow-x:auto;overflow-y:auto;width:auto;height:auto;&#34;&gt;
+&lt;div id=&#34;hhesdgbexy&#34; style=&#34;overflow-x:auto;overflow-y:auto;width:auto;height:auto;&#34;&gt;
 &lt;style&gt;html {
   font-family: -apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Roboto, Oxygen, Ubuntu, Cantarell, &#39;Helvetica Neue&#39;, &#39;Fira Sans&#39;, &#39;Droid Sans&#39;, Arial, sans-serif;
 }
 
-#oezyzuuwoq .gt_table {
+#hhesdgbexy .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1164,7 +1166,7 @@ port_performance %&amp;gt;%
   border-left-color: #D3D3D3;
 }
 
-#oezyzuuwoq .gt_heading {
+#hhesdgbexy .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1176,7 +1178,7 @@ port_performance %&amp;gt;%
   border-right-color: #D3D3D3;
 }
 
-#oezyzuuwoq .gt_title {
+#hhesdgbexy .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1188,7 +1190,7 @@ port_performance %&amp;gt;%
   border-bottom-width: 0;
 }
 
-#oezyzuuwoq .gt_subtitle {
+#hhesdgbexy .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1200,13 +1202,13 @@ port_performance %&amp;gt;%
   border-top-width: 0;
 }
 
-#oezyzuuwoq .gt_bottom_border {
+#hhesdgbexy .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#oezyzuuwoq .gt_col_headings {
+#hhesdgbexy .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1221,7 +1223,7 @@ port_performance %&amp;gt;%
   border-right-color: #D3D3D3;
 }
 
-#oezyzuuwoq .gt_col_heading {
+#hhesdgbexy .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1241,7 +1243,7 @@ port_performance %&amp;gt;%
   overflow-x: hidden;
 }
 
-#oezyzuuwoq .gt_column_spanner_outer {
+#hhesdgbexy .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1253,15 +1255,15 @@ port_performance %&amp;gt;%
   padding-right: 4px;
 }
 
-#oezyzuuwoq .gt_column_spanner_outer:first-child {
+#hhesdgbexy .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#oezyzuuwoq .gt_column_spanner_outer:last-child {
+#hhesdgbexy .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#oezyzuuwoq .gt_column_spanner {
+#hhesdgbexy .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1273,7 +1275,7 @@ port_performance %&amp;gt;%
   width: 100%;
 }
 
-#oezyzuuwoq .gt_group_heading {
+#hhesdgbexy .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1298,7 +1300,7 @@ port_performance %&amp;gt;%
   vertical-align: middle;
 }
 
-#oezyzuuwoq .gt_empty_group_heading {
+#hhesdgbexy .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1313,15 +1315,15 @@ port_performance %&amp;gt;%
   vertical-align: middle;
 }
 
-#oezyzuuwoq .gt_from_md &gt; :first-child {
+#hhesdgbexy .gt_from_md &gt; :first-child {
   margin-top: 0;
 }
 
-#oezyzuuwoq .gt_from_md &gt; :last-child {
+#hhesdgbexy .gt_from_md &gt; :last-child {
   margin-bottom: 0;
 }
 
-#oezyzuuwoq .gt_row {
+#hhesdgbexy .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1340,7 +1342,7 @@ port_performance %&amp;gt;%
   overflow-x: hidden;
 }
 
-#oezyzuuwoq .gt_stub {
+#hhesdgbexy .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1353,7 +1355,7 @@ port_performance %&amp;gt;%
   padding-right: 5px;
 }
 
-#oezyzuuwoq .gt_stub_row_group {
+#hhesdgbexy .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1367,11 +1369,11 @@ port_performance %&amp;gt;%
   vertical-align: top;
 }
 
-#oezyzuuwoq .gt_row_group_first td {
+#hhesdgbexy .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#oezyzuuwoq .gt_summary_row {
+#hhesdgbexy .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1381,16 +1383,16 @@ port_performance %&amp;gt;%
   padding-right: 5px;
 }
 
-#oezyzuuwoq .gt_first_summary_row {
+#hhesdgbexy .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#oezyzuuwoq .gt_first_summary_row.thick {
+#hhesdgbexy .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#oezyzuuwoq .gt_last_summary_row {
+#hhesdgbexy .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1400,7 +1402,7 @@ port_performance %&amp;gt;%
   border-bottom-color: #D3D3D3;
 }
 
-#oezyzuuwoq .gt_grand_summary_row {
+#hhesdgbexy .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1410,7 +1412,7 @@ port_performance %&amp;gt;%
   padding-right: 5px;
 }
 
-#oezyzuuwoq .gt_first_grand_summary_row {
+#hhesdgbexy .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1420,11 +1422,11 @@ port_performance %&amp;gt;%
   border-top-color: #D3D3D3;
 }
 
-#oezyzuuwoq .gt_striped {
+#hhesdgbexy .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#oezyzuuwoq .gt_table_body {
+#hhesdgbexy .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1433,7 +1435,7 @@ port_performance %&amp;gt;%
   border-bottom-color: #D3D3D3;
 }
 
-#oezyzuuwoq .gt_footnotes {
+#hhesdgbexy .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1447,7 +1449,7 @@ port_performance %&amp;gt;%
   border-right-color: #D3D3D3;
 }
 
-#oezyzuuwoq .gt_footnote {
+#hhesdgbexy .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1456,7 +1458,7 @@ port_performance %&amp;gt;%
   padding-right: 5px;
 }
 
-#oezyzuuwoq .gt_sourcenotes {
+#hhesdgbexy .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1470,7 +1472,7 @@ port_performance %&amp;gt;%
   border-right-color: #D3D3D3;
 }
 
-#oezyzuuwoq .gt_sourcenote {
+#hhesdgbexy .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1478,36 +1480,36 @@ port_performance %&amp;gt;%
   padding-right: 5px;
 }
 
-#oezyzuuwoq .gt_left {
+#hhesdgbexy .gt_left {
   text-align: left;
 }
 
-#oezyzuuwoq .gt_center {
+#hhesdgbexy .gt_center {
   text-align: center;
 }
 
-#oezyzuuwoq .gt_right {
+#hhesdgbexy .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#oezyzuuwoq .gt_font_normal {
+#hhesdgbexy .gt_font_normal {
   font-weight: normal;
 }
 
-#oezyzuuwoq .gt_font_bold {
+#hhesdgbexy .gt_font_bold {
   font-weight: bold;
 }
 
-#oezyzuuwoq .gt_font_italic {
+#hhesdgbexy .gt_font_italic {
   font-style: italic;
 }
 
-#oezyzuuwoq .gt_super {
+#hhesdgbexy .gt_super {
   font-size: 65%;
 }
 
-#oezyzuuwoq .gt_two_val_uncert {
+#hhesdgbexy .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -1516,31 +1518,31 @@ port_performance %&amp;gt;%
   margin-left: 0.1em;
 }
 
-#oezyzuuwoq .gt_footnote_marks {
+#hhesdgbexy .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#oezyzuuwoq .gt_asterisk {
+#hhesdgbexy .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#oezyzuuwoq .gt_slash_mark {
+#hhesdgbexy .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#oezyzuuwoq .gt_fraction_numerator {
+#hhesdgbexy .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#oezyzuuwoq .gt_fraction_denominator {
+#hhesdgbexy .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -1794,27 +1796,31 @@ track the indexes they are purported to track.&lt;/p&gt;
     </item>
     
     <item>
-      <title>Get and Clean Fundamentals Data from EDGAR</title>
-      <link>https://www.investwithr.com/project/internal-project/</link>
-      <pubDate>Fri, 03 Jun 2022 00:00:00 +0000</pubDate>
-      <guid>https://www.investwithr.com/project/internal-project/</guid>
-      <description>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus. Vestibulum sit amet erat at nulla eleifend gravida.&lt;/p&gt;
-&lt;p&gt;Nullam vel molestie justo. Curabitur vitae efficitur leo. In hac habitasse platea dictumst. Sed pulvinar mauris dui, eget varius purus congue ac. Nulla euismod, lorem vel elementum dapibus, nunc justo porta mi, sed tempus est est vel tellus. Nam et enim eleifend, laoreet sem sit amet, elementum sem. Morbi ut leo congue, maximus velit ut, finibus arcu. In et libero cursus, rutrum risus non, molestie leo. Nullam congue quam et volutpat malesuada. Sed risus tortor, pulvinar et dictum nec, sodales non mi. Phasellus lacinia commodo laoreet. Nam mollis, erat in feugiat consectetur, purus eros egestas tellus, in auctor urna odio at nibh. Mauris imperdiet nisi ac magna convallis, at rhoncus ligula cursus.&lt;/p&gt;
-&lt;p&gt;Cras aliquam rhoncus ipsum, in hendrerit nunc mattis vitae. Duis vitae efficitur metus, ac tempus leo. Cras nec fringilla lacus. Quisque sit amet risus at ipsum pharetra commodo. Sed aliquam mauris at consequat eleifend. Praesent porta, augue sed viverra bibendum, neque ante euismod ante, in vehicula justo lorem ac eros. Suspendisse augue libero, venenatis eget tincidunt ut, malesuada at lorem. Donec vitae bibendum arcu. Aenean maximus nulla non pretium iaculis. Quisque imperdiet, nulla in pulvinar aliquet, velit quam ultrices quam, sit amet fringilla leo sem vel nunc. Mauris in lacinia lacus.&lt;/p&gt;
-&lt;p&gt;Suspendisse a tincidunt lacus. Curabitur at urna sagittis, dictum ante sit amet, euismod magna. Sed rutrum massa id tortor commodo, vitae elementum turpis tempus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean purus turpis, venenatis a ullamcorper nec, tincidunt et massa. Integer posuere quam rutrum arcu vehicula imperdiet. Mauris ullamcorper quam vitae purus congue, quis euismod magna eleifend. Vestibulum semper vel augue eget tincidunt. Fusce eget justo sodales, dapibus odio eu, ultrices lorem. Duis condimentum lorem id eros commodo, in facilisis mauris scelerisque. Morbi sed auctor leo. Nullam volutpat a lacus quis pharetra. Nulla congue rutrum magna a ornare.&lt;/p&gt;
-&lt;p&gt;Aliquam in turpis accumsan, malesuada nibh ut, hendrerit justo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque sed erat nec justo posuere suscipit. Donec ut efficitur arcu, in malesuada neque. Nunc dignissim nisl massa, id vulputate nunc pretium nec. Quisque eget urna in risus suscipit ultricies. Pellentesque odio odio, tincidunt in eleifend sed, posuere a diam. Nam gravida nisl convallis semper elementum. Morbi vitae felis faucibus, vulputate orci placerat, aliquet nisi. Aliquam erat volutpat. Maecenas sagittis pulvinar purus, sed porta quam laoreet at.&lt;/p&gt;
+      <title>Simple Analysis</title>
+      <link>https://www.investwithr.com/post/simple-analysis/</link>
+      <pubDate>Mon, 20 Jun 2022 12:55:11 +0900</pubDate>
+      <guid>https://www.investwithr.com/post/simple-analysis/</guid>
+      <description>
+
+
+&lt;!-- disable_codefolding: false #to turn off code folding for the post. --&gt;
+&lt;!-- Set codefolding_show: show #to hide the code blocks in the post --&gt;
+&lt;!-- Set codefolding_nobutton: false --&gt;
+&lt;!-- &lt;div class=&#34;toggle&#34;&gt;&lt;button&gt;Click&lt;/button&gt; --&gt;
+&lt;div class=&#34;fold s&#34;&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;a &amp;lt;- 1:100&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 </description>
     </item>
     
     <item>
       <title>Forecasting S&amp;P500 Stock Returns with R</title>
-      <link>https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/</link>
-      <pubDate>Wed, 01 Jun 2022 00:00:00 +0000</pubDate>
-      <guid>https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/</guid>
+      <link>https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/</link>
+      <pubDate>Mon, 20 Jun 2022 00:00:00 +0000</pubDate>
+      <guid>https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/</guid>
       <description>
-&lt;script src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
-&lt;script src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
-&lt;link href=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/lightable/lightable.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/lightable/lightable.css&#34; rel=&#34;stylesheet&#34; /&gt;
 
 &lt;div id=&#34;TOC&#34;&gt;
 &lt;ul&gt;
@@ -1822,7 +1828,8 @@ track the indexes they are purported to track.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#data&#34;&gt;Data&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#initial-setup---load-the-packages-and-dataset&#34;&gt;2. Initial Setup - Load the packages and dataset&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#initial-setup---load-the-packages-and-dataset&#34;&gt;2. Initial Setup - Load the packages and dataset&lt;/a&gt;
+&lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#data-preparation-and-preprocessing&#34;&gt;3. Data Preparation and Preprocessing&lt;/a&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#prepare-the-data&#34;&gt;Prepare the data&lt;/a&gt;&lt;/li&gt;
@@ -1833,12 +1840,17 @@ track the indexes they are purported to track.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#other-considerations&#34;&gt;Other Considerations&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 
+&lt;!-- description: &#39;Modeling stock returns&#39; --&gt;
+&lt;!-- disable_codefolding: false #to turn off code folding for the post. --&gt;
+&lt;!-- Set codefolding_show: show #to hide the code blocks in the post --&gt;
+&lt;!-- Set codefolding_nobutton: false --&gt;
 &lt;p&gt;Disclaimer: I am not a data scientist, but I am an R, investing, and data science enthusiast.&lt;/p&gt;
-&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;1. Introduction&lt;/h2&gt;
+&lt;div id=&#34;introduction&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;1. Introduction&lt;/h1&gt;
 &lt;p&gt;Is it possible to predict stock returns? We will look at a group of 500 large U.S. companies and try to identify any historical patterns that can be used to predict future returns. Specifically, we will focus on the S&amp;amp;P 500 stock index which represents the stock performance of a diverse group of 500 of the largest U.S. companies.&lt;/p&gt;
 &lt;p&gt;Why predict S&amp;amp;P 500 returns? Millions of people are invested in U.S. stocks through pension plans and individual investment accounts. Many of these investors want to protect their investments by buying before prices rise and selling before prices fall.&lt;/p&gt;
 &lt;p&gt;We will perform the analysis in three broad steps:&lt;/p&gt;
@@ -1847,17 +1859,18 @@ track the indexes they are purported to track.&lt;/p&gt;
 &lt;li&gt;Model fitting, and&lt;/li&gt;
 &lt;li&gt;Evaluation of model performance&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div id=&#34;data&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Data&lt;/h3&gt;
+&lt;div id=&#34;data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Data&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;S&amp;amp;P 500 monthly returns, 2011-2019 (FRED symbol: &lt;em&gt;SP500&lt;/em&gt;)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;This data is available on the &lt;a href=&#34;https://fred.stlouisfed.org&#34;&gt;FRED&lt;/a&gt; website.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id=&#34;initial-setup---load-the-packages-and-dataset&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;2. Initial Setup - Load the packages and dataset&lt;/h2&gt;
+&lt;div id=&#34;initial-setup---load-the-packages-and-dataset&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;2. Initial Setup - Load the packages and dataset&lt;/h1&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Load libraries
+
 suppressPackageStartupMessages({
     
     # General purpose
@@ -1907,7 +1920,6 @@ data &amp;lt;- fread(&amp;quot;C:/Users/user/Desktop/Aaron/R/Projects/Fundamenta
       as_tibble() %&amp;gt;%   
       mutate(date = ymd(date)) %&amp;gt;%  
       filter(symbol %in% symbols)   &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;div id=&#34;data-preparation-and-preprocessing&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;3. Data Preparation and Preprocessing&lt;/h2&gt;
 &lt;div id=&#34;prepare-the-data&#34; class=&#34;section level3&#34;&gt;
@@ -1946,7 +1958,7 @@ SP500_tbl %&amp;gt;%
     scale_y_continuous(labels = scales::percent_format()) +    
     scale_x_date(date_labels = &amp;quot;%Y %b&amp;quot;) +
     theme_minimal()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/scatterplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/figure-html/scatterplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Get summary data
 summary(SP500_tbl)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##       date                SP500        ROC.SP500       
@@ -1978,7 +1990,7 @@ SP500_tbl %&amp;gt;%
     theme(axis.text.x = element_text(angle = 90, hjust = 1),
           panel.grid = element_blank()) +
     facet_grid(~ yr, scale = &amp;quot;free&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/violinplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/figure-html/violinplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The violin plots show high volatility of returns in 2011 followed by decreased volatility in subsequent years and finally high volatility again in 2018 and 2019. The range of returns (distance from bottom of violin plot to its top) seems to increase and decrease without any clear regularity. No clear patterns of volatility stand out.&lt;/p&gt;
 &lt;p&gt;Let’s look at some more distributions of returns, but this time grouped by month. For example, the distribution for January includes January returns for each year (2011-2019).&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Get summary data
@@ -2319,7 +2331,7 @@ SP500_tbl %&amp;gt;%
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 90),
           panel.grid = element_blank())&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/densityplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/figure-html/densityplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;If we calculate the ratio of average return to standard deviation for returns grouped by month, we notice that February, April, July, and November especially have high average returns to standard deviation. More importantly, we notice that the ratio of mean return to downside deviation is especially high for February, April, July, and November. In other words, the returns to risk ratio appears to be especially good for investors in these months.&lt;/p&gt;
 &lt;p&gt;The density plots seem to reveal that February, July, and November especially experience a high proportion of returns greater than zero. This can be visualized by noticing that the mean and medians of each of these months’ returns are considerably greater than the zero-lines (in black) and their density curves have high peaks on the right side of the zero-line. This would suggest that stocks held in these months experience consistently positive monthly returns.&lt;/p&gt;
 &lt;p&gt;Let’s look at a calendar plot that shows returns across months and years.&lt;/p&gt;
@@ -2340,7 +2352,7 @@ SP500_tbl %&amp;gt;%
           axis.text.x = element_text(angle = 90, hjust = 1),
           legend.position = &amp;quot;top&amp;quot;,
           axis.ticks = element_blank())&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/figure-html/calendarplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;A look at the calendar plot reveals that February, April, July, and November experience positive returns in at least seven of the nine years observed. It appears that returns in these months are consistently positive.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Breush Pagan Test for heteroskedasticity
 # - First create a linear model and use residuals to test for heteroskedasticity
@@ -2360,7 +2372,7 @@ ndiffs(SP500_ts)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# View the ACF and PCF plots
 SP500_ts %&amp;gt;% 
     ggtsdisplay(theme = theme_minimal(), main = &amp;quot;S&amp;amp;P 500 returns monthly&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Box Test for Autocorrelation
 # - Test of whether any of a group of autocorrelations of a time series are different from zero. Instead of testing randomness at each distinct lag, it tests the &amp;quot;overall&amp;quot; randomness based on a number of lags.
 Box.test(SP500_ts, type = &amp;quot;Ljung&amp;quot;) %&amp;gt;%
@@ -2390,7 +2402,7 @@ SP500_tsi %&amp;gt;%
     labs(title = &amp;quot;Plot of Decomposed S&amp;amp;P 500 Returns&amp;quot;,
          x = &amp;quot;&amp;quot;, y = &amp;quot;&amp;quot;) +
     theme_minimal()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/seasonal_decomposition-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/figure-html/seasonal_decomposition-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Informal test for signifance of seasonality
 # Exponential time series model with &amp;quot;Additive&amp;quot; Error, &amp;quot;None&amp;quot; trend, and &amp;quot;Additive&amp;quot; season types
 SP500_tsi %&amp;gt;% 
@@ -2485,7 +2497,7 @@ fcast %&amp;gt;%
     scale_y_continuous(labels = scales::percent_format()) +
     theme_minimal() +
     facet_wrap(~ .model)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;fcast %&amp;gt;% 
     filter(.model %in% c(&amp;quot;arima&amp;quot;, &amp;quot;tslm&amp;quot;, &amp;quot;ets&amp;quot;, &amp;quot;mixed&amp;quot;)) %&amp;gt;%
   autoplot(SP500_training) +
@@ -2495,7 +2507,7 @@ fcast %&amp;gt;%
     scale_y_continuous(labels = scales::percent_format()) +
     theme_minimal() +
     facet_wrap(~ .model)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/unnamed-chunk-4-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/figure-html/unnamed-chunk-3-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Model performance
 forecast::accuracy(fcast, SP500_testing) %&amp;gt;% 
       arrange(desc(RMSE)) %&amp;gt;%
@@ -2811,7 +2823,7 @@ interp.residuals %&amp;gt;%
     facet_wrap(~ .model, ncol = 3) +
     labs(title = &amp;quot;Residuals plot&amp;quot;, x = &amp;quot;&amp;quot;, y = &amp;quot;Residual&amp;quot;) +
     theme_hc()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/unnamed-chunk-4-3.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/figure-html/unnamed-chunk-3-3.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Plot density of residuals
 interp.residuals %&amp;gt;%
     ggplot(aes(x = .resid)) + 
@@ -2821,7 +2833,7 @@ interp.residuals %&amp;gt;%
     facet_wrap(~ .model, ncol = 3) +
     labs(title = &amp;quot;Density plots of residuals&amp;quot;, x = &amp;quot;Residual&amp;quot;, y = &amp;quot;Frequency&amp;quot;) +
     theme_hc()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/unnamed-chunk-4-4.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/figure-html/unnamed-chunk-3-4.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;It appears that the &lt;em&gt;Random Walk&lt;/em&gt; and &lt;em&gt;Random Walk with a Drift&lt;/em&gt; models are equally the best models among the eight applied. They resulted in the highest RMSEs for out-of-sample test data. The performance metrics for these two models are roughly equal, perhaps because the trend component in the &lt;em&gt;Random Walk with a Drift&lt;/em&gt; was approximately flat.&lt;/p&gt;
 &lt;p&gt;Relatively speaking, the &lt;em&gt;Random Walk&lt;/em&gt; and &lt;em&gt;Random Walk with a Drift&lt;/em&gt; models outperform the others, but are they useful in forecasting returns? Actually, an RMSE of 6.5% (0.0652) is not an acceptable forecast error when considing the average monthly return of 0.9% over the nine-year period 2011-2019. It is informative to notice that the MAPE (Mean Absolute Percentage Error) of 329% for these two models. Perhaps a MAPE of less than 20% would be acceptable.&lt;/p&gt;
 &lt;/div&gt;
@@ -2843,6 +2855,20 @@ interp.residuals %&amp;gt;%
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Get and Clean Fundamentals Data from EDGAR</title>
+      <link>https://www.investwithr.com/project/internal-project/</link>
+      <pubDate>Fri, 03 Jun 2022 00:00:00 +0000</pubDate>
+      <guid>https://www.investwithr.com/project/internal-project/</guid>
+      <description>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus. Vestibulum sit amet erat at nulla eleifend gravida.&lt;/p&gt;
+&lt;p&gt;Nullam vel molestie justo. Curabitur vitae efficitur leo. In hac habitasse platea dictumst. Sed pulvinar mauris dui, eget varius purus congue ac. Nulla euismod, lorem vel elementum dapibus, nunc justo porta mi, sed tempus est est vel tellus. Nam et enim eleifend, laoreet sem sit amet, elementum sem. Morbi ut leo congue, maximus velit ut, finibus arcu. In et libero cursus, rutrum risus non, molestie leo. Nullam congue quam et volutpat malesuada. Sed risus tortor, pulvinar et dictum nec, sodales non mi. Phasellus lacinia commodo laoreet. Nam mollis, erat in feugiat consectetur, purus eros egestas tellus, in auctor urna odio at nibh. Mauris imperdiet nisi ac magna convallis, at rhoncus ligula cursus.&lt;/p&gt;
+&lt;p&gt;Cras aliquam rhoncus ipsum, in hendrerit nunc mattis vitae. Duis vitae efficitur metus, ac tempus leo. Cras nec fringilla lacus. Quisque sit amet risus at ipsum pharetra commodo. Sed aliquam mauris at consequat eleifend. Praesent porta, augue sed viverra bibendum, neque ante euismod ante, in vehicula justo lorem ac eros. Suspendisse augue libero, venenatis eget tincidunt ut, malesuada at lorem. Donec vitae bibendum arcu. Aenean maximus nulla non pretium iaculis. Quisque imperdiet, nulla in pulvinar aliquet, velit quam ultrices quam, sit amet fringilla leo sem vel nunc. Mauris in lacinia lacus.&lt;/p&gt;
+&lt;p&gt;Suspendisse a tincidunt lacus. Curabitur at urna sagittis, dictum ante sit amet, euismod magna. Sed rutrum massa id tortor commodo, vitae elementum turpis tempus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean purus turpis, venenatis a ullamcorper nec, tincidunt et massa. Integer posuere quam rutrum arcu vehicula imperdiet. Mauris ullamcorper quam vitae purus congue, quis euismod magna eleifend. Vestibulum semper vel augue eget tincidunt. Fusce eget justo sodales, dapibus odio eu, ultrices lorem. Duis condimentum lorem id eros commodo, in facilisis mauris scelerisque. Morbi sed auctor leo. Nullam volutpat a lacus quis pharetra. Nulla congue rutrum magna a ornare.&lt;/p&gt;
+&lt;p&gt;Aliquam in turpis accumsan, malesuada nibh ut, hendrerit justo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque sed erat nec justo posuere suscipit. Donec ut efficitur arcu, in malesuada neque. Nunc dignissim nisl massa, id vulputate nunc pretium nec. Quisque eget urna in risus suscipit ultricies. Pellentesque odio odio, tincidunt in eleifend sed, posuere a diam. Nam gravida nisl convallis semper elementum. Morbi vitae felis faucibus, vulputate orci placerat, aliquet nisi. Aliquam erat volutpat. Maecenas sagittis pulvinar purus, sed porta quam laoreet at.&lt;/p&gt;
 </description>
     </item>
     
@@ -2931,7 +2957,7 @@ data.head()
 &lt;p&gt;Demo:&lt;/p&gt;
 
 
-&lt;div id=&#34;chart-476381259&#34; class=&#34;chart&#34;&gt;&lt;/div&gt;
+&lt;div id=&#34;chart-754268319&#34; class=&#34;chart&#34;&gt;&lt;/div&gt;
 &lt;script&gt;
   (function() {
     let a = setInterval( function() {
@@ -2941,7 +2967,7 @@ data.head()
       clearInterval( a );
 
       Plotly.d3.json(&#34;./line-chart.json&#34;, function(chart) {
-        Plotly.plot(&#39;chart-476381259&#39;, chart.data, chart.layout, {responsive: true});
+        Plotly.plot(&#39;chart-754268319&#39;, chart.data, chart.layout, {responsive: true});
       });
     }, 500 );
   })();

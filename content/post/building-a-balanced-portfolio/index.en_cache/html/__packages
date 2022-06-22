@@ -8,13 +8,13 @@ dplyr
 stringr
 forcats
 lubridate
+gt
 zoo
 xts
+echarts4r
+arrow
+here
 PerformanceAnalytics
 TTR
 quantmod
 tidyquant
-echarts4r
-arrow
-here
-gt

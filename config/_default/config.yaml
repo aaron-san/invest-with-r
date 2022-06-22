@@ -8,6 +8,11 @@ title: Invest With R # Website name
 baseurl: "https://www.investwithr.com/" # Website URL
 copyright: "© {year} Aaron Hardy" # Footer text, e.g. '© {year} Me'
 
+# Set to true to disable code folding
+disable_codefolding: false
+# Set to "hide" or "show" all codes by default
+codefolding_show: "hide"
+
 ############################
 ## LANGUAGE
 ############################

@@ -16,21 +16,20 @@ linktitle: ''
 projects: []
 editor_options: 
   chunk_output_type: console
-disable_codefolding: false #to turn off code folding for the post.
-Set codefolding_show: show #to hide the code blocks in the post
-Set codefolding_nobutton: false
-
 output:
       blogdown::html_page:
             # highlight: tango
             toc: true
 ---
 
+<!-- disable_codefolding: false #to turn off code folding for the post. -->
+<!-- Set codefolding_show: show #to hide the code blocks in the post -->
+<!-- Set codefolding_nobutton: false -->
 
 Building a balanced portfolio is not as easy as it might seem.
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = TRUE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = FALSE)
 
 # blogdown::check_gitignore() # Checks gitignore
 # blogdown::check_content()   # Checks content
@@ -50,16 +49,18 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = TRU
 
 ```
 
-```{r data}
+```{r libraries}
 
 library(tidyverse)
 library(lubridate)
 library(gt)
-library(xts)
 library(echarts4r)
+library(tidyquant)
 library(arrow)
 library(here)
+```
 
+```{r get_data}
 filter <- dplyr::filter
 lag <- dplyr::lag
 

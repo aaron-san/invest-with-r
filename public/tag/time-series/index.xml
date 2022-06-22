@@ -5,7 +5,7 @@
     <link>https://www.investwithr.com/tag/time-series/</link>
       <atom:link href="https://www.investwithr.com/tag/time-series/index.xml" rel="self" type="application/rss+xml" />
     <description>Time series</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>© 2022 Aaron Hardy</copyright><lastBuildDate>Wed, 01 Jun 2022 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>© 2022 Aaron Hardy</copyright><lastBuildDate>Mon, 20 Jun 2022 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://www.investwithr.com/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_3.png</url>
       <title>Time series</title>
@@ -14,13 +14,12 @@
     
     <item>
       <title>Forecasting S&amp;P500 Stock Returns with R</title>
-      <link>https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/</link>
-      <pubDate>Wed, 01 Jun 2022 00:00:00 +0000</pubDate>
-      <guid>https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/</guid>
+      <link>https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/</link>
+      <pubDate>Mon, 20 Jun 2022 00:00:00 +0000</pubDate>
+      <guid>https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/</guid>
       <description>
-&lt;script src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
-&lt;script src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
-&lt;link href=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/lightable/lightable.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/lightable/lightable.css&#34; rel=&#34;stylesheet&#34; /&gt;
 
 &lt;div id=&#34;TOC&#34;&gt;
 &lt;ul&gt;
@@ -28,7 +27,8 @@
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#data&#34;&gt;Data&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#initial-setup---load-the-packages-and-dataset&#34;&gt;2. Initial Setup - Load the packages and dataset&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#initial-setup---load-the-packages-and-dataset&#34;&gt;2. Initial Setup - Load the packages and dataset&lt;/a&gt;
+&lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#data-preparation-and-preprocessing&#34;&gt;3. Data Preparation and Preprocessing&lt;/a&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#prepare-the-data&#34;&gt;Prepare the data&lt;/a&gt;&lt;/li&gt;
@@ -39,12 +39,17 @@
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#other-considerations&#34;&gt;Other Considerations&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 
+&lt;!-- description: &#39;Modeling stock returns&#39; --&gt;
+&lt;!-- disable_codefolding: false #to turn off code folding for the post. --&gt;
+&lt;!-- Set codefolding_show: show #to hide the code blocks in the post --&gt;
+&lt;!-- Set codefolding_nobutton: false --&gt;
 &lt;p&gt;Disclaimer: I am not a data scientist, but I am an R, investing, and data science enthusiast.&lt;/p&gt;
-&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;1. Introduction&lt;/h2&gt;
+&lt;div id=&#34;introduction&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;1. Introduction&lt;/h1&gt;
 &lt;p&gt;Is it possible to predict stock returns? We will look at a group of 500 large U.S. companies and try to identify any historical patterns that can be used to predict future returns. Specifically, we will focus on the S&amp;amp;P 500 stock index which represents the stock performance of a diverse group of 500 of the largest U.S. companies.&lt;/p&gt;
 &lt;p&gt;Why predict S&amp;amp;P 500 returns? Millions of people are invested in U.S. stocks through pension plans and individual investment accounts. Many of these investors want to protect their investments by buying before prices rise and selling before prices fall.&lt;/p&gt;
 &lt;p&gt;We will perform the analysis in three broad steps:&lt;/p&gt;
@@ -53,17 +58,18 @@
 &lt;li&gt;Model fitting, and&lt;/li&gt;
 &lt;li&gt;Evaluation of model performance&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div id=&#34;data&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Data&lt;/h3&gt;
+&lt;div id=&#34;data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Data&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;S&amp;amp;P 500 monthly returns, 2011-2019 (FRED symbol: &lt;em&gt;SP500&lt;/em&gt;)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;This data is available on the &lt;a href=&#34;https://fred.stlouisfed.org&#34;&gt;FRED&lt;/a&gt; website.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id=&#34;initial-setup---load-the-packages-and-dataset&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;2. Initial Setup - Load the packages and dataset&lt;/h2&gt;
+&lt;div id=&#34;initial-setup---load-the-packages-and-dataset&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;2. Initial Setup - Load the packages and dataset&lt;/h1&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Load libraries
+
 suppressPackageStartupMessages({
     
     # General purpose
@@ -113,7 +119,6 @@ data &amp;lt;- fread(&amp;quot;C:/Users/user/Desktop/Aaron/R/Projects/Fundamenta
       as_tibble() %&amp;gt;%   
       mutate(date = ymd(date)) %&amp;gt;%  
       filter(symbol %in% symbols)   &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;div id=&#34;data-preparation-and-preprocessing&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;3. Data Preparation and Preprocessing&lt;/h2&gt;
 &lt;div id=&#34;prepare-the-data&#34; class=&#34;section level3&#34;&gt;
@@ -152,7 +157,7 @@ SP500_tbl %&amp;gt;%
     scale_y_continuous(labels = scales::percent_format()) +    
     scale_x_date(date_labels = &amp;quot;%Y %b&amp;quot;) +
     theme_minimal()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/scatterplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/figure-html/scatterplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Get summary data
 summary(SP500_tbl)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##       date                SP500        ROC.SP500       
@@ -184,7 +189,7 @@ SP500_tbl %&amp;gt;%
     theme(axis.text.x = element_text(angle = 90, hjust = 1),
           panel.grid = element_blank()) +
     facet_grid(~ yr, scale = &amp;quot;free&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/violinplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/figure-html/violinplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The violin plots show high volatility of returns in 2011 followed by decreased volatility in subsequent years and finally high volatility again in 2018 and 2019. The range of returns (distance from bottom of violin plot to its top) seems to increase and decrease without any clear regularity. No clear patterns of volatility stand out.&lt;/p&gt;
 &lt;p&gt;Let’s look at some more distributions of returns, but this time grouped by month. For example, the distribution for January includes January returns for each year (2011-2019).&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Get summary data
@@ -525,7 +530,7 @@ SP500_tbl %&amp;gt;%
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 90),
           panel.grid = element_blank())&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/densityplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/figure-html/densityplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;If we calculate the ratio of average return to standard deviation for returns grouped by month, we notice that February, April, July, and November especially have high average returns to standard deviation. More importantly, we notice that the ratio of mean return to downside deviation is especially high for February, April, July, and November. In other words, the returns to risk ratio appears to be especially good for investors in these months.&lt;/p&gt;
 &lt;p&gt;The density plots seem to reveal that February, July, and November especially experience a high proportion of returns greater than zero. This can be visualized by noticing that the mean and medians of each of these months’ returns are considerably greater than the zero-lines (in black) and their density curves have high peaks on the right side of the zero-line. This would suggest that stocks held in these months experience consistently positive monthly returns.&lt;/p&gt;
 &lt;p&gt;Let’s look at a calendar plot that shows returns across months and years.&lt;/p&gt;
@@ -546,7 +551,7 @@ SP500_tbl %&amp;gt;%
           axis.text.x = element_text(angle = 90, hjust = 1),
           legend.position = &amp;quot;top&amp;quot;,
           axis.ticks = element_blank())&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/figure-html/calendarplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;A look at the calendar plot reveals that February, April, July, and November experience positive returns in at least seven of the nine years observed. It appears that returns in these months are consistently positive.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Breush Pagan Test for heteroskedasticity
 # - First create a linear model and use residuals to test for heteroskedasticity
@@ -566,7 +571,7 @@ ndiffs(SP500_ts)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# View the ACF and PCF plots
 SP500_ts %&amp;gt;% 
     ggtsdisplay(theme = theme_minimal(), main = &amp;quot;S&amp;amp;P 500 returns monthly&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Box Test for Autocorrelation
 # - Test of whether any of a group of autocorrelations of a time series are different from zero. Instead of testing randomness at each distinct lag, it tests the &amp;quot;overall&amp;quot; randomness based on a number of lags.
 Box.test(SP500_ts, type = &amp;quot;Ljung&amp;quot;) %&amp;gt;%
@@ -596,7 +601,7 @@ SP500_tsi %&amp;gt;%
     labs(title = &amp;quot;Plot of Decomposed S&amp;amp;P 500 Returns&amp;quot;,
          x = &amp;quot;&amp;quot;, y = &amp;quot;&amp;quot;) +
     theme_minimal()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/seasonal_decomposition-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/figure-html/seasonal_decomposition-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Informal test for signifance of seasonality
 # Exponential time series model with &amp;quot;Additive&amp;quot; Error, &amp;quot;None&amp;quot; trend, and &amp;quot;Additive&amp;quot; season types
 SP500_tsi %&amp;gt;% 
@@ -691,7 +696,7 @@ fcast %&amp;gt;%
     scale_y_continuous(labels = scales::percent_format()) +
     theme_minimal() +
     facet_wrap(~ .model)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;fcast %&amp;gt;% 
     filter(.model %in% c(&amp;quot;arima&amp;quot;, &amp;quot;tslm&amp;quot;, &amp;quot;ets&amp;quot;, &amp;quot;mixed&amp;quot;)) %&amp;gt;%
   autoplot(SP500_training) +
@@ -701,7 +706,7 @@ fcast %&amp;gt;%
     scale_y_continuous(labels = scales::percent_format()) +
     theme_minimal() +
     facet_wrap(~ .model)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/unnamed-chunk-4-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/figure-html/unnamed-chunk-3-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Model performance
 forecast::accuracy(fcast, SP500_testing) %&amp;gt;% 
       arrange(desc(RMSE)) %&amp;gt;%
@@ -1017,7 +1022,7 @@ interp.residuals %&amp;gt;%
     facet_wrap(~ .model, ncol = 3) +
     labs(title = &amp;quot;Residuals plot&amp;quot;, x = &amp;quot;&amp;quot;, y = &amp;quot;Residual&amp;quot;) +
     theme_hc()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/unnamed-chunk-4-3.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/figure-html/unnamed-chunk-3-3.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Plot density of residuals
 interp.residuals %&amp;gt;%
     ggplot(aes(x = .resid)) + 
@@ -1027,7 +1032,7 @@ interp.residuals %&amp;gt;%
     facet_wrap(~ .model, ncol = 3) +
     labs(title = &amp;quot;Density plots of residuals&amp;quot;, x = &amp;quot;Residual&amp;quot;, y = &amp;quot;Frequency&amp;quot;) +
     theme_hc()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part-1/index_files/figure-html/unnamed-chunk-4-4.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.investwithr.com/post/forecasting-s-p-500-returns-with-r-part/index.en_files/figure-html/unnamed-chunk-3-4.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;It appears that the &lt;em&gt;Random Walk&lt;/em&gt; and &lt;em&gt;Random Walk with a Drift&lt;/em&gt; models are equally the best models among the eight applied. They resulted in the highest RMSEs for out-of-sample test data. The performance metrics for these two models are roughly equal, perhaps because the trend component in the &lt;em&gt;Random Walk with a Drift&lt;/em&gt; was approximately flat.&lt;/p&gt;
 &lt;p&gt;Relatively speaking, the &lt;em&gt;Random Walk&lt;/em&gt; and &lt;em&gt;Random Walk with a Drift&lt;/em&gt; models outperform the others, but are they useful in forecasting returns? Actually, an RMSE of 6.5% (0.0652) is not an acceptable forecast error when considing the average monthly return of 0.9% over the nine-year period 2011-2019. It is informative to notice that the MAPE (Mean Absolute Percentage Error) of 329% for these two models. Perhaps a MAPE of less than 20% would be acceptable.&lt;/p&gt;
 &lt;/div&gt;
@@ -1047,6 +1052,7 @@ interp.residuals %&amp;gt;%
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;Model Insufficiency&lt;/strong&gt; - Seven forecast models were fit to the data, but there are other forecast models that could be analyzed and applied. It is possible that this could change the results and conclusions of the analysis.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;Academic Findings&lt;/strong&gt; - Many leaders in the academic community have analyzed stock returns over longer time horizons and over wider groups of stocks (not just 500 of the largest) and found that generally, stock returns follow random walks (i.e., behave like white noise).&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 </description>

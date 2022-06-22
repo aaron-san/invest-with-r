@@ -9524,67 +9524,20 @@ div.chart {
 .portrait-title h2 {
   font-size: 1.5rem; }
 
-img {
-  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3), 0 7px 21px 0 rgba(0, 0, 0, 0.2); }
-
-.home-section.fullscreen {
-  /* min-height: calc(100vh - 70px); */
-  min-height: 0px; }
-
-.btn {
-  color: blue;
-  margin: 20px 5px 15px 0; }
-
-.btn.btn-sm, .btn-group-sm > .btn {
-  font-size: 20px; }
-
-small, .small {
-  font-size: 18px; }
-
-.dropdown-toggle {
-  margin: 5px;
-  padding: 10px; }
-
-/* Code folding */
-/* Each code block button */
-.code-folding-btn {
-  margin-bottom: 20px;
-  float: right;
+#togglecode {
+  margin: 0;
+  position: fixed;
+  z-index: 10;
+  top: 125px;
+  right: 300px;
+  font-size: 14px;
+  width: 90px;
+  background-color: rgba(80, 60, 212, 0.7);
   color: white;
-  background-color: darkslateblue; }
-
-.code-folding-btn:hover {
-  color: white;
-  background-color: slateblue; }
-
-div {
-  margin: 10px 0 10px 0; }
-
-.row {
-  display: flex;
-  border-bottom: solid 1px #d7d7d7; }
-
-.col-md-12 {
-  margin: 0 0 0 auto; }
-
-/* Main show/hide button */
-#code-folding-buttons {
-  float: right; }
-
-#code-folding-buttons .dropdown-menu {
-  min-width: 80px;
-  padding: 5px 0;
-  margin: 2px 0 0;
-  font-size: 20px; }
-
-#allCodeToggleButton {
-  background: darkslateblue;
-  color: white;
-  padding: 10px 16px; }
-
-#allCodeToggleButton:hover {
-  background: slateblue; }
-
-/* End code folding */
-code {
-  transition: 4s; }
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 3x 6px rgba(0, 0, 0, 0.175); }
