@@ -220,7 +220,7 @@ returns %>%
               # left = "center",
               left = "3%",
               top = "3%") %>%
-      e_legend(orient = "vertical",
+      e_legend(orient = "horizontal",
                # type = "scroll",
                top = "15%",
                right = "5",
@@ -315,7 +315,26 @@ perc_up_days <-
       tibble(ticker = names(.), perc_up = round(., 2)) %>% 
       arrange(desc(perc_up))
 
-perc_up_days
+perc_up_days %>% 
+  mutate(ticker = case_when(ticker == "commodities" ~ "Commodities",
+                            ticker == "emerging_markets" ~ "Emerging Markets",
+                            ticker == "global_stocks" ~ "Global Stocks",
+                            ticker == "treasury_notes" ~ "Treasury Notes",
+                            ticker == "us_real_estate" ~ "U.S. Real Estate",
+                            ticker == "us_bonds" ~ "U.S. Bonds",
+                            ticker == "us_stocks" ~ "U.S. Stocks",
+                            TRUE ~ NA_character_)) %>% 
+  mutate(perc_up = paste0(100*perc_up, "%")) %>% 
+  select(`Asset Class` = ticker, `% Up Days` = perc_up) %>% 
+  gt() %>% 
+  cols_align(
+    align = "center",
+    columns = `% Up Days`
+  ) %>% 
+  tab_header(
+    title = "Percent of Time the Price Went Up",
+    subtitle = md("*How often did the price go up?*")
+  )
 ```
 
 ## Gains vs. Losses
@@ -602,10 +621,17 @@ how it should be considered in the invetment decision.
 
 ```{r}
 port_performance %>% 
-  arrange(desc(annual_stdev)) %>% 
+  # arrange(desc(annual_stdev)) %>% 
   select(portfolio, annual_stdev) %>% 
-  mutate(rank = percent_rank(annual_stdev)) %>% 
-  filter(portfolio %in% best_return)
+  mutate(percentile = percent_rank(-annual_stdev)) %>% 
+  filter(portfolio %in% best_return) %>% 
+  mutate(across(c(annual_stdev, percentile), ~round(.x, 2))) %>% 
+  rename(Portolio = portfolio, `Ann. St. Dev.` = annual_stdev, Percentile = percentile) %>% 
+  gt() #%>% 
+  # tab_header(
+  #   title = "Portfolio Volatility",
+  #   subtitle = md("**Which portfolios had the lowest volatility?**")
+  # )
 
 ```
 

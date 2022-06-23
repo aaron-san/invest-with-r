@@ -1,8 +1,8 @@
-
+/* 
 /* Code folding */
 
 /* Each code block button */
-.code-folding-btn { 
+/* .code-folding-btn { 
   margin-bottom: 4px; 
 float: right;
 }
@@ -15,13 +15,13 @@ float: right;
 }
 
 /* Main show/hide button */
-#code-folding-buttons {float: right;}
+/* #code-folding-buttons {float: right;}
 
 #code-folding-buttons .dropdown-menu {
   min-width: 80px;
   padding: 5px 0;
   margin: 2px 0 0;
   font-size: 14px;
-}
+}  */
 
 /* End code folding */

@@ -252,7 +252,7 @@
   
   
   
-  <link rel="stylesheet" href="/css/wowchemy.a044c8f658bf1be7d97a05d4d70cf525.css" />
+  <link rel="stylesheet" href="/css/wowchemy.72d1100a708b2a3624c4d3fc1bd8e86f.css" />
 
   
 
@@ -375,12 +375,6 @@
 
 
 
-
-
-  
-  <script src="/js/collapse.js"></script>
-  <script src="/js/dropdown.js"></script>
-  <script src="/js/transition.js"></script>
 
 
   <title>Display Jupyter Notebooks with Academic | Invest With R</title>
@@ -676,26 +670,42 @@
   
 
   
-
-
 <script>
+  
+  window.onload = function() {
+    var x = document.querySelectorAll("pre.r");
+    xArr = Array.from(x);
+    xArr.map(elem => {
+      elem.style.display = "none"
+    })
+};
+
+  
+
   function myFunction() {
-  var x = document.getElementByClass(".r");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
+    btn = document.getElementById("togglecode");
+    var x = document.querySelectorAll("pre.r");
+    xArr = Array.from(x);
+    xArr.map(elem => {
+      if (elem.style.display === "none") {
+      
+        
+        elem.style.display = "block";
+        btn.innerHTML = "Hide Code"
+      } else {
+        
+        
+        elem.style.display = "none";
+        btn.innerHTML = "Show Code"
+      }
+    })
   }
-  }
+
+
+
 </script>
 
-<button onclick="myFunction()">Toggle Code</button>
-
-
-
-
-
-
+<button id="togglecode" onclick="myFunction()">Show Code</button>
   
 
 

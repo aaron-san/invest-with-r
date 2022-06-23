@@ -9542,8 +9542,6 @@ div.chart {
   box-shadow: 0 3x 6px rgba(0, 0, 0, 0.175); }
 
 @media only screen and (max-width: 600px) {
-  body {
-    background-color: lightblue; }
   #togglecode {
     top: 60px;
     right: 5px; } }
