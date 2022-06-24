@@ -724,7 +724,7 @@ then U.S. bonds (e.g., 50%, 40%, 10%, respectively for portfolio 6904).
 How did the best Sharpe ratio (efficient) portfolios perform based on total 
 returns?
 
-```{r}
+```{r performance_chart}
 port_performance %>%
   arrange(desc(annual_return),
           desc(sharpe_ratio),
