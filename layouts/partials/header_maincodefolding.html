@@ -1,37 +1,75 @@
 
 <script>
-  
+  // hide all pre.r elements when page loads
   window.onload = function() {
     var x = document.querySelectorAll("pre.r");
-    xArr = Array.from(x);
+    var xArr = Array.from(x);
+    // console.log(xArr);
     xArr.map(elem => {
       elem.style.display = "none"
     })
+
+   
+    const btn = `<button class="float_right" style="display: block;"> Show code </button>`
+
+    xArr.map(elem => {
+      elem.insertAdjacentHTML("beforebegin", btn);
+    })
+    
+    var btn_items = document.querySelectorAll("button.float_right");
+    var btnArr = Array.from(btn_items);
+      
+    
+    btnArr.map(elem => {
+      
+        elem.addEventListener("click", function(){ 
+          if(elem.nextSibling.style.display === "none") {
+            elem.innerHTML = "Hide code"
+            elem.nextSibling.style.display = "block"
+          } else if(elem.nextSibling.style.display === "block") {
+            elem.innerHTML = "Show code"
+            elem.nextSibling.style.display = "none"
+          }
+    })
+  });
+    
+    // function toggleFunction (elem) {
+      
+      // if(x.style.display === "block") {
+      //   x.addEventListener("click", function(){ return x.nextSibling.style.display = "none"; });
+      // }
+
+      
+    // }
 };
 
-  
 
-  function myFunction() {
-    btn = document.getElementById("togglecode");
-    var x = document.querySelectorAll("pre.r");
-    xArr = Array.from(x);
-    xArr.map(elem => {
-      if (elem.style.display === "none") {
-      // if (elem.classList) {
-        // elem.classList.add("shown")
-        elem.style.display = "block";
-        btn.innerHTML = "Hide Code"
-      } else {
-        // elem.classList.add("hidden")
-        // elem.style.visibility = "hidden";
-        elem.style.display = "none";
-        btn.innerHTML = "Show Code"
-      }
-    })
-  }
+
+
+
+
+
+  // function myFunction() {
+  //   btn = document.getElementById("togglecode");
+  //   var x = document.querySelectorAll("pre.r");
+  //   var xArr = Array.from(x);
+  //   xArr.map(elem => {
+  //     if (elem.style.display === "none") {
+  //     // if (elem.classList) {
+  //       // elem.classList.add("shown")
+  //       elem.style.display = "block";
+  //       btn.innerHTML = "Hide all code"
+  //     } else {
+  //       // elem.classList.add("hidden")
+  //       // elem.style.visibility = "hidden";
+  //       elem.style.display = "none";
+  //       btn.innerHTML = "Show all code"
+  //     }
+  //   })
+  // }
 
 
 
 </script>
 
-<button id="togglecode" onclick="myFunction()">Show Code</button>
+<!-- <button id="togglecode" onclick="myFunction()">Show Code</button> -->
