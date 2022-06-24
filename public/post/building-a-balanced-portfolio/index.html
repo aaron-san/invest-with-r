@@ -1,0 +1,4308 @@
+<!DOCTYPE html><html lang="en-us" >
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <script src="js/jquery-3.6.0.min.js"></script>
+
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.3.0 for Hugo" />
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Aaron Hardy" />
+
+  
+  
+  
+    
+  
+  <meta name="description" content="DataAsset PerformanceReturn ProfilesGains vs. LossesCorrelationsWeightsSet BenchmarkPerformance statsPortfolios with Highest ReturnsPortfolio VolatilityInvestment EfficiencySummaryLimitationsBuilding a balanced portfolio is not as easy as it might seem." />
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://www.investwithr.com/post/building-a-balanced-portfolio/" />
+
+  
+  
+  
+    <meta name="theme-color" content="#1565c0" />
+  
+
+  
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.f1ecf783c14edc00c9320c205831ad8e.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.1/css/academicons.min.css" integrity="sha512-W0xM4mr6dEP9nREo7Z9z+9X70wytKvMGeDsj7ps2+xg5QPrEBXC8tAW1IFnzjR6eoJ90JmCnFzerQJTLzIEHjA==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/styles/github.min.css" crossorigin="anonymous" title="hl-light" media="print" onload="this.media='all'">
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" media="print" onload="this.media='all'" disabled>
+        
+      
+    
+
+    
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.min.css" integrity="" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.8e22bcf156527328b28b07ba5689a9d9.css" />
+
+  
+
+
+
+  
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+    <link rel="manifest" href="/manifest.webmanifest" />
+  
+
+  <link rel="icon" type="image/png" href="/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_32x32_fill_lanczos_center_3.png" />
+  <link rel="apple-touch-icon" type="image/png" href="/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_180x180_fill_lanczos_center_3.png" />
+
+  <link rel="canonical" href="https://www.investwithr.com/post/building-a-balanced-portfolio/" />
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+  
+  
+
+  
+  
+    
+    
+  
+  <meta property="twitter:card" content="summary" />
+  
+  <meta property="og:site_name" content="Invest With R" />
+  <meta property="og:url" content="https://www.investwithr.com/post/building-a-balanced-portfolio/" />
+  <meta property="og:title" content="Building a Balanced Portfolio | Invest With R" />
+  <meta property="og:description" content="DataAsset PerformanceReturn ProfilesGains vs. LossesCorrelationsWeightsSet BenchmarkPerformance statsPortfolios with Highest ReturnsPortfolio VolatilityInvestment EfficiencySummaryLimitationsBuilding a balanced portfolio is not as easy as it might seem." /><meta property="og:image" content="https://www.investwithr.com/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_3.png" />
+    <meta property="twitter:image" content="https://www.investwithr.com/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+  
+    
+      <meta
+        property="article:published_time"
+        content="2022-06-24T00:00:00&#43;00:00"
+      />
+    
+    <meta property="article:modified_time" content="2022-06-24T00:00:00&#43;00:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.investwithr.com/post/building-a-balanced-portfolio/"
+  },
+  "headline": "Building a Balanced Portfolio",
+  
+  "datePublished": "2022-06-24T00:00:00Z",
+  "dateModified": "2022-06-24T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Aaron Hardy"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Invest With R",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.investwithr.com/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "Data\rAsset Performance\r\rReturn Profiles\rGains vs. Losses\rCorrelations\rWeights\rSet Benchmark\rPerformance stats\r\rPortfolios with Highest Returns\rPortfolio Volatility\rInvestment Efficiency\rSummary\rLimitations\r\r\rBuilding a balanced portfolio is not as easy as it might seem."
+}
+</script>
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+  <title>Building a Balanced Portfolio | Invest With R</title>
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="31b681cb773e8f2b555263337203ff41" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.da42964e270e05a6063fbca894d7ccff.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container-xl">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Invest With R</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Invest With R</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+      
+      
+        
+          
+          <li class="nav-item d-none d-lg-inline-flex">
+            <a class="nav-link" href="https://twitter.com/GeorgeCushen" data-toggle="tooltip" data-placement="bottom" title="Follow me on Twitter" target="_blank" rel="noopener" aria-label="Follow me on Twitter">
+              <i class="fab fa-twitter" aria-hidden="true"></i>
+            </a>
+          </li>
+        
+      
+
+      
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      
+
+      
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  </div>
+
+  <div class="page-body">
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Building a Balanced Portfolio</h1>
+
+  
+
+  
+    
+<script>
+  
+  window.onload = function() {
+    var x = document.querySelectorAll("pre.r");
+    var xArr = Array.from(x);
+    
+    xArr.map(elem => {
+      elem.style.display = "none"
+    })
+
+   
+    const btn = `<button class="float_right" style="display: block;"> Show code </button>`
+
+    xArr.map(elem => {
+      elem.insertAdjacentHTML("beforebegin", btn);
+    })
+    
+    var btn_items = document.querySelectorAll("button.float_right");
+    var btnArr = Array.from(btn_items);
+      
+    
+    btnArr.map(elem => {
+      
+        elem.addEventListener("click", function(){ 
+          if(elem.nextSibling.style.display === "none") {
+            elem.innerHTML = "Hide code"
+            elem.nextSibling.style.display = "block"
+          } else if(elem.nextSibling.style.display === "block") {
+            elem.innerHTML = "Show code"
+            elem.nextSibling.style.display = "none"
+          }
+    })
+  });
+    
+    // function toggleFunction (elem) {
+      
+      
+      
+      
+
+      
+    
+};
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+
+</script>
+
+
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Jun 24, 2022
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    39 min read
+  </span>
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/category/portfolio/">Portfolio</a></span>
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+<script src="https://www.investwithr.com/post/building-a-balanced-portfolio/index.en_files/htmlwidgets/htmlwidgets.js"></script>
+<script src="https://www.investwithr.com/post/building-a-balanced-portfolio/index.en_files/echarts4r/echarts-en.min.js"></script>
+<script src="https://www.investwithr.com/post/building-a-balanced-portfolio/index.en_files/echarts4r/ecStat.min.js"></script>
+<script src="https://www.investwithr.com/post/building-a-balanced-portfolio/index.en_files/echarts4r/dataTool.min.js"></script>
+<script src="https://www.investwithr.com/post/building-a-balanced-portfolio/index.en_files/echarts4r-binding/echarts4r.js"></script>
+<script src="https://www.investwithr.com/post/building-a-balanced-portfolio/index.en_files/shine/shine.js"></script>
+<script src="https://www.investwithr.com/post/building-a-balanced-portfolio/index.en_files/plotly-binding/plotly.js"></script>
+<script src="https://www.investwithr.com/post/building-a-balanced-portfolio/index.en_files/typedarray/typedarray.min.js"></script>
+<script src="https://www.investwithr.com/post/building-a-balanced-portfolio/index.en_files/jquery/jquery.min.js"></script>
+<link href="https://www.investwithr.com/post/building-a-balanced-portfolio/index.en_files/crosstalk/css/crosstalk.min.css" rel="stylesheet" />
+<script src="https://www.investwithr.com/post/building-a-balanced-portfolio/index.en_files/crosstalk/js/crosstalk.min.js"></script>
+<link href="https://www.investwithr.com/post/building-a-balanced-portfolio/index.en_files/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="https://www.investwithr.com/post/building-a-balanced-portfolio/index.en_files/plotly-main/plotly-latest.min.js"></script>
+
+<div id="TOC">
+<ul>
+<li><a href="#data">Data</a></li>
+<li><a href="#asset-performance">Asset Performance</a>
+<ul>
+<li><a href="#return-profiles">Return Profiles</a></li>
+<li><a href="#gains-vs.-losses">Gains vs. Losses</a></li>
+<li><a href="#correlations">Correlations</a></li>
+<li><a href="#weights">Weights</a></li>
+<li><a href="#set-benchmark">Set Benchmark</a></li>
+<li><a href="#performance-stats">Performance stats</a></li>
+</ul></li>
+<li><a href="#portfolios-with-highest-returns">Portfolios with Highest Returns</a></li>
+<li><a href="#portfolio-volatility">Portfolio Volatility</a></li>
+<li><a href="#investment-efficiency">Investment Efficiency</a></li>
+<li><a href="#summary">Summary</a></li>
+<li><a href="#limitations">Limitations</a></li>
+</ul>
+</div>
+
+<!-- disable_codefolding: false #to turn off code folding for the post. -->
+<!-- Set codefolding_show: show #to hide the code blocks in the post -->
+<!-- Set codefolding_nobutton: false -->
+<p>Building a balanced portfolio is not as easy as it might seem.</p>
+<pre class="r"><code>library(tidyverse)
+library(lubridate)
+library(gt)
+library(echarts4r)
+library(tidyquant)
+library(arrow)
+library(here)</code></pre>
+<pre class="r"><code>filter &lt;- dplyr::filter
+lag &lt;- dplyr::lag
+
+file_prices &lt;- list.files(here(&quot;static&quot;, &quot;data&quot;),
+           pattern = &quot;ETF prices&quot;, full.names = TRUE) %&gt;% max()
+
+prices &lt;- read_csv(file_prices, col_types = cols()) %&gt;% 
+      select(ticker, date, adjusted)
+
+file_t_note_rates &lt;- list.files(here(&quot;static&quot;, &quot;data&quot;),
+           pattern = &quot;T Note Rates&quot;, full.names = TRUE) %&gt;% max()
+
+t_note_rates &lt;- read_csv(file_t_note_rates, col_types = cols()) %&gt;% 
+      select(ticker, date, monthly_rate)</code></pre>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>The raw data consists of daily prices for seven ETFs:</p>
+<ul>
+<li>AGG: U.S. total bond market</li>
+<li>EEM: Emerging Markets</li>
+<li>EFA: International equities (excluding the U.S. and Canada)</li>
+<li>GSG: Commodities</li>
+<li>IEF: 7-10 Year Treasury</li>
+<li>IYR: U.S. Real Estate</li>
+<li>VTI: All U.S. stocks</li>
+</ul>
+<p>The monthly returns are then computed and an index starting at 1 is created
+for each ETF for plotting purposes.</p>
+<p>Since each ETF has a different inception date and therefore time span, we will
+set the time span of the analysis to be that of the span of the ETF with the
+most recent inception date.</p>
+<pre class="r"><code># Get monthly Treasury note rates
+rf_monthly &lt;-
+      t_note_rates %&gt;%
+      select(-ticker) %&gt;%
+      complete(date = seq.Date(
+            from = min(ymd(date)),
+            to = max(ymd(date)),
+            by = &quot;day&quot;
+      )) %&gt;%
+      arrange(date) %&gt;%
+      fill(monthly_rate) %&gt;%
+      slice(xts::endpoints(date, on = &quot;months&quot;))
+
+monthly_prices &lt;- 
+      prices %&gt;%
+      filter(!ticker %in% c(&quot;VWO&quot;, &quot;VNQ&quot;, &quot;^IXIC&quot;)) %&gt;% 
+      complete(date = seq.Date(
+            from = min(ymd(date)),
+            to = max(ymd(date)),
+            by = &quot;day&quot;
+      )) %&gt;%
+      arrange(ticker, date) %&gt;%
+      group_by(ticker) %&gt;%
+      fill(adjusted) %&gt;% 
+      slice(xts::endpoints(date, on = &quot;months&quot;)) %&gt;%
+      arrange(date) %&gt;% 
+      mutate(ticker = case_when(ticker == &quot;AGG&quot; ~ &quot;us_bonds&quot;,
+                                ticker == &quot;EEM&quot; ~ &quot;emerging_markets&quot;,
+                                ticker == &quot;EFA&quot; ~ &quot;global_stocks&quot;,
+                                ticker == &quot;GSG&quot; ~ &quot;commodities&quot;,
+                                ticker == &quot;IEF&quot; ~ &quot;treasury_notes&quot;,
+                                ticker == &quot;IYR&quot; ~ &quot;us_real_estate&quot;,
+                                ticker == &quot;VTI&quot; ~ &quot;us_stocks&quot;,
+                                TRUE ~ NA_character_))
+
+start_date &lt;-
+  monthly_prices %&gt;%
+  group_by(ticker) %&gt;%
+  filter(date == min(date)) %&gt;%
+  pull(date) %&gt;%
+  max()
+
+end_date &lt;-
+  monthly_prices %&gt;%
+  group_by(ticker) %&gt;%
+  filter(date == max(date)) %&gt;%
+  pull(date) %&gt;%
+  min() %&gt;%
+  round_date(unit = &quot;months&quot;) %&gt;%
+  {
+    . - days(1)
+  } %&gt;%
+  as.character()
+
+returns &lt;-
+      monthly_prices %&gt;%
+      group_by(ticker) %&gt;%
+      mutate(return = adjusted / lag(adjusted) - 1) %&gt;%
+      filter(date &gt;= start_date, date &lt;= end_date) %&gt;%
+      mutate(index = adjusted / adjusted[1]) %&gt;%
+      arrange(ticker, date) %&gt;%
+      ungroup() %&gt;% 
+      drop_na() %&gt;%
+      left_join(rf_monthly %&gt;% rename(Rf = monthly_rate), by = &quot;date&quot;)
+      
+
+returns %&gt;% 
+  janitor::clean_names(case = &quot;title&quot;) %&gt;% 
+  rename(`Asset Class` = Ticker) %&gt;% 
+  mutate(across(c(&quot;Adjusted&quot;, &quot;Return&quot;, &quot;Index&quot;), ~round(.x, 2))) %&gt;% 
+  mutate(across(&quot;Rf&quot;, ~round(.x, 4))) %&gt;% 
+  group_by(`Asset Class`) %&gt;% 
+  slice_tail(n=2) %&gt;%
+  ungroup() %&gt;% 
+  gt() %&gt;% 
+  tab_header(
+    title = &quot;Returns of Asset Classes&quot;,
+    subtitle = md(&quot;*How did each asset class perform?*&quot;)
+  )</code></pre>
+<div id="iwohhccpgc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#iwohhccpgc .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#iwohhccpgc .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#iwohhccpgc .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#iwohhccpgc .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#iwohhccpgc .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#iwohhccpgc .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#iwohhccpgc .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#iwohhccpgc .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#iwohhccpgc .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#iwohhccpgc .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#iwohhccpgc .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#iwohhccpgc .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#iwohhccpgc .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#iwohhccpgc .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#iwohhccpgc .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#iwohhccpgc .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#iwohhccpgc .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#iwohhccpgc .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#iwohhccpgc .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#iwohhccpgc .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#iwohhccpgc .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#iwohhccpgc .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#iwohhccpgc .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#iwohhccpgc .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#iwohhccpgc .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#iwohhccpgc .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#iwohhccpgc .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#iwohhccpgc .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#iwohhccpgc .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#iwohhccpgc .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#iwohhccpgc .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#iwohhccpgc .gt_left {
+  text-align: left;
+}
+
+#iwohhccpgc .gt_center {
+  text-align: center;
+}
+
+#iwohhccpgc .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#iwohhccpgc .gt_font_normal {
+  font-weight: normal;
+}
+
+#iwohhccpgc .gt_font_bold {
+  font-weight: bold;
+}
+
+#iwohhccpgc .gt_font_italic {
+  font-style: italic;
+}
+
+#iwohhccpgc .gt_super {
+  font-size: 65%;
+}
+
+#iwohhccpgc .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#iwohhccpgc .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#iwohhccpgc .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#iwohhccpgc .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#iwohhccpgc .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#iwohhccpgc .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="6" class="gt_heading gt_title gt_font_normal" style>Returns of Asset Classes</th>
+    </tr>
+    <tr>
+      <th colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style><em>How did each asset class perform?</em></th>
+    </tr>
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Date</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Asset Class</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Adjusted</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Return</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Index</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Rf</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left">2022-04-30</td>
+<td class="gt_row gt_left">commodities</td>
+<td class="gt_row gt_right">23.68</td>
+<td class="gt_row gt_right">0.05</td>
+<td class="gt_row gt_right">0.47</td>
+<td class="gt_row gt_right">0.0024</td></tr>
+    <tr><td class="gt_row gt_left">2022-05-31</td>
+<td class="gt_row gt_left">commodities</td>
+<td class="gt_row gt_right">25.04</td>
+<td class="gt_row gt_right">0.06</td>
+<td class="gt_row gt_right">0.49</td>
+<td class="gt_row gt_right">0.0024</td></tr>
+    <tr><td class="gt_row gt_left">2022-04-30</td>
+<td class="gt_row gt_left">emerging_markets</td>
+<td class="gt_row gt_right">42.02</td>
+<td class="gt_row gt_right">-0.06</td>
+<td class="gt_row gt_right">1.81</td>
+<td class="gt_row gt_right">0.0024</td></tr>
+    <tr><td class="gt_row gt_left">2022-05-31</td>
+<td class="gt_row gt_left">emerging_markets</td>
+<td class="gt_row gt_right">42.28</td>
+<td class="gt_row gt_right">0.01</td>
+<td class="gt_row gt_right">1.82</td>
+<td class="gt_row gt_right">0.0024</td></tr>
+    <tr><td class="gt_row gt_left">2022-04-30</td>
+<td class="gt_row gt_left">global_stocks</td>
+<td class="gt_row gt_right">67.15</td>
+<td class="gt_row gt_right">-0.07</td>
+<td class="gt_row gt_right">1.66</td>
+<td class="gt_row gt_right">0.0024</td></tr>
+    <tr><td class="gt_row gt_left">2022-05-31</td>
+<td class="gt_row gt_left">global_stocks</td>
+<td class="gt_row gt_right">68.49</td>
+<td class="gt_row gt_right">0.02</td>
+<td class="gt_row gt_right">1.69</td>
+<td class="gt_row gt_right">0.0024</td></tr>
+    <tr><td class="gt_row gt_left">2022-04-30</td>
+<td class="gt_row gt_left">treasury_notes</td>
+<td class="gt_row gt_right">102.56</td>
+<td class="gt_row gt_right">-0.04</td>
+<td class="gt_row gt_right">1.85</td>
+<td class="gt_row gt_right">0.0024</td></tr>
+    <tr><td class="gt_row gt_left">2022-05-31</td>
+<td class="gt_row gt_left">treasury_notes</td>
+<td class="gt_row gt_right">103.19</td>
+<td class="gt_row gt_right">0.01</td>
+<td class="gt_row gt_right">1.86</td>
+<td class="gt_row gt_right">0.0024</td></tr>
+    <tr><td class="gt_row gt_left">2022-04-30</td>
+<td class="gt_row gt_left">us_bonds</td>
+<td class="gt_row gt_right">102.50</td>
+<td class="gt_row gt_right">-0.04</td>
+<td class="gt_row gt_right">1.68</td>
+<td class="gt_row gt_right">0.0024</td></tr>
+    <tr><td class="gt_row gt_left">2022-05-31</td>
+<td class="gt_row gt_left">us_bonds</td>
+<td class="gt_row gt_right">103.28</td>
+<td class="gt_row gt_right">0.01</td>
+<td class="gt_row gt_right">1.70</td>
+<td class="gt_row gt_right">0.0024</td></tr>
+    <tr><td class="gt_row gt_left">2022-04-30</td>
+<td class="gt_row gt_left">us_real_estate</td>
+<td class="gt_row gt_right">103.38</td>
+<td class="gt_row gt_right">-0.04</td>
+<td class="gt_row gt_right">2.58</td>
+<td class="gt_row gt_right">0.0024</td></tr>
+    <tr><td class="gt_row gt_left">2022-05-31</td>
+<td class="gt_row gt_left">us_real_estate</td>
+<td class="gt_row gt_right">98.79</td>
+<td class="gt_row gt_right">-0.04</td>
+<td class="gt_row gt_right">2.47</td>
+<td class="gt_row gt_right">0.0024</td></tr>
+    <tr><td class="gt_row gt_left">2022-04-30</td>
+<td class="gt_row gt_left">us_stocks</td>
+<td class="gt_row gt_right">206.88</td>
+<td class="gt_row gt_right">-0.09</td>
+<td class="gt_row gt_right">4.42</td>
+<td class="gt_row gt_right">0.0024</td></tr>
+    <tr><td class="gt_row gt_left">2022-05-31</td>
+<td class="gt_row gt_left">us_stocks</td>
+<td class="gt_row gt_right">206.36</td>
+<td class="gt_row gt_right">0.00</td>
+<td class="gt_row gt_right">4.41</td>
+<td class="gt_row gt_right">0.0024</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+<pre class="r"><code>returns_xts &lt;-
+      returns %&gt;% 
+      select(date, ticker, return) %&gt;% 
+      split(.$ticker) %&gt;% 
+      map(~xts(x = .x$return, order.by = .x$date)) %&gt;% 
+      reduce(merge) %&gt;% 
+      na.omit() %&gt;%
+      setNames(returns %&gt;% distinct(ticker) %&gt;% pull())
+
+# Calculate ther period for the returns data
+time_period &lt;- (as.Date(max(returns$date)) - as.Date(min(returns$date))) %&gt;% as.numeric()
+   
+tickers &lt;- returns %&gt;% distinct(ticker) %&gt;% pull()</code></pre>
+<p>The data consists of tables with columns for dates, ticker, monthly return, and
+index value. The index value starts at 1 for all tickers and grows according to
+each asset’s monthly return.</p>
+<p>The data spans 15 years and 10 months.</p>
+</div>
+<div id="asset-performance" class="section level1">
+<h1>Asset Performance</h1>
+<p>How did each asset perform individually?</p>
+<pre class="r"><code>returns %&gt;%
+      group_by(ticker) %&gt;%
+      e_chart(x = date) %&gt;%
+      e_line(serie = index,
+             symbol = &#39;emptyCircle&#39;,
+             symbolSize = 1) %&gt;%
+      e_tooltip(trigger = &quot;axis&quot;, backgroundColor = &#39;white&#39;) %&gt;%
+      e_grid(right = &quot;15%&quot;, top = &quot;25%&quot;) %&gt;%
+      e_title(text = &quot;Growth of Select ETFs&quot;,
+              subtext = &quot;How did each asset class perform?&quot;,
+              # left = &quot;center&quot;,
+              left = &quot;3%&quot;,
+              top = &quot;3%&quot;) %&gt;%
+      e_legend(orient = &quot;horizontal&quot;,
+               # type = &quot;scroll&quot;,
+               top = &quot;15%&quot;,
+               right = &quot;5&quot;,
+      ) %&gt;%
+      e_datazoom(type = &quot;slider&quot;,
+                 start = 0,
+                 end = 100) %&gt;%
+      e_theme(&quot;shine&quot;) %&gt;%
+      e_toolbox_feature(&quot;dataZoom&quot;, selector = list(start = &#39;20&#39;,
+                                                    end = &#39;80&#39;)) %&gt;%
+      e_toolbox_feature(feature = &quot;reset&quot;) %&gt;%
+      e_toolbox_feature(&quot;dataView&quot;) %&gt;%
+      e_toolbox_feature(&quot;saveAsImage&quot;) %&gt;%
+      e_legend(selector = list(
+            list(type = &#39;inverse&#39;, title = &#39;Invert&#39;),
+            list(type = &#39;all&#39;, title = &#39;Reset&#39;)
+      ))</code></pre>
+<div id="htmlwidget-1" style="width:100%;height:500px;" class="echarts4r html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"theme":"shine","tl":false,"draw":true,"renderer":"canvas","events":[],"buttons":[],"opts":{"yAxis":[{"show":true}],"xAxis":[{"data":["2006-08-31","2006-09-30","2006-10-31","2006-11-30","2006-12-31","2007-01-31","2007-02-28","2007-03-31","2007-04-30","2007-05-31","2007-06-30","2007-07-31","2007-08-31","2007-09-30","2007-10-31","2007-11-30","2007-12-31","2008-01-31","2008-02-29","2008-03-31","2008-04-30","2008-05-31","2008-06-30","2008-07-31","2008-08-31","2008-09-30","2008-10-31","2008-11-30","2008-12-31","2009-01-31","2009-02-28","2009-03-31","2009-04-30","2009-05-31","2009-06-30","2009-07-31","2009-08-31","2009-09-30","2009-10-31","2009-11-30","2009-12-31","2010-01-31","2010-02-28","2010-03-31","2010-04-30","2010-05-31","2010-06-30","2010-07-31","2010-08-31","2010-09-30","2010-10-31","2010-11-30","2010-12-31","2011-01-31","2011-02-28","2011-03-31","2011-04-30","2011-05-31","2011-06-30","2011-07-31","2011-08-31","2011-09-30","2011-10-31","2011-11-30","2011-12-31","2012-01-31","2012-02-29","2012-03-31","2012-04-30","2012-05-31","2012-06-30","2012-07-31","2012-08-31","2012-09-30","2012-10-31","2012-11-30","2012-12-31","2013-01-31","2013-02-28","2013-03-31","2013-04-30","2013-05-31","2013-06-30","2013-07-31","2013-08-31","2013-09-30","2013-10-31","2013-11-30","2013-12-31","2014-01-31","2014-02-28","2014-03-31","2014-04-30","2014-05-31","2014-06-30","2014-07-31","2014-08-31","2014-09-30","2014-10-31","2014-11-30","2014-12-31","2015-01-31","2015-02-28","2015-03-31","2015-04-30","2015-05-31","2015-06-30","2015-07-31","2015-08-31","2015-09-30","2015-10-31","2015-11-30","2015-12-31","2016-01-31","2016-02-29","2016-03-31","2016-04-30","2016-05-31","2016-06-30","2016-07-31","2016-08-31","2016-09-30","2016-10-31","2016-11-30","2016-12-31","2017-01-31","2017-02-28","2017-03-31","2017-04-30","2017-05-31","2017-06-30","2017-07-31","2017-08-31","2017-09-30","2017-10-31","2017-11-30","2017-12-31","2018-01-31","2018-02-28","2018-03-31","2018-04-30","2018-05-31","2018-06-30","2018-07-31","2018-08-31","2018-09-30","2018-10-31","2018-11-30","2018-12-31","2019-01-31","2019-02-28","2019-03-31","2019-04-30","2019-05-31","2019-06-30","2019-07-31","2019-08-31","2019-09-30","2019-10-31","2019-11-30","2019-12-31","2020-01-31","2020-02-29","2020-03-31","2020-04-30","2020-05-31","2020-06-30","2020-07-31","2020-08-31","2020-09-30","2020-10-31","2020-11-30","2020-12-31","2021-01-31","2021-02-28","2021-03-31","2021-04-30","2021-05-31","2021-06-30","2021-07-31","2021-08-31","2021-09-30","2021-10-31","2021-11-30","2021-12-31","2022-01-31","2022-02-28","2022-03-31","2022-04-30","2022-05-31","2006-07-31"],"type":"time","boundaryGap":true}],"legend":{"data":["commodities","emerging_markets","global_stocks","treasury_notes","us_bonds","us_real_estate","us_stocks"],"show":true,"type":"plain","orient":"horizontal","top":"15%","right":"5","show.1":true,"type.1":"plain","selector":[{"type":"inverse","title":"Invert"},{"type":"all","title":"Reset"}]},"series":[{"data":[{"value":["2006-08-31","0.9286700"]},{"value":["2006-09-30","0.8289655"]},{"value":["2006-10-31","0.8078818"]},{"value":["2006-11-30","0.8482758"]},{"value":["2006-12-31","0.7895567"]},{"value":["2007-01-31","0.7694581"]},{"value":["2007-02-28","0.7980296"]},{"value":["2007-03-31","0.8177340"]},{"value":["2007-04-30","0.8214778"]},{"value":["2007-05-31","0.8118227"]},{"value":["2007-06-30","0.8372414"]},{"value":["2007-07-31","0.8772414"]},{"value":["2007-08-31","0.8492610"]},{"value":["2007-09-30","0.9294581"]},{"value":["2007-10-31","0.9852217"]},{"value":["2007-11-30","0.9806897"]},{"value":["2007-12-31","1.0392119"]},{"value":["2008-01-31","1.0344828"]},{"value":["2008-02-29","1.1509360"]},{"value":["2008-03-31","1.1400985"]},{"value":["2008-04-30","1.2334975"]},{"value":["2008-05-31","1.3379311"]},{"value":["2008-06-30","1.4760592"]},{"value":["2008-07-31","1.2794089"]},{"value":["2008-08-31","1.1836453"]},{"value":["2008-09-30","1.0600985"]},{"value":["2008-10-31","0.7456158"]},{"value":["2008-11-30","0.6346798"]},{"value":["2008-12-31","0.5637439"]},{"value":["2009-01-31","0.5054187"]},{"value":["2009-02-28","0.4744828"]},{"value":["2009-03-31","0.4961576"]},{"value":["2009-04-30","0.4884729"]},{"value":["2009-05-31","0.5934976"]},{"value":["2009-06-30","0.5921182"]},{"value":["2009-07-31","0.5964532"]},{"value":["2009-08-31","0.5990148"]},{"value":["2009-09-30","0.5848276"]},{"value":["2009-10-31","0.6130049"]},{"value":["2009-11-30","0.6208867"]},{"value":["2009-12-31","0.6269951"]},{"value":["2010-01-31","0.5761576"]},{"value":["2010-02-28","0.6102463"]},{"value":["2010-03-31","0.6139901"]},{"value":["2010-04-30","0.6333005"]},{"value":["2010-05-31","0.5471921"]},{"value":["2010-06-30","0.5475862"]},{"value":["2010-07-31","0.5791133"]},{"value":["2010-08-31","0.5473892"]},{"value":["2010-09-30","0.5913300"]},{"value":["2010-10-31","0.6084729"]},{"value":["2010-11-30","0.6159606"]},{"value":["2010-12-31","0.6719211"]},{"value":["2011-01-31","0.6928079"]},{"value":["2011-02-28","0.7111330"]},{"value":["2011-03-31","0.7359606"]},{"value":["2011-04-30","0.7672906"]},{"value":["2011-05-31","0.7146798"]},{"value":["2011-06-30","0.6721182"]},{"value":["2011-07-31","0.6933990"]},{"value":["2011-08-31","0.6815764"]},{"value":["2011-09-30","0.5948769"]},{"value":["2011-10-31","0.6559606"]},{"value":["2011-11-30","0.6658128"]},{"value":["2011-12-31","0.6498522"]},{"value":["2012-01-31","0.6654187"]},{"value":["2012-02-29","0.7067980"]},{"value":["2012-03-31","0.6853202"]},{"value":["2012-04-30","0.6829557"]},{"value":["2012-05-31","0.5956650"]},{"value":["2012-06-30","0.5998030"]},{"value":["2012-07-31","0.6350739"]},{"value":["2012-08-31","0.6805912"]},{"value":["2012-09-30","0.6660098"]},{"value":["2012-10-31","0.6392118"]},{"value":["2012-11-30","0.6494581"]},{"value":["2012-12-31","0.6461084"]},{"value":["2013-01-31","0.6756650"]},{"value":["2013-02-28","0.6411823"]},{"value":["2013-03-31","0.6482759"]},{"value":["2013-04-30","0.6165517"]},{"value":["2013-05-31","0.6070936"]},{"value":["2013-06-30","0.6068965"]},{"value":["2013-07-31","0.6411823"]},{"value":["2013-08-31","0.6610837"]},{"value":["2013-09-30","0.6380296"]},{"value":["2013-10-31","0.6287685"]},{"value":["2013-11-30","0.6258128"]},{"value":["2013-12-31","0.6342857"]},{"value":["2014-01-31","0.6202956"]},{"value":["2014-02-28","0.6500493"]},{"value":["2014-03-31","0.6496552"]},{"value":["2014-04-30","0.6561576"]},{"value":["2014-05-31","0.6528079"]},{"value":["2014-06-30","0.6683743"]},{"value":["2014-07-31","0.6305419"]},{"value":["2014-08-31","0.6206897"]},{"value":["2014-09-30","0.5830542"]},{"value":["2014-10-31","0.5483744"]},{"value":["2014-11-30","0.4930049"]},{"value":["2014-12-31","0.4252217"]},{"value":["2015-01-31","0.3881774"]},{"value":["2015-02-28","0.4112315"]},{"value":["2015-03-31","0.3842365"]},{"value":["2015-04-30","0.4262069"]},{"value":["2015-05-31","0.4169458"]},{"value":["2015-06-30","0.4159606"]},{"value":["2015-07-31","0.3570444"]},{"value":["2015-08-31","0.3580296"]},{"value":["2015-09-30","0.3365517"]},{"value":["2015-10-31","0.3363547"]},{"value":["2015-11-30","0.3056158"]},{"value":["2015-12-31","0.2803941"]},{"value":["2016-01-31","0.2656158"]},{"value":["2016-02-29","0.2600985"]},{"value":["2016-03-31","0.2717241"]},{"value":["2016-04-30","0.2999015"]},{"value":["2016-05-31","0.3038424"]},{"value":["2016-06-30","0.3058128"]},{"value":["2016-07-31","0.2750739"]},{"value":["2016-08-31","0.2805911"]},{"value":["2016-09-30","0.2920197"]},{"value":["2016-10-31","0.2868966"]},{"value":["2016-11-30","0.2939901"]},{"value":["2016-12-31","0.3087685"]},{"value":["2017-01-31","0.3040394"]},{"value":["2017-02-28","0.3044335"]},{"value":["2017-03-31","0.2920197"]},{"value":["2017-04-30","0.2843350"]},{"value":["2017-05-31","0.2809852"]},{"value":["2017-06-30","0.2762562"]},{"value":["2017-07-31","0.2878818"]},{"value":["2017-08-31","0.2849261"]},{"value":["2017-09-30","0.2935961"]},{"value":["2017-10-31","0.3050246"]},{"value":["2017-11-30","0.3089655"]},{"value":["2017-12-31","0.3207882"]},{"value":["2018-01-31","0.3328079"]},{"value":["2018-02-28","0.3205911"]},{"value":["2018-03-31","0.3280788"]},{"value":["2018-04-30","0.3432512"]},{"value":["2018-05-31","0.3485714"]},{"value":["2018-06-30","0.3529064"]},{"value":["2018-07-31","0.3400985"]},{"value":["2018-08-31","0.3436453"]},{"value":["2018-09-30","0.3568473"]},{"value":["2018-10-31","0.3347783"]},{"value":["2018-11-30","0.2977340"]},{"value":["2018-12-31","0.2762562"]},{"value":["2019-01-31","0.2993103"]},{"value":["2019-02-28","0.3097537"]},{"value":["2019-03-31","0.3142857"]},{"value":["2019-04-30","0.3229556"]},{"value":["2019-05-31","0.2957635"]},{"value":["2019-06-30","0.3083744"]},{"value":["2019-07-31","0.3069951"]},{"value":["2019-08-31","0.2920197"]},{"value":["2019-09-30","0.2965517"]},{"value":["2019-10-31","0.2989163"]},{"value":["2019-11-30","0.3000985"]},{"value":["2019-12-31","0.3194088"]},{"value":["2020-01-31","0.2855172"]},{"value":["2020-02-29","0.2632512"]},{"value":["2020-03-31","0.1832512"]},{"value":["2020-04-30","0.1670936"]},{"value":["2020-05-31","0.1934975"]},{"value":["2020-06-30","0.2043350"]},{"value":["2020-07-31","0.2118227"]},{"value":["2020-08-31","0.2216749"]},{"value":["2020-09-30","0.2118227"]},{"value":["2020-10-31","0.2045320"]},{"value":["2020-11-30","0.2295567"]},{"value":["2020-12-31","0.2429557"]},{"value":["2021-01-31","0.2543842"]},{"value":["2021-02-28","0.2805911"]},{"value":["2021-03-31","0.2752709"]},{"value":["2021-04-30","0.2975369"]},{"value":["2021-05-31","0.3046305"]},{"value":["2021-06-30","0.3170443"]},{"value":["2021-07-31","0.3211822"]},{"value":["2021-08-31","0.3134975"]},{"value":["2021-09-30","0.3322168"]},{"value":["2021-10-31","0.3517241"]},{"value":["2021-11-30","0.3144828"]},{"value":["2021-12-31","0.3371429"]},{"value":["2022-01-31","0.3767488"]},{"value":["2022-02-28","0.4100492"]},{"value":["2022-03-31","0.4463054"]},{"value":["2022-04-30","0.4666010"]},{"value":["2022-05-31","0.4933990"]}],"yAxisIndex":0,"xAxisIndex":0,"name":"commodities","type":"line","coordinateSystem":"cartesian2d","symbol":"emptyCircle","symbolSize":1},{"data":[{"value":["2006-07-31","1.0000000"]},{"value":["2006-08-31","1.0158167"]},{"value":["2006-09-30","1.0069721"]},{"value":["2006-10-31","1.0780438"]},{"value":["2006-11-30","1.1425599"]},{"value":["2006-12-31","1.2049412"]},{"value":["2007-01-31","1.2063130"]},{"value":["2007-02-28","1.1672635"]},{"value":["2007-03-31","1.2295320"]},{"value":["2007-04-30","1.2753360"]},{"value":["2007-05-31","1.3399259"]},{"value":["2007-06-30","1.3892129"]},{"value":["2007-07-31","1.3991336"]},{"value":["2007-08-31","1.4136979"]},{"value":["2007-09-30","1.5772838"]},{"value":["2007-10-31","1.7645101"]},{"value":["2007-11-30","1.6295254"]},{"value":["2007-12-31","1.6066036"]},{"value":["2008-01-31","1.4632594"]},{"value":["2008-02-29","1.4924421"]},{"value":["2008-03-31","1.4364294"]},{"value":["2008-04-30","1.5676940"]},{"value":["2008-05-31","1.6172925"]},{"value":["2008-06-30","1.4673777"]},{"value":["2008-07-31","1.3866137"]},{"value":["2008-08-31","1.2990382"]},{"value":["2008-09-30","1.1083176"]},{"value":["2008-10-31","0.8248323"]},{"value":["2008-11-30","0.7443925"]},{"value":["2008-12-31","0.8213144"]},{"value":["2009-01-31","0.7450049"]},{"value":["2009-02-28","0.6982983"]},{"value":["2009-03-31","0.8160519"]},{"value":["2009-04-30","0.9430152"]},{"value":["2009-05-31","1.0933319"]},{"value":["2009-06-30","1.0687375"]},{"value":["2009-07-31","1.1864542"]},{"value":["2009-08-31","1.1708699"]},{"value":["2009-09-30","1.2902443"]},{"value":["2009-10-31","1.2458108"]},{"value":["2009-11-30","1.3436315"]},{"value":["2009-12-31","1.3876466"]},{"value":["2010-01-31","1.2799791"]},{"value":["2010-02-28","1.3027159"]},{"value":["2010-03-31","1.4083779"]},{"value":["2010-04-30","1.4060372"]},{"value":["2010-05-31","1.2739603"]},{"value":["2010-06-30","1.2561418"]},{"value":["2010-07-31","1.3934695"]},{"value":["2010-08-31","1.3483667"]},{"value":["2010-09-30","1.5068992"]},{"value":["2010-10-31","1.5523383"]},{"value":["2010-11-30","1.5072351"]},{"value":["2010-12-31","1.6169292"]},{"value":["2011-01-31","1.5548180"]},{"value":["2011-02-28","1.5541388"]},{"value":["2011-03-31","1.6518880"]},{"value":["2011-04-30","1.6970290"]},{"value":["2011-05-31","1.6471360"]},{"value":["2011-06-30","1.6317277"]},{"value":["2011-07-31","1.6149306"]},{"value":["2011-08-31","1.4654698"]},{"value":["2011-09-30","1.2032275"]},{"value":["2011-10-31","1.3989668"]},{"value":["2011-11-30","1.3715427"]},{"value":["2011-12-31","1.3130488"]},{"value":["2012-01-31","1.4573660"]},{"value":["2012-02-29","1.5341974"]},{"value":["2012-03-31","1.4864374"]},{"value":["2012-04-30","1.4611736"]},{"value":["2012-05-31","1.3047429"]},{"value":["2012-06-30","1.3704412"]},{"value":["2012-07-31","1.3700909"]},{"value":["2012-08-31","1.3756950"]},{"value":["2012-09-30","1.4474917"]},{"value":["2012-10-31","1.4411871"]},{"value":["2012-11-30","1.4636023"]},{"value":["2012-12-31","1.5631796"]},{"value":["2013-01-31","1.5585976"]},{"value":["2013-02-28","1.5229985"]},{"value":["2013-03-31","1.5074901"]},{"value":["2013-04-30","1.5258187"]},{"value":["2013-05-31","1.4521530"]},{"value":["2013-06-30","1.3748153"]},{"value":["2013-07-31","1.3930268"]},{"value":["2013-08-31","1.3576743"]},{"value":["2013-09-30","1.4555185"]},{"value":["2013-10-31","1.5162246"]},{"value":["2013-11-30","1.5122965"]},{"value":["2013-12-31","1.5061477"]},{"value":["2014-01-31","1.3760709"]},{"value":["2014-02-28","1.4225527"]},{"value":["2014-03-31","1.4776823"]},{"value":["2014-04-30","1.4892123"]},{"value":["2014-05-31","1.5331718"]},{"value":["2014-06-30","1.5699952"]},{"value":["2014-07-31","1.5914222"]},{"value":["2014-08-31","1.6364553"]},{"value":["2014-09-30","1.5093454"]},{"value":["2014-10-31","1.5307722"]},{"value":["2014-11-30","1.5071666"]},{"value":["2014-12-31","1.4474288"]},{"value":["2015-01-31","1.4374825"]},{"value":["2015-02-28","1.5008466"]},{"value":["2015-03-31","1.4783744"]},{"value":["2015-04-30","1.5796835"]},{"value":["2015-05-31","1.5148460"]},{"value":["2015-06-30","1.4704478"]},{"value":["2015-07-31","1.3776628"]},{"value":["2015-08-31","1.2559302"]},{"value":["2015-09-30","1.2165894"]},{"value":["2015-10-31","1.2941572"]},{"value":["2015-11-30","1.2614973"]},{"value":["2015-12-31","1.2133099"]},{"value":["2016-01-31","1.1522488"]},{"value":["2016-02-29","1.1428259"]},{"value":["2016-03-31","1.2909562"]},{"value":["2016-04-30","1.2962328"]},{"value":["2016-05-31","1.2483637"]},{"value":["2016-06-30","1.3052783"]},{"value":["2016-07-31","1.3755564"]},{"value":["2016-08-31","1.3877125"]},{"value":["2016-09-30","1.4226617"]},{"value":["2016-10-31","1.4108852"]},{"value":["2016-11-30","1.3485849"]},{"value":["2016-12-31","1.3451773"]},{"value":["2017-01-31","1.4347020"]},{"value":["2017-02-28","1.4596766"]},{"value":["2017-03-31","1.5134683"]},{"value":["2017-04-30","1.5392115"]},{"value":["2017-05-31","1.5830131"]},{"value":["2017-06-30","1.5976820"]},{"value":["2017-07-31","1.6907099"]},{"value":["2017-08-31","1.7304686"]},{"value":["2017-09-30","1.7296966"]},{"value":["2017-10-31","1.7864397"]},{"value":["2017-11-30","1.7794913"]},{"value":["2017-12-31","1.8464280"]},{"value":["2018-01-31","1.9996439"]},{"value":["2018-02-28","1.8816951"]},{"value":["2018-03-31","1.8918836"]},{"value":["2018-04-30","1.8385906"]},{"value":["2018-05-31","1.7903924"]},{"value":["2018-06-30","1.7090069"]},{"value":["2018-07-31","1.7693527"]},{"value":["2018-08-31","1.7026962"]},{"value":["2018-09-30","1.6928357"]},{"value":["2018-10-31","1.5445352"]},{"value":["2018-11-30","1.6202632"]},{"value":["2018-12-31","1.5637339"]},{"value":["2019-01-31","1.7254717"]},{"value":["2019-02-28","1.6990496"]},{"value":["2019-03-31","1.7182655"]},{"value":["2019-04-30","1.7586999"]},{"value":["2019-05-31","1.6297903"]},{"value":["2019-06-30","1.7309634"]},{"value":["2019-07-31","1.6849768"]},{"value":["2019-08-31","1.6212400"]},{"value":["2019-09-30","1.6486710"]},{"value":["2019-10-31","1.7176515"]},{"value":["2019-11-30","1.7160379"]},{"value":["2019-12-31","1.8486921"]},{"value":["2020-01-31","1.7349774"]},{"value":["2020-02-29","1.6694677"]},{"value":["2020-03-31","1.4061928"]},{"value":["2020-04-30","1.5096076"]},{"value":["2020-05-31","1.5545167"]},{"value":["2020-06-30","1.6571911"]},{"value":["2020-07-31","1.7939434"]},{"value":["2020-08-31","1.8457438"]},{"value":["2020-09-30","1.8270955"]},{"value":["2020-10-31","1.8527883"]},{"value":["2020-11-30","2.0193777"]},{"value":["2020-12-31","2.1633483"]},{"value":["2021-01-31","2.2320130"]},{"value":["2021-02-28","2.2495979"]},{"value":["2021-03-31","2.2332690"]},{"value":["2021-04-30","2.2600648"]},{"value":["2021-05-31","2.2973278"]},{"value":["2021-06-30","2.3191618"]},{"value":["2021-07-31","2.1698775"]},{"value":["2021-08-31","2.2039397"]},{"value":["2021-09-30","2.1185743"]},{"value":["2021-10-31","2.1412821"]},{"value":["2021-11-30","2.0538143"]},{"value":["2021-12-31","2.0847667"]},{"value":["2022-01-31","2.0843400"]},{"value":["2022-02-28","1.9942917"]},{"value":["2022-03-31","1.9268623"]},{"value":["2022-04-30","1.8086473"]},{"value":["2022-05-31","1.8197432"]}],"yAxisIndex":0,"xAxisIndex":0,"name":"emerging_markets","type":"line","coordinateSystem":"cartesian2d","symbol":"emptyCircle","symbolSize":1},{"data":[{"value":["2006-07-31","1.0000000"]},{"value":["2006-08-31","1.0254853"]},{"value":["2006-09-30","1.0277611"]},{"value":["2006-10-31","1.0662923"]},{"value":["2006-11-30","1.0990594"]},{"value":["2006-12-31","1.1341982"]},{"value":["2007-01-31","1.1499987"]},{"value":["2007-02-28","1.1486043"]},{"value":["2007-03-31","1.1819088"]},{"value":["2007-04-30","1.2262109"]},{"value":["2007-05-31","1.2551773"]},{"value":["2007-06-30","1.2511501"]},{"value":["2007-07-31","1.2224932"]},{"value":["2007-08-31","1.2147482"]},{"value":["2007-09-30","1.2793423"]},{"value":["2007-10-31","1.3337133"]},{"value":["2007-11-30","1.2853837"]},{"value":["2007-12-31","1.2470627"]},{"value":["2008-01-31","1.1492040"]},{"value":["2008-02-29","1.1374487"]},{"value":["2008-03-31","1.1422142"]},{"value":["2008-04-30","1.2043289"]},{"value":["2008-05-31","1.2186267"]},{"value":["2008-06-30","1.1115481"]},{"value":["2008-07-31","1.0746424"]},{"value":["2008-08-31","1.0289956"]},{"value":["2008-09-30","0.9113174"]},{"value":["2008-10-31","0.7214463"]},{"value":["2008-11-30","0.6754754"]},{"value":["2008-12-31","0.7353794"]},{"value":["2009-01-31","0.6344000"]},{"value":["2009-02-28","0.5685012"]},{"value":["2009-03-31","0.6162042"]},{"value":["2009-04-30","0.6871847"]},{"value":["2009-05-31","0.7778367"]},{"value":["2009-06-30","0.7669089"]},{"value":["2009-07-31","0.8439176"]},{"value":["2009-08-31","0.8819200"]},{"value":["2009-09-30","0.9154024"]},{"value":["2009-10-31","0.8922995"]},{"value":["2009-11-30","0.9272883"]},{"value":["2009-12-31","0.9338684"]},{"value":["2010-01-31","0.8865670"]},{"value":["2010-02-28","0.8889319"]},{"value":["2010-03-31","0.9456941"]},{"value":["2010-04-30","0.9191710"]},{"value":["2010-05-31","0.8162904"]},{"value":["2010-06-30","0.7994590"]},{"value":["2010-07-31","0.8922793"]},{"value":["2010-08-31","0.8584172"]},{"value":["2010-09-30","0.9440182"]},{"value":["2010-10-31","0.9799431"]},{"value":["2010-11-30","0.9326734"]},{"value":["2010-12-31","1.0101605"]},{"value":["2011-01-31","1.0313284"]},{"value":["2011-02-28","1.0679385"]},{"value":["2011-03-31","1.0424332"]},{"value":["2011-04-30","1.1010785"]},{"value":["2011-05-31","1.0767873"]},{"value":["2011-06-30","1.0637505"]},{"value":["2011-07-31","1.0384567"]},{"value":["2011-08-31","0.9475408"]},{"value":["2011-09-30","0.8451280"]},{"value":["2011-10-31","0.9264921"]},{"value":["2011-11-30","0.9063279"]},{"value":["2011-12-31","0.8866160"]},{"value":["2012-01-31","0.9333367"]},{"value":["2012-02-29","0.9784459"]},{"value":["2012-03-31","0.9825629"]},{"value":["2012-04-30","0.9621565"]},{"value":["2012-05-31","0.8549320"]},{"value":["2012-06-30","0.9151475"]},{"value":["2012-07-31","0.9158800"]},{"value":["2012-08-31","0.9451883"]},{"value":["2012-09-30","0.9708329"]},{"value":["2012-10-31","0.9814573"]},{"value":["2012-11-30","1.0087505"]},{"value":["2012-12-31","1.0529454"]},{"value":["2013-01-31","1.0922038"]},{"value":["2013-02-28","1.0781304"]},{"value":["2013-03-31","1.0922038"]},{"value":["2013-04-30","1.1470176"]},{"value":["2013-05-31","1.1123890"]},{"value":["2013-06-30","1.0826000"]},{"value":["2013-07-31","1.1402250"]},{"value":["2013-08-31","1.1179306"]},{"value":["2013-09-30","1.2054077"]},{"value":["2013-10-31","1.2447063"]},{"value":["2013-11-30","1.2515080"]},{"value":["2013-12-31","1.2787426"]},{"value":["2014-01-31","1.2122329"]},{"value":["2014-02-28","1.2865561"]},{"value":["2014-03-31","1.2806484"]},{"value":["2014-04-30","1.3019925"]},{"value":["2014-05-31","1.3227649"]},{"value":["2014-06-30","1.3349446"]},{"value":["2014-07-31","1.3001894"]},{"value":["2014-08-31","1.3025322"]},{"value":["2014-09-30","1.2519618"]},{"value":["2014-10-31","1.2486425"]},{"value":["2014-11-30","1.2494237"]},{"value":["2014-12-31","1.1995370"]},{"value":["2015-01-31","1.2070292"]},{"value":["2015-02-28","1.2835280"]},{"value":["2015-03-31","1.2651920"]},{"value":["2015-04-30","1.3113282"]},{"value":["2015-05-31","1.3138912"]},{"value":["2015-06-30","1.2729211"]},{"value":["2015-07-31","1.2987843"]},{"value":["2015-08-31","1.2023481"]},{"value":["2015-09-30","1.1492178"]},{"value":["2015-10-31","1.2252040"]},{"value":["2015-11-30","1.2159813"]},{"value":["2015-12-31","1.1876262"]},{"value":["2016-01-31","1.1220964"]},{"value":["2016-02-29","1.0846796"]},{"value":["2016-03-31","1.1560749"]},{"value":["2016-04-30","1.1817607"]},{"value":["2016-05-31","1.1807495"]},{"value":["2016-06-30","1.1521825"]},{"value":["2016-07-31","1.1980056"]},{"value":["2016-08-31","1.2044042"]},{"value":["2016-09-30","1.2205043"]},{"value":["2016-10-31","1.1934645"]},{"value":["2016-11-30","1.1722044"]},{"value":["2016-12-31","1.2039272"]},{"value":["2017-01-31","1.2435507"]},{"value":["2017-02-28","1.2583574"]},{"value":["2017-03-31","1.2990236"]},{"value":["2017-04-30","1.3305138"]},{"value":["2017-05-31","1.3776448"]},{"value":["2017-06-30","1.3817230"]},{"value":["2017-07-31","1.4183853"]},{"value":["2017-08-31","1.4177497"]},{"value":["2017-09-30","1.4512333"]},{"value":["2017-10-31","1.4756040"]},{"value":["2017-11-30","1.4857764"]},{"value":["2017-12-31","1.5058171"]},{"value":["2018-01-31","1.5814185"]},{"value":["2018-02-28","1.5049604"]},{"value":["2018-03-31","1.4923246"]},{"value":["2018-04-30","1.5150262"]},{"value":["2018-05-31","1.4863281"]},{"value":["2018-06-30","1.4627829"]},{"value":["2018-07-31","1.5045018"]},{"value":["2018-08-31","1.4708647"]},{"value":["2018-09-30","1.4850620"]},{"value":["2018-10-31","1.3642738"]},{"value":["2018-11-30","1.3710451"]},{"value":["2018-12-31","1.2976975"]},{"value":["2019-01-31","1.3837986"]},{"value":["2019-02-28","1.4189011"]},{"value":["2019-03-31","1.4319267"]},{"value":["2019-04-30","1.4738734"]},{"value":["2019-05-31","1.3996941"]},{"value":["2019-06-30","1.4824391"]},{"value":["2019-07-31","1.4535704"]},{"value":["2019-08-31","1.4256042"]},{"value":["2019-09-30","1.4707112"]},{"value":["2019-10-31","1.5205542"]},{"value":["2019-11-30","1.5376950"]},{"value":["2019-12-31","1.5837549"]},{"value":["2020-01-31","1.5390524"]},{"value":["2020-02-29","1.4195408"]},{"value":["2020-03-31","1.2192906"]},{"value":["2020-04-30","1.2902220"]},{"value":["2020-05-31","1.3602411"]},{"value":["2020-06-30","1.4080019"]},{"value":["2020-07-31","1.4352968"]},{"value":["2020-08-31","1.5030717"]},{"value":["2020-09-30","1.4723070"]},{"value":["2020-10-31","1.4200301"]},{"value":["2020-11-30","1.6226603"]},{"value":["2020-12-31","1.7040433"]},{"value":["2021-01-31","1.6907305"]},{"value":["2021-02-28","1.7285671"]},{"value":["2021-03-31","1.7720091"]},{"value":["2021-04-30","1.8243259"]},{"value":["2021-05-31","1.8878539"]},{"value":["2021-06-30","1.8675027"]},{"value":["2021-07-31","1.8819445"]},{"value":["2021-08-31","1.9091710"]},{"value":["2021-09-30","1.8469052"]},{"value":["2021-10-31","1.9056198"]},{"value":["2021-11-30","1.8192051"]},{"value":["2021-12-31","1.8990852"]},{"value":["2022-01-31","1.8300539"]},{"value":["2022-02-28","1.7672982"]},{"value":["2022-03-31","1.7764702"]},{"value":["2022-04-30","1.6567515"]},{"value":["2022-05-31","1.6898189"]}],"yAxisIndex":0,"xAxisIndex":0,"name":"global_stocks","type":"line","coordinateSystem":"cartesian2d","symbol":"emptyCircle","symbolSize":1},{"data":[{"value":["2006-07-31","1.000000"]},{"value":["2006-08-31","1.017634"]},{"value":["2006-09-30","1.029924"]},{"value":["2006-10-31","1.035470"]},{"value":["2006-11-30","1.049050"]},{"value":["2006-12-31","1.035667"]},{"value":["2007-01-31","1.031522"]},{"value":["2007-02-28","1.052720"]},{"value":["2007-03-31","1.051266"]},{"value":["2007-04-30","1.057641"]},{"value":["2007-05-31","1.042903"]},{"value":["2007-06-30","1.038026"]},{"value":["2007-07-31","1.061452"]},{"value":["2007-08-31","1.085473"]},{"value":["2007-09-30","1.086432"]},{"value":["2007-10-31","1.098132"]},{"value":["2007-11-30","1.142580"]},{"value":["2007-12-31","1.143158"]},{"value":["2008-01-31","1.181521"]},{"value":["2008-02-29","1.196164"]},{"value":["2008-03-31","1.212159"]},{"value":["2008-04-30","1.182858"]},{"value":["2008-05-31","1.161832"]},{"value":["2008-06-30","1.175145"]},{"value":["2008-07-31","1.183614"]},{"value":["2008-08-31","1.201683"]},{"value":["2008-09-30","1.199997"]},{"value":["2008-10-31","1.189643"]},{"value":["2008-11-30","1.281885"]},{"value":["2008-12-31","1.347982"]},{"value":["2009-01-31","1.295583"]},{"value":["2009-02-28","1.286062"]},{"value":["2009-03-31","1.328677"]},{"value":["2009-04-30","1.292203"]},{"value":["2009-05-31","1.265360"]},{"value":["2009-06-30","1.258309"]},{"value":["2009-07-31","1.268775"]},{"value":["2009-08-31","1.278462"]},{"value":["2009-09-30","1.292836"]},{"value":["2009-10-31","1.291053"]},{"value":["2009-11-30","1.317095"]},{"value":["2009-12-31","1.259107"]},{"value":["2010-01-31","1.288950"]},{"value":["2010-02-28","1.293228"]},{"value":["2010-03-31","1.279559"]},{"value":["2010-04-30","1.300708"]},{"value":["2010-05-31","1.338861"]},{"value":["2010-06-30","1.379672"]},{"value":["2010-07-31","1.392222"]},{"value":["2010-08-31","1.438946"]},{"value":["2010-09-30","1.438902"]},{"value":["2010-10-31","1.438799"]},{"value":["2010-11-30","1.425877"]},{"value":["2010-12-31","1.376956"]},{"value":["2011-01-31","1.376662"]},{"value":["2011-02-28","1.373793"]},{"value":["2011-03-31","1.371670"]},{"value":["2011-04-30","1.396926"]},{"value":["2011-05-31","1.431927"]},{"value":["2011-06-30","1.424704"]},{"value":["2011-07-31","1.469860"]},{"value":["2011-08-31","1.538230"]},{"value":["2011-09-30","1.572640"]},{"value":["2011-10-31","1.552408"]},{"value":["2011-11-30","1.561411"]},{"value":["2011-12-31","1.592446"]},{"value":["2012-01-31","1.606173"]},{"value":["2012-02-29","1.588508"]},{"value":["2012-03-31","1.563230"]},{"value":["2012-04-30","1.602453"]},{"value":["2012-05-31","1.648438"]},{"value":["2012-06-30","1.641608"]},{"value":["2012-07-31","1.664609"]},{"value":["2012-08-31","1.662656"]},{"value":["2012-09-30","1.656867"]},{"value":["2012-10-31","1.650305"]},{"value":["2012-11-30","1.666464"]},{"value":["2012-12-31","1.650793"]},{"value":["2013-01-31","1.629445"]},{"value":["2013-02-28","1.647899"]},{"value":["2013-03-31","1.652625"]},{"value":["2013-04-30","1.677833"]},{"value":["2013-05-31","1.625736"]},{"value":["2013-06-30","1.584342"]},{"value":["2013-07-31","1.578754"]},{"value":["2013-08-31","1.556296"]},{"value":["2013-09-30","1.585028"]},{"value":["2013-10-31","1.597357"]},{"value":["2013-11-30","1.583358"]},{"value":["2013-12-31","1.550256"]},{"value":["2014-01-31","1.597745"]},{"value":["2014-02-28","1.603456"]},{"value":["2014-03-31","1.594460"]},{"value":["2014-04-30","1.606551"]},{"value":["2014-05-31","1.635877"]},{"value":["2014-06-30","1.632331"]},{"value":["2014-07-31","1.628731"]},{"value":["2014-08-31","1.659355"]},{"value":["2014-09-30","1.641941"]},{"value":["2014-10-31","1.667166"]},{"value":["2014-11-30","1.688649"]},{"value":["2014-12-31","1.690835"]},{"value":["2015-01-31","1.763580"]},{"value":["2015-02-28","1.719989"]},{"value":["2015-03-31","1.734714"]},{"value":["2015-04-30","1.723732"]},{"value":["2015-05-31","1.716556"]},{"value":["2015-06-30","1.688561"]},{"value":["2015-07-31","1.714200"]},{"value":["2015-08-31","1.715555"]},{"value":["2015-09-30","1.742647"]},{"value":["2015-10-31","1.731547"]},{"value":["2015-11-30","1.724141"]},{"value":["2015-12-31","1.716330"]},{"value":["2016-01-31","1.773547"]},{"value":["2016-02-29","1.799902"]},{"value":["2016-03-31","1.798712"]},{"value":["2016-04-30","1.795904"]},{"value":["2016-05-31","1.794121"]},{"value":["2016-06-30","1.849517"]},{"value":["2016-07-31","1.854076"]},{"value":["2016-08-31","1.835324"]},{"value":["2016-09-30","1.839681"]},{"value":["2016-10-31","1.812183"]},{"value":["2016-11-30","1.735578"]},{"value":["2016-12-31","1.733521"]},{"value":["2017-01-31","1.737325"]},{"value":["2017-02-28","1.749897"]},{"value":["2017-03-31","1.751306"]},{"value":["2017-04-30","1.770725"]},{"value":["2017-05-31","1.785364"]},{"value":["2017-06-30","1.776267"]},{"value":["2017-07-31","1.782925"]},{"value":["2017-08-31","1.808913"]},{"value":["2017-09-30","1.782836"]},{"value":["2017-10-31","1.779467"]},{"value":["2017-11-30","1.774498"]},{"value":["2017-12-31","1.777777"]},{"value":["2018-01-31","1.739550"]},{"value":["2018-02-28","1.723323"]},{"value":["2018-03-31","1.743241"]},{"value":["2018-04-30","1.720989"]},{"value":["2018-05-31","1.737959"]},{"value":["2018-06-30","1.741391"]},{"value":["2018-07-31","1.732201"]},{"value":["2018-08-31","1.749764"]},{"value":["2018-09-30","1.728679"]},{"value":["2018-10-31","1.723440"]},{"value":["2018-11-30","1.746364"]},{"value":["2018-12-31","1.795336"]},{"value":["2019-01-31","1.807052"]},{"value":["2019-02-28","1.797556"]},{"value":["2019-03-31","1.845285"]},{"value":["2019-04-30","1.835715"]},{"value":["2019-05-31","1.891679"]},{"value":["2019-06-30","1.914703"]},{"value":["2019-07-31","1.915436"]},{"value":["2019-08-31","1.991127"]},{"value":["2019-09-30","1.967510"]},{"value":["2019-10-31","1.971207"]},{"value":["2019-11-30","1.957662"]},{"value":["2019-12-31","1.939493"]},{"value":["2020-01-31","2.006712"]},{"value":["2020-02-29","2.066145"]},{"value":["2020-03-31","2.143061"]},{"value":["2020-04-30","2.148960"]},{"value":["2020-05-31","2.155997"]},{"value":["2020-06-30","2.156917"]},{"value":["2020-07-31","2.175340"]},{"value":["2020-08-31","2.154243"]},{"value":["2020-09-30","2.161304"]},{"value":["2020-10-31","2.131461"]},{"value":["2020-11-30","2.138673"]},{"value":["2020-12-31","2.133573"]},{"value":["2021-01-31","2.110272"]},{"value":["2021-02-28","2.060399"]},{"value":["2021-03-31","2.011245"]},{"value":["2021-04-30","2.031382"]},{"value":["2021-05-31","2.040013"]},{"value":["2021-06-30","2.060873"]},{"value":["2021-07-31","2.101889"]},{"value":["2021-08-31","2.093599"]},{"value":["2021-09-30","2.060162"]},{"value":["2021-10-31","2.051037"]},{"value":["2021-11-30","2.073437"]},{"value":["2021-12-31","2.062571"]},{"value":["2022-01-31","2.018988"]},{"value":["2022-02-28","2.012849"]},{"value":["2022-03-31","1.931108"]},{"value":["2022-04-30","1.849456"]},{"value":["2022-05-31","1.860893"]}],"yAxisIndex":0,"xAxisIndex":0,"name":"treasury_notes","type":"line","coordinateSystem":"cartesian2d","symbol":"emptyCircle","symbolSize":1},{"data":[{"value":["2006-07-31","1.000000"]},{"value":["2006-08-31","1.015910"]},{"value":["2006-09-30","1.026187"]},{"value":["2006-10-31","1.033224"]},{"value":["2006-11-30","1.044195"]},{"value":["2006-12-31","1.037925"]},{"value":["2007-01-31","1.037197"]},{"value":["2007-02-28","1.054055"]},{"value":["2007-03-31","1.051998"]},{"value":["2007-04-30","1.058203"]},{"value":["2007-05-31","1.048496"]},{"value":["2007-06-30","1.044545"]},{"value":["2007-07-31","1.055755"]},{"value":["2007-08-31","1.069263"]},{"value":["2007-09-30","1.076030"]},{"value":["2007-10-31","1.086875"]},{"value":["2007-11-30","1.106477"]},{"value":["2007-12-31","1.106375"]},{"value":["2008-01-31","1.131965"]},{"value":["2008-02-29","1.130152"]},{"value":["2008-03-31","1.131618"]},{"value":["2008-04-30","1.135326"]},{"value":["2008-05-31","1.120962"]},{"value":["2008-06-30","1.118888"]},{"value":["2008-07-31","1.123297"]},{"value":["2008-08-31","1.131630"]},{"value":["2008-09-30","1.111717"]},{"value":["2008-10-31","1.086358"]},{"value":["2008-11-30","1.119213"]},{"value":["2008-12-31","1.193779"]},{"value":["2009-01-31","1.170063"]},{"value":["2009-02-28","1.157715"]},{"value":["2009-03-31","1.170484"]},{"value":["2009-04-30","1.176515"]},{"value":["2009-05-31","1.184864"]},{"value":["2009-06-30","1.189850"]},{"value":["2009-07-31","1.204951"]},{"value":["2009-08-31","1.219653"]},{"value":["2009-09-30","1.234146"]},{"value":["2009-10-31","1.236883"]},{"value":["2009-11-30","1.252794"]},{"value":["2009-12-31","1.229225"]},{"value":["2010-01-31","1.246617"]},{"value":["2010-02-28","1.249091"]},{"value":["2010-03-31","1.249006"]},{"value":["2010-04-30","1.261163"]},{"value":["2010-05-31","1.274814"]},{"value":["2010-06-30","1.297362"]},{"value":["2010-07-31","1.308451"]},{"value":["2010-08-31","1.325288"]},{"value":["2010-09-30","1.325385"]},{"value":["2010-10-31","1.327403"]},{"value":["2010-11-30","1.316320"]},{"value":["2010-12-31","1.307430"]},{"value":["2011-01-31","1.306317"]},{"value":["2011-02-28","1.310111"]},{"value":["2011-03-31","1.307189"]},{"value":["2011-04-30","1.327680"]},{"value":["2011-05-31","1.344141"]},{"value":["2011-06-30","1.338157"]},{"value":["2011-07-31","1.360727"]},{"value":["2011-08-31","1.381416"]},{"value":["2011-09-30","1.392061"]},{"value":["2011-10-31","1.393822"]},{"value":["2011-11-30","1.389211"]},{"value":["2011-12-31","1.408059"]},{"value":["2012-01-31","1.418277"]},{"value":["2012-02-29","1.418085"]},{"value":["2012-03-31","1.409959"]},{"value":["2012-04-30","1.422734"]},{"value":["2012-05-31","1.438073"]},{"value":["2012-06-30","1.437789"]},{"value":["2012-07-31","1.457373"]},{"value":["2012-08-31","1.457373"]},{"value":["2012-09-30","1.461259"]},{"value":["2012-10-31","1.460569"]},{"value":["2012-11-30","1.464522"]},{"value":["2012-12-31","1.460930"]},{"value":["2013-01-31","1.451856"]},{"value":["2013-02-28","1.460434"]},{"value":["2013-03-31","1.461873"]},{"value":["2013-04-30","1.476032"]},{"value":["2013-05-31","1.446497"]},{"value":["2013-06-30","1.423852"]},{"value":["2013-07-31","1.427684"]},{"value":["2013-08-31","1.415886"]},{"value":["2013-09-30","1.431751"]},{"value":["2013-10-31","1.443673"]},{"value":["2013-11-30","1.440054"]},{"value":["2013-12-31","1.432037"]},{"value":["2014-01-31","1.454104"]},{"value":["2014-02-28","1.459577"]},{"value":["2014-03-31","1.457416"]},{"value":["2014-04-30","1.469391"]},{"value":["2014-05-31","1.486716"]},{"value":["2014-06-30","1.485861"]},{"value":["2014-07-31","1.482133"]},{"value":["2014-08-31","1.499172"]},{"value":["2014-09-30","1.489954"]},{"value":["2014-10-31","1.505809"]},{"value":["2014-11-30","1.515702"]},{"value":["2014-12-31","1.517940"]},{"value":["2015-01-31","1.549093"]},{"value":["2015-02-28","1.535231"]},{"value":["2015-03-31","1.540984"]},{"value":["2015-04-30","1.536010"]},{"value":["2015-05-31","1.529291"]},{"value":["2015-06-30","1.512825"]},{"value":["2015-07-31","1.525868"]},{"value":["2015-08-31","1.520744"]},{"value":["2015-09-30","1.533084"]},{"value":["2015-10-31","1.534135"]},{"value":["2015-11-30","1.528166"]},{"value":["2015-12-31","1.525236"]},{"value":["2016-01-31","1.544159"]},{"value":["2016-02-29","1.557856"]},{"value":["2016-03-31","1.571483"]},{"value":["2016-04-30","1.575489"]},{"value":["2016-05-31","1.575703"]},{"value":["2016-06-30","1.606195"]},{"value":["2016-07-31","1.614940"]},{"value":["2016-08-31","1.611462"]},{"value":["2016-09-30","1.612294"]},{"value":["2016-10-31","1.599119"]},{"value":["2016-11-30","1.558094"]},{"value":["2016-12-31","1.562053"]},{"value":["2017-01-31","1.565378"]},{"value":["2017-02-28","1.575488"]},{"value":["2017-03-31","1.574617"]},{"value":["2017-04-30","1.588899"]},{"value":["2017-05-31","1.599817"]},{"value":["2017-06-30","1.599525"]},{"value":["2017-07-31","1.604866"]},{"value":["2017-08-31","1.619973"]},{"value":["2017-09-30","1.610714"]},{"value":["2017-10-31","1.612290"]},{"value":["2017-11-30","1.609899"]},{"value":["2017-12-31","1.617548"]},{"value":["2018-01-31","1.599350"]},{"value":["2018-02-28","1.583217"]},{"value":["2018-03-31","1.593843"]},{"value":["2018-04-30","1.578844"]},{"value":["2018-05-31","1.589293"]},{"value":["2018-06-30","1.590925"]},{"value":["2018-07-31","1.590460"]},{"value":["2018-08-31","1.599494"]},{"value":["2018-09-30","1.589581"]},{"value":["2018-10-31","1.579343"]},{"value":["2018-11-30","1.591528"]},{"value":["2018-12-31","1.623060"]},{"value":["2019-01-31","1.637845"]},{"value":["2019-02-28","1.635980"]},{"value":["2019-03-31","1.670705"]},{"value":["2019-04-30","1.667358"]},{"value":["2019-05-31","1.699219"]},{"value":["2019-06-30","1.717886"]},{"value":["2019-07-31","1.721010"]},{"value":["2019-08-31","1.768902"]},{"value":["2019-09-30","1.758074"]},{"value":["2019-10-31","1.761733"]},{"value":["2019-11-30","1.761124"]},{"value":["2019-12-31","1.760300"]},{"value":["2020-01-31","1.796017"]},{"value":["2020-02-29","1.824478"]},{"value":["2020-03-31","1.814867"]},{"value":["2020-04-30","1.846066"]},{"value":["2020-05-31","1.858482"]},{"value":["2020-06-30","1.870731"]},{"value":["2020-07-31","1.895671"]},{"value":["2020-08-31","1.880058"]},{"value":["2020-09-30","1.878229"]},{"value":["2020-10-31","1.867743"]},{"value":["2020-11-30","1.890282"]},{"value":["2020-12-31","1.891902"]},{"value":["2021-01-31","1.877816"]},{"value":["2021-02-28","1.849308"]},{"value":["2021-03-31","1.828109"]},{"value":["2021-04-30","1.841491"]},{"value":["2021-05-31","1.845245"]},{"value":["2021-06-30","1.860522"]},{"value":["2021-07-31","1.881296"]},{"value":["2021-08-31","1.877527"]},{"value":["2021-09-30","1.860305"]},{"value":["2021-10-31","1.860143"]},{"value":["2021-11-30","1.865181"]},{"value":["2021-12-31","1.858490"]},{"value":["2022-01-31","1.821347"]},{"value":["2022-02-28","1.800480"]},{"value":["2022-03-31","1.749847"]},{"value":["2022-04-30","1.683250"]},{"value":["2022-05-31","1.696052"]}],"yAxisIndex":0,"xAxisIndex":0,"name":"us_bonds","type":"line","coordinateSystem":"cartesian2d","symbol":"emptyCircle","symbolSize":1},{"data":[{"value":["2006-07-31","1.0000000"]},{"value":["2006-08-31","1.0297902"]},{"value":["2006-09-30","1.0543108"]},{"value":["2006-10-31","1.1226397"]},{"value":["2006-11-30","1.1745694"]},{"value":["2006-12-31","1.1540293"]},{"value":["2007-01-31","1.2654864"]},{"value":["2007-02-28","1.2202112"]},{"value":["2007-03-31","1.1893740"]},{"value":["2007-04-30","1.1928621"]},{"value":["2007-05-31","1.1946762"]},{"value":["2007-06-30","1.0906144"]},{"value":["2007-07-31","0.9917241"]},{"value":["2007-08-31","1.0438459"]},{"value":["2007-09-30","1.0868770"]},{"value":["2007-10-31","1.0951207"]},{"value":["2007-11-30","0.9952026"]},{"value":["2007-12-31","0.9445581"]},{"value":["2008-01-31","0.9455646"]},{"value":["2008-02-29","0.9058844"]},{"value":["2008-03-31","0.9463749"]},{"value":["2008-04-30","1.0013259"]},{"value":["2008-05-31","1.0094663"]},{"value":["2008-06-30","0.8928369"]},{"value":["2008-07-31","0.9148640"]},{"value":["2008-08-31","0.9314581"]},{"value":["2008-09-30","0.9213781"]},{"value":["2008-10-31","0.6328430"]},{"value":["2008-11-30","0.4964585"]},{"value":["2008-12-31","0.5678892"]},{"value":["2009-01-31","0.4780458"]},{"value":["2009-02-28","0.3834739"]},{"value":["2009-03-31","0.3971066"]},{"value":["2009-04-30","0.5147100"]},{"value":["2009-05-31","0.5264081"]},{"value":["2009-06-30","0.5133198"]},{"value":["2009-07-31","0.5676287"]},{"value":["2009-08-31","0.6425207"]},{"value":["2009-09-30","0.6816593"]},{"value":["2009-10-31","0.6477917"]},{"value":["2009-11-30","0.6936405"]},{"value":["2009-12-31","0.7415418"]},{"value":["2010-01-31","0.7013324"]},{"value":["2010-02-28","0.7396045"]},{"value":["2010-03-31","0.8117047"]},{"value":["2010-04-30","0.8635574"]},{"value":["2010-05-31","0.8144768"]},{"value":["2010-06-30","0.7764396"]},{"value":["2010-07-31","0.8494620"]},{"value":["2010-08-31","0.8384428"]},{"value":["2010-09-30","0.8772602"]},{"value":["2010-10-31","0.9117665"]},{"value":["2010-11-30","0.8973336"]},{"value":["2010-12-31","0.9383782"]},{"value":["2011-01-31","0.9719156"]},{"value":["2011-02-28","1.0158499"]},{"value":["2011-03-31","1.0047417"]},{"value":["2011-04-30","1.0515960"]},{"value":["2011-05-31","1.0622521"]},{"value":["2011-06-30","1.0292590"]},{"value":["2011-07-31","1.0314781"]},{"value":["2011-08-31","0.9766864"]},{"value":["2011-09-30","0.8724914"]},{"value":["2011-10-31","0.9875698"]},{"value":["2011-11-30","0.9513382"]},{"value":["2011-12-31","0.9904137"]},{"value":["2012-01-31","1.0557903"]},{"value":["2012-02-29","1.0484679"]},{"value":["2012-03-31","1.0955754"]},{"value":["2012-04-30","1.1238882"]},{"value":["2012-05-31","1.0765835"]},{"value":["2012-06-30","1.1343445"]},{"value":["2012-07-31","1.1607783"]},{"value":["2012-08-31","1.1643264"]},{"value":["2012-09-30","1.1513125"]},{"value":["2012-10-31","1.1445172"]},{"value":["2012-11-30","1.1379004"]},{"value":["2012-12-31","1.1707344"]},{"value":["2013-01-31","1.2178026"]},{"value":["2013-02-28","1.2331904"]},{"value":["2013-03-31","1.2685206"]},{"value":["2013-04-30","1.3411850"]},{"value":["2013-05-31","1.2540973"]},{"value":["2013-06-30","1.2242160"]},{"value":["2013-07-31","1.2271643"]},{"value":["2013-08-31","1.1470000"]},{"value":["2013-09-30","1.1865734"]},{"value":["2013-10-31","1.2308445"]},{"value":["2013-11-30","1.1737386"]},{"value":["2013-12-31","1.1843575"]},{"value":["2014-01-31","1.2251000"]},{"value":["2014-02-28","1.2833039"]},{"value":["2014-03-31","1.2851675"]},{"value":["2014-04-30","1.3241005"]},{"value":["2014-05-31","1.3611336"]},{"value":["2014-06-30","1.3749166"]},{"value":["2014-07-31","1.3733843"]},{"value":["2014-08-31","1.4210732"]},{"value":["2014-09-30","1.3373632"]},{"value":["2014-10-31","1.4490677"]},{"value":["2014-11-30","1.4884931"]},{"value":["2014-12-31","1.5004755"]},{"value":["2015-01-31","1.5862001"]},{"value":["2015-02-28","1.5449975"]},{"value":["2015-03-31","1.5615992"]},{"value":["2015-04-30","1.4863931"]},{"value":["2015-05-31","1.4814714"]},{"value":["2015-06-30","1.4163172"]},{"value":["2015-07-31","1.4864379"]},{"value":["2015-08-31","1.4000289"]},{"value":["2015-09-30","1.4226442"]},{"value":["2015-10-31","1.5110707"]},{"value":["2015-11-30","1.5080628"]},{"value":["2015-12-31","1.5247314"]},{"value":["2016-01-31","1.4621824"]},{"value":["2016-02-29","1.4512159"]},{"value":["2016-03-31","1.6000400"]},{"value":["2016-04-30","1.5733247"]},{"value":["2016-05-31","1.6080544"]},{"value":["2016-06-30","1.7084477"]},{"value":["2016-07-31","1.7708639"]},{"value":["2016-08-31","1.7115584"]},{"value":["2016-09-30","1.6863517"]},{"value":["2016-10-31","1.6027040"]},{"value":["2016-11-30","1.5652709"]},{"value":["2016-12-31","1.6315446"]},{"value":["2017-01-31","1.6336653"]},{"value":["2017-02-28","1.7051279"]},{"value":["2017-03-31","1.6803521"]},{"value":["2017-04-30","1.6897719"]},{"value":["2017-05-31","1.6878452"]},{"value":["2017-06-30","1.7229526"]},{"value":["2017-07-31","1.7421758"]},{"value":["2017-08-31","1.7538392"]},{"value":["2017-09-30","1.7400705"]},{"value":["2017-10-31","1.7409416"]},{"value":["2017-11-30","1.7855980"]},{"value":["2017-12-31","1.7833970"]},{"value":["2018-01-31","1.7294615"]},{"value":["2018-02-28","1.6143258"]},{"value":["2018-03-31","1.6752163"]},{"value":["2018-04-30","1.6789900"]},{"value":["2018-05-31","1.7355931"]},{"value":["2018-06-30","1.8060487"]},{"value":["2018-07-31","1.8210656"]},{"value":["2018-08-31","1.8643228"]},{"value":["2018-09-30","1.8111259"]},{"value":["2018-10-31","1.7678965"]},{"value":["2018-11-30","1.8509610"]},{"value":["2018-12-31","1.7061734"]},{"value":["2019-01-31","1.9019714"]},{"value":["2019-02-28","1.9158596"]},{"value":["2019-03-31","1.9957682"]},{"value":["2019-04-30","1.9948511"]},{"value":["2019-05-31","1.9918702"]},{"value":["2019-06-30","2.0173478"]},{"value":["2019-07-31","2.0654072"]},{"value":["2019-08-31","2.1363418"]},{"value":["2019-09-30","2.1767188"]},{"value":["2019-10-31","2.1934735"]},{"value":["2019-11-30","2.1688072"]},{"value":["2019-12-31","2.1874062"]},{"value":["2020-01-31","2.2224212"]},{"value":["2020-02-29","2.0539244"]},{"value":["2020-03-31","1.6506892"]},{"value":["2020-04-30","1.8044404"]},{"value":["2020-05-31","1.8369463"]},{"value":["2020-06-30","1.8823483"]},{"value":["2020-07-31","1.9599735"]},{"value":["2020-08-31","1.9645119"]},{"value":["2020-09-30","1.9185151"]},{"value":["2020-10-31","1.8625265"]},{"value":["2020-11-30","2.0223223"]},{"value":["2020-12-31","2.0729490"]},{"value":["2021-01-31","2.0639940"]},{"value":["2021-02-28","2.1140932"]},{"value":["2021-03-31","2.2361625"]},{"value":["2021-04-30","2.4124966"]},{"value":["2021-05-31","2.4368185"]},{"value":["2021-06-30","2.4918522"]},{"value":["2021-07-31","2.6086956"]},{"value":["2021-08-31","2.6592955"]},{"value":["2021-09-30","2.5096599"]},{"value":["2021-10-31","2.6922654"]},{"value":["2021-11-30","2.6273118"]},{"value":["2021-12-31","2.8760965"]},{"value":["2022-01-31","2.6393522"]},{"value":["2022-02-28","2.5182558"]},{"value":["2022-03-31","2.6911244"]},{"value":["2022-04-30","2.5799681"]},{"value":["2022-05-31","2.4653306"]}],"yAxisIndex":0,"xAxisIndex":0,"name":"us_real_estate","type":"line","coordinateSystem":"cartesian2d","symbol":"emptyCircle","symbolSize":1},{"data":[{"value":["2006-07-31","1.0000000"]},{"value":["2006-08-31","1.0229867"]},{"value":["2006-09-30","1.0461063"]},{"value":["2006-10-31","1.0830352"]},{"value":["2006-11-30","1.1082646"]},{"value":["2006-12-31","1.1215801"]},{"value":["2007-01-31","1.1424588"]},{"value":["2007-02-28","1.1239006"]},{"value":["2007-03-31","1.1364987"]},{"value":["2007-04-30","1.1822091"]},{"value":["2007-05-31","1.2262323"]},{"value":["2007-06-30","1.2046173"]},{"value":["2007-07-31","1.1620381"]},{"value":["2007-08-31","1.1791341"]},{"value":["2007-09-30","1.2244921"]},{"value":["2007-10-31","1.2464389"]},{"value":["2007-11-30","1.1900732"]},{"value":["2007-12-31","1.1818083"]},{"value":["2008-01-31","1.1089376"]},{"value":["2008-02-29","1.0812545"]},{"value":["2008-03-31","1.0715814"]},{"value":["2008-04-30","1.1239336"]},{"value":["2008-05-31","1.1465916"]},{"value":["2008-06-30","1.0534795"]},{"value":["2008-07-31","1.0469045"]},{"value":["2008-08-31","1.0621915"]},{"value":["2008-09-30","0.9640339"]},{"value":["2008-10-31","0.7955425"]},{"value":["2008-11-30","0.7317801"]},{"value":["2008-12-31","0.7447044"]},{"value":["2009-01-31","0.6847816"]},{"value":["2009-02-28","0.6127081"]},{"value":["2009-03-31","0.6633926"]},{"value":["2009-04-30","0.7363018"]},{"value":["2009-05-31","0.7765280"]},{"value":["2009-06-30","0.7793805"]},{"value":["2009-07-31","0.8396822"]},{"value":["2009-08-31","0.8708442"]},{"value":["2009-09-30","0.9068408"]},{"value":["2009-10-31","0.8829808"]},{"value":["2009-11-30","0.9332388"]},{"value":["2009-12-31","0.9599583"]},{"value":["2010-01-31","0.9257288"]},{"value":["2010-02-28","0.9575741"]},{"value":["2010-03-31","1.0188185"]},{"value":["2010-04-30","1.0410447"]},{"value":["2010-05-31","0.9589785"]},{"value":["2010-06-30","0.9029693"]},{"value":["2010-07-31","0.9663628"]},{"value":["2010-08-31","0.9208363"]},{"value":["2010-09-30","1.0079811"]},{"value":["2010-10-31","1.0485630"]},{"value":["2010-11-30","1.0539161"]},{"value":["2010-12-31","1.1272622"]},{"value":["2011-01-31","1.1503530"]},{"value":["2011-02-28","1.1928877"]},{"value":["2011-03-31","1.1978802"]},{"value":["2011-04-30","1.2325737"]},{"value":["2011-05-31","1.2194984"]},{"value":["2011-06-30","1.1975527"]},{"value":["2011-07-31","1.1704149"]},{"value":["2011-08-31","1.0991568"]},{"value":["2011-09-30","1.0159290"]},{"value":["2011-10-31","1.1313914"]},{"value":["2011-11-30","1.1271672"]},{"value":["2011-12-31","1.1381807"]},{"value":["2012-01-31","1.1958858"]},{"value":["2012-02-29","1.2463346"]},{"value":["2012-03-31","1.2845684"]},{"value":["2012-04-30","1.2763902"]},{"value":["2012-05-31","1.1969274"]},{"value":["2012-06-30","1.2453445"]},{"value":["2012-07-31","1.2562441"]},{"value":["2012-08-31","1.2901911"]},{"value":["2012-09-30","1.3223344"]},{"value":["2012-10-31","1.2984552"]},{"value":["2012-11-30","1.3085092"]},{"value":["2012-12-31","1.3254267"]},{"value":["2013-01-31","1.3972326"]},{"value":["2013-02-28","1.4151391"]},{"value":["2013-03-31","1.4710159"]},{"value":["2013-04-30","1.4946364"]},{"value":["2013-05-31","1.5311570"]},{"value":["2013-06-30","1.5091585"]},{"value":["2013-07-31","1.5958712"]},{"value":["2013-08-31","1.5474945"]},{"value":["2013-09-30","1.6078023"]},{"value":["2013-10-31","1.6764068"]},{"value":["2013-11-30","1.7217147"]},{"value":["2013-12-31","1.7687782"]},{"value":["2014-01-31","1.7127197"]},{"value":["2014-02-28","1.7960697"]},{"value":["2014-03-31","1.8052181"]},{"value":["2014-04-30","1.8063292"]},{"value":["2014-05-31","1.8442969"]},{"value":["2014-06-30","1.8926396"]},{"value":["2014-07-31","1.8548875"]},{"value":["2014-08-31","1.9318797"]},{"value":["2014-09-30","1.8913753"]},{"value":["2014-10-31","1.9433111"]},{"value":["2014-11-30","1.9915114"]},{"value":["2014-12-31","1.9907490"]},{"value":["2015-01-31","1.9362845"]},{"value":["2015-02-28","2.0474660"]},{"value":["2015-03-31","2.0236563"]},{"value":["2015-04-30","2.0361099"]},{"value":["2015-05-31","2.0625256"]},{"value":["2015-06-30","2.0279812"]},{"value":["2015-07-31","2.0624694"]},{"value":["2015-08-31","1.9368340"]},{"value":["2015-09-30","1.8802206"]},{"value":["2015-10-31","2.0289699"]},{"value":["2015-11-30","2.0411595"]},{"value":["2015-12-31","1.9978167"]},{"value":["2016-01-31","1.8834640"]},{"value":["2016-02-29","1.8832724"]},{"value":["2016-03-31","2.0171709"]},{"value":["2016-04-30","2.0304493"]},{"value":["2016-05-31","2.0656660"]},{"value":["2016-06-30","2.0713145"]},{"value":["2016-07-31","2.1536567"]},{"value":["2016-08-31","2.1581024"]},{"value":["2016-09-30","2.1623998"]},{"value":["2016-10-31","2.1150066"]},{"value":["2016-11-30","2.2099868"]},{"value":["2016-12-31","2.2538920"]},{"value":["2017-01-31","2.2957174"]},{"value":["2017-02-28","2.3805410"]},{"value":["2017-03-31","2.3818560"]},{"value":["2017-04-30","2.4071823"]},{"value":["2017-05-31","2.4315272"]},{"value":["2017-06-30","2.4545613"]},{"value":["2017-07-31","2.5007135"]},{"value":["2017-08-31","2.5044609"]},{"value":["2017-09-30","2.5655714"]},{"value":["2017-10-31","2.6212328"]},{"value":["2017-11-30","2.7006635"]},{"value":["2017-12-31","2.7320205"]},{"value":["2018-01-31","2.8749410"]},{"value":["2018-02-28","2.7668541"]},{"value":["2018-03-31","2.7125365"]},{"value":["2018-04-30","2.7247286"]},{"value":["2018-05-31","2.7988770"]},{"value":["2018-06-30","2.8185699"]},{"value":["2018-07-31","2.9121001"]},{"value":["2018-08-31","3.0120538"]},{"value":["2018-09-30","3.0179609"]},{"value":["2018-10-31","2.7943112"]},{"value":["2018-11-30","2.8505765"]},{"value":["2018-12-31","2.5890041"]},{"value":["2019-01-31","2.8101126"]},{"value":["2019-02-28","2.9101191"]},{"value":["2019-03-31","2.9513473"]},{"value":["2019-04-30","3.0671895"]},{"value":["2019-05-31","2.8693589"]},{"value":["2019-06-30","3.0724554"]},{"value":["2019-07-31","3.1158532"]},{"value":["2019-08-31","3.0509606"]},{"value":["2019-09-30","3.1052472"]},{"value":["2019-10-31","3.1706431"]},{"value":["2019-11-30","3.2907394"]},{"value":["2019-12-31","3.3830167"]},{"value":["2020-01-31","3.3809485"]},{"value":["2020-02-29","3.1105061"]},{"value":["2020-03-31","2.6785901"]},{"value":["2020-04-30","3.0303744"]},{"value":["2020-05-31","3.1939035"]},{"value":["2020-06-30","3.2673050"]},{"value":["2020-07-31","3.4549561"]},{"value":["2020-08-31","3.7004270"]},{"value":["2020-09-30","3.5695213"]},{"value":["2020-10-31","3.4999375"]},{"value":["2020-11-30","3.9130388"]},{"value":["2020-12-31","4.0960253"]},{"value":["2021-01-31","4.0823468"]},{"value":["2021-02-28","4.2105056"]},{"value":["2021-03-31","4.3641015"]},{"value":["2021-04-30","4.5839005"]},{"value":["2021-05-31","4.6048036"]},{"value":["2021-06-30","4.7190943"]},{"value":["2021-07-31","4.8010566"]},{"value":["2021-08-31","4.9382963"]},{"value":["2021-09-30","4.7178430"]},{"value":["2021-10-31","5.0333438"]},{"value":["2021-11-30","4.9598326"]},{"value":["2021-12-31","5.1479611"]},{"value":["2022-01-31","4.8360213"]},{"value":["2022-02-28","4.7157657"]},{"value":["2022-03-31","4.8694971"]},{"value":["2022-04-30","4.4248324"]},{"value":["2022-05-31","4.4137104"]}],"yAxisIndex":0,"xAxisIndex":0,"name":"us_stocks","type":"line","coordinateSystem":"cartesian2d","symbol":"emptyCircle","symbolSize":1}],"tooltip":{"trigger":"axis","backgroundColor":"white"},"grid":[{"right":"15%","top":"25%"}],"title":[{"left":"3%","top":"3%","text":"Growth of Select ETFs","subtext":"How did each asset class perform?"}],"dataZoom":[{"type":"slider","start":0,"end":100}],"toolbox":{"feature":{"dataZoom":{"selector":{"start":"20","end":"80"}},"reset":[],"dataView":[],"saveAsImage":[]}}},"dispose":true},"evals":[],"jsHooks":[]}</script>
+<p>Over the period, there were notable performance divergences:
+- Commodities had disappointing performance continuously losing
+value over the period, starting at 1 and slowly declining to about 0.5.
+- Emerging markets had unstable growth, with an index starting at a value of 1
+and eventually reaching a value of about 1.8.
+- Global stocks also had unstable growth, with an index starting at a value
+of 1 and reaching a value of about 1.6.
+- The Treasury note portfolio had stable growth, starting at a value of 1 and ending
+at a value of about 1.85, outperforming commodities, emerging markets, and global stocks.
+- U.S. bonds also experienced modest, stable growth starting with an index value
+of 1 and reaching a value of about 1.68, slightly underperforming the Treasury
+note ETF.
+- U.S. real estate experienced high volatility at the beginning and end of the
+period, but overall grew from a value of 1 to a value of about 2.6, outperforming
+all previously mentioned asset classes.
+- U.S. stocks experienced a mostly stable growth, with the index starting at a
+value of 1 to a value of about 4.42. There was modest volatility during the period.</p>
+<p>Based solely on total return, it would have been better to have invested all one’s
+money in the U.S. stock market over the period. Of course, this could not have
+been known prior to the period, so investors often make more diversified
+portfolios in order to spread out their risks.</p>
+<div id="return-profiles" class="section level2">
+<h2>Return Profiles</h2>
+<pre class="r"><code>returns %&gt;% 
+  mutate(ticker = case_when(ticker == &quot;commodities&quot; ~ &quot;Commodities&quot;,
+                            ticker == &quot;emerging_markets&quot; ~ &quot;Emerging Markets&quot;,
+                            ticker == &quot;global_stocks&quot; ~ &quot;Global Stocks&quot;,
+                            ticker == &quot;treasury_notes&quot; ~ &quot;Treasury Notes&quot;,
+                            ticker == &quot;us_real_estate&quot; ~ &quot;U.S. Real Estate&quot;,
+                            ticker == &quot;us_bonds&quot; ~ &quot;U.S. Bonds&quot;,
+                            ticker == &quot;us_stocks&quot; ~ &quot;U.S. Stocks&quot;,
+                            TRUE ~ NA_character_)) %&gt;% 
+      ggplot(aes(x = ticker, y = return, color = ticker)) +
+      geom_violin() +
+      geom_jitter(width = 0.15, alpha = 0.8) +
+      scale_y_continuous(labels = scales::percent) +
+      theme_minimal() +
+      labs(title = &quot;Distribution of Returns Asset Classes&quot;,
+           subtitle = paste(&quot;For the &quot;, time_period %/% 365, &quot;years ended &quot;, 
+                            format(as.Date(end_date), &quot;%B %Y&quot;)),
+           x = &quot;&quot;, y = &quot;Return&quot;) +
+      theme(legend.position = &quot;none&quot;,
+            plot.title = element_text(face = &quot;bold&quot;, size = 13),
+            plot.title.position = &quot;plot&quot;)</code></pre>
+<p><img src="https://www.investwithr.com/post/building-a-balanced-portfolio/index.en_files/figure-html/return_profiles-1.png" width="672" /></p>
+<p>Commodities, Emerging markets, global stocks, U.S. real estate, and U.S. stocks
+experienced about the same volatility during the period. U.S. Treasury returns
+and U.S. bonds experienced low volatility of returns over the period.</p>
+<pre class="r"><code>up_days &lt;-
+      returns_xts %&gt;% 
+      as_tibble() %&gt;% 
+      {. &gt; 0} %&gt;% 
+      colSums()
+
+down_days &lt;-
+      returns_xts %&gt;% 
+      as_tibble() %&gt;% 
+      {. &lt; 0} %&gt;% 
+      colSums()
+
+perc_up_days &lt;- 
+      {up_days / (up_days + down_days)} %&gt;% 
+      tibble(ticker = names(.), perc_up = round(., 2)) %&gt;% 
+      arrange(desc(perc_up))
+
+perc_up_days %&gt;% 
+  mutate(ticker = case_when(ticker == &quot;commodities&quot; ~ &quot;Commodities&quot;,
+                            ticker == &quot;emerging_markets&quot; ~ &quot;Emerging Markets&quot;,
+                            ticker == &quot;global_stocks&quot; ~ &quot;Global Stocks&quot;,
+                            ticker == &quot;treasury_notes&quot; ~ &quot;Treasury Notes&quot;,
+                            ticker == &quot;us_real_estate&quot; ~ &quot;U.S. Real Estate&quot;,
+                            ticker == &quot;us_bonds&quot; ~ &quot;U.S. Bonds&quot;,
+                            ticker == &quot;us_stocks&quot; ~ &quot;U.S. Stocks&quot;,
+                            TRUE ~ NA_character_)) %&gt;% 
+  mutate(perc_up = paste0(100*perc_up, &quot;%&quot;)) %&gt;% 
+  select(`Asset Class` = ticker, `% Up` = perc_up) %&gt;% 
+  gt() %&gt;% 
+  cols_align(
+    align = &quot;center&quot;,
+    columns = `% Up`
+  ) %&gt;% 
+  tab_header(
+    title = &quot;How often did the price go up?&quot;,
+    subtitle = md(&quot;*(over the 15 year period)?*&quot;)
+  )</code></pre>
+<div id="ysrlinpvry" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#ysrlinpvry .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ysrlinpvry .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ysrlinpvry .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ysrlinpvry .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ysrlinpvry .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ysrlinpvry .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ysrlinpvry .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ysrlinpvry .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ysrlinpvry .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ysrlinpvry .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ysrlinpvry .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ysrlinpvry .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ysrlinpvry .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ysrlinpvry .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ysrlinpvry .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ysrlinpvry .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ysrlinpvry .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ysrlinpvry .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#ysrlinpvry .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#ysrlinpvry .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ysrlinpvry .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#ysrlinpvry .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#ysrlinpvry .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ysrlinpvry .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ysrlinpvry .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ysrlinpvry .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ysrlinpvry .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ysrlinpvry .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ysrlinpvry .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ysrlinpvry .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ysrlinpvry .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ysrlinpvry .gt_left {
+  text-align: left;
+}
+
+#ysrlinpvry .gt_center {
+  text-align: center;
+}
+
+#ysrlinpvry .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ysrlinpvry .gt_font_normal {
+  font-weight: normal;
+}
+
+#ysrlinpvry .gt_font_bold {
+  font-weight: bold;
+}
+
+#ysrlinpvry .gt_font_italic {
+  font-style: italic;
+}
+
+#ysrlinpvry .gt_super {
+  font-size: 65%;
+}
+
+#ysrlinpvry .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#ysrlinpvry .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#ysrlinpvry .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#ysrlinpvry .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#ysrlinpvry .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#ysrlinpvry .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="2" class="gt_heading gt_title gt_font_normal" style>How often did the price go up?</th>
+    </tr>
+    <tr>
+      <th colspan="2" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style><em>(over the 15 year period)?</em></th>
+    </tr>
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Asset Class</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">% Up</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left">U.S. Stocks</td>
+<td class="gt_row gt_center">67%</td></tr>
+    <tr><td class="gt_row gt_left">U.S. Real Estate</td>
+<td class="gt_row gt_center">62%</td></tr>
+    <tr><td class="gt_row gt_left">U.S. Bonds</td>
+<td class="gt_row gt_center">60%</td></tr>
+    <tr><td class="gt_row gt_left">Global Stocks</td>
+<td class="gt_row gt_center">58%</td></tr>
+    <tr><td class="gt_row gt_left">Commodities</td>
+<td class="gt_row gt_center">54%</td></tr>
+    <tr><td class="gt_row gt_left">Treasury Notes</td>
+<td class="gt_row gt_center">54%</td></tr>
+    <tr><td class="gt_row gt_left">Emerging Markets</td>
+<td class="gt_row gt_center">52%</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+<div id="gains-vs.-losses" class="section level2">
+<h2>Gains vs. Losses</h2>
+<p>It turns out that U.S. stocks, U.S. real estate, and U.S. bonds had positive return
+months at least 60% of the time over the period.</p>
+</div>
+<div id="correlations" class="section level2">
+<h2>Correlations</h2>
+<pre class="r"><code>corr &lt;- returns_xts %&gt;% cor() %&gt;% round(2)
+      
+ggcorrplot::ggcorrplot(
+      corr,
+      outline.col = &quot;white&quot;,
+      type = &quot;lower&quot;,
+      hc.order = TRUE,
+      lab = TRUE
+) +
+      labs(title = &quot;Correlations between ETF returns&quot;,
+           subtitle = &quot;Which ETFs tended to move together?&quot;) +
+      theme(plot.title = element_text(face = &quot;bold&quot;, size = 13),
+            plot.title.position = &quot;plot&quot;)</code></pre>
+<p><img src="https://www.investwithr.com/post/building-a-balanced-portfolio/index.en_files/figure-html/correlations-1.png" width="672" /></p>
+<p>Over the period, there were several notable return patterns:
+- Commodity returns were moderately correlated with emerging market stocks,
+global stocks, and U.S. stocks
+- Emerging market returns were strongly correlated with global stocks
+and U.S. stocks
+- Global stocks were highly correlated with U.S. stocks
+- Treasury returns were highly correlated with U.S. bonds
+- Treasury returns were moderately negatively correlated with commodities
+and U.S. stocks indicating there are potential diversification benefits from
+including Treasury ETFs in the portfolio containing stocks</p>
+</div>
+<div id="weights" class="section level2">
+<h2>Weights</h2>
+<p>One decision one has to make is how much of each asset to add to the portfolio.
+There are many ways to do this and one popular way is to use mean-variance
+optimization to determine which portfolio (out of a set of portfolios with
+varying asset weights) achieved the highest return for each unit of risk.
+Here, risk is measured as the standard deviation of such returns.</p>
+</div>
+<div id="set-benchmark" class="section level2">
+<h2>Set Benchmark</h2>
+<p>We will assume that investing equally in all assets is a reasonable benchmark
+for this analysis.</p>
+<pre class="r"><code>equal_wts &lt;- rep(1/length(tickers), length(tickers))
+
+wts_list &lt;- list()
+length(wts_list) &lt;- length(tickers)
+wts_grid &lt;- map(wts_list, ~seq(0, 1, 0.1))
+
+weights_grid &lt;- tibble(expand.grid(
+      wts_grid
+      )) %&gt;% 
+      filter(rowSums(.) == 1)
+
+n_portfolios &lt;- nrow(weights_grid)
+
+weights &lt;- weights_grid %&gt;% transpose() %&gt;% unlist(use.names = FALSE)
+
+ticker_returns_grid &lt;-
+      returns %&gt;% 
+      select(date, ticker, return) %&gt;% 
+      tq_repeat_df(n = n_portfolios)
+
+weights_table &lt;-
+      tibble(tickers) %&gt;%
+      tq_repeat_df(n = n_portfolios) %&gt;%
+      bind_cols(tibble(weights)) %&gt;%
+      full_join(tibble(
+            portfolio = 0,
+            tickers = tickers,
+            weights = equal_wts
+      )) %&gt;%
+      rename(ticker =  tickers, weight = weights)
+
+wts_plot &lt;- 
+      weights_table %&gt;%
+            filter(portfolio %in% seq(0, 7500, by = 250)) %&gt;%
+            ggplot(aes(x = portfolio, y = weight, fill = ticker)) +
+            geom_col(alpha = 0.8) +
+            scale_y_continuous(labels = scales::percent, breaks = seq(0, 1, by = .1)) +
+            theme_minimal() +
+            labs(
+                  title = &quot;Weights for portfolio assets&quot;,
+                  subtitle = &quot;What are the possible ways to combine assets in a portfolio&quot;,
+                  x = &quot;portfolio #&quot;,
+                  y = &quot;&quot;,
+                  fill = &quot;Ticker&quot;
+            ) +
+            theme(plot.title = element_text(face = &quot;bold&quot;, size = 13),
+                  plot.title.position = &quot;plot&quot;)
+
+plotly::ggplotly(wts_plot)</code></pre>
+<div id="htmlwidget-2" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2">{"x":{"data":[{"orientation":"v","width":[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],"base":[0.9,0.9,1,0.6,0.8,0.8,1,0.9,0.8,1,1,1,1,0.9,0.8,1,1,0.9,1,0.9,1,1,0.8,1,1,1,0.9,1,0.8,1,0.857142857142857],"x":[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],"y":[0.1,0.1,0,0.4,0.2,0.2,0,0.0999999999999999,0.2,0,0,0,0,0.0999999999999999,0.2,0,0,0.0999999999999999,0,0.1,0,0,0.2,0,0,0,0.1,0,0.2,0,0.142857142857143],"text":["portfolio:  250<br />weight: 0.1000000<br />ticker: commodities","portfolio:  500<br />weight: 0.1000000<br />ticker: commodities","portfolio:  750<br />weight: 0.0000000<br />ticker: commodities","portfolio: 1000<br />weight: 0.4000000<br />ticker: commodities","portfolio: 1250<br />weight: 0.2000000<br />ticker: commodities","portfolio: 1500<br />weight: 0.2000000<br />ticker: commodities","portfolio: 1750<br />weight: 0.0000000<br />ticker: commodities","portfolio: 2000<br />weight: 0.1000000<br />ticker: commodities","portfolio: 2250<br />weight: 0.2000000<br />ticker: commodities","portfolio: 2500<br />weight: 0.0000000<br />ticker: commodities","portfolio: 2750<br />weight: 0.0000000<br />ticker: commodities","portfolio: 3000<br />weight: 0.0000000<br />ticker: commodities","portfolio: 3250<br />weight: 0.0000000<br />ticker: commodities","portfolio: 3500<br />weight: 0.1000000<br />ticker: commodities","portfolio: 3750<br />weight: 0.2000000<br />ticker: commodities","portfolio: 4000<br />weight: 0.0000000<br />ticker: commodities","portfolio: 4250<br />weight: 0.0000000<br />ticker: commodities","portfolio: 4500<br />weight: 0.1000000<br />ticker: commodities","portfolio: 4750<br />weight: 0.0000000<br />ticker: commodities","portfolio: 5000<br />weight: 0.1000000<br />ticker: commodities","portfolio: 5250<br />weight: 0.0000000<br />ticker: commodities","portfolio: 5500<br />weight: 0.0000000<br />ticker: commodities","portfolio: 5750<br />weight: 0.2000000<br />ticker: commodities","portfolio: 6000<br />weight: 0.0000000<br />ticker: commodities","portfolio: 6250<br />weight: 0.0000000<br />ticker: commodities","portfolio: 6500<br />weight: 0.0000000<br />ticker: commodities","portfolio: 6750<br />weight: 0.1000000<br />ticker: commodities","portfolio: 7000<br />weight: 0.0000000<br />ticker: commodities","portfolio: 7250<br />weight: 0.2000000<br />ticker: commodities","portfolio: 7500<br />weight: 0.0000000<br />ticker: commodities","portfolio:    0<br />weight: 0.1428571<br />ticker: commodities"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,0.8)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"commodities","legendgroup":"commodities","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],"base":[0.8,0.7,0.9,0.6,0.8,0.8,0.9,0.6,0.8,0.9,0.8,0.6,0.7,0.9,0.7,0.9,0.8,0.7,1,0.8,0.9,0.6,0.8,1,0.8,0.8,0.8,0.6,0.6,1,0.714285714285714],"x":[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],"y":[0.1,0.2,0.1,0,0,0,0.0999999999999999,0.3,0,0.0999999999999999,0.2,0.4,0.3,0,0.1,0.0999999999999999,0.2,0.2,0,0.1,0.1,0.4,0,0,0.2,0.2,0.1,0.4,0.2,0,0.142857142857143],"text":["portfolio:  250<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio:  500<br />weight: 0.2000000<br />ticker: emerging_markets","portfolio:  750<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 1000<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 1250<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 1500<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 1750<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 2000<br />weight: 0.3000000<br />ticker: emerging_markets","portfolio: 2250<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 2500<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 2750<br />weight: 0.2000000<br />ticker: emerging_markets","portfolio: 3000<br />weight: 0.4000000<br />ticker: emerging_markets","portfolio: 3250<br />weight: 0.3000000<br />ticker: emerging_markets","portfolio: 3500<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 3750<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 4000<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 4250<br />weight: 0.2000000<br />ticker: emerging_markets","portfolio: 4500<br />weight: 0.2000000<br />ticker: emerging_markets","portfolio: 4750<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 5000<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 5250<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 5500<br />weight: 0.4000000<br />ticker: emerging_markets","portfolio: 5750<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 6000<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio: 6250<br />weight: 0.2000000<br />ticker: emerging_markets","portfolio: 6500<br />weight: 0.2000000<br />ticker: emerging_markets","portfolio: 6750<br />weight: 0.1000000<br />ticker: emerging_markets","portfolio: 7000<br />weight: 0.4000000<br />ticker: emerging_markets","portfolio: 7250<br />weight: 0.2000000<br />ticker: emerging_markets","portfolio: 7500<br />weight: 0.0000000<br />ticker: emerging_markets","portfolio:    0<br />weight: 0.1428571<br />ticker: emerging_markets"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(196,154,0,0.8)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"emerging_markets","legendgroup":"emerging_markets","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],"base":[0.8,0.2,0.4,0.2,0.5,0.5,0.6,0.6,0.6,0.6,0.8,0.6,0.4,0.9,0.5,0.9,0.7,0.7,1,0.4,0.8,0.6,0.6,0.9,0.5,0.8,0.8,0.6,0.6,0.8,0.571428571428571],"x":[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],"y":[0,0.5,0.5,0.4,0.3,0.3,0.3,0,0.2,0.3,0,0,0.3,0,0.2,0,0.1,0,0,0.4,0.1,0,0.2,0.1,0.3,0,0,0,0,0.2,0.142857142857143],"text":["portfolio:  250<br />weight: 0.0000000<br />ticker: global_stocks","portfolio:  500<br />weight: 0.5000000<br />ticker: global_stocks","portfolio:  750<br />weight: 0.5000000<br />ticker: global_stocks","portfolio: 1000<br />weight: 0.4000000<br />ticker: global_stocks","portfolio: 1250<br />weight: 0.3000000<br />ticker: global_stocks","portfolio: 1500<br />weight: 0.3000000<br />ticker: global_stocks","portfolio: 1750<br />weight: 0.3000000<br />ticker: global_stocks","portfolio: 2000<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 2250<br />weight: 0.2000000<br />ticker: global_stocks","portfolio: 2500<br />weight: 0.3000000<br />ticker: global_stocks","portfolio: 2750<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 3000<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 3250<br />weight: 0.3000000<br />ticker: global_stocks","portfolio: 3500<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 3750<br />weight: 0.2000000<br />ticker: global_stocks","portfolio: 4000<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 4250<br />weight: 0.1000000<br />ticker: global_stocks","portfolio: 4500<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 4750<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 5000<br />weight: 0.4000000<br />ticker: global_stocks","portfolio: 5250<br />weight: 0.1000000<br />ticker: global_stocks","portfolio: 5500<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 5750<br />weight: 0.2000000<br />ticker: global_stocks","portfolio: 6000<br />weight: 0.1000000<br />ticker: global_stocks","portfolio: 6250<br />weight: 0.3000000<br />ticker: global_stocks","portfolio: 6500<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 6750<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 7000<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 7250<br />weight: 0.0000000<br />ticker: global_stocks","portfolio: 7500<br />weight: 0.2000000<br />ticker: global_stocks","portfolio:    0<br />weight: 0.1428571<br />ticker: global_stocks"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(83,180,0,0.8)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"global_stocks","legendgroup":"global_stocks","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],"base":[0,0.2,0.4,0.1,0.2,0.5,0.2,0.5,0.4,0.5,0.7,0.1,0.3,0.8,0.3,0.9,0.5,0.7,0.8,0.3,0.7,0.5,0.6,0.8,0.5,0.6,0.8,0.5,0.5,0.6,0.428571428571429],"x":[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],"y":[0.8,0,0,0.1,0.3,0,0.4,0.1,0.2,0.1,0.1,0.5,0.1,0.1,0.2,0,0.2,0,0.2,0.1,0.1,0.1,0,0.1,0,0.2,0,0.1,0.1,0.2,0.142857142857143],"text":["portfolio:  250<br />weight: 0.8000000<br />ticker: treasury_notes","portfolio:  500<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio:  750<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio: 1000<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 1250<br />weight: 0.3000000<br />ticker: treasury_notes","portfolio: 1500<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio: 1750<br />weight: 0.4000000<br />ticker: treasury_notes","portfolio: 2000<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 2250<br />weight: 0.2000000<br />ticker: treasury_notes","portfolio: 2500<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 2750<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 3000<br />weight: 0.5000000<br />ticker: treasury_notes","portfolio: 3250<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 3500<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 3750<br />weight: 0.2000000<br />ticker: treasury_notes","portfolio: 4000<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio: 4250<br />weight: 0.2000000<br />ticker: treasury_notes","portfolio: 4500<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio: 4750<br />weight: 0.2000000<br />ticker: treasury_notes","portfolio: 5000<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 5250<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 5500<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 5750<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio: 6000<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 6250<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio: 6500<br />weight: 0.2000000<br />ticker: treasury_notes","portfolio: 6750<br />weight: 0.0000000<br />ticker: treasury_notes","portfolio: 7000<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 7250<br />weight: 0.1000000<br />ticker: treasury_notes","portfolio: 7500<br />weight: 0.2000000<br />ticker: treasury_notes","portfolio:    0<br />weight: 0.1428571<br />ticker: treasury_notes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,192,148,0.8)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"treasury_notes","legendgroup":"treasury_notes","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],"base":[0,0,0,0.1,0.1,0.1,0.2,0.2,0.3,0.4,0.6,0.1,0.1,0.1,0.2,0.2,0.3,0.4,0.7,0.2,0.2,0.3,0.4,0.6,0.3,0.4,0.8,0.5,0.5,0.6,0.285714285714286],"x":[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],"y":[0,0.2,0.4,0,0.1,0.4,0,0.3,0.1,0.1,0.1,0,0.2,0.7,0.1,0.7,0.2,0.3,0.1,0.1,0.5,0.2,0.2,0.2,0.2,0.2,0,0,0,0,0.142857142857143],"text":["portfolio:  250<br />weight: 0.0000000<br />ticker: us_bonds","portfolio:  500<br />weight: 0.2000000<br />ticker: us_bonds","portfolio:  750<br />weight: 0.4000000<br />ticker: us_bonds","portfolio: 1000<br />weight: 0.0000000<br />ticker: us_bonds","portfolio: 1250<br />weight: 0.1000000<br />ticker: us_bonds","portfolio: 1500<br />weight: 0.4000000<br />ticker: us_bonds","portfolio: 1750<br />weight: 0.0000000<br />ticker: us_bonds","portfolio: 2000<br />weight: 0.3000000<br />ticker: us_bonds","portfolio: 2250<br />weight: 0.1000000<br />ticker: us_bonds","portfolio: 2500<br />weight: 0.1000000<br />ticker: us_bonds","portfolio: 2750<br />weight: 0.1000000<br />ticker: us_bonds","portfolio: 3000<br />weight: 0.0000000<br />ticker: us_bonds","portfolio: 3250<br />weight: 0.2000000<br />ticker: us_bonds","portfolio: 3500<br />weight: 0.7000000<br />ticker: us_bonds","portfolio: 3750<br />weight: 0.1000000<br />ticker: us_bonds","portfolio: 4000<br />weight: 0.7000000<br />ticker: us_bonds","portfolio: 4250<br />weight: 0.2000000<br />ticker: us_bonds","portfolio: 4500<br />weight: 0.3000000<br />ticker: us_bonds","portfolio: 4750<br />weight: 0.1000000<br />ticker: us_bonds","portfolio: 5000<br />weight: 0.1000000<br />ticker: us_bonds","portfolio: 5250<br />weight: 0.5000000<br />ticker: us_bonds","portfolio: 5500<br />weight: 0.2000000<br />ticker: us_bonds","portfolio: 5750<br />weight: 0.2000000<br />ticker: us_bonds","portfolio: 6000<br />weight: 0.2000000<br />ticker: us_bonds","portfolio: 6250<br />weight: 0.2000000<br />ticker: us_bonds","portfolio: 6500<br />weight: 0.2000000<br />ticker: us_bonds","portfolio: 6750<br />weight: 0.0000000<br />ticker: us_bonds","portfolio: 7000<br />weight: 0.0000000<br />ticker: us_bonds","portfolio: 7250<br />weight: 0.0000000<br />ticker: us_bonds","portfolio: 7500<br />weight: 0.0000000<br />ticker: us_bonds","portfolio:    0<br />weight: 0.1428571<br />ticker: us_bonds"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,182,235,0.8)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"us_bonds","legendgroup":"us_bonds","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],"base":[0,0,0,0,0,0,0,0,0,0,0,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.2,0.2,0.2,0.2,0.2,0.3,0.3,0.3,0.4,0.5,0.6,0.142857142857143],"x":[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],"y":[0,0,0,0.1,0.1,0.1,0.2,0.2,0.3,0.4,0.6,0,0,0,0.1,0.1,0.2,0.3,0.6,0,0,0.1,0.2,0.4,0,0.1,0.5,0.1,0,0,0.142857142857143],"text":["portfolio:  250<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio:  500<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio:  750<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 1000<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 1250<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 1500<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 1750<br />weight: 0.2000000<br />ticker: us_real_estate","portfolio: 2000<br />weight: 0.2000000<br />ticker: us_real_estate","portfolio: 2250<br />weight: 0.3000000<br />ticker: us_real_estate","portfolio: 2500<br />weight: 0.4000000<br />ticker: us_real_estate","portfolio: 2750<br />weight: 0.6000000<br />ticker: us_real_estate","portfolio: 3000<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 3250<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 3500<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 3750<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 4000<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 4250<br />weight: 0.2000000<br />ticker: us_real_estate","portfolio: 4500<br />weight: 0.3000000<br />ticker: us_real_estate","portfolio: 4750<br />weight: 0.6000000<br />ticker: us_real_estate","portfolio: 5000<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 5250<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 5500<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 5750<br />weight: 0.2000000<br />ticker: us_real_estate","portfolio: 6000<br />weight: 0.4000000<br />ticker: us_real_estate","portfolio: 6250<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 6500<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 6750<br />weight: 0.5000000<br />ticker: us_real_estate","portfolio: 7000<br />weight: 0.1000000<br />ticker: us_real_estate","portfolio: 7250<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio: 7500<br />weight: 0.0000000<br />ticker: us_real_estate","portfolio:    0<br />weight: 0.1428571<br />ticker: us_real_estate"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(165,138,255,0.8)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"us_real_estate","legendgroup":"us_real_estate","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225,225],"base":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"x":[250,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250,5500,5750,6000,6250,6500,6750,7000,7250,7500,0],"y":[0,0,0,0,0,0,0,0,0,0,0,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.2,0.2,0.2,0.2,0.2,0.3,0.3,0.3,0.4,0.5,0.6,0.142857142857143],"text":["portfolio:  250<br />weight: 0.0000000<br />ticker: us_stocks","portfolio:  500<br />weight: 0.0000000<br />ticker: us_stocks","portfolio:  750<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 1000<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 1250<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 1500<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 1750<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 2000<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 2250<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 2500<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 2750<br />weight: 0.0000000<br />ticker: us_stocks","portfolio: 3000<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 3250<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 3500<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 3750<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 4000<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 4250<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 4500<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 4750<br />weight: 0.1000000<br />ticker: us_stocks","portfolio: 5000<br />weight: 0.2000000<br />ticker: us_stocks","portfolio: 5250<br />weight: 0.2000000<br />ticker: us_stocks","portfolio: 5500<br />weight: 0.2000000<br />ticker: us_stocks","portfolio: 5750<br />weight: 0.2000000<br />ticker: us_stocks","portfolio: 6000<br />weight: 0.2000000<br />ticker: us_stocks","portfolio: 6250<br />weight: 0.3000000<br />ticker: us_stocks","portfolio: 6500<br />weight: 0.3000000<br />ticker: us_stocks","portfolio: 6750<br />weight: 0.3000000<br />ticker: us_stocks","portfolio: 7000<br />weight: 0.4000000<br />ticker: us_stocks","portfolio: 7250<br />weight: 0.5000000<br />ticker: us_stocks","portfolio: 7500<br />weight: 0.6000000<br />ticker: us_stocks","portfolio:    0<br />weight: 0.1428571<br />ticker: us_stocks"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(251,97,215,0.8)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"us_stocks","legendgroup":"us_stocks","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.4968866749689,"r":7.30593607305936,"b":40.1826484018265,"l":34.337899543379},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"<b> Weights for portfolio assets <\/b>","font":{"color":"rgba(0,0,0,1)","family":"","size":17.2685761726858},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-498.75,7998.75],"tickmode":"array","ticktext":["0","2000","4000","6000"],"tickvals":[-5.6843418860808e-14,2000,4000,6000],"categoryorder":"array","categoryarray":["0","2000","4000","6000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"portfolio #","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.05,1.05],"tickmode":"array","ticktext":["0%","10%","20%","30%","40%","50%","60%","70%","80%","90%","100%"],"tickvals":[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1],"categoryorder":"array","categoryarray":["0%","10%","20%","30%","40%","50%","60%","70%","80%","90%","100%"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"Ticker","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"8e824cf79f7":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"8e824cf79f7","visdat":{"8e824cf79f7":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>There happen to be thousands of possible portfolio constructions. So,
+which one yielded the best performance over the period?</p>
+</div>
+<div id="performance-stats" class="section level2">
+<h2>Performance stats</h2>
+<pre class="r"><code># Get portfolio returns
+# port_returns_grid &lt;- 
+#   ticker_returns_grid %&gt;% 
+#   left_join(weights_table) %&gt;% 
+#   mutate(wtd_rtn = weight * return) %&gt;% 
+#   group_by(portfolio, date) %&gt;% 
+#   summarize(port_return = sum(wtd_rtn))
+
+# write_feather(port_returns_grid, &quot;static/data/port_returns_grid&quot;)
+port_returns_grid &lt;- read_feather(here(&quot;static&quot;, &quot;data&quot;, &quot;port_returns_grid&quot;)) %&gt;% ungroup()
+
+
+bm_returns &lt;-
+  returns %&gt;%
+  left_join(tibble(weight = equal_wts, ticker = tickers)) %&gt;% 
+  select(date, ticker, return, weight) %&gt;% 
+  mutate(wtd_rtn = weight * return) %&gt;% 
+  group_by(date) %&gt;% 
+  summarize(bm_return = sum(wtd_rtn)) 
+
+bm_returns_xts &lt;- 
+  bm_returns %&gt;%
+  xts(x = .$bm_return, order.by = .$date) %&gt;% 
+  setNames(&quot;bm_return&quot;)
+
+risk_free &lt;- 
+      rf_monthly %&gt;% 
+      filter(date &gt;= start_date, date &lt;= end_date) %&gt;% 
+      select(date, risk_free = monthly_rate)
+
+risk_free_xts &lt;-
+      risk_free %&gt;% 
+      xts(x = .$risk_free, order.by = .$date) %&gt;% 
+      setNames(&quot;risk_free&quot;)
+
+cleaned_returns_list &lt;-
+      port_returns_grid %&gt;%
+      filter(portfolio != 0) %&gt;%
+      split(., .$portfolio)
+
+cleaned_returns_list_xts &lt;-
+      cleaned_returns_list %&gt;% 
+      map(~xts(.x$port_return, order.by = .x$date))
+
+# returns_xts &lt;- reduce(cleaned_returns_list_xts, merge)
+# saveRDS(returns_xts, &quot;static/data/returns_xts.rds&quot;)
+returns_xts &lt;- readRDS(here(&quot;static&quot;, &quot;data&quot;, &quot;returns_xts.rds&quot;))</code></pre>
+<pre class="r"><code># capm_stats &lt;- table.CAPM(Ra = returns_xts, Rb = bm_returns_xts, Rf = risk_free_xts) 
+
+# capm_stats_cleaned &lt;- 
+#   capm_stats %&gt;% 
+#   rownames_to_column(var = &quot;measure&quot;) %&gt;%
+#   as_tibble() %&gt;%
+#   set_names(c(&quot;measure&quot;, paste0(&quot;port_&quot;, seq_along(.)[-ncol(.)])))
+
+# saveRDS(capm_stats_cleaned, &quot;static/data/capm_stats.rds&quot;)
+capm_stats &lt;- readRDS(here(&quot;static&quot;, &quot;data&quot;, &quot;capm_stats.rds&quot;))
+      
+
+# port_performance &lt;- table.Stats(R = returns_xts)
+#       
+# port_performance_cleaned &lt;-
+#   port_performance %&gt;%
+#   rownames_to_column(var = &quot;measure&quot;) %&gt;%
+#   as_tibble() %&gt;%
+#   set_names(c(&quot;measure&quot;, paste0(&quot;port_&quot;, seq_along(.)[-ncol(.)])))
+
+# saveRDS(port_performance_cleaned, &quot;static/data/port_performance.rds&quot;)
+port_performance &lt;- readRDS(here(&quot;static&quot;, &quot;data&quot;, &quot;port_performance.rds&quot;))
+
+
+port_performance %&gt;% 
+  distinct(measure) %&gt;% 
+  mutate(Description = c(
+    &quot;Number of observations&quot;,
+    &quot;Number of NA (not available) values&quot;,
+    &quot;Global minimum&quot;,
+    &quot;First quartile value (25th percentile)&quot;,
+    &quot;Median (50th percentile)&quot;,
+    &quot;Arithmatic average&quot;,
+    &quot;Average when compounding is applied&quot;,
+    &quot;Third quartile value (75th percentile)&quot;,
+    &quot;Global maximum&quot;,
+    &quot;Standard error of the mean (standard deviation of the means from repeated sampling of the population)&quot;,
+    &quot;Lower confidence limit (95th percentile) (lower limit for true mean value at a 10% confidence level)&quot;,
+    &quot;Upper confidence limit (95th percentil) (upper limit for true mean value at a 10% confidence level)&quot;,
+    &quot;Variance (measure of dispersion)&quot;,
+    &quot;Standard deviation (normalized measure of disperson)&quot;,
+    &quot;Skewness (measure of assymetry)&quot;,
+    &quot;Kurtosis (measure of concentration)&quot;
+  )) %&gt;% 
+  gt(rowname_col = &quot;measure&quot;) %&gt;% 
+  tab_stubhead(label = &quot;Measure&quot;) %&gt;% 
+  tab_header(
+    title = md(&quot;**Description of Performance Indicators**&quot;)
+  )</code></pre>
+<div id="dixilufajd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#dixilufajd .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#dixilufajd .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#dixilufajd .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#dixilufajd .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#dixilufajd .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#dixilufajd .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#dixilufajd .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#dixilufajd .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#dixilufajd .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#dixilufajd .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#dixilufajd .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#dixilufajd .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#dixilufajd .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#dixilufajd .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#dixilufajd .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#dixilufajd .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#dixilufajd .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dixilufajd .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#dixilufajd .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#dixilufajd .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dixilufajd .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#dixilufajd .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#dixilufajd .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#dixilufajd .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dixilufajd .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#dixilufajd .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#dixilufajd .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#dixilufajd .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#dixilufajd .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dixilufajd .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#dixilufajd .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dixilufajd .gt_left {
+  text-align: left;
+}
+
+#dixilufajd .gt_center {
+  text-align: center;
+}
+
+#dixilufajd .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#dixilufajd .gt_font_normal {
+  font-weight: normal;
+}
+
+#dixilufajd .gt_font_bold {
+  font-weight: bold;
+}
+
+#dixilufajd .gt_font_italic {
+  font-style: italic;
+}
+
+#dixilufajd .gt_super {
+  font-size: 65%;
+}
+
+#dixilufajd .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#dixilufajd .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#dixilufajd .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#dixilufajd .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#dixilufajd .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#dixilufajd .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="2" class="gt_heading gt_title gt_font_normal gt_bottom_border" style><strong>Description of Performance Indicators</strong></th>
+    </tr>
+    
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Measure</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Description</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_right gt_stub">Observations</td>
+<td class="gt_row gt_left">Number of observations</td></tr>
+    <tr><td class="gt_row gt_right gt_stub">NAs</td>
+<td class="gt_row gt_left">Number of NA (not available) values</td></tr>
+    <tr><td class="gt_row gt_right gt_stub">Minimum</td>
+<td class="gt_row gt_left">Global minimum</td></tr>
+    <tr><td class="gt_row gt_right gt_stub">Quartile 1</td>
+<td class="gt_row gt_left">First quartile value (25th percentile)</td></tr>
+    <tr><td class="gt_row gt_right gt_stub">Median</td>
+<td class="gt_row gt_left">Median (50th percentile)</td></tr>
+    <tr><td class="gt_row gt_right gt_stub">Arithmetic Mean</td>
+<td class="gt_row gt_left">Arithmatic average</td></tr>
+    <tr><td class="gt_row gt_right gt_stub">Geometric Mean</td>
+<td class="gt_row gt_left">Average when compounding is applied</td></tr>
+    <tr><td class="gt_row gt_right gt_stub">Quartile 3</td>
+<td class="gt_row gt_left">Third quartile value (75th percentile)</td></tr>
+    <tr><td class="gt_row gt_right gt_stub">Maximum</td>
+<td class="gt_row gt_left">Global maximum</td></tr>
+    <tr><td class="gt_row gt_right gt_stub">SE Mean</td>
+<td class="gt_row gt_left">Standard error of the mean (standard deviation of the means from repeated sampling of the population)</td></tr>
+    <tr><td class="gt_row gt_right gt_stub">LCL Mean (0.95)</td>
+<td class="gt_row gt_left">Lower confidence limit (95th percentile) (lower limit for true mean value at a 10% confidence level)</td></tr>
+    <tr><td class="gt_row gt_right gt_stub">UCL Mean (0.95)</td>
+<td class="gt_row gt_left">Upper confidence limit (95th percentil) (upper limit for true mean value at a 10% confidence level)</td></tr>
+    <tr><td class="gt_row gt_right gt_stub">Variance</td>
+<td class="gt_row gt_left">Variance (measure of dispersion)</td></tr>
+    <tr><td class="gt_row gt_right gt_stub">Stdev</td>
+<td class="gt_row gt_left">Standard deviation (normalized measure of disperson)</td></tr>
+    <tr><td class="gt_row gt_right gt_stub">Skewness</td>
+<td class="gt_row gt_left">Skewness (measure of assymetry)</td></tr>
+    <tr><td class="gt_row gt_right gt_stub">Kurtosis</td>
+<td class="gt_row gt_left">Kurtosis (measure of concentration)</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+<pre class="r"><code>port_performance &lt;-
+  port_performance %&gt;%
+  pivot_longer(-measure) %&gt;% 
+  filter(measure %in% c(&quot;Geometric Mean&quot;, &quot;Stdev&quot;, &quot;Skewness&quot;)) %&gt;% 
+  pivot_wider(names_from = &quot;measure&quot;) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  rename(portfolio = name) %&gt;% 
+  mutate(portfolio = as.numeric(str_extract(portfolio, &quot;\\d+&quot;))) %&gt;% 
+  mutate(annual_return = geometric_mean * 12) %&gt;%
+  mutate(annual_stdev = stdev*sqrt(12)) %&gt;%
+  mutate(sharpe_ratio = ((annual_return - 0.03) / annual_stdev))</code></pre>
+</div>
+</div>
+<div id="portfolios-with-highest-returns" class="section level1">
+<h1>Portfolios with Highest Returns</h1>
+<p>What portfolios experienced the highest returns over the period?</p>
+<pre class="r"><code>best_return &lt;-
+  port_performance %&gt;%
+  arrange(desc(annual_return),
+          desc(sharpe_ratio),
+          stdev,
+          desc(skewness)) %&gt;%
+  select(portfolio, sharpe_ratio, geometric_mean, skewness) %&gt;%
+  slice(1:10) %&gt;%
+  pull(portfolio)
+
+weights_table %&gt;%
+  filter(portfolio %in% best_return) %&gt;%
+  ggplot(aes(x = ticker, y = weight, fill = ticker)) +
+  geom_col() +
+  geom_text(aes(label = scales::percent_format()(weight)),
+            nudge_y = 0.07,
+            color = &quot;darkgray&quot;) +
+  scale_y_continuous(labels = scales::percent) +
+  facet_wrap(. ~ paste(&quot;Portfolio: &quot;, portfolio)) +
+  labs(
+    x = &quot;&quot;,
+    y = &quot;&quot;,
+    title = &quot;Portfolio Weights&quot;,
+    subtitle = &quot;Weights for portfolios with best returns&quot;,
+    fill = &quot;Asset&quot;
+  ) +
+  theme_bw() +
+  theme(
+    axis.text.y = element_blank(),
+    plot.title = element_text(face = &quot;bold&quot;, size = 13),
+    legend.background = element_rect(
+      fill = &quot;white&quot;,
+      size = 4,
+      colour = &quot;white&quot;
+    ),
+    axis.ticks = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title.position = &quot;plot&quot;,
+    axis.text.x = element_blank()
+  )</code></pre>
+<p><img src="https://www.investwithr.com/post/building-a-balanced-portfolio/index.en_files/figure-html/best_return-1.png" width="672" /></p>
+<p>It’s no surprise that the top 10 portfolios based on total return were comprised
+almost entirely of U.S. stocks which significantly outperformed the other asset
+classes over the investment period. So, if we had invested almost all of our
+cash in U.S. stocks, we would have outperformed other asset classes. However,
+at the same time, we need to account for risk (we’re using standard deviation as
+as a proxy for volatility/risk). Let’s look at volatility and
+how it should be considered in the investment decision.</p>
+</div>
+<div id="portfolio-volatility" class="section level1">
+<h1>Portfolio Volatility</h1>
+<p>Let’s rank the portfolios in terms of return and volatility. For returns, a rank
+one will be assigned to the portfolio with the highest return. For volatility,
+a rank of one will be assigned to the portfolio with the lowest standard deviation.</p>
+<pre class="r"><code>port_performance %&gt;% 
+  # arrange(desc(annual_stdev)) %&gt;% 
+  select(portfolio, geometric_mean, annual_stdev) %&gt;% 
+  # mutate(return_rank = row_number(-geometric_mean)) %&gt;% 
+  # mutate(stdev_rank = row_number(annual_stdev)) %&gt;% 
+  # mutate(across(annual_stdev, ~round(.x, 2))) %&gt;% 
+  mutate(return_percentile = 100*round(percent_rank(geometric_mean), 3)) %&gt;%
+  mutate(sd_percentile = 100*round(percent_rank(annual_stdev), 2)) %&gt;%
+      select(-geometric_mean, -annual_stdev) %&gt;% 
+  filter(portfolio %in% best_return) %&gt;% 
+  arrange(desc(return_percentile)) %&gt;% 
+  rename(`Portolio #` = portfolio, `Return Percentile` = return_percentile,
+         `Stdev. Percentile` = sd_percentile) %&gt;% 
+  gt() %&gt;% 
+  tab_header(
+    title = &quot;What was the volatility of of the portfolios with high returns?&quot;,
+    subtitle = md(&quot;*(over the 15 year period)*&quot;)
+  ) %&gt;% 
+  tab_footnote(
+    footnote = &quot;A percentile of 100 is assigned to the portfolio with the highest return.&quot;,
+    locations = cells_column_labels(columns = c(`Return Percentile`))
+  ) %&gt;% 
+   tab_footnote(
+    footnote = &quot;A percentile of 100 is assigned to the portfolio with the lowest standard deviation.&quot;,
+    locations = cells_column_labels(columns = c(`Stdev. Percentile`))
+  )</code></pre>
+<div id="drphacckok" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#drphacckok .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#drphacckok .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#drphacckok .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#drphacckok .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#drphacckok .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#drphacckok .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#drphacckok .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#drphacckok .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#drphacckok .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#drphacckok .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#drphacckok .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#drphacckok .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#drphacckok .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#drphacckok .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#drphacckok .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#drphacckok .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#drphacckok .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#drphacckok .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#drphacckok .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#drphacckok .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#drphacckok .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#drphacckok .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#drphacckok .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#drphacckok .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#drphacckok .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#drphacckok .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#drphacckok .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#drphacckok .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#drphacckok .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#drphacckok .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#drphacckok .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#drphacckok .gt_left {
+  text-align: left;
+}
+
+#drphacckok .gt_center {
+  text-align: center;
+}
+
+#drphacckok .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#drphacckok .gt_font_normal {
+  font-weight: normal;
+}
+
+#drphacckok .gt_font_bold {
+  font-weight: bold;
+}
+
+#drphacckok .gt_font_italic {
+  font-style: italic;
+}
+
+#drphacckok .gt_super {
+  font-size: 65%;
+}
+
+#drphacckok .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#drphacckok .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#drphacckok .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#drphacckok .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#drphacckok .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#drphacckok .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="3" class="gt_heading gt_title gt_font_normal" style>What was the volatility of of the portfolios with high returns?</th>
+    </tr>
+    <tr>
+      <th colspan="3" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style><em>(over the 15 year period)</em></th>
+    </tr>
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Portolio #</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Return Percentile<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Stdev. Percentile<sup class="gt_footnote_marks">2</sup></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_right">7657</td>
+<td class="gt_row gt_right">100.0</td>
+<td class="gt_row gt_right">79</td></tr>
+    <tr><td class="gt_row gt_right">7658</td>
+<td class="gt_row gt_right">100.0</td>
+<td class="gt_row gt_right">77</td></tr>
+    <tr><td class="gt_row gt_right">7647</td>
+<td class="gt_row gt_right">99.9</td>
+<td class="gt_row gt_right">80</td></tr>
+    <tr><td class="gt_row gt_right">7649</td>
+<td class="gt_row gt_right">99.9</td>
+<td class="gt_row gt_right">61</td></tr>
+    <tr><td class="gt_row gt_right">7650</td>
+<td class="gt_row gt_right">99.9</td>
+<td class="gt_row gt_right">63</td></tr>
+    <tr><td class="gt_row gt_right">7651</td>
+<td class="gt_row gt_right">99.9</td>
+<td class="gt_row gt_right">81</td></tr>
+    <tr><td class="gt_row gt_right">7653</td>
+<td class="gt_row gt_right">99.9</td>
+<td class="gt_row gt_right">79</td></tr>
+    <tr><td class="gt_row gt_right">7654</td>
+<td class="gt_row gt_right">99.9</td>
+<td class="gt_row gt_right">77</td></tr>
+    <tr><td class="gt_row gt_right">7655</td>
+<td class="gt_row gt_right">99.9</td>
+<td class="gt_row gt_right">59</td></tr>
+    <tr><td class="gt_row gt_right">7656</td>
+<td class="gt_row gt_right">99.9</td>
+<td class="gt_row gt_right">61</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="3"><sup class="gt_footnote_marks">1</sup> A percentile of 100 is assigned to the portfolio with the highest return.</td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="3"><sup class="gt_footnote_marks">2</sup> A percentile of 100 is assigned to the portfolio with the lowest standard deviation.</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<p>Of the 10 portfolios with the highest returns, all had relatively high volatility.
+The standard deviation ranks for all top 10 performing portfolios are greater than
+4500, meaning that at least 4500 other portfolios had lower volatility than each
+of these high return portfolios. So, what should we have done?</p>
+</div>
+<div id="investment-efficiency" class="section level1">
+<h1>Investment Efficiency</h1>
+<p>Of course, every investor tries to maximize the total return on investments.
+However, higher returns usually come with higher volatility. Investors want
+high returns and low volatility. So, how can we maximize our returns for each
+unit of volatility?</p>
+<pre class="r"><code>best_sharpe &lt;-
+  port_performance %&gt;% 
+  arrange(desc(sharpe_ratio),
+          desc(geometric_mean),
+          stdev,
+          desc(skewness)) %&gt;%
+  select(portfolio, sharpe_ratio, geometric_mean, skewness) %&gt;%
+  slice(1:10) %&gt;%
+  pull(portfolio)
+
+
+weights_table %&gt;%
+  filter(portfolio %in% best_sharpe) %&gt;%
+  ggplot(aes(x = ticker, y = weight, fill = ticker)) +
+  geom_col() +
+  geom_text(aes(label = scales::percent_format()(weight)),
+            nudge_y = 0.07,
+            color = &quot;darkgray&quot;) +
+  scale_y_continuous(labels = scales::percent) +
+  facet_wrap(. ~ paste(&quot;Portfolio: &quot;, portfolio)) +
+  labs(
+    x = &quot;&quot;,
+    y = &quot;&quot;,
+    title = &quot;Best risk-adjusted returns&quot;,
+    subtitle = &quot;Weights for portfolios with best sharpe_ratios (best return for each unit of risk)&quot;,
+    fill = &quot;Ticker&quot;
+  ) +
+  theme_bw() +
+  theme(
+    axis.text.y = element_blank(),
+    plot.title = element_text(face = &quot;bold&quot;, size = 13),
+    legend.background = element_rect(
+      fill = &quot;white&quot;,
+      size = 4,
+      colour = &quot;white&quot;
+    ),
+    axis.ticks = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title.position = &quot;plot&quot;,
+    axis.text.x = element_blank()
+  )</code></pre>
+<p><img src="https://www.investwithr.com/post/building-a-balanced-portfolio/index.en_files/figure-html/best_sharpe_ratio-1.png" width="672" /></p>
+<p>It turns out the efficient portfolios (i.e., portfolios that maximize return to
+risk) consisted of a mix of Treasury funds and U.S. stocks, and sometimes
+U.S. bonds. What does this reveal? It seems that a mix of higher returns (U.S. stocks)
+and low volatility (Treasury funds and U.S. bonds) resulted in the best balance
+of return and risk. One option for an investor in this case is to mix these three
+assets, usually mostly comprised of Treasury funds, followed by U.S. stocks, and
+then U.S. bonds (e.g., 50%, 40%, 10%, respectively for portfolio 6904).</p>
+<p>How did the best Sharpe ratio (efficient) portfolios perform based on total
+returns?</p>
+<pre class="r"><code>port_performance %&gt;%
+  arrange(desc(annual_return),
+          desc(sharpe_ratio),
+          stdev,
+          desc(skewness)) %&gt;% 
+  mutate(return_percentile = 100*round(percent_rank(annual_return), 2)) %&gt;% 
+  mutate(annual_return = round(annual_return, 3)) %&gt;% 
+  filter(portfolio %in% best_sharpe) %&gt;% 
+  select(`Portfolio #` = portfolio, `Annual Return` = annual_return, `Return Percentile` = return_percentile) %&gt;% 
+  gt() %&gt;% 
+  tab_header(
+    title = &quot;How did the portfolios with the best Sharpe ratios perform based on just return?&quot;,
+    subtitle = md(&quot;*(over the 15 year period)*&quot;)
+  ) %&gt;% 
+  tab_footnote(
+    footnote = &quot;A percentile of 100 is assigned to the portfolio with the highest return.&quot;,
+    locations = cells_column_labels(columns = c(`Return Percentile`))
+  )</code></pre>
+<div id="acrigdmszo" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#acrigdmszo .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#acrigdmszo .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#acrigdmszo .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#acrigdmszo .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#acrigdmszo .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#acrigdmszo .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#acrigdmszo .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#acrigdmszo .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#acrigdmszo .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#acrigdmszo .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#acrigdmszo .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#acrigdmszo .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#acrigdmszo .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#acrigdmszo .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#acrigdmszo .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#acrigdmszo .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#acrigdmszo .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#acrigdmszo .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#acrigdmszo .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#acrigdmszo .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#acrigdmszo .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#acrigdmszo .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#acrigdmszo .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#acrigdmszo .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#acrigdmszo .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#acrigdmszo .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#acrigdmszo .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#acrigdmszo .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#acrigdmszo .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#acrigdmszo .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#acrigdmszo .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#acrigdmszo .gt_left {
+  text-align: left;
+}
+
+#acrigdmszo .gt_center {
+  text-align: center;
+}
+
+#acrigdmszo .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#acrigdmszo .gt_font_normal {
+  font-weight: normal;
+}
+
+#acrigdmszo .gt_font_bold {
+  font-weight: bold;
+}
+
+#acrigdmszo .gt_font_italic {
+  font-style: italic;
+}
+
+#acrigdmszo .gt_super {
+  font-size: 65%;
+}
+
+#acrigdmszo .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#acrigdmszo .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#acrigdmszo .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#acrigdmszo .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#acrigdmszo .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#acrigdmszo .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="3" class="gt_heading gt_title gt_font_normal" style>How did the portfolios with the best Sharpe ratios perform based on just return?</th>
+    </tr>
+    <tr>
+      <th colspan="3" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style><em>(over the 15 year period)</em></th>
+    </tr>
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Portfolio #</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Annual Return</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Return Percentile<sup class="gt_footnote_marks">1</sup></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_right">7501</td>
+<td class="gt_row gt_right">0.077</td>
+<td class="gt_row gt_right">99</td></tr>
+    <tr><td class="gt_row gt_right">7282</td>
+<td class="gt_row gt_right">0.072</td>
+<td class="gt_row gt_right">97</td></tr>
+    <tr><td class="gt_row gt_right">7317</td>
+<td class="gt_row gt_right">0.071</td>
+<td class="gt_row gt_right">96</td></tr>
+    <tr><td class="gt_row gt_right">6848</td>
+<td class="gt_row gt_right">0.066</td>
+<td class="gt_row gt_right">93</td></tr>
+    <tr><td class="gt_row gt_right">6904</td>
+<td class="gt_row gt_right">0.065</td>
+<td class="gt_row gt_right">92</td></tr>
+    <tr><td class="gt_row gt_right">6939</td>
+<td class="gt_row gt_right">0.065</td>
+<td class="gt_row gt_right">92</td></tr>
+    <tr><td class="gt_row gt_right">6959</td>
+<td class="gt_row gt_right">0.064</td>
+<td class="gt_row gt_right">90</td></tr>
+    <tr><td class="gt_row gt_right">6158</td>
+<td class="gt_row gt_right">0.060</td>
+<td class="gt_row gt_right">85</td></tr>
+    <tr><td class="gt_row gt_right">6288</td>
+<td class="gt_row gt_right">0.059</td>
+<td class="gt_row gt_right">84</td></tr>
+    <tr><td class="gt_row gt_right">6311</td>
+<td class="gt_row gt_right">0.058</td>
+<td class="gt_row gt_right">81</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="3"><sup class="gt_footnote_marks">1</sup> A percentile of 100 is assigned to the portfolio with the highest return.</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<p>Overall, each of the top 10 efficient portfolios were in the top 20th percentile
+in terms of total return. So, it seems like a balanced, more efficient portfolio
+can minimize volatility for each level of return and at the same time not sacrifice
+too much in terms of total return.</p>
+</div>
+<div id="summary" class="section level1">
+<h1>Summary</h1>
+<p>Over the last 15 years and
+10 months it would have been generally
+better to invest almost all of one’s cash into the overall U.S. stock market if
+one did not care about risk. However, since investors do care about risk, it turns
+out it would have been better to combine a mix of Treasury funds, U.S. bonds, and
+U.S. stocks to experience a more efficient and balanced portfolio while still
+experiencing high returns.</p>
+</div>
+<div id="limitations" class="section level1">
+<h1>Limitations</h1>
+<p>This analysis spans a relatively small time period. It is not a good idea to
+make future investment decisions based on research using such short data-spans.
+One approach to the data limitation problem is to run the analysis on indexes
+(not ETFs) with longer data histories and then utilize ETFs as proxies to
+represent the uninvestible indexes. This may be appropriate if the ETFs closely
+track the indexes they are purported to track.</p>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+
+
+<div class="share-box">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://www.investwithr.com/post/building-a-balanced-portfolio/&amp;text=Building%20a%20Balanced%20Portfolio" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://www.investwithr.com/post/building-a-balanced-portfolio/&amp;t=Building%20a%20Balanced%20Portfolio" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Building%20a%20Balanced%20Portfolio&amp;body=https://www.investwithr.com/post/building-a-balanced-portfolio/" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://www.investwithr.com/post/building-a-balanced-portfolio/&amp;title=Building%20a%20Balanced%20Portfolio" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Building%20a%20Balanced%20Portfolio%20https://www.investwithr.com/post/building-a-balanced-portfolio/" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://www.investwithr.com/post/building-a-balanced-portfolio/&amp;title=Building%20a%20Balanced%20Portfolio" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://www.investwithr.com/"><img class="avatar mr-3 avatar-circle" src="/author/aaron-hardy/avatar_hu27cee1c11ce63d87923667b02c4d6380_115836_270x270_fill_q75_lanczos_center.jpg" alt="Aaron Hardy"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://www.investwithr.com/">Aaron Hardy</a></h5>
+      <h6 class="card-subtitle">Data analyst, programmer, and investor</h6>
+      <p class="card-text">My research interests include programming, finance, dashboards, and algorithmic modeling.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/GeorgeCushen" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ" target="_blank" rel="noopener">
+        <i class="fas fa-graduation-cap"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/gcushen" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/uploads/resume.pdf" >
+        <i class="ai ai-cv"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  <script src="/js/collapse.js"></script>
+  <script src="/js/dropdown.js"></script>
+  <script src="/js/transition.js"></script>
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+  
+
+  
+
+  
+  <p class="powered-by">
+    © 2022 Aaron Hardy
+  </p>
+  
+
+  
+  
+
+
+
+
+
+
+  <p class="powered-by">
+    
+     
+  
+
+
+    
+    
+    
+      
+      
+      
+      
+      
+      
+      Published with <a href="https://wowchemy.com/?utm_campaign=poweredby" target="_blank" rel="noopener">Wowchemy</a> — the free, <a href="https://github.com/wowchemy/wowchemy-hugo-themes" target="_blank" rel="noopener">open source</a> website builder that empowers creators.
+    
+  </p>
+
+  <script src="js/codefolding.js"></script>
+
+
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+
+    
+    <script src="/js/vendor-bundle.min.b73dfaac3b6499dc997741748a7c3fe2.js"></script>
+
+    
+    
+    
+      
+      
+        <script src="https://cdn.jsdelivr.net/gh/desandro/imagesloaded@v4.1.4/imagesloaded.pkgd.min.js" integrity="sha512-S5PZ9GxJZO16tT9r3WJp/Safn31eu8uWrzglMahDT4dsmgqWonRY9grk3j+3tfuPr9WJNsfooOR7Gi7HL5W2jw==" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/gh/metafizzy/isotope@v3.0.6/dist/isotope.pkgd.min.js" integrity="sha512-Zq2BOxyhvnRFXu0+WE6ojpZLOU2jdnqbrM1hmVdGzyeCa1DgM3X5Q4A/Is9xA1IkbUeDd7755dNNI/PzSf2Pew==" crossorigin="anonymous"></script>
+      
+
+      
+      
+
+      
+
+      
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/highlight.min.js" integrity="sha512-Ypjm0o7jOxAd4hpdoppSEN0TQOC19UtPAqD+4s5AlXmUvbmmS/YMxYqAqarQYyxTnB6/rqip9qcxlNB/3U9Wdg==" crossorigin="anonymous"></script>
+        
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/languages/r.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/languages/python.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/languages/latex.min.js" crossorigin="anonymous"></script>
+        
+      
+
+    
+
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.min.js" integrity="" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    
+      
+      <script id="search-hit-fuse-template" type="text/x-template">
+        <div class="search-hit" id="summary-{{key}}">
+          <div class="search-hit-content">
+            <div class="search-hit-name">
+              <a href="{{relpermalink}}">{{title}}</a>
+              <div class="article-metadata search-hit-type">{{type}}</div>
+              <p class="search-hit-description">{{snippet}}</p>
+            </div>
+          </div>
+        </div>
+      </script>
+      
+        <script src="https://cdn.jsdelivr.net/gh/krisk/Fuse@v3.2.1/dist/fuse.min.js" integrity="sha512-o38bmzBGX+hD3JHWUFCDA09btWaqrNmoJ3RXLlrysA7PP01Kgs4UlE4MhelE1v5dJR3+cxlR4qQlotsW7jKsnw==" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/gh/julmot/mark.js@8.11.1/dist/jquery.mark.min.js" integrity="sha512-mhbv5DqBMgrWL+32MmsDOt/OAvqr/cHimk6B8y/bx/xS88MVkYGPiVv2ixKVrkywF2qHplNRUvFsAHUdxZ3Krg==" crossorigin="anonymous"></script>
+      
+    
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+      
+      
+      
+      
+      
+      
+      
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+      
+      
+    
+    
+    <script src="/en/js/wowchemy.min.7cd6ec29d281a73c92a2958a1584aadc.js"></script>
+
+    
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+
+
+</body>
+</html>
