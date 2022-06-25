@@ -1,72 +1,129 @@
 
 <script>
+
+    // Show an element
+    var show = function (elem) {
+        // Get the natural height of the element
+        var getHeight = function () {
+          elem.style.display = 'block'; // Make it visible
+          var height = elem.scrollHeight + 'px'; // Get it's height
+          elem.style.display = ''; //  Hide it again
+          return height;
+        };
+
+        var height = getHeight(); // Get the natural height
+        elem.classList.add('is-visible'); // Make the element visible
+        elem.style.height = height; // Update the max-height
+
+        // Once the transition is complete, remove the inline max-height so the content can scale responsively
+        window.setTimeout(function () {
+          elem.style.height = '';
+        }, 350);
+    };
+
+    // Hide an element
+    var hide = function (elem) {
+        // Give the element a height to change from
+        elem.style.height = elem.scrollHeight + 'px';
+        // Set the height back to 0
+        window.setTimeout(function () {
+          elem.style.height = '0';
+        }, 1);
+        // When the transition is complete, hide it
+        window.setTimeout(function () {
+          elem.classList.remove('is-visible');
+        }, 350);
+    };
+
+    // Toggle element visibility
+    var toggle = function (elem, timing) {
+        // If the element is visible, hide it
+        if (elem.classList.contains('is-visible')) {
+          hide(elem);
+          return;
+        }
+        // Otherwise, show it
+        show(elem);
+    };
+
+
+
+
   // hide all pre.r elements when page loads
   window.onload = function() {
-    var x = document.querySelectorAll("pre.r");
-    var xArr = Array.from(x);
+    var code = document.querySelectorAll("pre.r");
+    var codeArray = Array.from(code);
     // console.log(xArr);
-    xArr.map(elem => {
+    codeArray.map(elem => {
       elem.style.display = "none"
     })
 
    
-    const btn = `<button class="float_right" style="display: block;"> Show code </button>`
+    const btn = `<div id="btn-container"><button class="toggle">CODE</button></div>`
 
-    xArr.map(elem => {
+    codeArray.map(elem => {
       elem.insertAdjacentHTML("beforebegin", btn);
+      // elem.classList.add('toggle-content')
     })
     
-    var btn_items = document.querySelectorAll("button.float_right");
-    var btnArr = Array.from(btn_items);
+    var btnItems = document.querySelectorAll("button.toggle");
+    var btnArray = Array.from(btnItems);
       
-    
-    btnArr.map(elem => {
+    btnArray.map(elem => {
       
         elem.addEventListener("click", function(){ 
-          if(elem.nextSibling.style.display === "none") {
-            elem.innerHTML = "Hide code"
-            elem.nextSibling.style.display = "block"
-          } else if(elem.nextSibling.style.display === "block") {
-            elem.innerHTML = "Show code"
-            elem.nextSibling.style.display = "none"
+          // if(elem.parentElement.nextSibling.classList.contains('is-visible')) { //} === "block") {
+          if(elem.parentElement.nextSibling.style.display === "none") {
+            elem.innerHTML = "HIDE"
+            elem.parentElement.nextSibling.style.display = "block"
+            // elem.innerHTML = "CODE"
+            // elem.parentElement.nextSibling.classList.remove("is-visible")
+            // elem.parentElement.nextSibling.style.display === "none") {
+          } else if(elem.parentElement.nextSibling.style.display === "block") {
+            elem.innerHTML = "CODE"
+            elem.parentElement.nextSibling.style.display = "none"
+            // elem.parentElement.nextSibling.classList.add("is-visible")
+            // window.setTimeout(function () {
+              // elem.parentElement.nextSibling.height = '0';
+            // }, 1)
+            // elem.parentElement.nextSibling.style.display = "none"
+
+            // elem.parentElement.nextSibling.classList.delete('is-visible')
           }
     })
   });
     
     // function toggleFunction (elem) {
       
-      // if(x.style.display === "block") {
-      //   x.addEventListener("click", function(){ return x.nextSibling.style.display = "none"; });
-      // }
+    //   if(x.style.display === "block") {
+    //     x.addEventListener("click", function(){ return x.nextSibling.style.display = "none"; });
+    //   }
 
       
-    // }
-};
+    }
 
 
 
+// // Listen for click events
+// document.addEventListener('click', function (event) {
+
+// // Make sure clicked element is our toggle
+// if (!event.target.classList.contains('toggle')) return;
+
+// // Prevent default link behavior
+// event.preventDefault();
+
+// // Get the content
+// var content = document.querySelector(event.target.hash);
+// if (!content) return;
+
+// // Toggle the content
+// toggle(content);
+
+// }, false);
 
 
 
-
-  // function myFunction() {
-  //   btn = document.getElementById("togglecode");
-  //   var x = document.querySelectorAll("pre.r");
-  //   var xArr = Array.from(x);
-  //   xArr.map(elem => {
-  //     if (elem.style.display === "none") {
-  //     // if (elem.classList) {
-  //       // elem.classList.add("shown")
-  //       elem.style.display = "block";
-  //       btn.innerHTML = "Hide all code"
-  //     } else {
-  //       // elem.classList.add("hidden")
-  //       // elem.style.visibility = "hidden";
-  //       elem.style.display = "none";
-  //       btn.innerHTML = "Show all code"
-  //     }
-  //   })
-  // }
 
 
 

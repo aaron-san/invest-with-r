@@ -256,7 +256,7 @@ Highlight your code snippets, take notes on math classes, and draw diagrams from
   
   
   
-  <link rel="stylesheet" href="/css/wowchemy.8e22bcf156527328b28b07ba5689a9d9.css" />
+  <link rel="stylesheet" href="/css/wowchemy.5e2ae3d311e4852b5d5a2e60a98e2a67.css" />
 
   
 
@@ -672,40 +672,114 @@ Highlight your code snippets, take notes on math classes, and draw diagrams from
 
   
 <script>
-  
-  window.onload = function() {
-    var x = document.querySelectorAll("pre.r");
-    var xArr = Array.from(x);
+
     
-    xArr.map(elem => {
-      elem.style.display = "none"
-    })
+    
+    
+    
+    
+    
+    
+    
+    
 
-   
-    const btn = `<button class="float_right" style="display: block;"> Show code </button>`
+    
+    
+    
 
-    xArr.map(elem => {
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    var codeChunks = document.querySelectorAll("pre.r");
+    var codechunksArr = Array.from(codeChunks);
+
+    const btn = `<div id="btn-container"><button class="toggle">CODE</button></div>`
+    codeChunksArr.map(elem => {
       elem.insertAdjacentHTML("beforebegin", btn);
     })
+
+
     
-    var btn_items = document.querySelectorAll("button.float_right");
-    var btnArr = Array.from(btn_items);
+    
+    
+    
+    
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+   
+  
+
+  
+  
+  
+    
+  
+  
       
     
-    btnArr.map(elem => {
+  
       
-        elem.addEventListener("click", function(){ 
-          if(elem.nextSibling.style.display === "none") {
-            elem.innerHTML = "Hide code"
-            elem.nextSibling.style.display = "block"
-          } else if(elem.nextSibling.style.display === "block") {
-            elem.innerHTML = "Show code"
-            elem.nextSibling.style.display = "none"
-          }
-    })
-  });
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+  
+  
+  
     
-    // function toggleFunction (elem) {
+    
       
       
       
@@ -713,7 +787,7 @@ Highlight your code snippets, take notes on math classes, and draw diagrams from
 
       
     
-};
+
 
 
 
@@ -828,7 +902,7 @@ data.head()
 <p>Demo:</p>
 
 
-<div id="chart-639785421" class="chart"></div>
+<div id="chart-798346152" class="chart"></div>
 <script>
   (function() {
     let a = setInterval( function() {
@@ -838,7 +912,7 @@ data.head()
       clearInterval( a );
 
       Plotly.d3.json("./line-chart.json", function(chart) {
-        Plotly.plot('chart-639785421', chart.data, chart.layout, {responsive: true});
+        Plotly.plot('chart-798346152', chart.data, chart.layout, {responsive: true});
       });
     }, 500 );
   })();
