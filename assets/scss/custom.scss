@@ -4,7 +4,6 @@
 //       box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3), 0 7px 21px 0 rgba(0, 0, 0, 0.2);
 // }
 
-
 // #togglecode {
 //     margin: 0;
 //     top: 120px; // define your value here
@@ -44,50 +43,45 @@
 // 	height: auto;
 // }
 
-
-
-
 #btn-container {
-    display: flex;
-    justify-content: right;
+  display: flex;
+  justify-content: right;
 }
-
 
 .toggle {
-    font-size: 16px;
-    margin: 10px 0;
-    width: 110px;
-    background-color: #ffffff;
-    color: rgb(5, 160, 160);
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    border: none;
-    // border: 1px solid #ffffff;
-    // border: 1px solid rgba(0,0,0,.15);
-    // border-radius: 50px;
-    // -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    // box-shadow: 0 3x 6px rgba(0,0,0,.175);
+  font-size: 16px;
+  margin: 10px 0;
+  width: 110px;
+  background-color: #ffffff;
+  color: rgb(5, 160, 160);
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: none;
+  // border: 1px solid #ffffff;
+  // border: 1px solid rgba(0,0,0,.15);
+  // border-radius: 50px;
+  // -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  // box-shadow: 0 3x 6px rgba(0,0,0,.175);
 }
 
-
-//     
-//     
+//
+//
 // }
 // #code-folding-buttons .dropdown-menu li {
 //     padding: 5px;
 // }
 
-// .code-folding-btn { 
-//     margin-bottom: 4px; 
+// .code-folding-btn {
+//     margin-bottom: 4px;
 // }
-// .row { 
+// .row {
 //     display: flex;
 //     border-bottom: solid 1px #d7d7d7;
 // }
 // // .collapse {
-// //     display: none; 
+// //     display: none;
 // // }
-// .in { 
+// .in {
 //     display: block ;
 //     border: solid 1px #d7d7d7;
 //     border-radius: 5px;
@@ -96,10 +90,9 @@
 //     margin: 0 0 0 auto;
 // }
 
-
 // // .showopt {
 // //     background-color: #004c93;
-// //     color: #FFFFFF; 
+// //     color: #FFFFFF;
 // //     width: 100px;
 // //     height: 20px;
 // //     text-align: center;
@@ -108,24 +101,20 @@
 // //     font-family: sans-serif;
 // //     border-radius: 8px;
 // //   }
-  
+
 // //   .showopt:hover {
 // //       background-color: #dfe4f2;
 // //       color: #004c93;
 // //   }
-  
+
 // //   pre.plot {
 // //     background-color: white !important;
 // //   }
 
-
-
-
-
 // Height of Home Banner
 .home-section.fullscreen {
-    /* min-height: calc(100vh - 70px); */
-    min-height: 0px;
+  /* min-height: calc(100vh - 70px); */
+  min-height: 0px;
 }
 
 // .btn {
@@ -150,26 +139,23 @@
 // /* Code folding */
 
 // /* Each code block button */
-// .code-folding-btn { 
-//     margin-bottom: 20px; 
+// .code-folding-btn {
+//     margin-bottom: 20px;
 // 	float: right;
 // 	color: white;
 //     background-color: darkslateblue;
 // }
 
-// .code-folding-btn:hover { 
+// .code-folding-btn:hover {
 // 	color: white;
 //     background-color: slateblue;
 // }
-
-
 
 // div {
 //     margin: 10px 0 10px 0;
 // }
 
-
-// .row { 
+// .row {
 //     display: flex;
 //     border-bottom: solid 1px #d7d7d7;
 // }
@@ -189,8 +175,6 @@
 //     font-size: 20px;
 // }
 
-
-
 // .shown {
 //     display: block;
 //     background: darkslateblue;
@@ -208,9 +192,7 @@
 //     padding: 10px 16px;
 //     // opacity: 0;
 //     // transition: opacity 2s;
-    
+
 // }
-
-
 
 // /* End code folding */

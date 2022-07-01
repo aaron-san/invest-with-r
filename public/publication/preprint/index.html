@@ -252,7 +252,7 @@
   
   
   
-  <link rel="stylesheet" href="/css/wowchemy.5e2ae3d311e4852b5d5a2e60a98e2a67.css" />
+  <link rel="stylesheet" href="/css/wowchemy.c0ac791599297e0d57b9e53fb2593805.css" />
 
   
 
@@ -678,119 +678,105 @@
 <script>
 
     
-    
-    
-    
-    
-    
-    
-    
-    
+    var show = function (elem) {
+        
+        var getHeight = function () {
+          elem.style.display = 'block'; 
+          var height = elem.scrollHeight + 'px'; 
+          elem.style.display = ''; 
+          return height;
+        };
+
+        var height = getHeight(); 
+        elem.classList.add('is-visible'); 
+        elem.style.height = height; 
+
+        
+        window.setTimeout(function () {
+          elem.style.height = '';
+        }, 350);
+    };
 
     
-    
-    
+    var hide = function (elem) {
+        
+        elem.style.height = elem.scrollHeight + 'px';
+        
+        window.setTimeout(function () {
+          elem.style.height = '0';
+        }, 1);
+        
+        window.setTimeout(function () {
+          elem.classList.remove('is-visible');
+        }, 350);
+    };
 
     
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    var toggle = function (elem, timing) {
+        
+        if (elem.classList.contains('is-visible')) {
+          hide(elem);
+          return;
+        }
+        
+        show(elem);
+    };
 
 
 
-    var codeChunks = document.querySelectorAll("pre.r");
-    var codechunksArr = Array.from(codeChunks);
 
-    const btn = `<div id="btn-container"><button class="toggle">CODE</button></div>`
-    codeChunksArr.map(elem => {
-      elem.insertAdjacentHTML("beforebegin", btn);
+  
+  window.onload = function() {
+    var code = document.querySelectorAll("pre.r");
+    var codeArray = Array.from(code);
+    
+    codeArray.map(elem => {
+      elem.style.display = "none"
     })
 
-
-    
-    
-    
-    
-    
-
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-
    
-  
+    const btn = `<div id="btn-container"><button class="toggle">CODE</button></div>`
 
-  
-  
-  
-    
-  
-  
+    codeArray.map(elem => {
+      elem.insertAdjacentHTML("beforebegin", btn);
       
+    })
     
-  
+    var btnItems = document.querySelectorAll("button.toggle");
+    var btnArray = Array.from(btnItems);
       
-  
+    btnArray.map(elem => {
+      
+        elem.addEventListener("click", function(){ 
+          
+          if(elem.parentElement.nextSibling.style.display === "none") {
+            elem.innerHTML = "HIDE"
+            elem.parentElement.nextSibling.style.display = "block"
+            
+            
+            
+          } else if(elem.parentElement.nextSibling.style.display === "block") {
+            elem.innerHTML = "CODE"
+            elem.parentElement.nextSibling.style.display = "none"
+            
+            
+              
+            
+            
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-  
-  
-  
-  
+            
+          }
+    })
+  });
     
     
-      
-      
-      
-      
-
       
     
+    
+    
+
+      
+    }
 
 
 
@@ -799,24 +785,21 @@
 
 
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
